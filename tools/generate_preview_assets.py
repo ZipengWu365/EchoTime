@@ -214,7 +214,7 @@ def _save_title_card(path: Path) -> None:
     )
     image = _render_text_card(
         title="EchoTime release surface",
-        subtitle="v0.17.0 formal release draft",
+        subtitle="v0.17.1 formal release draft",
         body=body,
         accent=BLUE,
         mono=False,

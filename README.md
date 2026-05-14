@@ -5,9 +5,9 @@
 [![PyPI version](https://img.shields.io/pypi/v/echotime?style=flat-square)](https://pypi.org/project/echotime/)
 [![Python versions](https://img.shields.io/pypi/pyversions/echotime?style=flat-square)](https://pypi.org/project/echotime/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-ffc83d?style=flat-square)](LICENSE)
-[![Status: Beta](https://img.shields.io/badge/status-beta-2f6bff?style=flat-square)](https://github.com/ZipengWu365/EchoWave)
-[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu365.github.io/EchoWave/)
-[![Author: Zipeng Wu](https://img.shields.io/badge/author-Zipeng%20Wu-1f2937?style=flat-square)](https://github.com/ZipengWu365/EchoWave)
+[![Status: Beta](https://img.shields.io/badge/status-beta-2f6bff?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
+[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu365.github.io/EchoTime/)
+[![Author: Zipeng Wu](https://img.shields.io/badge/author-Zipeng%20Wu-1f2937?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
 [![Affiliation: The University of Birmingham](https://img.shields.io/badge/The%20University%20of%20Birmingham-academic-a51c30?style=flat-square)](https://www.birmingham.ac.uk/)
 
 ![Quickstart preview](assets/quickstart.gif)
@@ -26,8 +26,8 @@
 - **Core promise:** EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
 - **Best for:** analog search, regime comparison, irregular longitudinal data, and dataset-level similarity handoff
 - **Primary outputs:** plain-English summaries, shareable HTML reports, and compact agent-ready JSON
-- **Live docs and homepage:** https://zipengwu365.github.io/EchoWave/
-- **Repository:** https://github.com/ZipengWu365/EchoWave
+- **Live docs and homepage:** https://zipengwu365.github.io/EchoTime/
+- **Repository:** https://github.com/ZipengWu365/EchoTime
 
 
 ## 60-second quickstart
@@ -212,8 +212,8 @@ print(ts_compare(x, y))
 - **Maintainer:** Zipeng Wu
 - **Email:** zxw365@student.bham.ac.uk
 - **Affiliation:** The University of Birmingham
-- **Repository:** https://github.com/ZipengWu365/EchoWave
-- **Documentation:** https://zipengwu365.github.io/EchoWave/
+- **Repository:** https://github.com/ZipengWu365/EchoTime
+- **Documentation:** https://zipengwu365.github.io/EchoTime/
 
 ## Starter datasets, notebooks, and integration templates
 

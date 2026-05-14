@@ -1,5 +1,5 @@
 {
-  "version": "0.17.0",
+  "version": "0.17.1",
   "summary": "tsontology produced stable profile/compare artifacts across shipped cross-domain CSV cases.",
   "cases": [
     {

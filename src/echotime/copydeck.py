@@ -9,14 +9,14 @@ from __future__ import annotations
 
 DISPLAY_NAME = "EchoTime"
 PACKAGE_NAME = "echotime"
-PACKAGE_VERSION = "0.17.0"
+PACKAGE_VERSION = "0.17.1"
 PACKAGE_STAGE = "Beta"
 AUTHOR_NAME = "Zipeng Wu"
 AUTHOR_EMAIL = "zxw365@student.bham.ac.uk"
 AUTHOR_GITHUB_HANDLE = "ZipengWu365"
 AUTHOR_AFFILIATION = "The University of Birmingham"
-PROJECT_REPOSITORY_URL = "https://github.com/ZipengWu365/EchoWave"
-PROJECT_DOCUMENTATION_URL = "https://zipengwu365.github.io/EchoWave/"
+PROJECT_REPOSITORY_URL = "https://github.com/ZipengWu365/EchoTime"
+PROJECT_DOCUMENTATION_URL = "https://zipengwu365.github.io/EchoTime/"
 PROJECT_PYPI_URL = "https://pypi.org/project/echotime/"
 UNIVERSITY_URL = "https://www.birmingham.ac.uk/"
 

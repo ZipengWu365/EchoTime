@@ -55,7 +55,7 @@ def test_demo_server_module_runs_without_runpy_warning() -> None:
 def test_export_pages_writes_start_here() -> None:
     with tempfile.TemporaryDirectory() as tmpdir:
         out = Path(tmpdir) / 'docs'
-        write_pages_bundle(out, version='0.17.0')
+        write_pages_bundle(out, version='0.17.1')
         assert (out / 'index.html').exists()
         assert (out / 'start-here.html').exists()
         assert (out / '404.html').exists()

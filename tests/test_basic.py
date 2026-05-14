@@ -724,7 +724,7 @@ def test_github_readme_contains_ecosystem_positioning() -> None:
 
 
 def test_homepage_mentions_ecosystem_and_coverage() -> None:
-    html = project_homepage_html(version="0.17.0")
+    html = project_homepage_html(version="0.17.1")
     assert "Tutorials, API material, and ecosystem detail now live in dedicated docs pages" in html
     assert "guide/ecosystem.html" in html
     assert "guide/agents.html" in html
@@ -876,7 +876,7 @@ def test_ts_route_reports_no_fallback_used() -> None:
 
 
 def test_project_pages_bundle_contains_docs_surface() -> None:
-    bundle = project_pages_bundle(version="0.17.0")
+    bundle = project_pages_bundle(version="0.17.1")
     assert "index.html" in bundle
     assert "playground.html" in bundle
     assert "guide/index.html" in bundle
@@ -887,7 +887,7 @@ def test_project_pages_bundle_contains_docs_surface() -> None:
 
 
 def test_example_page_contains_code_and_visual_assets() -> None:
-    bundle = project_pages_bundle(version="0.17.0")
+    bundle = project_pages_bundle(version="0.17.1")
     html = bundle["guide/example-github-breakout-analogs.html"]
     assert "plot_github_breakout_analogs.py" in html
     assert "Standalone report" in html
@@ -896,7 +896,7 @@ def test_example_page_contains_code_and_visual_assets() -> None:
 
 
 def test_blog_pages_include_real_visuals() -> None:
-    bundle = project_pages_bundle(version="0.17.0")
+    bundle = project_pages_bundle(version="0.17.1")
     for path in (
         "blog/github_breakout_analogs.html",
         "blog/btc_vs_gold_under_shocks.html",
@@ -933,7 +933,7 @@ def test_demo_server_html_mentions_local_live_demo() -> None:
 
 
 def test_pages_bundle_manifest_and_blog_are_present() -> None:
-    bundle = project_pages_bundle(version="0.17.0")
+    bundle = project_pages_bundle(version="0.17.1")
     assert "manifest/demo_manifest.json" in bundle
     assert "blog/github_breakout_analogs.html" in bundle
     manifest = json.loads(bundle["manifest/demo_manifest.json"])

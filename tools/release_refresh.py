@@ -85,11 +85,11 @@ def _zip_dir(source_dir: Path, archive_path: Path) -> None:
 
 
 def _release_draft() -> str:
-    return """# EchoTime v0.17.0 Release Draft
+    return """# EchoTime v0.17.1 Release Draft
 
 ## Headline
 
-EchoTime v0.17.0 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
+EchoTime v0.17.1 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
 
 ## Official package name
 
@@ -163,7 +163,7 @@ def main() -> None:
     _write(ROOT / "SIMILARITY_METHOD_ATLAS.md", similarity_method_atlas_guide())
     _write(ROOT / "UTILITY_BENCHMARK.md", utility_benchmark_guide())
     _write(ROOT / "PROJECT_HOMEPAGE.md", "# EchoTime homepage\n\nUse `homepage.html` or `docs/index.html` as the official GitHub Pages front door.\n")
-    _write(ROOT / "RELEASE_DRAFT_v0.17.0.md", _release_draft())
+    _write(ROOT / "RELEASE_DRAFT_v0.17.1.md", _release_draft())
 
     _write_json(ROOT / "AGENT_TOOL_SCHEMAS.json", tool_schemas(format="dict"))
     _write_json(ROOT / "OPENAI_FUNCTION_SCHEMAS.json", openai_function_schemas(format="dict"))
@@ -185,7 +185,7 @@ def main() -> None:
     _copy(ROOT / "assets" / "echotime_title_card.png", ROOT / "social" / "echotime_title_card.png")
     _copy(ROOT / "assets" / "echotime_title_card.png", docs_dir / "social" / "echotime_title_card.png")
 
-    _zip_dir(docs_dir, ROOT / "echotime_v0.17_pages_bundle.zip")
+    _zip_dir(docs_dir, ROOT / "echotime_v0.17.1_pages_bundle.zip")
     print("release surface refreshed")
 
 

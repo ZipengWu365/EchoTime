@@ -1111,7 +1111,7 @@ EXTRA_API_ENTRIES: tuple[ApiEntry, ...] = (
     ApiEntry(
         name="hot_case_gallery / similarity_playbook / project_homepage_html / project_playground_html",
         category="built-in guidance",
-        signature="hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.0'); project_playground_html(version='0.17.0')",
+        signature="hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.1'); project_playground_html(version='0.17.1')",
         purpose="Provide shareable, high-attention case ideas plus a static project-homepage starting point.",
         why_exists=(
             "Community adoption grows faster when the package already knows how to explain itself through timely examples and a reusable project page."

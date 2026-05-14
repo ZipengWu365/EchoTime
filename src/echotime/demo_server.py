@@ -297,7 +297,7 @@ document.getElementById('load-starter').addEventListener('click', async () => {{
 
 
 class DemoRequestHandler(BaseHTTPRequestHandler):
-    server_version = "echotime-demo/0.17.0"
+    server_version = "echotime-demo/0.17.1"
 
     def _send(self, status: int, payload: str, content_type: str = "application/json; charset=utf-8") -> None:
         encoded = payload.encode("utf-8")

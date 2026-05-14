@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "echotime"
-version = "0.17.0"
+version = "0.17.1"
 description = "Explainable structural similarity for time series and time-series datasets."
 readme = { file = "PYPI_LONG_DESCRIPTION.md", content-type = "text/markdown" }
 requires-python = ">=3.9"
@@ -31,10 +31,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://zipengwu365.github.io/EchoWave/"
-Documentation = "https://zipengwu365.github.io/EchoWave/guide/"
-Repository = "https://github.com/ZipengWu365/EchoWave"
-Issues = "https://github.com/ZipengWu365/EchoWave/issues"
+Homepage = "https://zipengwu365.github.io/EchoTime/"
+Documentation = "https://zipengwu365.github.io/EchoTime/guide/"
+Repository = "https://github.com/ZipengWu365/EchoTime"
+Issues = "https://github.com/ZipengWu365/EchoTime/issues"
 
 [project.optional-dependencies]
 io = ["pandas>=2.0"]

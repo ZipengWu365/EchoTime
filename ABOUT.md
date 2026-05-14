@@ -8,7 +8,7 @@ Explainable structural similarity for time series and time-series datasets, with
 
 ## Website
 
-https://zipengwu365.github.io/EchoWave/
+https://zipengwu365.github.io/EchoTime/
 
 ## Suggested GitHub topics
 

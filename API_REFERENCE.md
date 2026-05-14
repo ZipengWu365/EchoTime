@@ -364,7 +364,7 @@
 
 ### `hot_case_gallery / similarity_playbook / project_homepage_html / project_playground_html`
 
-**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.0'); project_playground_html(version='0.17.0')`
+**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.1'); project_playground_html(version='0.17.1')`
 
 **Purpose:** Provide shareable, high-attention case ideas plus a static project-homepage starting point.
 

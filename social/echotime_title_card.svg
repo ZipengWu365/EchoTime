@@ -22,7 +22,7 @@
   <text x="248" y="252" fill="#486581" font-size="30" font-family="Segoe UI, Arial, sans-serif">Explainable time-series similarity for humans and agents</text>
   <text x="128" y="360" fill="#102a43" font-size="56" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Compare time series and datasets</text>
   <text x="128" y="422" fill="#102a43" font-size="56" font-family="Segoe UI, Arial, sans-serif" font-weight="700">with explainable structural similarity.</text>
-  <text x="128" y="506" fill="#486581" font-size="28" font-family="Segoe UI, Arial, sans-serif">v0.17.0 release surface: repo, Pages, PyPI, local demo, agent-ready JSON.</text>
+  <text x="128" y="506" fill="#486581" font-size="28" font-family="Segoe UI, Arial, sans-serif">v0.17.1 release surface: repo, Pages, PyPI, local demo, agent-ready JSON.</text>
   <g transform="translate(128 580)">
     <rect width="614" height="164" rx="24" fill="#f7fafc" stroke="#d9e2ec" stroke-width="2"/>
     <text x="30" y="48" fill="#102a43" font-size="24" font-family="Consolas, Menlo, monospace">pip install echotime</text>

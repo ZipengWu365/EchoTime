@@ -116,19 +116,19 @@ def _render_guide(args: argparse.Namespace) -> str:
     if args.guide == "agent-driving":
         return agent_driving_guide(format=guide_format)
     if args.guide == "homepage":
-        html = project_homepage_html(version="0.17.0")
+        html = project_homepage_html(version="0.17.1")
         if guide_format == "json":
             return json.dumps({"html": html}, indent=2)
         return html
     if args.guide == "playground":
-        html = project_playground_html(version="0.17.0")
+        html = project_playground_html(version="0.17.1")
         if guide_format == "json":
             return json.dumps({"html": html}, indent=2)
         return html
     if args.guide == "start-here":
         if guide_format == "json":
-            return json.dumps({"html": project_launchpad_html(version="0.17.0"), "markdown": start_here_guide(format="markdown")}, indent=2)
-        return project_launchpad_html(version="0.17.0") if guide_format == "text" else start_here_guide(format=guide_format)
+            return json.dumps({"html": project_launchpad_html(version="0.17.1"), "markdown": start_here_guide(format="markdown")}, indent=2)
+        return project_launchpad_html(version="0.17.1") if guide_format == "text" else start_here_guide(format=guide_format)
     if args.guide == "doctor":
         payload = environment_doctor(format="dict") if guide_format == "json" else doctor_guide(format=guide_format)
         return json.dumps(payload, indent=2) if guide_format == "json" else payload
@@ -305,7 +305,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.export_pages is not None:
-        write_pages_bundle(args.export_pages, version="0.17.0")
+        write_pages_bundle(args.export_pages, version="0.17.1")
         _write_or_print(f"wrote GitHub Pages bundle to {args.export_pages}", args.output)
         return 0
 

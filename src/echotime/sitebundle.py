@@ -162,7 +162,7 @@ def project_demo_manifest(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
             "The Pages bundle is static and similarity-showcase-oriented.",
             "Use echotime-demo locally when you need real computation on pasted arrays.",
         ],
-        "public_demo_url_hint": "https://<your-github-username>.github.io/EchoWave/",
+        "public_demo_url_hint": "https://<your-github-username>.github.io/EchoTime/",
         "external_evidence_status": "seeking public showcase submissions and third-party case studies",
     }
 
@@ -230,7 +230,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
             report_href="reports/github_breakout_similarity.html",
             social_href="social/github_breakout_card.svg",
             support_note="This story uses a frozen local CSV snapshot plus the upstream Wikimedia pageviews endpoint so the result stays reproducible.",
-            data_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/data/real_ai_attention_breakouts.csv",
+            data_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/data/real_ai_attention_breakouts.csv",
             source_data_href=attention["source_url"],
             bullets=[
                 "The question is easy to understand even if the reader is not a time-series specialist.",
@@ -254,7 +254,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
                     "caption": "Windowed component means show whether the analog survives beyond the first surge of attention.",
                 },
             ],
-            source_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/gallery/plot_github_breakout_analogs.py",
+            source_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_github_breakout_analogs.py",
         ),
         "blog/btc_vs_gold_under_shocks.html": _blog_page(
             title="BTC vs VIX in 2024",
@@ -262,7 +262,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
             report_href="reports/btc_vs_gold_similarity.html",
             social_href="social/btc_vs_gold_card.svg",
             support_note="This story uses a frozen local CSV snapshot built from FRED so the exact comparison can be regenerated later.",
-            data_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/data/real_btc_oil_vix_2024.csv",
+            data_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/data/real_btc_oil_vix_2024.csv",
             source_data_href=markets["source_url"],
             bullets=[
                 "The asset is understandable even if the reader is not a time-series specialist.",
@@ -286,7 +286,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
                     "caption": "The rolling panel shows when the BTC-VIX analogy actually strengthens instead of pretending the relationship is constant.",
                 },
             ],
-            source_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/gallery/plot_btc_gold_under_shocks.py",
+            source_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_btc_gold_under_shocks.py",
         ),
         "blog/heatwave_vs_grid_load.html": _blog_page(
             title="Southwest heatwave city temperatures",
@@ -294,7 +294,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
             report_href="reports/energy_load_heatwave_report.html",
             social_href="social/energy_load_card.svg",
             support_note="This story uses a frozen local CSV snapshot built from Open-Meteo archive data so the same panel can be reused in docs and reports.",
-            data_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/data/real_heatwave_city_temps_2024.csv",
+            data_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/data/real_heatwave_city_temps_2024.csv",
             source_data_href=heatwave["source_url"],
             bullets=[
                 "This demo travels well because the narrative is operational, not purely methodological.",
@@ -318,7 +318,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
                     "caption": "The axis view turns the dataset profile into something an operations or reliability team can scan quickly.",
                 },
             ],
-            source_href="https://github.com/ZipengWu365/EchoWave/blob/main/examples/gallery/plot_heatwave_grid_load.py",
+            source_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_heatwave_grid_load.py",
         ),
         **project_docs_pages(version=version),
     }

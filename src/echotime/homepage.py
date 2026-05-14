@@ -1,4 +1,4 @@
-"""Static homepage generator for EchoTime v0.17.0.
+"""Static homepage generator for EchoTime v0.17.1.
 
 The homepage is now intentionally shorter and more product-like. Tutorials,
 API material, and ecosystem detail live in dedicated docs pages with a sidebar.

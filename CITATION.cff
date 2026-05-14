@@ -8,11 +8,11 @@ authors:
     email: zxw365@student.bham.ac.uk
     affiliation: The University of Birmingham
 abstract: Explainable structural similarity for time series and time-series datasets, with shareable HTML reports and agent-ready JSON outputs.
-version: 0.17.0
+version: 0.17.1
 license: MIT
-repository-code: https://github.com/ZipengWu365/EchoWave
+repository-code: https://github.com/ZipengWu365/EchoTime
 repository-artifact: https://pypi.org/project/echotime/
-url: https://zipengwu365.github.io/EchoWave/
+url: https://zipengwu365.github.io/EchoTime/
 keywords:
   - time-series
   - similarity

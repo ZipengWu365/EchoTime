@@ -1,8 +1,8 @@
-# EchoTime v0.17.0 Release Draft
+# EchoTime v0.17.1 Release Draft
 
 ## Headline
 
-EchoTime v0.17.0 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
+EchoTime v0.17.1 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
 
 ## Official package name
 

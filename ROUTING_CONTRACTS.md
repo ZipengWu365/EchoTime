@@ -1,6 +1,6 @@
 # Routing and tool contracts
 
-Stable compare-first input contracts for agent tools in v0.17.0.
+Stable compare-first input contracts for agent tools in v0.17.1.
 
 ## Stable tool surfaces
 

@@ -1,4 +1,4 @@
-"""Unified compare-first launchpad page for EchoTime v0.17.0."""
+"""Unified compare-first launchpad page for EchoTime v0.17.1."""
 
 from __future__ import annotations
 

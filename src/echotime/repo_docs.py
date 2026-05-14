@@ -1,4 +1,4 @@
-"""GitHub-first documentation strings for EchoTime v0.17.0."""
+"""GitHub-first documentation strings for EchoTime v0.17.1."""
 
 from __future__ import annotations
 
@@ -236,7 +236,7 @@ def agent_schema_guide(*, format: GuideFormat = "markdown") -> str | dict:
     lines = [
         "# Agent and function-calling schemas",
         "",
-        "v0.17.0 exposes a compare-first tool surface that stays callable from outside the package:",
+        "v0.17.1 exposes a compare-first tool surface that stays callable from outside the package:",
         "",
         "- `ts_profile({data_ref, input_kind, timestamps_ref, domain, budget, audience})`",
         "- `ts_compare({left_ref, right_ref, left_timestamps_ref, right_timestamps_ref, mode, budget})`",
@@ -638,7 +638,7 @@ Expected output starts like this:
 
 {own_data}
 
-## What ships in v0.17.0
+## What ships in v0.17.1
 
 - compare-first public package surface
 - agent-ready JSON wrappers with stable envelopes
@@ -700,7 +700,7 @@ def live_demo_guide(*, format: GuideFormat = "markdown") -> str | dict:
 
 def routing_contract_guide(*, format: GuideFormat = "markdown") -> str | dict:
     payload = {
-        "summary": "Stable compare-first input contracts for agent tools in v0.17.0.",
+        "summary": "Stable compare-first input contracts for agent tools in v0.17.1.",
         "contracts": [
             "ts_profile({data_ref, input_kind, timestamps_ref, domain, budget, audience})",
             "ts_compare({left_ref, right_ref, left_timestamps_ref, right_timestamps_ref, mode, budget})",

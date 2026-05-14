@@ -341,7 +341,7 @@ module.exports = {
 
 ## 7. Example landing page implementation
 
-See [examples/design_system/TSLabLanding.tsx](C:/Users/wzp07/OneDrive/文档/data%20library/TSontology/0.1.6/echotime-0.17.0/examples/design_system/TSLabLanding.tsx) for a production-quality single-file React + Tailwind example that follows this system.
+See [examples/design_system/TSLabLanding.tsx](C:/Users/wzp07/OneDrive/文档/data%20library/TSontology/0.1.6/echotime-0.17.1/examples/design_system/TSLabLanding.tsx) for a production-quality single-file React + Tailwind example that follows this system.
 
 ## 8. README visual structure template
 

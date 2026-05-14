@@ -1,5 +1,5 @@
 {
-  "version": "0.17.0",
+  "version": "0.17.1",
   "product_surface": "explainable time-series similarity for humans and agents",
   "pages": {
     "homepage": "index.html",
@@ -42,6 +42,6 @@
     "The Pages bundle is static and similarity-showcase-oriented.",
     "Use echotime-demo locally when you need real computation on pasted arrays."
   ],
-  "public_demo_url_hint": "https://<your-github-username>.github.io/EchoWave/",
+  "public_demo_url_hint": "https://<your-github-username>.github.io/EchoTime/",
   "external_evidence_status": "seeking public showcase submissions and third-party case studies"
 }

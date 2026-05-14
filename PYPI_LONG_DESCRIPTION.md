@@ -5,8 +5,8 @@
 [![PyPI version](https://img.shields.io/pypi/v/echotime?style=flat-square)](https://pypi.org/project/echotime/)
 [![Python versions](https://img.shields.io/pypi/pyversions/echotime?style=flat-square)](https://pypi.org/project/echotime/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-ffc83d?style=flat-square)](LICENSE)
-[![Status: Beta](https://img.shields.io/badge/status-beta-2f6bff?style=flat-square)](https://github.com/ZipengWu365/EchoWave)
-[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu365.github.io/EchoWave/)
+[![Status: Beta](https://img.shields.io/badge/status-beta-2f6bff?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
+[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu365.github.io/EchoTime/)
 
 EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
 
@@ -53,7 +53,7 @@ Path("my_dataset_report.html").write_text(profile.to_html_report(), encoding="ut
 ```
 
 
-## What ships in v0.17.0
+## What ships in v0.17.1
 
 - compare-first public package surface
 - agent-ready JSON wrappers with stable envelopes
@@ -82,4 +82,4 @@ Path("my_dataset_report.html").write_text(profile.to_html_report(), encoding="ut
 - **Zipeng Wu**
 - The University of Birmingham
 - zxw365@student.bham.ac.uk
-- https://github.com/ZipengWu365/EchoWave
+- https://github.com/ZipengWu365/EchoTime

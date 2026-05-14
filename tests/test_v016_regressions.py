@@ -21,7 +21,7 @@ def _env() -> dict[str, str]:
 def test_asset_consistency_report_is_green() -> None:
     payload = asset_consistency_report(format='dict')
     assert payload['ok'] is True
-    assert payload['expected_version'] == '0.17.0'
+    assert payload['expected_version'] == '0.17.1'
 
 
 def test_constraints_profiles_can_be_exported() -> None:

@@ -54,7 +54,7 @@ def run() -> dict:
     })
 
     return {
-        "version": "0.17.0",
+        "version": "0.17.1",
         "summary": "tsontology produced stable profile/compare artifacts across shipped cross-domain CSV cases.",
         "cases": cases,
         "n_cases": len(cases),

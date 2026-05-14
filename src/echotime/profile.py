@@ -43,7 +43,7 @@ from .communication import (
 )
 from .schema import SCHEMA_VERSION
 
-PACKAGE_VERSION = "0.17.0"
+PACKAGE_VERSION = "0.17.1"
 
 
 @dataclass(slots=True)

@@ -2,7 +2,7 @@
 
 **stage:** Beta
 
-v0.17.0 focuses on cross-platform reliability and first-minute product polish:
+v0.17.1 focuses on cross-platform reliability and first-minute product polish:
 
 - CLI output now degrades safely on non-UTF-8 consoles instead of failing on HTML-heavy guides.
 - `python -m echotime.demo_server --help` no longer triggers the previous runpy warning path.

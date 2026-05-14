@@ -774,7 +774,7 @@ pip install echotime
 Or, for local artifacts produced in a release workflow:
 
 ```bash
-pip install echotime-0.17.0-py3-none-any.whl
+pip install echotime-0.17.1-py3-none-any.whl
 ```
 
 ## CLI
