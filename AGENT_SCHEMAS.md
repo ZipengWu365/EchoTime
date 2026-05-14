@@ -1,6 +1,6 @@
 # Agent and function-calling schemas
 
-v0.16.0 exposes a compare-first tool surface that stays callable from outside the package:
+v0.17.0 exposes a compare-first tool surface that stays callable from outside the package:
 
 - `ts_profile({data_ref, input_kind, timestamps_ref, domain, budget, audience})`
 - `ts_compare({left_ref, right_ref, left_timestamps_ref, right_timestamps_ref, mode, budget})`
@@ -215,7 +215,7 @@ All three tools return a stable envelope with:
       "type": "function",
       "function": {
         "name": "ts_route",
-        "description": "Route a natural-language time-series task to the smallest useful tsontology tool and expected output.",
+        "description": "Route a natural-language time-series task to the smallest useful echotime tool and expected output.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -435,7 +435,7 @@ All three tools return a stable envelope with:
     },
     {
       "name": "ts_route",
-      "description": "Route a natural-language time-series task to the smallest useful tsontology tool and expected output.",
+      "description": "Route a natural-language time-series task to the smallest useful echotime tool and expected output.",
       "inputSchema": {
         "type": "object",
         "properties": {

@@ -12,6 +12,6 @@ Four ways to try the product surface before committing to a full environment ins
 ## Example commands
 
 - Open docs/index.html or playground.html locally to inspect the report layer without Python.
-- Run `echowave-demo --open-browser` to launch the local live demo with pasted arrays and starter cases.
+- Run `echotime-demo --open-browser` to launch the local live demo with pasted arrays and starter cases.
 - Open examples/notebooks/11_colab_quickstart.ipynb in Colab or another hosted notebook service.
-- Use `uvx --from echowave echowave --guide quickstart` when you want an ephemeral CLI path.
+- Use `uvx --from echotime echotime --guide quickstart` when you want an ephemeral CLI path.

@@ -2,7 +2,7 @@
 
 Thanks for considering a contribution.
 
-EchoWave is a compare-first time-series project. Good contributions make the package easier to trust, easier to try in the first minute, and easier to hand off between humans and agents.
+EchoTime is a compare-first time-series project. Good contributions make the package easier to trust, easier to try in the first minute, and easier to hand off between humans and agents.
 
 ## Good first contributions
 
@@ -24,7 +24,7 @@ EchoWave is a compare-first time-series project. Good contributions make the pac
 
 - keep changes focused on a real user or developer problem
 - add or update tests when behavior changes
-- keep the `echowave` public surface coherent and preserve legacy `tsontology` compatibility unless the change is explicitly a migration step
+- keep the `echotime` public surface coherent and preserve legacy `tsontology` compatibility unless the change is explicitly a migration step
 - prefer interpretable summaries, stable agent envelopes, and honest scope statements over opaque cleverness
 - keep docs, notebooks, and generated showcase artifacts aligned with the actual package behavior
 

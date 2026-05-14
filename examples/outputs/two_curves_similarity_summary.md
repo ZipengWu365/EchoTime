@@ -1,4 +1,4 @@
-# tsontology similarity summary
+# echotime similarity summary
 
 **Compared:** left vs right
 

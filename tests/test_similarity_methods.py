@@ -4,7 +4,7 @@ import importlib
 
 import numpy as np
 
-from tsontology import (
+from echotime import (
     acf_distance,
     best_shift,
     edr_distance,

@@ -1,4 +1,4 @@
-# EchoWave repository profile
+# EchoTime repository profile
 
 Use this file as the source of truth for the GitHub repository "About" box and other short-form metadata.
 
@@ -25,11 +25,11 @@ https://zipengwu365.github.io/EchoWave/
 
 ## Short about paragraph
 
-EchoWave compares time series and time-series datasets, explains why they match or differ, and exports compact JSON plus shareable HTML reports. It is designed for analog search, regime comparison, irregular longitudinal data, and agent-assisted analysis workflows.
+EchoTime compares time series and time-series datasets, explains why they match or differ, and exports compact JSON plus shareable HTML reports. It is designed for analog search, regime comparison, irregular longitudinal data, and agent-assisted analysis workflows.
 
 ## Repository highlights
 
-- `src/echowave/`: core package and public APIs
+- `src/echotime/`: core package and public APIs
 - `examples/notebooks/`: runnable notebooks and starter workflows
 - `examples/outputs/`: generated HTML and Markdown report examples
 - `docs/`: GitHub Pages-ready static site bundle

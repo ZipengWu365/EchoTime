@@ -1,6 +1,6 @@
-# tsontology environment matrix
+# EchoTime environment matrix
 
-| environment | title | best for | typical inputs | what tsontology adds | usual outputs |
+| environment | title | best for | typical inputs | what echotime adds | usual outputs |
 |---|---|---|---|---|---|
 | notebook | Jupyter or interactive notebook | Exploration, teaching, hypothesis generation, and profile inspection. | arrays; DataFrames; typed wrappers | Lets you move from raw data to a readable structural profile in a few lines and inspect notes, cards, and reliability interactively. | profile.axes; Markdown report; dataset card; API guide functions |
 | python_script | Plain Python script or package pipeline | Reusable profiling steps in research codebases or internal libraries. | arrays; typed wrappers; tables; custom adapted objects | Makes structural profiling reproducible and scriptable for data intake, QC, or benchmark preparation. | JSON payloads; card files; profile.to_dict() |
@@ -34,7 +34,7 @@
 ### Neuro stack (MNE-like / xarray-like / ROI arrays) (`neuro_stack`)
 
 - Use typed wrappers when you want explicit metadata such as TR or channel names.
-- tsontology complements, rather than replaces, domain packages.
+- echotime complements, rather than replaces, domain packages.
 
 ### ML benchmark or evaluation pipeline (`ml_benchmark`)
 

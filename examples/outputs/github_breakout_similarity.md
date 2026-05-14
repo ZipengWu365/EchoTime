@@ -1,4 +1,4 @@
-# tsontology similarity summary
+# echotime similarity summary
 
 **Compared:** OpenClaw-style candidate vs durable breakout analog
 

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
-from echowave import compare_series, profile_dataset
+from echotime import compare_series, profile_dataset
 
 
 data_path = Path(__file__).resolve().parents[1] / "data" / "real_usgs_earthquakes_ca_ak_2024.csv"

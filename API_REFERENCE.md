@@ -1,4 +1,4 @@
-# tsontology API reference
+# EchoTime API reference
 
 ## core profiling
 
@@ -8,7 +8,7 @@
 
 **Purpose:** Primary entry point. Profile an entire dataset as a dataset.
 
-**Why this API exists:** The core design choice of tsontology is that the object of interest is the dataset, not just a single series. This function aggregates unit-level signals, multivariate structure, cohort variation, and observation characteristics into one profile.
+**Why this API exists:** The core design choice of EchoTime is that the object of interest is the dataset, not just a single series. This function aggregates unit-level signals, multivariate structure, cohort variation, and observation characteristics into one profile.
 
 **When to use it:** Use when you want the ontology axes, archetypes, task hints, reliability, and dataset-card outputs for a whole dataset or cohort.
 
@@ -206,7 +206,7 @@
 
 **Purpose:** Represent sparse event streams such as alarms, coded events, transactions, or interventions.
 
-**Why this API exists:** A stream of timestamped events is not the same as a dense sampled signal. This wrapper lets tsontology estimate burstiness, event-type diversity, and event-stream archetypes without pretending the data are regular arrays.
+**Why this API exists:** A stream of timestamped events is not the same as a dense sampled signal. This wrapper lets echotime estimate burstiness, event-type diversity, and event-stream archetypes without pretending the data are regular arrays.
 
 **When to use it:** Use for sparse operational events, treatment events, alarms, clicks, or transactional logs.
 
@@ -236,7 +236,7 @@
 
 **Why this API exists:** An ontology-driven library must make its schema inspectable and versioned. These functions let downstream tools, dataset cards, and documentation stay aligned with the real axis/subdimension/proxy map.
 
-**When to use it:** Use when building dashboards, validators, reports, or benchmark cards around tsontology.
+**When to use it:** Use when building dashboards, validators, reports, or benchmark cards around echotime.
 
 **Returns:** Schema dictionary or typed schema tuple
 
@@ -259,7 +259,7 @@
 
 **Signature:** `register_adaptor(adaptor); register_plugin(plugin); clear_custom_extensions()`
 
-**Purpose:** Extend tsontology to new data containers and domain-specific metrics.
+**Purpose:** Extend echotime to new data containers and domain-specific metrics.
 
 **Why this API exists:** Cross-disciplinary infrastructure must be extensible. Adaptors let the package ingest new object types; plugins let communities add domain metrics without forking the ontology core.
 
@@ -315,7 +315,7 @@
 
 **Signature:** `case_gallery(domain=None, audience=None, environment=None, format='markdown')`
 
-**Purpose:** Browse high-visibility cross-disciplinary use cases where tsontology fits naturally.
+**Purpose:** Browse high-visibility cross-disciplinary use cases where echotime fits naturally.
 
 **Why this API exists:** New users often understand a tool fastest through concrete cases instead of abstract API descriptions. The case gallery shows popular time-series settings such as web traffic, retail demand, energy load, wearables, ICU monitoring, and fMRI.
 
@@ -364,7 +364,7 @@
 
 ### `hot_case_gallery / similarity_playbook / project_homepage_html / project_playground_html`
 
-**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.12.0'); project_playground_html(version='0.12.0')`
+**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.0'); project_playground_html(version='0.17.0')`
 
 **Purpose:** Provide shareable, high-attention case ideas plus a static project-homepage starting point.
 
@@ -408,7 +408,8 @@
 
 **Inspect these outputs:**
 
-- similarity_score
+- reference_metrics
+- component_mean
 - component_scores
 - to_summary_card_markdown()
 - to_narrative_report()
@@ -419,7 +420,7 @@
 
 **Signature:** `compare_profiles(left, right, *, left_name='left profile', right_name='right profile') -> SimilarityReport`
 
-**Purpose:** Compare two tsontology profiles or raw datasets at the ontology-axis level.
+**Purpose:** Compare two echotime profiles or raw datasets at the ontology-axis level.
 
 **Why this API exists:** Sometimes raw units and scales differ too much for direct shape matching, but the datasets are still structurally analogous. Profile similarity answers that higher-level question.
 
@@ -462,12 +463,41 @@
 
 **Inspect these outputs:**
 
-- similarity_score
+- component_mean
+- pearson_r
 - shape_similarity
 - trend_similarity
 - spectral_similarity
 
 **Recommended environments:** notebook, python_script, pandas_pipeline
+
+### `ncc_sequence / max_ncc / best_shift / sbd / independent_max_ncc / independent_sbd / acf_distance / periodogram_distance / trend_distance / ordinal_pattern_js_distance / linear_trend_model_distance / lcss_similarity / lcss_distance / edr_distance / erp_distance / twed_distance`
+
+**Signature:** `ncc_sequence(x, y, *, normalize=True) -> tuple[np.ndarray, np.ndarray]; max_ncc(...) -> float; best_shift(...) -> int; sbd(...) -> float; independent_max_ncc(...) -> float; independent_sbd(...) -> float; acf_distance(x, y, *, max_lag=10) -> float; periodogram_distance(x, y, *, n_coeffs=32) -> float; trend_distance(x, y) -> float; ordinal_pattern_js_distance(x, y, *, order=3, delay=1) -> float; linear_trend_model_distance(x, y) -> float; lcss_similarity(x, y, *, epsilon=1.0, window=None, mode='exact') -> float; lcss_distance(x, y, *, epsilon=1.0, window=None, mode='exact') -> float; edr_distance(x, y, *, epsilon=1.0, normalized=True, window=None, mode='exact') -> float; erp_distance(x, y, *, gap_value=0.0, window=None, mode='exact') -> float; twed_distance(x, y, *, lambda_=1.0, nu=0.001, t_x=None, t_y=None, window=None, mode='exact') -> float`
+
+**Purpose:** Expose the extracted low-level similarity primitives directly when you need one explicit metric instead of a report bundle, including a fast screening path for the elastic distances.
+
+**Why this API exists:** EchoTime's main surface is intentionally report-first, but advanced users still need direct access to shift-aware, rhythm-aware, and elastic distances for retrieval, thresholding, and custom pipelines.
+
+**When to use it:** Use when you already know which similarity family you need and want a scalar score or lag estimate to plug into downstream logic; use `mode='fast'` for shortlist screening and `mode='exact'` for final reporting.
+
+**Returns:** NumPy arrays, scalar similarities, scalar distances, or a best-lag integer depending on the function
+
+**Accepted inputs / context:**
+
+- 1D arrays
+- 2D multichannel arrays
+- optional timestamps for TWED
+- optional gap, tolerance, or band-width hyperparameters for elastic methods
+- `mode='fast'` for shortlist screening, `mode='exact'` for final scoring
+
+**Inspect these outputs:**
+
+- the returned scalar score or distance
+- the lag array from ncc_sequence
+- best_shift for lead-lag interpretation
+
+**Recommended environments:** notebook, python_script, ml_benchmark, pandas_pipeline
 
 ## agent driving
 
@@ -475,11 +505,11 @@
 
 **Signature:** `AgentDriver(goal='understand_dataset', budget='lean|balanced|deep', ...); agent_drive(data, reference=None, goal=..., budget=...); agent_context(profile_or_similarity_report, budget='lean')`
 
-**Purpose:** Let an agent or application choose the cheapest useful tsontology workflow and export a compact context bundle.
+**Purpose:** Let an agent or application choose the cheapest useful EchoTime workflow and export a compact context bundle.
 
 **Why this API exists:** LLM agents often waste tokens by running too many analyses and by carrying oversized intermediate reports. This API chooses a small workflow first, stops early when the signal is already clear, and compresses the result into a reusable context payload.
 
-**When to use it:** Use when tsontology sits inside an agent loop, a notebook assistant, a retrieval pipeline, or a batch report generator that needs compact summaries.
+**When to use it:** Use when echotime sits inside an agent loop, a notebook assistant, a retrieval pipeline, or a batch report generator that needs compact summaries.
 
 **Returns:** AgentDriveResult or compact context dict/markdown/json
 

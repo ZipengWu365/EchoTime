@@ -1,4 +1,4 @@
-# tsontology scenario guide
+# EchoTime scenario guide
 
 ## Resting-state or task fMRI cohort profiling
 
@@ -14,7 +14,7 @@
 - xarray-like object
 - 3D NumPy array
 
-**Where tsontology helps:** Acts as a dataset-card and structure-audit layer before graph modelling, connectome analyses, or benchmark comparison.
+**Where EchoTime helps:** Acts as a dataset-card and structure-audit layer before graph modelling, connectome analyses, or benchmark comparison.
 
 **Best entrypoints:**
 
@@ -40,7 +40,7 @@
 **Caveats:**
 
 - Provide TR whenever possible for Hz-aware metrics.
-- tsontology does not replace neuroimaging preprocessing or connectome estimation packages.
+- echotime does not replace neuroimaging preprocessing or connectome estimation packages.
 
 ## EEG or electrophysiology recording triage
 
@@ -56,7 +56,7 @@
 - MNE Raw/Epochs/Evoked-like object
 - 2D/3D arrays
 
-**Where tsontology helps:** Provides a fast structural summary layer before decoding, spectral analysis, or representation learning.
+**Where EchoTime helps:** Provides a fast structural summary layer before decoding, spectral analysis, or representation learning.
 
 **Best entrypoints:**
 
@@ -97,13 +97,13 @@
 - CSV/parquet path
 - list of record dicts
 
-**Where tsontology helps:** Audits observation irregularity, eventness, drift, and cohort heterogeneity before modelling or cohort QC.
+**Where EchoTime helps:** Audits observation irregularity, eventness, drift, and cohort heterogeneity before modelling or cohort QC.
 
 **Best entrypoints:**
 
 - `profile_dataset(IrregularTimeSeriesInput(...), domain='clinical')`
 - `profile_dataset(dataframe, domain='clinical')`
-- `tsontology cohort.parquet --input-mode table --domain clinical`
+- `echotime cohort.parquet --input-mode table --domain clinical`
 
 **Outputs to inspect:**
 
@@ -122,7 +122,7 @@
 **Caveats:**
 
 - For very sparse data, interpret frequency-aware metrics conservatively.
-- tsontology does not impute, resample, or fit clinical prediction models for you.
+- echotime does not impute, resample, or fit clinical prediction models for you.
 
 ## Wearable or digital biomarker longitudinal cohort
 
@@ -138,12 +138,12 @@
 - parquet/CSV path
 - list of records
 
-**Where tsontology helps:** Profiles adherence, repeated-visit instability, subject fingerprintability, and cohort heterogeneity for longitudinal studies.
+**Where EchoTime helps:** Profiles adherence, repeated-visit instability, subject fingerprintability, and cohort heterogeneity for longitudinal studies.
 
 **Best entrypoints:**
 
 - `profile_dataset(dataframe, domain='wearable')`
-- `tsontology study.parquet --input-mode table --domain wearable --format card-markdown`
+- `echotime study.parquet --input-mode table --domain wearable --format card-markdown`
 
 **Outputs to inspect:**
 
@@ -178,7 +178,7 @@
 - pandas DataFrame
 - xarray-like object
 
-**Where tsontology helps:** Provides trend, rhythmicity, drift, coupling, and noise summaries before forecasting or anomaly pipelines.
+**Where EchoTime helps:** Provides trend, rhythmicity, drift, coupling, and noise summaries before forecasting or anomaly pipelines.
 
 **Best entrypoints:**
 
@@ -202,7 +202,7 @@
 
 **Caveats:**
 
-- tsontology does not replace forecasting model selection or domain simulators.
+- echotime does not replace forecasting model selection or domain simulators.
 - If timestamps are absent, irregularity diagnostics are naturally weaker.
 
 ## Sparse event streams, alerts, clicks, or treatment logs
@@ -219,7 +219,7 @@
 - long tables
 - JSON/JSONL/CSV records
 
-**Where tsontology helps:** Quantifies burstiness, event diversity, and dataset-level event archetypes before point-process or event modelling.
+**Where EchoTime helps:** Quantifies burstiness, event diversity, and dataset-level event archetypes before point-process or event modelling.
 
 **Best entrypoints:**
 
@@ -250,18 +250,18 @@
 **domains:** generic, fmri, eeg, clinical, wearable  
 **environments:** python_script, cli_batch, ml_benchmark
 
-**Data shape:** any dataset that tsontology can adapt
+**Data shape:** any dataset that echotime can adapt
 
 **Typical inputs:**
 
 - anything accepted by profile_dataset
 
-**Where tsontology helps:** Acts as a repeatable structural profiler and card generator for dataset governance and benchmark transparency.
+**Where EchoTime helps:** Acts as a repeatable structural profiler and card generator for dataset governance and benchmark transparency.
 
 **Best entrypoints:**
 
 - `profile_dataset(data).to_card_json()`
-- `tsontology data.npy --format card-json`
+- `echotime data.npy --format card-json`
 
 **Outputs to inspect:**
 

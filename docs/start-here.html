@@ -2,7 +2,7 @@
 <html lang='en'>
 <head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoWave - Start here</title><style>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime - Start here</title><style>
 :root {
   --page-bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -498,7 +498,7 @@ img.brand-card {
     <div class='brand'>
       <span class='brand-mark'></span>
       <div class='brand-copy'>
-        <strong>EchoWave</strong>
+        <strong>EchoTime</strong>
         <span>Explainable time-series similarity for humans and agents.</span>
       </div>
     </div>
@@ -537,16 +537,14 @@ img.brand-card {
   <section class='command-grid'>
     <div class='card feature-card'>
       <span class='pill sun'>One-line quickstart</span>
-      <pre><code>pip install echowave
-python -c &quot;import numpy as np; from echowave import compare_series; x=np.sin(np.linspace(0,8*np.pi,128)); y=np.sin(np.linspace(0,8*np.pi,128)+0.2); print(compare_series(x,y).to_summary_card_markdown())&quot;</code></pre>
+      <pre><code>pip install echotime
+python -c &quot;import numpy as np; from echotime import compare_series; x=np.sin(np.linspace(0,8*np.pi,128)); y=np.sin(np.linspace(0,8*np.pi,128)+0.2); print(compare_series(x,y).to_summary_card_markdown())&quot;</code></pre>
     </div>
     <div class='card feature-card'>
       <span class='pill blue'>Environment doctor</span>
-      <pre><code>echowave --guide doctor
+      <pre><code>echotime --guide doctor
 # or
-python -m echowave.cli --guide doctor
-# legacy alias
-python -m tsontology.cli --guide doctor</code></pre>
+python -m echotime.cli --guide doctor</code></pre>
       <p>Use this when you suspect encoding issues, mixed scientific-stack packages, or resolver noise.</p>
     </div>
   </section>
@@ -558,24 +556,22 @@ python -m tsontology.cli --guide doctor</code></pre>
   <section class='command-grid'>
     <div class='card feature-card'>
       <span class='pill sun'>Local live demo</span>
-      <pre><code>echowave-demo --open-browser
-# legacy alias
-tsontology-demo --open-browser
+      <pre><code>echotime-demo --open-browser
 # or
-python -m echowave.demo_server --open-browser</code></pre>
+python -m echotime.demo_server --open-browser</code></pre>
     </div>
     <div class='card feature-card'>
       <span class='pill blue'>Compatibility preset</span>
-      <pre><code>echowave --write-constraints constraints/mixed-scientific-stack.txt `
+      <pre><code>echotime --write-constraints constraints/mixed-scientific-stack.txt `
   --constraint-profile mixed-scientific-stack
-pip install -c constraints/mixed-scientific-stack.txt echowave</code></pre>
+pip install -c constraints/mixed-scientific-stack.txt echotime</code></pre>
     </div>
   </section>
 
   <section class='command-grid'>
     <div class='card feature-card'>
       <span class='pill blue'>GitHub Pages export</span>
-      <pre><code>echowave --export-pages docs
+      <pre><code>echotime --export-pages docs
 # then publish docs/ with GitHub Pages</code></pre>
     </div>
     <div class='callout'>
@@ -585,7 +581,7 @@ pip install -c constraints/mixed-scientific-stack.txt echowave</code></pre>
   </section>
 </main>
 <footer class='shell footer'>
-  Productized open-source entry point for EchoWave. White-background-first, optimistic, and designed for fast technical comprehension.
+  Productized open-source entry point for EchoTime. White-background-first, optimistic, and designed for fast technical comprehension.
 </footer>
 </body>
 </html>

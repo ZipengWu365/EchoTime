@@ -1,6 +1,6 @@
-# tsontology similarity guide
+# EchoTime similarity guide
 
-Similarity in tsontology is not one thing. Sometimes you care about raw point-by-point shape, sometimes about shared rhythm, and sometimes about structural similarity at the dataset level.
+Similarity in EchoTime is not one thing. Sometimes you care about raw point-by-point shape, sometimes about shared rhythm, and sometimes about structural similarity at the dataset level.
 
 ## When to use raw-series similarity
 

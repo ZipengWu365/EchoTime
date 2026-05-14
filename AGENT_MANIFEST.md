@@ -1,6 +1,6 @@
-# Agent manifest
+# EchoTime agent manifest
 
-tsontology is a time-series report generator for humans and agents.
+**positioning:** dataset-first structural profiling and similarity triage for time-series data
 
 ## Good for
 
@@ -10,7 +10,45 @@ tsontology is a time-series report generator for humans and agents.
 - compress results into a compact context bundle for a downstream LLM step
 - handle dense arrays, irregular observations, event streams, longitudinal tables, and neuro-style wrappers
 
-## Avoid when
+## Not for
 
+- training forecasting models
+- training classification, clustering, or regression estimators
+- serving as a full DTW or matrix-profile engine
+- replacing domain libraries such as MNE, nilearn, pandas, xarray, Darts, aeon, or sktime
 
-## Stable wrappers
+## Routing policy
+
+- **profile_or_document_dataset:** use profile_dataset first
+- **compare_two_whole_curves:** use compare_series first; upgrade to compare_profiles only if structure matters or raw similarity is ambiguous
+- **need_a_compact_llm_context:** use AgentDriver or agent_drive
+- **need_forecasting:** pair echotime with Darts, sktime, aeon, or Kats
+- **need_feature_matrix:** pair echotime with tsfresh or Kats TSFeatures
+- **need_dtw_paths:** pair echotime with DTAIDistance
+- **need_motifs_or_discords:** pair echotime with STUMPY
+
+## Budget paths
+
+### lean
+- profile_dataset or compare_series
+- summary card or compact context only
+- stop early if the signal is already clear
+
+### balanced
+- profile_dataset or compare_series
+- upgrade to compare_profiles if helpful
+- export narrative report or dataset card
+
+### deep
+- run profile_dataset and compare_profiles when relevant
+- use rolling_similarity for regime-sensitive comparisons
+- export both machine-readable card and human-readable report
+
+## Signature outputs
+
+- ontology axes and subdimensions
+- archetypes
+- reliability summaries
+- plain-language summary card
+- narrative report
+- compact agent context

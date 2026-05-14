@@ -1,6 +1,6 @@
 # Agent input contract
 
-This page explains what `data_ref`, `left_ref`, and `right_ref` are expected to mean when an external agent calls `tsontology` tools.
+This page explains what `data_ref`, `left_ref`, and `right_ref` are expected to mean when an external agent calls `echotime` tools.
 
 ## Accepted reference families
 

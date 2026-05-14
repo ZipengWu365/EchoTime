@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: If you use EchoWave in research, benchmarks, or reports, please cite the software record below.
-title: EchoWave
+message: If you use EchoTime in research, benchmarks, or reports, please cite the software record below.
+title: EchoTime
 type: software
 authors:
   - family-names: Wu
@@ -8,10 +8,10 @@ authors:
     email: zxw365@student.bham.ac.uk
     affiliation: The University of Birmingham
 abstract: Explainable structural similarity for time series and time-series datasets, with shareable HTML reports and agent-ready JSON outputs.
-version: 0.16.0
+version: 0.17.0
 license: MIT
 repository-code: https://github.com/ZipengWu365/EchoWave
-repository-artifact: https://pypi.org/project/echowave/
+repository-artifact: https://pypi.org/project/echotime/
 url: https://zipengwu365.github.io/EchoWave/
 keywords:
   - time-series

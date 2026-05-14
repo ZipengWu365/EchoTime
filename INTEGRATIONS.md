@@ -1,13 +1,13 @@
 # Integration templates
 
-Copyable templates for bringing your own CSV or DataFrame into EchoWave, then scaling up to tool-calling or MCP when needed.
+Copyable templates for bringing your own CSV or DataFrame into EchoTime, then scaling up to tool-calling or MCP when needed.
 
 ## Templates
 
 - pandas notebook template: examples/integrations/pandas_notebook_template.py
 - OpenAI tool-calling template: examples/integrations/openai_tool_calling_template.py
 - MCP server template: examples/integrations/mcp_server_template.py
-- local live demo entry: echowave-demo --open-browser
+- local live demo entry: echotime-demo --open-browser
 
 ## Bring your own data
 

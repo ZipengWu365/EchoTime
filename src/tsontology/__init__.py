@@ -5,7 +5,7 @@ from __future__ import annotations
 from importlib import import_module
 import sys
 
-from echowave import *  # noqa: F401,F403
+from echotime import *  # noqa: F401,F403
 
 _SUBMODULES = (
     "adapters",
@@ -46,6 +46,6 @@ _SUBMODULES = (
 )
 
 for _name in _SUBMODULES:
-    sys.modules[f"{__name__}.{_name}"] = import_module(f"echowave.{_name}")
+    sys.modules[f"{__name__}.{_name}"] = import_module(f"echotime.{_name}")
 
 __all__ = [name for name in globals() if not name.startswith("_")]

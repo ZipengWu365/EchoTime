@@ -1,4 +1,4 @@
-# tsontology recommended workflow
+# EchoTime recommended workflow
 
 **domain:** generic  
 **environment:** notebook

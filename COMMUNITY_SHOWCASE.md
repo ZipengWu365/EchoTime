@@ -1,6 +1,6 @@
 # Community showcase
 
-`tsontology` now has the infrastructure for public showcase cases, but it still needs real external stories.
+`echotime` now has the infrastructure for public showcase cases, but it still needs real external stories.
 
 ## Current status
 
@@ -11,7 +11,7 @@
 
 ## What belongs here
 
-- third-party notebooks or repos that use tsontology for modelling handoff
+- third-party notebooks or repos that use EchoTime for modelling handoff
 - public datasets where the report changed a baseline or routing decision
 - screenshots or links to Pages-hosted demo cards built with the package
 - short “before report / after report” stories from product, clinical, energy, or research teams
@@ -28,7 +28,7 @@ Open an issue or PR with:
 
 1. a short problem statement
 2. the data domain
-3. the tsontology artifact you generated
+3. the EchoTime artifact you generated
 4. what changed after reading the report
 5. a link or reproducible notebook if you can share one
 

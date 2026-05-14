@@ -1,15 +1,16 @@
 # Roadmap
 
-## v0.12.0
+## v0.17.0 beta
 
-- make README / homepage / playground share one copy deck
-- fix agent tool contracts so external agents can actually call them
-- turn the homepage into a docs-style product page with ecosystem and coverage sections
-- add a static playground for GitHub Pages or local demo use
-- align shipped notebook coverage with README promises
+- complete the package rename from `echowave` to `echotime`
+- keep the GitHub repository and Pages path under `EchoWave` for this release
+- refresh README, PyPI copy, GitHub Pages assets, examples, and agent schemas under EchoTime branding
+- validate the built wheel and smoke-test the primary `echotime` import path
+- keep `tsontology` only as a thin migration shim while new documentation uses EchoTime
 
 ## Next
 
-- hosted public-data demos for GitHub, markets, and grid-load cases
-- stronger utility benchmark evidence on public datasets
-- more explicit one-click integrations for pandas, xarray, Jupyter, and agent runtimes
+- publish to TestPyPI/PyPI when credentials are available
+- create a GitHub release for `EchoTime v0.17.0 beta`
+- update the GitHub About box manually after release
+- continue improving public-data demos and utility benchmark evidence

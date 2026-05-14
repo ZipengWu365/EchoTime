@@ -1,4 +1,4 @@
-# tsontology next-90-days casebook
+# EchoTime next-90-days casebook
 
 **Release context:** March 2026.
 
@@ -11,7 +11,7 @@ Why it works:
 - the curve can show viral bursts, release bursts, decay, and security/event shocks
 - it bridges open-source, product growth, AI, and community behaviour
 
-Best tsontology move:
+Best EchoTime move:
 - use `compare_series` on **daily new stars** for a current 14-day window vs a historical 14-day window
 - use `rolling_similarity` to compare two repositories over the same launch horizon
 - use `compare_profiles` when two repos differ in scale but might share the same structural story
@@ -27,7 +27,7 @@ Why it works:
 - it is intuitive to non-quant audiences
 - rolling similarity produces strong visuals and clear language
 
-Best tsontology move:
+Best EchoTime move:
 - compare z-scored returns, not only price levels
 - use `rolling_similarity` in 20-day or 30-day windows
 - export a narrative report that explains when the relationship tightens or decouples
@@ -39,7 +39,7 @@ Why it works:
 - launch windows are naturally event-rich
 - it maps well to case studies, blog posts, and dashboard screenshots
 
-Best tsontology move:
+Best EchoTime move:
 - compare docs traffic with signup series
 - compare the current launch week against historical launches
 - attach summary cards to explain whether bursts are synchronized, delayed, or structurally different
@@ -51,7 +51,7 @@ Why it works:
 - it broadens the project beyond 'internet metrics'
 - summary cards are useful to clinicians and product teams at the same time
 
-Best tsontology move:
+Best EchoTime move:
 - use dataset profiling first
 - use profile similarity to compare cohorts, visits, or device subgroups
 - use narrative reports to translate adherence and heterogeneity issues into plain language

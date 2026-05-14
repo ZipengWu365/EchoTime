@@ -19,10 +19,10 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from echowave.communication import summary_card_dict
-from echowave.datasets import starter_dataset
-from echowave.profile import profile_dataset
-from echowave.similarity import compare_series, rolling_similarity
+from echotime.communication import summary_card_dict
+from echotime.datasets import starter_dataset
+from echotime.profile import profile_dataset
+from echotime.similarity import compare_series, rolling_similarity
 
 PAGE = "#FFFFFF"
 PAGE_SOFT = "#FFFDF4"
@@ -182,7 +182,7 @@ def _save_summary_preview(path: Path) -> None:
     y = np.sin(np.linspace(0, 8 * np.pi, 128) + 0.2)
     report = compare_series(x, y, left_name="query", right_name="shifted analog")
     lines = [
-        "# EchoWave similarity summary",
+        "# EchoTime similarity summary",
         "",
         f"overall similarity: {report.similarity_score:.2f}",
         f"label: {report.qualitative_label}",
@@ -192,7 +192,7 @@ def _save_summary_preview(path: Path) -> None:
         lines.append(f"- {name.replace('_', ' ')}: {score:.2f}")
     lines.extend(["", "why:", report.interpretation])
     image = _render_text_card(
-        title="EchoWave similarity card preview",
+        title="EchoTime similarity card preview",
         subtitle="A compare-first quicklook for humans and agents",
         body="\n".join(lines),
         accent=SUN,
@@ -205,16 +205,16 @@ def _save_summary_preview(path: Path) -> None:
 
 def _save_title_card(path: Path) -> None:
     body = (
-        "EchoWave\n\n"
+        "EchoTime\n\n"
         "Compare time series and datasets with explainable structural similarity.\n\n"
         "Quickstart:\n"
-        "pip install echowave\n"
-        "echowave-demo --open-browser\n\n"
+        "pip install echotime\n"
+        "echotime-demo --open-browser\n\n"
         "Ships with Pages-ready demos, starter datasets, and agent-ready JSON."
     )
     image = _render_text_card(
-        title="EchoWave release surface",
-        subtitle="v0.16.0 formal release draft",
+        title="EchoTime release surface",
+        subtitle="v0.17.0 formal release draft",
         body=body,
         accent=BLUE,
         mono=False,
@@ -234,8 +234,8 @@ def _save_quickstart_gif(path: Path) -> None:
             title="Quickstart: compare two curves",
             subtitle="Copy, paste, and get a similarity verdict in seconds",
             body=(
-                "pip install echowave\n"
-                "python -c \"import numpy as np; from echowave import compare_series; "
+                "pip install echotime\n"
+                "python -c \"import numpy as np; from echotime import compare_series; "
                 "x=np.sin(np.linspace(0,8*np.pi,128)); "
                 "y=np.sin(np.linspace(0,8*np.pi,128)+0.2); "
                 "print(compare_series(x,y).to_summary_card_markdown())\""
@@ -247,7 +247,7 @@ def _save_quickstart_gif(path: Path) -> None:
             title="Similarity verdict",
             subtitle="Readable output instead of one opaque score",
             body=(
-                "# EchoWave similarity summary\n\n"
+                "# EchoTime similarity summary\n\n"
                 f"overall similarity: {report.similarity_score:.2f}\n"
                 f"label: {report.qualitative_label}\n"
                 f"top components: {', '.join(name.replace('_', ' ') for name in list(report.component_scores)[:3])}\n"
@@ -260,7 +260,7 @@ def _save_quickstart_gif(path: Path) -> None:
             title="Agent-ready envelope",
             subtitle="Move from a readable report to compact JSON handoff",
             body=(
-                "from echowave import ts_compare\n\n"
+                "from echotime import ts_compare\n\n"
                 "payload = ts_compare(x, y)\n"
                 "print(payload['tool'])\n"
                 "print(payload['verdict'])\n\n"
@@ -280,7 +280,7 @@ def _social_card_png(*, title: str, subtitle: str, bullets: list[str], accent: s
     hero_font = _font(54)
     subtitle_font = _font(25)
     bullet_font = _font(28)
-    draw.text((84, 76), "EchoWave", font=title_font, fill=TEXT)
+    draw.text((84, 76), "EchoTime", font=title_font, fill=TEXT)
     draw.text((84, 140), title, font=hero_font, fill=TEXT)
     draw.text((84, 204), subtitle, font=subtitle_font, fill=MUTED)
     y = 278
@@ -359,7 +359,7 @@ def _write_demo_pack_bitmaps(root: Path) -> None:
 def generate_preview_assets(root: Path = ROOT) -> None:
     assets = root / "assets"
     _save_summary_preview(assets / "summary_card_preview.png")
-    _save_title_card(assets / "echowave_title_card.png")
+    _save_title_card(assets / "echotime_title_card.png")
     _save_profile_radar(assets / "report_radar_preview.png")
     _save_rolling_similarity(assets / "rolling_similarity_preview.png")
     _save_github_preview(assets / "github_breakout_preview.png")

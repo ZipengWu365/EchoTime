@@ -6,7 +6,7 @@
 |---|---|
 | `0.16.x` | supported |
 | `main` | best-effort support |
-| `< 0.16.0` | not supported for security fixes |
+| `< 0.17.0` | not supported for security fixes |
 
 ## Reporting a vulnerability
 

@@ -1,6 +1,6 @@
 {
-  "name": "EchoWave",
-  "short_name": "EchoWave",
+  "name": "EchoTime",
+  "short_name": "EchoTime",
   "start_url": "/",
   "display": "standalone"
 }

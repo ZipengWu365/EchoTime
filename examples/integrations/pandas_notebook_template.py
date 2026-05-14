@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from echowave import compare_series, profile_dataset, profile_series
+from echotime import compare_series, profile_dataset, profile_series
 
 
 def write_html(path: str, html: str) -> None:

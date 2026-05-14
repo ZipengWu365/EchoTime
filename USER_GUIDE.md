@@ -1,8 +1,8 @@
-# What is tsontology?
+# What is EchoTime?
 
 **Structure-aware dataset profiling for time-series data.**
 
-tsontology converts a time-series dataset into a structural profile: ontology axis scores, subdimensions, proxy metrics, reliability summaries, archetypes, task hints, and dataset cards.
+EchoTime converts a time-series dataset into a structural profile: ontology axis scores, subdimensions, proxy metrics, reliability summaries, archetypes, task hints, and dataset cards.
 
 ## What the package is
 
@@ -65,7 +65,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 | coupling_networkedness | Strength and organization of cross-channel dependence. |
 | heterogeneity | Variation in structure across subjects, conditions, or channels. |
 
-# tsontology API reference
+# EchoTime API reference
 
 ## core profiling
 
@@ -75,7 +75,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Purpose:** Primary entry point. Profile an entire dataset as a dataset.
 
-**Why this API exists:** The core design choice of tsontology is that the object of interest is the dataset, not just a single series. This function aggregates unit-level signals, multivariate structure, cohort variation, and observation characteristics into one profile.
+**Why this API exists:** The core design choice of EchoTime is that the object of interest is the dataset, not just a single series. This function aggregates unit-level signals, multivariate structure, cohort variation, and observation characteristics into one profile.
 
 **When to use it:** Use when you want the ontology axes, archetypes, task hints, reliability, and dataset-card outputs for a whole dataset or cohort.
 
@@ -273,7 +273,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Purpose:** Represent sparse event streams such as alarms, coded events, transactions, or interventions.
 
-**Why this API exists:** A stream of timestamped events is not the same as a dense sampled signal. This wrapper lets tsontology estimate burstiness, event-type diversity, and event-stream archetypes without pretending the data are regular arrays.
+**Why this API exists:** A stream of timestamped events is not the same as a dense sampled signal. This wrapper lets echotime estimate burstiness, event-type diversity, and event-stream archetypes without pretending the data are regular arrays.
 
 **When to use it:** Use for sparse operational events, treatment events, alarms, clicks, or transactional logs.
 
@@ -303,7 +303,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Why this API exists:** An ontology-driven library must make its schema inspectable and versioned. These functions let downstream tools, dataset cards, and documentation stay aligned with the real axis/subdimension/proxy map.
 
-**When to use it:** Use when building dashboards, validators, reports, or benchmark cards around tsontology.
+**When to use it:** Use when building dashboards, validators, reports, or benchmark cards around echotime.
 
 **Returns:** Schema dictionary or typed schema tuple
 
@@ -326,7 +326,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Signature:** `register_adaptor(adaptor); register_plugin(plugin); clear_custom_extensions()`
 
-**Purpose:** Extend tsontology to new data containers and domain-specific metrics.
+**Purpose:** Extend echotime to new data containers and domain-specific metrics.
 
 **Why this API exists:** Cross-disciplinary infrastructure must be extensible. Adaptors let the package ingest new object types; plugins let communities add domain metrics without forking the ontology core.
 
@@ -382,7 +382,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Signature:** `case_gallery(domain=None, audience=None, environment=None, format='markdown')`
 
-**Purpose:** Browse high-visibility cross-disciplinary use cases where tsontology fits naturally.
+**Purpose:** Browse high-visibility cross-disciplinary use cases where echotime fits naturally.
 
 **Why this API exists:** New users often understand a tool fastest through concrete cases instead of abstract API descriptions. The case gallery shows popular time-series settings such as web traffic, retail demand, energy load, wearables, ICU monitoring, and fMRI.
 
@@ -431,7 +431,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 ### `hot_case_gallery / similarity_playbook / project_homepage_html / project_playground_html`
 
-**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.12.0'); project_playground_html(version='0.12.0')`
+**Signature:** `hot_case_gallery(...); similarity_playbook(...); project_homepage_html(version='0.17.0'); project_playground_html(version='0.17.0')`
 
 **Purpose:** Provide shareable, high-attention case ideas plus a static project-homepage starting point.
 
@@ -475,7 +475,8 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Inspect these outputs:**
 
-- similarity_score
+- reference_metrics
+- component_mean
 - component_scores
 - to_summary_card_markdown()
 - to_narrative_report()
@@ -486,7 +487,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Signature:** `compare_profiles(left, right, *, left_name='left profile', right_name='right profile') -> SimilarityReport`
 
-**Purpose:** Compare two tsontology profiles or raw datasets at the ontology-axis level.
+**Purpose:** Compare two echotime profiles or raw datasets at the ontology-axis level.
 
 **Why this API exists:** Sometimes raw units and scales differ too much for direct shape matching, but the datasets are still structurally analogous. Profile similarity answers that higher-level question.
 
@@ -529,12 +530,41 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Inspect these outputs:**
 
-- similarity_score
+- component_mean
+- pearson_r
 - shape_similarity
 - trend_similarity
 - spectral_similarity
 
 **Recommended environments:** notebook, python_script, pandas_pipeline
+
+### `ncc_sequence / max_ncc / best_shift / sbd / independent_max_ncc / independent_sbd / acf_distance / periodogram_distance / trend_distance / ordinal_pattern_js_distance / linear_trend_model_distance / lcss_similarity / lcss_distance / edr_distance / erp_distance / twed_distance`
+
+**Signature:** `ncc_sequence(x, y, *, normalize=True) -> tuple[np.ndarray, np.ndarray]; max_ncc(...) -> float; best_shift(...) -> int; sbd(...) -> float; independent_max_ncc(...) -> float; independent_sbd(...) -> float; acf_distance(x, y, *, max_lag=10) -> float; periodogram_distance(x, y, *, n_coeffs=32) -> float; trend_distance(x, y) -> float; ordinal_pattern_js_distance(x, y, *, order=3, delay=1) -> float; linear_trend_model_distance(x, y) -> float; lcss_similarity(x, y, *, epsilon=1.0, window=None, mode='exact') -> float; lcss_distance(x, y, *, epsilon=1.0, window=None, mode='exact') -> float; edr_distance(x, y, *, epsilon=1.0, normalized=True, window=None, mode='exact') -> float; erp_distance(x, y, *, gap_value=0.0, window=None, mode='exact') -> float; twed_distance(x, y, *, lambda_=1.0, nu=0.001, t_x=None, t_y=None, window=None, mode='exact') -> float`
+
+**Purpose:** Expose the extracted low-level similarity primitives directly when you need one explicit metric instead of a report bundle, including a fast screening path for the elastic distances.
+
+**Why this API exists:** EchoTime's main surface is intentionally report-first, but advanced users still need direct access to shift-aware, rhythm-aware, and elastic distances for retrieval, thresholding, and custom pipelines.
+
+**When to use it:** Use when you already know which similarity family you need and want a scalar score or lag estimate to plug into downstream logic; use `mode='fast'` for shortlist screening and `mode='exact'` for final reporting.
+
+**Returns:** NumPy arrays, scalar similarities, scalar distances, or a best-lag integer depending on the function
+
+**Accepted inputs / context:**
+
+- 1D arrays
+- 2D multichannel arrays
+- optional timestamps for TWED
+- optional gap, tolerance, or band-width hyperparameters for elastic methods
+- `mode='fast'` for shortlist screening, `mode='exact'` for final scoring
+
+**Inspect these outputs:**
+
+- the returned scalar score or distance
+- the lag array from ncc_sequence
+- best_shift for lead-lag interpretation
+
+**Recommended environments:** notebook, python_script, ml_benchmark, pandas_pipeline
 
 ## agent driving
 
@@ -542,11 +572,11 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Signature:** `AgentDriver(goal='understand_dataset', budget='lean|balanced|deep', ...); agent_drive(data, reference=None, goal=..., budget=...); agent_context(profile_or_similarity_report, budget='lean')`
 
-**Purpose:** Let an agent or application choose the cheapest useful tsontology workflow and export a compact context bundle.
+**Purpose:** Let an agent or application choose the cheapest useful EchoTime workflow and export a compact context bundle.
 
 **Why this API exists:** LLM agents often waste tokens by running too many analyses and by carrying oversized intermediate reports. This API chooses a small workflow first, stops early when the signal is already clear, and compresses the result into a reusable context payload.
 
-**When to use it:** Use when tsontology sits inside an agent loop, a notebook assistant, a retrieval pipeline, or a batch report generator that needs compact summaries.
+**When to use it:** Use when echotime sits inside an agent loop, a notebook assistant, a retrieval pipeline, or a batch report generator that needs compact summaries.
 
 **Returns:** AgentDriveResult or compact context dict/markdown/json
 
@@ -566,9 +596,9 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 **Recommended environments:** notebook, python_script, cli_batch, pandas_pipeline, ml_benchmark
 
 
-# tsontology environment matrix
+# EchoTime environment matrix
 
-| environment | title | best for | typical inputs | what tsontology adds | usual outputs |
+| environment | title | best for | typical inputs | what echotime adds | usual outputs |
 |---|---|---|---|---|---|
 | notebook | Jupyter or interactive notebook | Exploration, teaching, hypothesis generation, and profile inspection. | arrays; DataFrames; typed wrappers | Lets you move from raw data to a readable structural profile in a few lines and inspect notes, cards, and reliability interactively. | profile.axes; Markdown report; dataset card; API guide functions |
 | python_script | Plain Python script or package pipeline | Reusable profiling steps in research codebases or internal libraries. | arrays; typed wrappers; tables; custom adapted objects | Makes structural profiling reproducible and scriptable for data intake, QC, or benchmark preparation. | JSON payloads; card files; profile.to_dict() |
@@ -602,7 +632,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 ### Neuro stack (MNE-like / xarray-like / ROI arrays) (`neuro_stack`)
 
 - Use typed wrappers when you want explicit metadata such as TR or channel names.
-- tsontology complements, rather than replaces, domain packages.
+- echotime complements, rather than replaces, domain packages.
 
 ### ML benchmark or evaluation pipeline (`ml_benchmark`)
 
@@ -610,7 +640,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - The package is descriptive infrastructure, not a benchmark runner.
 
 
-# tsontology scenario guide
+# EchoTime scenario guide
 
 ## Resting-state or task fMRI cohort profiling
 
@@ -626,7 +656,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - xarray-like object
 - 3D NumPy array
 
-**Where tsontology helps:** Acts as a dataset-card and structure-audit layer before graph modelling, connectome analyses, or benchmark comparison.
+**Where EchoTime helps:** Acts as a dataset-card and structure-audit layer before graph modelling, connectome analyses, or benchmark comparison.
 
 **Best entrypoints:**
 
@@ -652,7 +682,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 **Caveats:**
 
 - Provide TR whenever possible for Hz-aware metrics.
-- tsontology does not replace neuroimaging preprocessing or connectome estimation packages.
+- echotime does not replace neuroimaging preprocessing or connectome estimation packages.
 
 ## EEG or electrophysiology recording triage
 
@@ -668,7 +698,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - MNE Raw/Epochs/Evoked-like object
 - 2D/3D arrays
 
-**Where tsontology helps:** Provides a fast structural summary layer before decoding, spectral analysis, or representation learning.
+**Where EchoTime helps:** Provides a fast structural summary layer before decoding, spectral analysis, or representation learning.
 
 **Best entrypoints:**
 
@@ -709,13 +739,13 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - CSV/parquet path
 - list of record dicts
 
-**Where tsontology helps:** Audits observation irregularity, eventness, drift, and cohort heterogeneity before modelling or cohort QC.
+**Where EchoTime helps:** Audits observation irregularity, eventness, drift, and cohort heterogeneity before modelling or cohort QC.
 
 **Best entrypoints:**
 
 - `profile_dataset(IrregularTimeSeriesInput(...), domain='clinical')`
 - `profile_dataset(dataframe, domain='clinical')`
-- `tsontology cohort.parquet --input-mode table --domain clinical`
+- `echotime cohort.parquet --input-mode table --domain clinical`
 
 **Outputs to inspect:**
 
@@ -734,7 +764,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 **Caveats:**
 
 - For very sparse data, interpret frequency-aware metrics conservatively.
-- tsontology does not impute, resample, or fit clinical prediction models for you.
+- echotime does not impute, resample, or fit clinical prediction models for you.
 
 ## Wearable or digital biomarker longitudinal cohort
 
@@ -750,12 +780,12 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - parquet/CSV path
 - list of records
 
-**Where tsontology helps:** Profiles adherence, repeated-visit instability, subject fingerprintability, and cohort heterogeneity for longitudinal studies.
+**Where EchoTime helps:** Profiles adherence, repeated-visit instability, subject fingerprintability, and cohort heterogeneity for longitudinal studies.
 
 **Best entrypoints:**
 
 - `profile_dataset(dataframe, domain='wearable')`
-- `tsontology study.parquet --input-mode table --domain wearable --format card-markdown`
+- `echotime study.parquet --input-mode table --domain wearable --format card-markdown`
 
 **Outputs to inspect:**
 
@@ -790,7 +820,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - pandas DataFrame
 - xarray-like object
 
-**Where tsontology helps:** Provides trend, rhythmicity, drift, coupling, and noise summaries before forecasting or anomaly pipelines.
+**Where EchoTime helps:** Provides trend, rhythmicity, drift, coupling, and noise summaries before forecasting or anomaly pipelines.
 
 **Best entrypoints:**
 
@@ -814,7 +844,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 
 **Caveats:**
 
-- tsontology does not replace forecasting model selection or domain simulators.
+- echotime does not replace forecasting model selection or domain simulators.
 - If timestamps are absent, irregularity diagnostics are naturally weaker.
 
 ## Sparse event streams, alerts, clicks, or treatment logs
@@ -831,7 +861,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - long tables
 - JSON/JSONL/CSV records
 
-**Where tsontology helps:** Quantifies burstiness, event diversity, and dataset-level event archetypes before point-process or event modelling.
+**Where EchoTime helps:** Quantifies burstiness, event diversity, and dataset-level event archetypes before point-process or event modelling.
 
 **Best entrypoints:**
 
@@ -862,18 +892,18 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 **domains:** generic, fmri, eeg, clinical, wearable  
 **environments:** python_script, cli_batch, ml_benchmark
 
-**Data shape:** any dataset that tsontology can adapt
+**Data shape:** any dataset that echotime can adapt
 
 **Typical inputs:**
 
 - anything accepted by profile_dataset
 
-**Where tsontology helps:** Acts as a repeatable structural profiler and card generator for dataset governance and benchmark transparency.
+**Where EchoTime helps:** Acts as a repeatable structural profiler and card generator for dataset governance and benchmark transparency.
 
 **Best entrypoints:**
 
 - `profile_dataset(data).to_card_json()`
-- `tsontology data.npy --format card-json`
+- `echotime data.npy --format card-json`
 
 **Outputs to inspect:**
 
@@ -895,7 +925,7 @@ What kind of time-series dataset do I have, and what does that imply for analysi
 - Reliability scores should be reported alongside the axes.
 
 
-# tsontology recommended workflow
+# EchoTime recommended workflow
 
 **domain:** generic  
 **environment:** notebook
@@ -936,9 +966,9 @@ Quantifies burstiness, event diversity, and dataset-level event archetypes befor
 - `profile_dataset(records_or_table)`
 
 
-# tsontology similarity guide
+# EchoTime similarity guide
 
-Similarity in tsontology is not one thing. Sometimes you care about raw point-by-point shape, sometimes about shared rhythm, and sometimes about structural similarity at the dataset level.
+Similarity in EchoTime is not one thing. Sometimes you care about raw point-by-point shape, sometimes about shared rhythm, and sometimes about structural similarity at the dataset level.
 
 ## When to use raw-series similarity
 
@@ -967,9 +997,9 @@ Use profile similarity when the datasets come from different scales, units, or o
 - High spectral similarity means the rhythms match even if peaks happen at slightly different times.
 - High profile similarity means the datasets behave like the same kind of temporal problem even if the raw numbers differ.
 
-# tsontology agent-driving guide
+# EchoTime agent-driving guide
 
-Agent-driving is a lightweight orchestration layer that helps an LLM or application choose the smallest useful tsontology workflow and export a compact context bundle.
+Agent-driving is a lightweight orchestration layer that helps an LLM or application choose the smallest useful EchoTime workflow and export a compact context bundle.
 
 ## Token-saving principles
 
@@ -998,9 +1028,9 @@ Agent-driving is a lightweight orchestration layer that helps an LLM or applicat
 - Compare these two assets but keep the context compact for another LLM step
 - Find out whether two datasets are the same kind of temporal problem
 
-# tsontology case gallery
+# EchoTime case gallery
 
-These are high-visibility, cross-disciplinary time-series cases where tsontology is meant to be useful.
+These are high-visibility, cross-disciplinary time-series cases where EchoTime is meant to be useful.
 
 ## Web/app traffic and product analytics
 
@@ -1019,7 +1049,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Should we trust simple forecasting baselines, or is the system drifting too much?
 - Which metrics move together strongly enough to justify multivariate modelling?
 
-**Where tsontology helps:** It gives a plain-language structural readout before teams jump into forecasting, anomaly detection, or KPI attribution debates.
+**Where EchoTime helps:** It gives a plain-language structural readout before teams jump into forecasting, anomaly detection, or KPI attribution debates.
 
 **Recommended entrypoints:**
 
@@ -1056,7 +1086,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - How heterogeneous are stores or SKUs?
 - Should validation split by time only, or by store/product group as well?
 
-**Where tsontology helps:** It clarifies whether the dataset is mostly rhythmic, drift-heavy, bursty, or highly heterogeneous across units.
+**Where EchoTime helps:** It clarifies whether the dataset is mostly rhythmic, drift-heavy, bursty, or highly heterogeneous across units.
 
 **Recommended entrypoints:**
 
@@ -1092,7 +1122,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Do sites behave similarly enough to pool them?
 - Are drifts or regime changes strong enough to break static models?
 
-**Where tsontology helps:** It turns those questions into a structured profile that is easy to compare across sites or benchmark datasets.
+**Where EchoTime helps:** It turns those questions into a structured profile that is easy to compare across sites or benchmark datasets.
 
 **Recommended entrypoints:**
 
@@ -1127,7 +1157,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Are people more different from each other than days are within each person?
 - Should evaluation split by subject, visit, or time?
 
-**Where tsontology helps:** It exposes longitudinal instability, dropout imbalance, and heterogeneity in a way clinicians and product teams can both read.
+**Where EchoTime helps:** It exposes longitudinal instability, dropout imbalance, and heterogeneity in a way clinicians and product teams can both read.
 
 **Recommended entrypoints:**
 
@@ -1162,7 +1192,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Does the dataset behave like a sparse event process or a dense physiological signal?
 - How much do patients differ structurally?
 
-**Where tsontology helps:** It keeps observation structure honest and gives non-method collaborators a reasoned explanation for why naive regular-grid assumptions may fail.
+**Where EchoTime helps:** It keeps observation structure honest and gives non-method collaborators a reasoned explanation for why naive regular-grid assumptions may fail.
 
 **Recommended entrypoints:**
 
@@ -1197,7 +1227,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - How much do subjects differ in temporal organization?
 - Should models be framed as multivariate/network-aware rather than independent ROI series?
 
-**Where tsontology helps:** It turns networked temporal structure into a dataset card that non-method collaborators can actually read.
+**Where EchoTime helps:** It turns networked temporal structure into a dataset card that non-method collaborators can actually read.
 
 **Recommended entrypoints:**
 
@@ -1216,7 +1246,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Summarize cohort-level differences before benchmarking new models.
 
 
-# tsontology hot case gallery
+# EchoTime hot case gallery
 
 **window:** next_90_days  
 **audience:** general
@@ -1330,7 +1360,7 @@ These are high-attention cases chosen for shareability, public interest, and cle
 **Notes:**
 
 - Use returns or z-scored prices when scales differ wildly.
-- Rolling similarity is usually more informative than one score for the whole year.
+- Rolling windows are usually more informative than one all-period average for the whole year.
 
 ## Launch-week traffic, signup bursts, and docs demand
 

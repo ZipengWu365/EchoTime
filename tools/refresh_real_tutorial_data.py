@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "examples" / "data"
-USER_AGENT = "EchoWaveDocs/0.16 (+https://github.com/ZipengWu365/EchoWave)"
+USER_AGENT = "EchoTimeDocs/0.17 (+https://github.com/ZipengWu365/EchoWave)"
 
 
 def _request_text(url: str) -> str:

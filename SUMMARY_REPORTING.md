@@ -43,7 +43,7 @@ profile.to_summary_card_json()
 CLI:
 
 ```bash
-tsontology data.npy --format summary-card
+EchoTime data.npy --format summary-card
 ```
 
 ## Narrative report
@@ -75,7 +75,7 @@ profile.to_narrative_report()
 CLI:
 
 ```bash
-tsontology data.npy --format narrative
+EchoTime data.npy --format narrative
 ```
 
 ## How to use them together

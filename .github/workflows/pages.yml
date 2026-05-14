@@ -18,16 +18,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install EchoWave
+      - name: Install EchoTime
         run: |
           python -m pip install --upgrade pip
           python -m pip install .
       - name: Regenerate docs bundle
         run: |
-          echowave --export-pages docs
+          echotime --export-pages docs
       - name: Audit demo/doc versions
         run: |
-          python -m echowave.cli --guide asset-audit --guide-format markdown
+          python -m echotime.cli --guide asset-audit --guide-format markdown
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

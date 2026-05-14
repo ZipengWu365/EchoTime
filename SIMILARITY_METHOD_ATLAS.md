@@ -1,97 +1,97 @@
-# EchoWave similarity method atlas
+# EchoTime similarity method atlas
 
-This guide audits EchoWave's current raw-series similarity stack, then imports the full method registry from `ts_similarity_package_v2_pkg` and marks which methods fit EchoWave's product direction.
+This guide audits EchoTime's current raw-series similarity stack, then imports the full method registry from `ts_similarity_package_v2_pkg` and marks which methods fit EchoTime's product direction.
 
-## Current EchoWave comparison layer
+## Current EchoTime comparison layer
 
 ### shape_similarity
 
-- family: EchoWave native component
+- family: EchoTime native component
 - kind: similarity
 - formula: `s_shape = GM(clip(r(x,y), 0, 1), clip(r(Delta x, Delta y), 0, 1))`
 - note: Combines level correlation with first-difference correlation so the headline match does not ignore local dynamics.
 
 ### dtw_similarity
 
-- family: EchoWave native component
+- family: EchoTime native component
 - kind: similarity
 - formula: `s_dtw = GM(exp(-DTW_w(x,y)/0.45), exp(-DTW_w(Delta x, Delta y)/0.35))`
 - note: Turns constrained DTW distances into a similarity score and blends level-space and derivative-space warping.
 
 ### trend_similarity
 
-- family: EchoWave native component
+- family: EchoTime native component
 - kind: similarity
 - formula: `s_trend = GM(clip(r(T(x), T(y)), 0, 1), clip(r(Delta T(x), Delta T(y)), 0, 1))`
 - note: Smooths both series first, then compares both the trend level and the trend slope.
 
 ### derivative_similarity
 
-- family: EchoWave native component
+- family: EchoTime native component
 - kind: similarity
 - formula: `s_diff = clip(r(Delta x, Delta y), 0, 1)`
 - note: Focuses on whether local changes move together even when the levels differ.
 
 ### spectral_similarity
 
-- family: EchoWave native component
+- family: EchoTime native component
 - kind: similarity
 - formula: `s_spec = GM(1 - JSD(P_x, P_y), clip(r(P_x - U, P_y - U), 0, 1))`
 - note: Compares normalized spectra of differenced series, mixing JS overlap with structural similarity relative to a uniform spectrum U.
 
 ### pearson_r
 
-- family: EchoWave reference metric
+- family: EchoTime reference metric
 - kind: similarity
 - formula: `r(x,y) = sum_t (x_t - x_bar)(y_t - y_bar) / sqrt(sum_t (x_t - x_bar)^2 sum_t (y_t - y_bar)^2)`
 - note: Familiar linear correlation exposed directly in every raw-series similarity report.
 
 ### spearman_rho
 
-- family: EchoWave reference metric
+- family: EchoTime reference metric
 - kind: similarity
 - formula: `rho(x,y) = corr(rank(x), rank(y))`
 - note: Rank-order correlation used as a robustness check against nonlinear monotone relationships.
 
 ### kendall_tau
 
-- family: EchoWave reference metric
+- family: EchoTime reference metric
 - kind: similarity
 - formula: `tau(x,y) = (C - D) / choose(n, 2)`
 - note: Pairwise concordance measure that stays interpretable when rank ordering matters more than amplitude.
 
 ### best_lag_pearson_r
 
-- family: EchoWave reference metric
+- family: EchoTime reference metric
 - kind: similarity
 - formula: `max_lag_r(x,y) = max_ell r(x_t, y_{t-ell})`
 - note: Searches over a bounded lag window to show whether a shift-aware linear relationship is stronger than the aligned one.
 
 ### normalized_mutual_information
 
-- family: EchoWave reference metric
+- family: EchoTime reference metric
 - kind: similarity
 - formula: `NMI(X,Y) = I(X;Y) / sqrt(H(X) H(Y))`
 - note: Histogram-based nonlinear dependence score used as a familiar cross-check against linear metrics.
 
 ## Implemented and high-fit additions from ts_similarity_package_v2_pkg
 
-| method | family | EchoWave fit | EchoWave API | formula | why it matters |
+| method | family | EchoTime fit | EchoTime API | formula | why it matters |
 |---|---|---|---|---|---|
-| independent_max_ncc | sliding | Implemented in EchoWave | `independent_max_ncc` | `$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$` | This method is now available as a public low-level EchoWave similarity function. |
-| independent_sbd | sliding | Implemented in EchoWave | `independent_sbd` | `$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$` | This method is now available as a public low-level EchoWave similarity function. |
-| max_normalized_cross_correlation | sliding | Implemented in EchoWave | `max_ncc` | `$s(x,y)=\max_k NCC_k(x,y)$` | This method is now available as a public low-level EchoWave similarity function. |
-| sbd | sliding | Implemented in EchoWave | `sbd` | `$d(x,y)=1-\max_k NCC_k(x,y)$` | This method is now available as a public low-level EchoWave similarity function. |
-| edr | elastic | Implemented in EchoWave | `edr_distance` | `$EDR_{\epsilon}(x,y)$` | This method is now available as a public low-level EchoWave similarity function. |
-| erp | elastic | Implemented in EchoWave | `erp_distance` | `$ERP(x,y;g)$` | This method is now available as a public low-level EchoWave similarity function. |
-| lcss_distance | elastic | Implemented in EchoWave | `lcss_distance` | `$d(x,y)=1-s_{LCSS}(x,y)$` | This method is now available as a public low-level EchoWave similarity function. |
-| lcss_similarity | elastic | Implemented in EchoWave | `lcss_similarity` | `$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$` | This method is now available as a public low-level EchoWave similarity function. |
-| twed | elastic | Implemented in EchoWave | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | This method is now available as a public low-level EchoWave similarity function. |
-| acf_distance | feature-based | Implemented in EchoWave | `acf_distance` | `$d(x,y)=\\|ACF(x)-ACF(y)\\|_2$` | This method is now available as a public low-level EchoWave similarity function. |
-| ordinal_pattern_js_distance | feature-based | Implemented in EchoWave | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | This method is now available as a public low-level EchoWave similarity function. |
-| periodogram_distance | feature-based | Implemented in EchoWave | `periodogram_distance` | `$d(x,y)=\\|P_x-P_y\\|_2$` | This method is now available as a public low-level EchoWave similarity function. |
-| trend_distance | feature-based | Implemented in EchoWave | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoWave similarity function. |
-| linear_trend_model_distance | model-based | Implemented in EchoWave | `linear_trend_model_distance` | `$d(x,y)=\\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoWave similarity function. |
+| independent_max_ncc | sliding | Implemented in EchoTime | `independent_max_ncc` | `$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$` | This method is now available as a public low-level EchoTime similarity function. |
+| independent_sbd | sliding | Implemented in EchoTime | `independent_sbd` | `$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$` | This method is now available as a public low-level EchoTime similarity function. |
+| max_normalized_cross_correlation | sliding | Implemented in EchoTime | `max_ncc` | `$s(x,y)=\max_k NCC_k(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
+| sbd | sliding | Implemented in EchoTime | `sbd` | `$d(x,y)=1-\max_k NCC_k(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
+| edr | elastic | Implemented in EchoTime | `edr_distance` | `$EDR_{\epsilon}(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
+| erp | elastic | Implemented in EchoTime | `erp_distance` | `$ERP(x,y;g)$` | This method is now available as a public low-level EchoTime similarity function. |
+| lcss_distance | elastic | Implemented in EchoTime | `lcss_distance` | `$d(x,y)=1-s_{LCSS}(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
+| lcss_similarity | elastic | Implemented in EchoTime | `lcss_similarity` | `$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$` | This method is now available as a public low-level EchoTime similarity function. |
+| twed | elastic | Implemented in EchoTime | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
+| acf_distance | feature-based | Implemented in EchoTime | `acf_distance` | `$d(x,y)=\\|ACF(x)-ACF(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
+| ordinal_pattern_js_distance | feature-based | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | This method is now available as a public low-level EchoTime similarity function. |
+| periodogram_distance | feature-based | Implemented in EchoTime | `periodogram_distance` | `$d(x,y)=\\|P_x-P_y\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
+| trend_distance | feature-based | Implemented in EchoTime | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
+| linear_trend_model_distance | model-based | Implemented in EchoTime | `linear_trend_model_distance` | `$d(x,y)=\\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
 
 ## Full extracted atlas
 
@@ -99,7 +99,7 @@ This guide audits EchoWave's current raw-series similarity stack, then imports t
 
 Pointwise comparison on an already aligned timeline.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | euclidean | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sqrt{\sum_t \\|x_t-y_t\\|_2^2}$` | Equal-length pointwise Euclidean distance. |
 | squared_euclidean | distance | no | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sum_t \\|x_t-y_t\\|_2^2$` | Squared Euclidean loss. |
@@ -140,10 +140,10 @@ Pointwise comparison on an already aligned timeline.
 
 Shift-aware comparison under pure translation or lead-lag offsets.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
-| max_normalized_cross_correlation | similarity | no | O(n \log n) or O(n^2) | yes | yes | exact | Implemented in EchoWave | `max_ncc` | `$s(x,y)=\max_k NCC_k(x,y)$` | Maximum normalized cross-correlation over shifts. |
-| sbd | distance-like | no | O(n \log n) or O(n^2) | yes | yes | exact | Implemented in EchoWave | `sbd` | `$d(x,y)=1-\max_k NCC_k(x,y)$` | Shape-based distance. |
+| max_normalized_cross_correlation | similarity | no | O(n \log n) or O(n^2) | yes | yes | exact | Implemented in EchoTime | `max_ncc` | `$s(x,y)=\max_k NCC_k(x,y)$` | Maximum normalized cross-correlation over shifts. |
+| sbd | distance-like | no | O(n \log n) or O(n^2) | yes | yes | exact | Implemented in EchoTime | `sbd` | `$d(x,y)=1-\max_k NCC_k(x,y)$` | Shape-based distance. |
 | shift_euclidean_distance | distance-like | no | O(n^2·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=\min_k \\|x_{\Omega_k}-y_{\Omega_k}\\|_2$` | Best-overlap Euclidean distance over integer shifts. |
 | shift_rmse_distance | distance-like | no | O(n^2·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=\min_k \sqrt{\frac{1}{\|\Omega_k\|}\sum_{t\in\Omega_k}(x_t-y_{t-k})^2}$` | Best-overlap RMSE. |
 | shift_manhattan_distance | distance-like | no | O(n^2·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=\min_k \\|x_{\Omega_k}-y_{\Omega_k}\\|_1$` | Best-overlap L1 distance. |
@@ -152,14 +152,14 @@ Shift-aware comparison under pure translation or lead-lag offsets.
 | shift_cosine_distance | distance-like | no | O(n^2·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=1-\max_k s_{\cos}(x_{\Omega_k},y_{\Omega_k})$` | Distance-like shift-invariant cosine measure. |
 | shift_pearson_similarity | similarity | no | O(n^2·d) | yes | yes | reference | Conceptually covered | `best_lag_pearson_r` | `$s(x,y)=\max_k r(x_{\Omega_k},y_{\Omega_k})$` | Best-overlap Pearson correlation. |
 | shift_pearson_distance | distance-like | no | O(n^2·d) | yes | yes | reference | Conceptually covered | `best_lag_pearson_r` | `$d(x,y)=1-\max_k r(x_{\Omega_k},y_{\Omega_k})$` | Distance-like shift-invariant correlation measure. |
-| independent_sbd | distance-like | no | O(dn\log n) | yes | multivariate only | exact | Implemented in EchoWave | `independent_sbd` | `$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$` | Channel-independent SBD. |
-| independent_max_ncc | similarity | no | O(dn\log n) | yes | multivariate only | exact | Implemented in EchoWave | `independent_max_ncc` | `$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$` | Channel-independent maximum NCC. |
+| independent_sbd | distance-like | no | O(dn\log n) | yes | multivariate only | exact | Implemented in EchoTime | `independent_sbd` | `$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$` | Channel-independent SBD. |
+| independent_max_ncc | similarity | no | O(dn\log n) | yes | multivariate only | exact | Implemented in EchoTime | `independent_max_ncc` | `$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$` | Channel-independent maximum NCC. |
 
 ### elastic
 
 Dynamic-programming alignments that allow local stretching or compression.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | dtw | distance | no | O(nm) | yes | yes | exact | Conceptually covered | `dtw_similarity` | `$DTW(x,y)=\min_{\pi}\sqrt{\sum_{(i,j)\in\pi} \\|x_i-y_j\\|_2^2}$` | Dynamic Time Warping. |
 | cdtw | distance | no | O(nw) | yes | yes | exact | Conceptually covered | `dtw_similarity` | `$DTW_w(x,y)$ with Sakoe-Chiba window` | Constrained DTW. |
@@ -169,13 +169,13 @@ Dynamic-programming alignments that allow local stretching or compression.
 | wddtw | distance | no | O(nm) | yes | yes | exact | Possible addition | `-` | `$WDTW(\Delta x,\Delta y)$` | Weighted derivative DTW. |
 | soft_dtw | distance-like | no | O(nm) | yes | yes | exact | Possible addition | `-` | `$sDTW_{\gamma}(x,y)$` | Soft minimum relaxation of DTW. |
 | soft_dtw_divergence | distance-like | no | O(nm) | yes | yes | exact | Possible addition | `-` | `$D^{\gamma}(x,y)=sDTW(x,y)-\frac{1}{2}sDTW(x,x)-\frac{1}{2}sDTW(y,y)$` | Soft-DTW divergence. |
-| lcss_similarity | similarity | no | O(nm) | yes | yes | exact | Implemented in EchoWave | `lcss_similarity` | `$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$` | Longest Common Subsequence similarity. |
-| lcss_distance | distance-like | no | O(nm) | yes | yes | exact | Implemented in EchoWave | `lcss_distance` | `$d(x,y)=1-s_{LCSS}(x,y)$` | Distance-like LCSS form. |
-| edr | distance | no | O(nm) | yes | yes | exact | Implemented in EchoWave | `edr_distance` | `$EDR_{\epsilon}(x,y)$` | Edit distance on real sequence. |
+| lcss_similarity | similarity | no | O(nm) | yes | yes | exact | Implemented in EchoTime | `lcss_similarity` | `$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$` | Longest Common Subsequence similarity. |
+| lcss_distance | distance-like | no | O(nm) | yes | yes | exact | Implemented in EchoTime | `lcss_distance` | `$d(x,y)=1-s_{LCSS}(x,y)$` | Distance-like LCSS form. |
+| edr | distance | no | O(nm) | yes | yes | exact | Implemented in EchoTime | `edr_distance` | `$EDR_{\epsilon}(x,y)$` | Edit distance on real sequence. |
 | swale_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$SWALE_{\epsilon}(x,y)$` | Similarity with reward and penalty. |
-| erp | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoWave | `erp_distance` | `$ERP(x,y;g)$` | Edit distance with real penalty. |
+| erp | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoTime | `erp_distance` | `$ERP(x,y;g)$` | Edit distance with real penalty. |
 | msm | distance | yes | O(nm) | yes | univariate only | exact | Possible addition | `-` | `$MSM(x,y)$` | Move-Split-Merge distance. |
-| twed | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoWave | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | Time Warp Edit distance. |
+| twed | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoTime | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | Time Warp Edit distance. |
 | discrete_frechet | distance | yes | O(nm) | yes | yes | reference | Possible addition | `-` | `$\delta_F(x,y)$` | Discrete Fréchet distance. |
 | needleman_wunsch_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$NW(x,y)$` | Global alignment score. |
 | smith_waterman_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$SW(x,y)$` | Local alignment score. |
@@ -190,7 +190,7 @@ Dynamic-programming alignments that allow local stretching or compression.
 
 Similarity through kernel scores rather than direct distances.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | linear_kernel | similarity | PSD if input space valid | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$K(x,y)=\langle x,y \rangle$` | Linear kernel on flattened vectors. |
 | polynomial_kernel | similarity | depends on parameters | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$K(x,y)=(\gamma \langle x,y \rangle + c)^p$` | Polynomial kernel. |
@@ -207,20 +207,20 @@ Similarity through kernel scores rather than direct distances.
 
 Compare derived features instead of raw waveforms.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | stats_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=\\|\phi_{\mathrm{stats}}(x)-\phi_{\mathrm{stats}}(y)\\|_2$` | Distance on basic summary statistics. |
 | robust_stats_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=\\|\phi_{\mathrm{robust}}(x)-\phi_{\mathrm{robust}}(y)\\|_2$` | Distance on robust statistics. |
-| acf_distance | distance | yes in feature space | O(nL) | yes | univariate only | exact | Implemented in EchoWave | `acf_distance` | `$d(x,y)=\\|ACF(x)-ACF(y)\\|_2$` | Autocorrelation-feature distance. |
+| acf_distance | distance | yes in feature space | O(nL) | yes | univariate only | exact | Implemented in EchoTime | `acf_distance` | `$d(x,y)=\\|ACF(x)-ACF(y)\\|_2$` | Autocorrelation-feature distance. |
 | spectral_cosine_similarity | similarity | no | O(n \log n) | yes | yes | exact | Conceptually covered | `spectral_similarity` | `$s(x,y)=s_{\cos}(\|FFT(x)\|,\|FFT(y)\|)$` | Cosine similarity in the magnitude spectrum. |
 | spectral_distance | distance-like | no | O(n \log n) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=1-s_{\cos}(\|FFT(x)\|,\|FFT(y)\|)$` | Distance-like spectral measure. |
-| periodogram_distance | distance | yes in feature space | O(n \log n) | yes | yes | exact | Implemented in EchoWave | `periodogram_distance` | `$d(x,y)=\\|P_x-P_y\\|_2$` | Distance between normalized periodograms. |
+| periodogram_distance | distance | yes in feature space | O(n \log n) | yes | yes | exact | Implemented in EchoTime | `periodogram_distance` | `$d(x,y)=\\|P_x-P_y\\|_2$` | Distance between normalized periodograms. |
 | paa_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=\\|PAA(x)-PAA(y)\\|_2$` | Piecewise Aggregate Approximation distance. |
 | dwt_distance | distance | yes in feature space | O(n·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=\\|W(x)-W(y)\\|_2$` | Distance on Haar wavelet coefficients. |
 | histogram_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=\\|h(x)-h(y)\\|_2$` | Value-histogram distance. |
 | permutation_entropy_distance | distance-like | no | O(n) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\|H_{\pi}(x)-H_{\pi}(y)\|$` | Absolute difference in permutation entropy. |
-| ordinal_pattern_js_distance | distance | yes | O(n) | yes | univariate only | exact | Implemented in EchoWave | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | Jensen-Shannon distance between ordinal-pattern distributions. |
-| trend_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Implemented in EchoWave | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | Distance on trend/intercept/residual features. |
+| ordinal_pattern_js_distance | distance | yes | O(n) | yes | univariate only | exact | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | Jensen-Shannon distance between ordinal-pattern distributions. |
+| trend_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Implemented in EchoTime | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | Distance on trend/intercept/residual features. |
 | sax_hamming_distance | distance | yes on symbolic strings | O(n) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\frac{1}{w}\sum_{i=1}^w [SAX_i(x)\neq SAX_i(y)]$` | Hamming distance on SAX words. |
 | sax_mindist | distance | lower-bounding | O(w) | yes | univariate only | exact | Possible addition | `-` | `$MINDIST(\hat x,\hat y)=\sqrt{\frac{n}{w}}\sqrt{\sum_i dist(\hat x_i,\hat y_i)^2}$` | Lower-bounding symbolic distance in SAX space. |
 | bag_of_patterns_cosine_similarity | similarity | no | O(nw) | yes | univariate only | reference | Possible addition | `-` | `$s(x,y)=s_{\cos}(BoP(x),BoP(y))$` | Cosine similarity on bag-of-patterns histograms. |
@@ -232,19 +232,19 @@ Compare derived features instead of raw waveforms.
 
 Compare fitted dynamics or transition structure.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | ar_distance | distance | yes in parameter space | O(np^2) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\\|\theta_{AR}(x)-\theta_{AR}(y)\\|_2$` | Distance between autoregressive coefficients. |
 | ar_spectrum_distance | distance | yes in spectral space | O(np^2 + Fp) | yes | univariate only | reference | Possible addition | `-` | `$d(x,y)=\\|\log S_{AR}(x)-\log S_{AR}(y)\\|_2$` | Distance between AR-implied log spectra. |
 | ar_prediction_error_distance | distance-like | no | O(np^2) | yes | univariate only | reference | Possible addition | `-` | `$d(x,y)=\frac{1}{2}(MSE_{x\to y}+MSE_{y\to x})$` | Symmetric cross-prediction error. |
 | markov_distance | distance | yes in transition space | O(n) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\\|P_x-P_y\\|_F$` | Distance between discretized transition matrices. |
-| linear_trend_model_distance | distance | yes in parameter space | O(n) | yes | univariate only | exact | Implemented in EchoWave | `linear_trend_model_distance` | `$d(x,y)=\\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\\|_2$` | Distance between linear trend models. |
+| linear_trend_model_distance | distance | yes in parameter space | O(n) | yes | univariate only | exact | Implemented in EchoTime | `linear_trend_model_distance` | `$d(x,y)=\\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\\|_2$` | Distance between linear trend models. |
 
 ### embedding
 
 Encode first, then compare in a latent or compressed space.
 
-| method | output | metric | complexity | unequal length | multivariate | implementation | EchoWave fit | EchoWave API | formula | note |
+| method | output | metric | complexity | unequal length | multivariate | implementation | EchoTime fit | EchoTime API | formula | note |
 |---|---|---|---|---|---|---|---|---|---|---|
 | embedding_distance | distance | depends on latent metric | depends on encoder | yes | yes | adapter | Low-priority addition | `-` | `$d(x,y)=d_{\mathcal Z}(\phi(x),\phi(y))$` | Generic embedding-space distance. |
 | embedding_similarity | similarity | depends on latent metric | depends on encoder | yes | yes | adapter | Low-priority addition | `-` | `$s(x,y)=s_{\mathcal Z}(\phi(x),\phi(y))$` | Generic embedding-space similarity. |

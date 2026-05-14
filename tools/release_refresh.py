@@ -13,12 +13,22 @@ if str(ROOT) not in sys.path:
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from echowave import (  # noqa: E402
+from echotime import (  # noqa: E402
+    about,
     agent_schema_guide,
     agent_manifest,
+    agent_driving_guide,
+    api_reference,
+    case_gallery,
     case_studies_guide,
+    compatibility_guide,
+    coverage_matrix,
     doctor_guide,
+    docs_index,
+    ecosystem_positioning,
+    environment_matrix,
     github_readme,
+    hot_case_gallery,
     installation_guide,
     integration_templates_guide,
     live_demo_guide,
@@ -33,22 +43,26 @@ from echowave import (  # noqa: E402
     pypi_long_description,
     quickstart_guide,
     routing_contract_guide,
+    scenario_guide,
+    similarity_playbook,
     similarity_method_atlas_guide,
     starter_datasets_guide,
     start_here_guide,
     tool_schemas,
     trust_guide,
     utility_benchmark_guide,
+    user_guide,
+    workflow_recommendation,
     write_pages_bundle,
     zero_install_guide,
 )
-from echowave.demo_server import demo_server_html  # noqa: E402
+from echotime.demo_server import demo_server_html  # noqa: E402
 from tools.generate_preview_assets import generate_preview_assets  # noqa: E402
 
 
 def _write(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+    path.write_text(content.rstrip() + "\n", encoding="utf-8")
 
 
 def _write_json(path: Path, payload: object) -> None:
@@ -71,16 +85,16 @@ def _zip_dir(source_dir: Path, archive_path: Path) -> None:
 
 
 def _release_draft() -> str:
-    return """# EchoWave v0.16.0 Release Draft
+    return """# EchoTime v0.17.0 Release Draft
 
 ## Headline
 
-EchoWave v0.16.0 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
+EchoTime v0.17.0 is the first fully branded release surface for the renamed package: official package name, Pages-ready title card, local demo entry points, compatibility presets, and PyPI release copy now all point to the same product story.
 
 ## Official package name
 
-- Brand: EchoWave
-- PyPI package: `echowave`
+- Brand: EchoTime
+- PyPI package: `echotime`
 - Legacy compatibility shim: `tsontology`
 
 ## Release highlights
@@ -94,15 +108,15 @@ EchoWave v0.16.0 is the first fully branded release surface for the renamed pack
 ## Entry points
 
 ```bash
-pip install echowave
-echowave-demo --open-browser
-echowave --guide doctor
-echowave --export-pages docs
+pip install echotime
+echotime-demo --open-browser
+echotime --guide doctor
+echotime --export-pages docs
 ```
 
 ## Compatibility note
 
-The old `tsontology` package name remains callable in this release as a compatibility shim, but the official product name is now EchoWave.
+The old `tsontology` package name remains callable in this release as a compatibility shim, but the official product name is now EchoTime.
 """
 
 
@@ -120,6 +134,22 @@ def main() -> None:
         _write(ROOT / rel, content)
 
     _write(ROOT / "START_HERE.md", start_here_guide())
+    _write(ROOT / "INTRODUCTION.md", about())
+    _write(ROOT / "API_REFERENCE.md", api_reference())
+    _write(ROOT / "DOCS_INDEX.md", docs_index())
+    _write(ROOT / "ENVIRONMENT_MATRIX.md", environment_matrix())
+    _write(ROOT / "SCENARIO_GUIDE.md", scenario_guide())
+    _write(ROOT / "WORKFLOW_GUIDE.md", workflow_recommendation())
+    _write(ROOT / "USER_GUIDE.md", user_guide())
+    _write(ROOT / "AGENT_DRIVING.md", agent_driving_guide())
+    _write(ROOT / "CASE_GALLERY.md", case_gallery())
+    _write(ROOT / "HOT_CASES.md", hot_case_gallery())
+    _write(ROOT / "SIMILARITY_GUIDE.md", similarity_playbook())
+    _write(ROOT / "ECOSYSTEM_POSITIONING.md", ecosystem_positioning())
+    _write(ROOT / "COVERAGE_MATRIX.md", coverage_matrix())
+    _write(ROOT / "COMPATIBILITY.md", compatibility_guide())
+    _write(ROOT / "AGENT_MANIFEST.md", agent_manifest(format="markdown"))
+    _write(ROOT / "DOCTOR.md", doctor_guide())
     _write(ROOT / "INSTALLATION.md", installation_guide() + "\n\n" + doctor_guide())
     _write(ROOT / "ZERO_INSTALL.md", zero_install_guide())
     _write(ROOT / "LIVE_DEMO.md", live_demo_guide())
@@ -132,8 +162,8 @@ def main() -> None:
     _write(ROOT / "ROUTING_CONTRACTS.md", routing_contract_guide())
     _write(ROOT / "SIMILARITY_METHOD_ATLAS.md", similarity_method_atlas_guide())
     _write(ROOT / "UTILITY_BENCHMARK.md", utility_benchmark_guide())
-    _write(ROOT / "PROJECT_HOMEPAGE.md", "# EchoWave homepage\n\nUse `homepage.html` or `docs/index.html` as the official GitHub Pages front door.\n")
-    _write(ROOT / "RELEASE_DRAFT_v0.16.0.md", _release_draft())
+    _write(ROOT / "PROJECT_HOMEPAGE.md", "# EchoTime homepage\n\nUse `homepage.html` or `docs/index.html` as the official GitHub Pages front door.\n")
+    _write(ROOT / "RELEASE_DRAFT_v0.17.0.md", _release_draft())
 
     _write_json(ROOT / "AGENT_TOOL_SCHEMAS.json", tool_schemas(format="dict"))
     _write_json(ROOT / "OPENAI_FUNCTION_SCHEMAS.json", openai_function_schemas(format="dict"))
@@ -146,16 +176,16 @@ def main() -> None:
     write_pages_bundle(docs_dir)
     write_pages_bundle(audit_dir)
 
-    _copy(ROOT / "assets" / "echowave_title_card.svg", ROOT / "social" / "echowave_title_card.svg")
-    _copy(ROOT / "assets" / "echowave_mark.svg", ROOT / "social" / "echowave_mark.svg")
+    _copy(ROOT / "assets" / "echotime_title_card.svg", ROOT / "social" / "echotime_title_card.svg")
+    _copy(ROOT / "assets" / "echotime_mark.svg", ROOT / "social" / "echotime_mark.svg")
     _copy(ROOT / "assets" / "bham_affiliation_badge.svg", ROOT / "social" / "bham_affiliation_badge.svg")
-    _copy(ROOT / "assets" / "echowave_title_card.svg", docs_dir / "social" / "echowave_title_card.svg")
-    _copy(ROOT / "assets" / "echowave_mark.svg", docs_dir / "social" / "echowave_mark.svg")
+    _copy(ROOT / "assets" / "echotime_title_card.svg", docs_dir / "social" / "echotime_title_card.svg")
+    _copy(ROOT / "assets" / "echotime_mark.svg", docs_dir / "social" / "echotime_mark.svg")
     _copy(ROOT / "assets" / "bham_affiliation_badge.svg", docs_dir / "social" / "bham_affiliation_badge.svg")
-    _copy(ROOT / "assets" / "echowave_title_card.png", ROOT / "social" / "echowave_title_card.png")
-    _copy(ROOT / "assets" / "echowave_title_card.png", docs_dir / "social" / "echowave_title_card.png")
+    _copy(ROOT / "assets" / "echotime_title_card.png", ROOT / "social" / "echotime_title_card.png")
+    _copy(ROOT / "assets" / "echotime_title_card.png", docs_dir / "social" / "echotime_title_card.png")
 
-    _zip_dir(docs_dir, ROOT / "echowave_v0.16_pages_bundle.zip")
+    _zip_dir(docs_dir, ROOT / "echotime_v0.17_pages_bundle.zip")
     print("release surface refreshed")
 
 

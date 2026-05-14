@@ -1,4 +1,4 @@
-# tsontology hot case gallery
+# EchoTime hot case gallery
 
 **window:** next_90_days  
 **audience:** general
@@ -112,7 +112,7 @@ These are high-attention cases chosen for shareability, public interest, and cle
 **Notes:**
 
 - Use returns or z-scored prices when scales differ wildly.
-- Rolling similarity is usually more informative than one score for the whole year.
+- Rolling windows are usually more informative than one all-period average for the whole year.
 
 ## Launch-week traffic, signup bursts, and docs demand
 

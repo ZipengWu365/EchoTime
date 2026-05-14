@@ -1,6 +1,6 @@
-# tsontology case gallery
+# EchoTime case gallery
 
-These are high-visibility, cross-disciplinary time-series cases where tsontology is meant to be useful.
+These are high-visibility, cross-disciplinary time-series cases where EchoTime is meant to be useful.
 
 ## Web/app traffic and product analytics
 
@@ -19,7 +19,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Should we trust simple forecasting baselines, or is the system drifting too much?
 - Which metrics move together strongly enough to justify multivariate modelling?
 
-**Where tsontology helps:** It gives a plain-language structural readout before teams jump into forecasting, anomaly detection, or KPI attribution debates.
+**Where EchoTime helps:** It gives a plain-language structural readout before teams jump into forecasting, anomaly detection, or KPI attribution debates.
 
 **Recommended entrypoints:**
 
@@ -56,7 +56,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - How heterogeneous are stores or SKUs?
 - Should validation split by time only, or by store/product group as well?
 
-**Where tsontology helps:** It clarifies whether the dataset is mostly rhythmic, drift-heavy, bursty, or highly heterogeneous across units.
+**Where EchoTime helps:** It clarifies whether the dataset is mostly rhythmic, drift-heavy, bursty, or highly heterogeneous across units.
 
 **Recommended entrypoints:**
 
@@ -92,7 +92,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Do sites behave similarly enough to pool them?
 - Are drifts or regime changes strong enough to break static models?
 
-**Where tsontology helps:** It turns those questions into a structured profile that is easy to compare across sites or benchmark datasets.
+**Where EchoTime helps:** It turns those questions into a structured profile that is easy to compare across sites or benchmark datasets.
 
 **Recommended entrypoints:**
 
@@ -127,7 +127,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Are people more different from each other than days are within each person?
 - Should evaluation split by subject, visit, or time?
 
-**Where tsontology helps:** It exposes longitudinal instability, dropout imbalance, and heterogeneity in a way clinicians and product teams can both read.
+**Where EchoTime helps:** It exposes longitudinal instability, dropout imbalance, and heterogeneity in a way clinicians and product teams can both read.
 
 **Recommended entrypoints:**
 
@@ -162,7 +162,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - Does the dataset behave like a sparse event process or a dense physiological signal?
 - How much do patients differ structurally?
 
-**Where tsontology helps:** It keeps observation structure honest and gives non-method collaborators a reasoned explanation for why naive regular-grid assumptions may fail.
+**Where EchoTime helps:** It keeps observation structure honest and gives non-method collaborators a reasoned explanation for why naive regular-grid assumptions may fail.
 
 **Recommended entrypoints:**
 
@@ -197,7 +197,7 @@ These are high-visibility, cross-disciplinary time-series cases where tsontology
 - How much do subjects differ in temporal organization?
 - Should models be framed as multivariate/network-aware rather than independent ROI series?
 
-**Where tsontology helps:** It turns networked temporal structure into a dataset card that non-method collaborators can actually read.
+**Where EchoTime helps:** It turns networked temporal structure into a dataset card that non-method collaborators can actually read.
 
 **Recommended entrypoints:**
 

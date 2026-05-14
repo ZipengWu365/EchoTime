@@ -2,7 +2,7 @@
 <html lang='en'>
 <head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoWave docs - Ecosystem and Scope</title><style>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime docs - Ecosystem and Scope</title><style>
 :root {
   --page-bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -568,7 +568,7 @@ img.brand-card {
     <div class='brand'>
       <span class='brand-mark'></span>
       <div class='brand-copy'>
-        <strong>EchoWave</strong>
+        <strong>EchoTime</strong>
         <span>Explainable time-series similarity for humans and agents.</span>
       </div>
     </div>
@@ -601,35 +601,35 @@ img.brand-card {
     
   </aside>
   <section class='docs-main'>
-    <div class='docs-hero'><div class='eyebrow'>Documentation</div><h1>Ecosystem and Scope</h1><p class='subhead'>This page exists to keep the package honest. EchoWave should be easy to place next to sktime, tsfresh, DTAIDistance, STUMPY, and other neighboring tools.</p></div>
+    <div class='docs-hero'><div class='eyebrow'>Documentation</div><h1>Ecosystem and Scope</h1><p class='subhead'>This page exists to keep the package honest. EchoTime should be easy to place next to sktime, tsfresh, DTAIDistance, STUMPY, and other neighboring tools.</p></div>
     
     <div class='docs-card'>
-      <span class='pill sun'>Where EchoWave fits in the ecosystem</span>
+      <span class='pill sun'>Where EchoTime fits in the ecosystem</span>
       <table class='small-table'>
-        <thead><tr><th>Package</th><th>Family</th><th>Strongest fit</th><th>How EchoWave fits</th></tr></thead>
-        <tbody><tr><td><strong>tsfresh</strong></td><td>feature extraction</td><td>large handcrafted feature extraction, feature filtering, series-as-features pipelines</td><td>EchoWave is not a feature-zoo replacement; it is explainable structural similarity. Use EchoWave when the first question is &#x27;what kind of temporal dataset is this?&#x27; and tsfresh when you need a broad handcrafted feature matrix for downstream supervised learning.</td></tr>
-<tr><td><strong>aeon</strong></td><td>time-series machine learning toolkit</td><td>estimators and pipelines, benchmarking, forecasting / classification / regression / clustering</td><td>EchoWave sits earlier in the workflow: dataset characterization, ontology axes, summary cards, and compact context for collaborators or agents. aeon is the modelling-and-evaluation toolbox you use once you already know what sort of problem you have.</td></tr>
-<tr><td><strong>sktime</strong></td><td>unified time-series ML framework</td><td>forecasting pipelines, composite estimators, time-series transformations</td><td>EchoWave is for structural triage, communication, and dataset cards; sktime is for building, tuning, and evaluating models.</td></tr>
-<tr><td><strong>tslearn</strong></td><td>time-series ML toolkit</td><td>time-series clustering, classification and regression, distance-based learning</td><td>EchoWave is not primarily a learner library. It focuses on understanding and comparing datasets before or beside modelling, while tslearn focuses on machine-learning algorithms over time-series objects.</td></tr>
-<tr><td><strong>DTAIDistance</strong></td><td>distance / alignment</td><td>DTW distance, alignment paths, pairwise distance matrices</td><td>EchoWave does include high-level similarity summaries, but it is not a dedicated DTW engine. Use DTAIDistance when alignment paths, distance matrices, or lower-level DTW controls are the main deliverable.</td></tr>
-<tr><td><strong>STUMPY</strong></td><td>matrix profile / subsequence mining</td><td>motif discovery, subsequence anomaly search, matrix-profile workflows</td><td>EchoWave is not a matrix-profile or subsequence-mining library. It helps you profile whole datasets and summarize temporal structure at the dataset or pairwise-comparison level.</td></tr>
-<tr><td><strong>Darts</strong></td><td>forecasting / anomaly detection</td><td>forecasting models, backtesting, anomaly detection</td><td>EchoWave does not train forecasting models. It helps decide whether the data look trend-dominant, rhythmic, bursty, nonstationary, heterogeneous, or irregular before forecasting choices are made.</td></tr>
-<tr><td><strong>Kats</strong></td><td>general time-series analysis toolkit</td><td>forecasting, detection, TSFeatures</td><td>Kats spans multiple analysis tasks; EchoWave is narrower and more explicit about dataset ontology, structural profiling, agent context, and plain-language dataset reports.</td></tr></tbody>
+        <thead><tr><th>Package</th><th>Family</th><th>Strongest fit</th><th>How EchoTime fits</th></tr></thead>
+        <tbody><tr><td><strong>tsfresh</strong></td><td>feature extraction</td><td>large handcrafted feature extraction, feature filtering, series-as-features pipelines</td><td>EchoTime is not a feature-zoo replacement; it is explainable structural similarity. Use EchoTime when the first question is &#x27;what kind of temporal dataset is this?&#x27; and tsfresh when you need a broad handcrafted feature matrix for downstream supervised learning.</td></tr>
+<tr><td><strong>aeon</strong></td><td>time-series machine learning toolkit</td><td>estimators and pipelines, benchmarking, forecasting / classification / regression / clustering</td><td>EchoTime sits earlier in the workflow: dataset characterization, ontology axes, summary cards, and compact context for collaborators or agents. aeon is the modelling-and-evaluation toolbox you use once you already know what sort of problem you have.</td></tr>
+<tr><td><strong>sktime</strong></td><td>unified time-series ML framework</td><td>forecasting pipelines, composite estimators, time-series transformations</td><td>EchoTime is for structural triage, communication, and dataset cards; sktime is for building, tuning, and evaluating models.</td></tr>
+<tr><td><strong>tslearn</strong></td><td>time-series ML toolkit</td><td>time-series clustering, classification and regression, distance-based learning</td><td>EchoTime is not primarily a learner library. It focuses on understanding and comparing datasets before or beside modelling, while tslearn focuses on machine-learning algorithms over time-series objects.</td></tr>
+<tr><td><strong>DTAIDistance</strong></td><td>distance / alignment</td><td>DTW distance, alignment paths, pairwise distance matrices</td><td>EchoTime does include high-level similarity summaries, but it is not a dedicated DTW engine. Use DTAIDistance when alignment paths, distance matrices, or lower-level DTW controls are the main deliverable.</td></tr>
+<tr><td><strong>STUMPY</strong></td><td>matrix profile / subsequence mining</td><td>motif discovery, subsequence anomaly search, matrix-profile workflows</td><td>EchoTime is not a matrix-profile or subsequence-mining library. It helps you profile whole datasets and summarize temporal structure at the dataset or pairwise-comparison level.</td></tr>
+<tr><td><strong>Darts</strong></td><td>forecasting / anomaly detection</td><td>forecasting models, backtesting, anomaly detection</td><td>EchoTime does not train forecasting models. It helps decide whether the data look trend-dominant, rhythmic, bursty, nonstationary, heterogeneous, or irregular before forecasting choices are made.</td></tr>
+<tr><td><strong>Kats</strong></td><td>general time-series analysis toolkit</td><td>forecasting, detection, TSFeatures</td><td>Kats spans multiple analysis tasks; EchoTime is narrower and more explicit about dataset ontology, structural profiling, agent context, and plain-language dataset reports.</td></tr></tbody>
       </table>
     </div>
     <div class='docs-card'>
       <span class='pill blue'>Capability coverage</span>
       <table class='small-table'>
         <thead><tr><th>Capability</th><th>Role</th><th>Companion packages</th><th>Notes</th></tr></thead>
-        <tbody><tr><td>Dataset structure and similarity context</td><td>Primary</td><td>-</td><td>EchoWave&#x27;s main job is to turn a dataset into ontology axes, archetypes, reliability summaries, and task hints.</td></tr>
+        <tbody><tr><td>Dataset structure and similarity context</td><td>Primary</td><td>-</td><td>EchoTime&#x27;s main job is to turn a dataset into ontology axes, archetypes, reliability summaries, and task hints.</td></tr>
 <tr><td>Dataset card JSON / Markdown</td><td>Primary</td><td>-</td><td>Useful for benchmark curation, cross-team handoff, and plain-language documentation.</td></tr>
 <tr><td>Plain-language summary card and narrative report</td><td>Primary</td><td>-</td><td>Built for non-method collaborators, dataset owners, and cross-disciplinary teams.</td></tr>
 <tr><td>Explicit agent-driving and compact context</td><td>Primary</td><td>-</td><td>Helps an LLM or agent choose a lean path and emit a compact reusable context bundle.</td></tr>
-<tr><td>Raw feature extraction matrix</td><td>Complementary</td><td>tsfresh, Kats TSFeatures</td><td>EchoWave intentionally avoids becoming a giant feature zoo.</td></tr>
-<tr><td>Forecasting models and backtesting</td><td>Out of scope</td><td>Darts, sktime, aeon, Kats</td><td>Use EchoWave before or beside forecasting, not instead of it.</td></tr>
-<tr><td>Classification / regression / clustering estimators</td><td>Out of scope</td><td>aeon, tslearn, sktime</td><td>EchoWave profiles datasets and compares trajectories; it does not train supervised estimators.</td></tr>
-<tr><td>DTW engine and alignment paths</td><td>Complementary</td><td>DTAIDistance</td><td>EchoWave surfaces similarity summaries; DTAIDistance is for distance computation and warping control.</td></tr>
-<tr><td>Subsequence motif discovery / matrix profile</td><td>Out of scope</td><td>STUMPY</td><td>EchoWave works at dataset and whole-series levels, not matrix-profile subsequence mining.</td></tr>
+<tr><td>Raw feature extraction matrix</td><td>Complementary</td><td>tsfresh, Kats TSFeatures</td><td>EchoTime intentionally avoids becoming a giant feature zoo.</td></tr>
+<tr><td>Forecasting models and backtesting</td><td>Out of scope</td><td>Darts, sktime, aeon, Kats</td><td>Use EchoTime before or beside forecasting, not instead of it.</td></tr>
+<tr><td>Classification / regression / clustering estimators</td><td>Out of scope</td><td>aeon, tslearn, sktime</td><td>EchoTime profiles datasets and compares trajectories; it does not train supervised estimators.</td></tr>
+<tr><td>DTW engine and alignment paths</td><td>Complementary</td><td>DTAIDistance</td><td>EchoTime surfaces similarity summaries; DTAIDistance is for distance computation and warping control.</td></tr>
+<tr><td>Subsequence motif discovery / matrix profile</td><td>Out of scope</td><td>STUMPY</td><td>EchoTime works at dataset and whole-series levels, not matrix-profile subsequence mining.</td></tr>
 <tr><td>Irregular, event-stream, and longitudinal typed wrappers</td><td>Primary</td><td>pandas, xarray, MNE, nilearn, clinical ETL pipelines</td><td>The goal is to preserve observation semantics before analysis rather than silently flattening them away.</td></tr></tbody>
       </table>
     </div>

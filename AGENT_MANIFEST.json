@@ -1,5 +1,5 @@
 {
-  "name": "tsontology",
+  "name": "echotime",
   "positioning": "dataset-first structural profiling and similarity triage for time-series data",
   "good_for": [
     "profile a dataset before model selection",
@@ -18,10 +18,10 @@
     "profile_or_document_dataset": "use profile_dataset first",
     "compare_two_whole_curves": "use compare_series first; upgrade to compare_profiles only if structure matters or raw similarity is ambiguous",
     "need_a_compact_llm_context": "use AgentDriver or agent_drive",
-    "need_forecasting": "pair tsontology with Darts, sktime, aeon, or Kats",
-    "need_feature_matrix": "pair tsontology with tsfresh or Kats TSFeatures",
-    "need_dtw_paths": "pair tsontology with DTAIDistance",
-    "need_motifs_or_discords": "pair tsontology with STUMPY"
+    "need_forecasting": "pair echotime with Darts, sktime, aeon, or Kats",
+    "need_feature_matrix": "pair echotime with tsfresh or Kats TSFeatures",
+    "need_dtw_paths": "pair echotime with DTAIDistance",
+    "need_motifs_or_discords": "pair echotime with STUMPY"
   },
   "budget_paths": {
     "lean": [

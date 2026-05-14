@@ -1,6 +1,6 @@
-# tsontology agent-driving guide
+# EchoTime agent-driving guide
 
-Agent-driving is a lightweight orchestration layer that helps an LLM or application choose the smallest useful tsontology workflow and export a compact context bundle.
+Agent-driving is a lightweight orchestration layer that helps an LLM or application choose the smallest useful EchoTime workflow and export a compact context bundle.
 
 ## Token-saving principles
 

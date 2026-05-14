@@ -7,7 +7,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from tsontology import asset_consistency_report, compatibility_constraints, ts_compare, ts_profile, write_compatibility_constraints
+from echotime import asset_consistency_report, compatibility_constraints, ts_compare, ts_profile, write_compatibility_constraints
 
 
 def _env() -> dict[str, str]:
@@ -21,7 +21,7 @@ def _env() -> dict[str, str]:
 def test_asset_consistency_report_is_green() -> None:
     payload = asset_consistency_report(format='dict')
     assert payload['ok'] is True
-    assert payload['expected_version'] == '0.16.0'
+    assert payload['expected_version'] == '0.17.0'
 
 
 def test_constraints_profiles_can_be_exported() -> None:
@@ -31,7 +31,7 @@ def test_constraints_profiles_can_be_exported() -> None:
         text = out.read_text(encoding='utf-8')
         assert 'profile: mixed-scientific-stack' in text
         assert 'numba' in text
-        assert compatibility_constraints('clean-venv').startswith('# tsontology compatibility constraints')
+        assert compatibility_constraints('clean-venv').startswith('# EchoTime compatibility constraints')
 
 
 def test_cli_can_write_constraints() -> None:
@@ -39,7 +39,7 @@ def test_cli_can_write_constraints() -> None:
     with tempfile.TemporaryDirectory() as tmpdir:
         out = Path(tmpdir) / 'constraints.txt'
         proc = subprocess.run([
-            sys.executable, '-m', 'tsontology.cli', '--write-constraints', str(out), '--constraint-profile', 'clean-venv'
+            sys.executable, '-m', 'echotime.cli', '--write-constraints', str(out), '--constraint-profile', 'clean-venv'
         ], env=env, capture_output=True, text=True)
         assert proc.returncode == 0
         assert out.exists()
@@ -59,7 +59,7 @@ def test_tool_outputs_include_cache_and_artifact_fields() -> None:
 
 def test_cli_asset_audit_json() -> None:
     env = _env()
-    proc = subprocess.run([sys.executable, '-m', 'tsontology.cli', '--guide', 'asset-audit', '--guide-format', 'json'], env=env, capture_output=True, text=True)
+    proc = subprocess.run([sys.executable, '-m', 'echotime.cli', '--guide', 'asset-audit', '--guide-format', 'json'], env=env, capture_output=True, text=True)
     assert proc.returncode == 0
     payload = json.loads(proc.stdout)
     assert payload['ok'] is True
@@ -69,7 +69,7 @@ def test_cli_homepage_gbk_writes_fallback_file() -> None:
     env = _env()
     env['PYTHONIOENCODING'] = 'gbk'
     with tempfile.TemporaryDirectory() as tmpdir:
-        proc = subprocess.run([sys.executable, '-m', 'tsontology.cli', '--guide', 'homepage'], env=env, cwd=tmpdir, capture_output=True, text=True)
+        proc = subprocess.run([sys.executable, '-m', 'echotime.cli', '--guide', 'homepage'], env=env, cwd=tmpdir, capture_output=True, text=True)
         assert proc.returncode == 0
         assert 'html output was written' in proc.stdout.lower()
-        assert (Path(tmpdir) / 'tsontology-homepage.html').exists()
+        assert (Path(tmpdir) / 'echotime-homepage.html').exists()

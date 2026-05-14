@@ -1,5 +1,5 @@
 {
-  "version": "0.16.0",
+  "version": "0.17.0",
   "product_surface": "explainable time-series similarity for humans and agents",
   "pages": {
     "homepage": "index.html",
@@ -40,8 +40,8 @@
   ],
   "notes": [
     "The Pages bundle is static and similarity-showcase-oriented.",
-    "Use tsontology-demo locally when you need real computation on pasted arrays; echowave-demo is the new primary command."
+    "Use echotime-demo locally when you need real computation on pasted arrays."
   ],
-  "public_demo_url_hint": "https://<your-github-username>.github.io/echowave/",
+  "public_demo_url_hint": "https://<your-github-username>.github.io/EchoWave/",
   "external_evidence_status": "seeking public showcase submissions and third-party case studies"
 }

@@ -57,7 +57,7 @@
     },
     {
       "name": "ts_route",
-      "description": "Route a natural-language time-series task to the right tsontology entry point and companion tools.",
+      "description": "Route a natural-language time-series task to the right EchoTime entry point and companion tools.",
       "inputSchema": {
         "type": "object",
         "properties": {

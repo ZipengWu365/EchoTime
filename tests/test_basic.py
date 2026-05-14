@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from tsontology import (
+from echotime import (
     EEGInput,
     EventStreamInput,
     FMRIInput,
@@ -69,7 +69,7 @@ from tsontology import (
     routing_contract_guide,
     workflow_recommendation,
 )
-from tsontology.registry import PluginResult
+from echotime.registry import PluginResult
 
 
 def teardown_function(function) -> None:  # noqa: ARG001
@@ -325,7 +325,7 @@ def test_cli_handles_table_mode(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     result = subprocess.run(
-        [sys.executable, "-m", "tsontology.cli", str(input_path), "--input-mode", "table", "--format", "json"],
+        [sys.executable, "-m", "echotime.cli", str(input_path), "--input-mode", "table", "--format", "json"],
         check=True,
         capture_output=True,
         text=True,
@@ -424,7 +424,7 @@ def test_parquet_path_adaptor_uses_pandas_reader() -> None:
 
 def test_about_guide_explains_package_positioning() -> None:
     text = about()
-    assert "What is tsontology?" in text
+    assert "What is EchoTime?" in text
     assert "dataset-characterization layer" in text
 
 
@@ -454,9 +454,9 @@ def test_workflow_recommendation_highlights_domain_axes() -> None:
 
 def test_user_guide_combines_multiple_sections() -> None:
     text = user_guide()
-    assert "# What is tsontology?" in text
-    assert "# tsontology API reference" in text
-    assert "# tsontology scenario guide" in text
+    assert "# What is EchoTime?" in text
+    assert "# EchoTime API reference" in text
+    assert "# EchoTime scenario guide" in text
 
 
 def test_docs_index_lists_guide_topics() -> None:
@@ -466,9 +466,9 @@ def test_docs_index_lists_guide_topics() -> None:
 
 
 def test_cli_can_print_about_guide_without_input() -> None:
-    cmd = [sys.executable, "-m", "tsontology.cli", "--guide", "about"]
+    cmd = [sys.executable, "-m", "echotime.cli", "--guide", "about"]
     completed = subprocess.run(cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
-    assert "What is tsontology?" in completed.stdout
+    assert "What is EchoTime?" in completed.stdout
 
 
 
@@ -506,13 +506,13 @@ def test_cli_can_print_case_gallery_and_summary_card(tmp_path: Path) -> None:
     arr_path = tmp_path / "demo.npy"
     np.save(arr_path, arr)
 
-    guide_cmd = [sys.executable, "-m", "tsontology.cli", "--guide", "cases", "--domain", "traffic"]
+    guide_cmd = [sys.executable, "-m", "echotime.cli", "--guide", "cases", "--domain", "traffic"]
     guide_out = subprocess.run(guide_cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
     assert "Web/app traffic and product analytics" in guide_out.stdout
 
-    card_cmd = [sys.executable, "-m", "tsontology.cli", str(arr_path), "--format", "summary-card", "--domain", "traffic"]
+    card_cmd = [sys.executable, "-m", "echotime.cli", str(arr_path), "--format", "summary-card", "--domain", "traffic"]
     card_out = subprocess.run(card_cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
-    assert "EchoWave summary card" in card_out.stdout
+    assert "EchoTime summary card" in card_out.stdout
 
 
 def test_compare_series_scores_sine_higher_than_noise() -> None:
@@ -585,7 +585,7 @@ def test_hot_case_gallery_and_similarity_playbook_are_exposed() -> None:
 
 def test_project_homepage_html_contains_core_sections() -> None:
     html = project_homepage_html()
-    assert "EchoWave" in html
+    assert "EchoTime" in html
     assert "OpenClaw" in html
     assert "guide/index.html" in html
     assert "guide/tutorials.html" in html
@@ -602,18 +602,18 @@ def test_cli_can_compare_two_arrays(tmp_path: Path) -> None:
     np.save(left_path, left)
     np.save(right_path, right)
 
-    cmd = [sys.executable, "-m", "tsontology.cli", str(left_path), "--reference", str(right_path), "--format", "similarity-summary"]
+    cmd = [sys.executable, "-m", "echotime.cli", str(left_path), "--reference", str(right_path), "--format", "similarity-summary"]
     completed = subprocess.run(cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
-    assert "EchoWave similarity summary" in completed.stdout
+    assert "EchoTime similarity summary" in completed.stdout
 
 
 
 def test_cli_can_print_hot_cases_and_homepage(tmp_path: Path) -> None:  # noqa: ARG001
-    hot_cmd = [sys.executable, "-m", "tsontology.cli", "--guide", "hot-cases"]
+    hot_cmd = [sys.executable, "-m", "echotime.cli", "--guide", "hot-cases"]
     hot_out = subprocess.run(hot_cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
     assert "OpenClaw GitHub stars" in hot_out.stdout
 
-    home_cmd = [sys.executable, "-m", "tsontology.cli", "--guide", "homepage"]
+    home_cmd = [sys.executable, "-m", "echotime.cli", "--guide", "homepage"]
     home_out = subprocess.run(home_cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
     assert "<html" in home_out.stdout.lower()
 
@@ -668,13 +668,13 @@ def test_cli_can_run_agent_context(tmp_path: Path) -> None:
     np.save(right_path, right)
 
     cmd = [
-        sys.executable, "-m", "tsontology.cli", str(left_path),
+        sys.executable, "-m", "echotime.cli", str(left_path),
         "--reference", str(right_path),
         "--agent-goal", "Tell me if these are similar, cheaply",
         "--format", "agent-context",
     ]
     completed = subprocess.run(cmd, capture_output=True, text=True, check=True, env=_subprocess_env())
-    assert "tsontology agent context" in completed.stdout
+    assert "EchoTime agent context" in completed.stdout
 
 
 def test_docs_index_and_api_reference_include_agent_driving() -> None:
@@ -707,24 +707,24 @@ def test_agent_manifest_json_has_routing_policy() -> None:
 def test_tooling_router_forecasting_prefers_modelling_packages() -> None:
     route = tooling_router("forecast the next 14 days with prediction intervals", format="json")
     assert "Darts" in route["primary_packages"]
-    assert "tsontology" in route["tsontology_role"]
+    assert "EchoTime" in route["echotime_role"]
 
 
-def test_tooling_router_profile_task_prefers_tsontology() -> None:
+def test_tooling_router_profile_task_prefers_echotime() -> None:
     route = tooling_router("characterize this dataset and write a summary card", format="json")
-    assert route["primary_packages"] == ["tsontology"] or route["primary_packages"] == ("tsontology",)
+    assert route["primary_packages"] == ["echotime"] or route["primary_packages"] == ("echotime",)
 
 
 def test_github_readme_contains_ecosystem_positioning() -> None:
     text = github_readme(format="markdown")
-    assert "Where tsontology fits in the ecosystem" in text
+    assert "Where EchoTime fits in the ecosystem" in text
     assert "tsfresh" in text
     assert "Agent-ready by design" in text
     assert "playground.html" in text
 
 
 def test_homepage_mentions_ecosystem_and_coverage() -> None:
-    html = project_homepage_html(version="0.12.0")
+    html = project_homepage_html(version="0.17.0")
     assert "Tutorials, API material, and ecosystem detail now live in dedicated docs pages" in html
     assert "guide/ecosystem.html" in html
     assert "guide/agents.html" in html
@@ -768,7 +768,7 @@ def test_example_page_uses_clean_runnable_code_for_humans() -> None:
 def test_explain_dataset_returns_plain_summary_card() -> None:
     x = np.sin(np.linspace(0, 8 * np.pi, 128))
     text = explain_dataset(x)
-    assert text.startswith("# EchoWave summary card")
+    assert text.startswith("# EchoTime summary card")
     assert "overall reliability" in text.lower()
 
 
@@ -825,9 +825,9 @@ def test_cli_quickstart_and_tool_json() -> None:
         tmp_path = Path(tmpdir)
         arr_path = tmp_path / "x.npy"
         np.save(arr_path, np.sin(np.linspace(0, 8 * np.pi, 128)))
-        quick = subprocess.run([sys.executable, "-m", "tsontology.cli", "--guide", "quickstart"], capture_output=True, text=True, env=env, check=True)
+        quick = subprocess.run([sys.executable, "-m", "echotime.cli", "--guide", "quickstart"], capture_output=True, text=True, env=env, check=True)
         assert "60-second quickstart" in quick.stdout
-        tool = subprocess.run([sys.executable, "-m", "tsontology.cli", str(arr_path), "--format", "tool-json"], capture_output=True, text=True, env=env, check=True)
+        tool = subprocess.run([sys.executable, "-m", "echotime.cli", str(arr_path), "--format", "tool-json"], capture_output=True, text=True, env=env, check=True)
         payload = json.loads(tool.stdout)
         assert payload["tool"] == "ts_profile"
 
@@ -876,7 +876,7 @@ def test_ts_route_reports_no_fallback_used() -> None:
 
 
 def test_project_pages_bundle_contains_docs_surface() -> None:
-    bundle = project_pages_bundle(version="0.16.0")
+    bundle = project_pages_bundle(version="0.17.0")
     assert "index.html" in bundle
     assert "playground.html" in bundle
     assert "guide/index.html" in bundle
@@ -887,7 +887,7 @@ def test_project_pages_bundle_contains_docs_surface() -> None:
 
 
 def test_example_page_contains_code_and_visual_assets() -> None:
-    bundle = project_pages_bundle(version="0.16.0")
+    bundle = project_pages_bundle(version="0.17.0")
     html = bundle["guide/example-github-breakout-analogs.html"]
     assert "plot_github_breakout_analogs.py" in html
     assert "Standalone report" in html
@@ -896,7 +896,7 @@ def test_example_page_contains_code_and_visual_assets() -> None:
 
 
 def test_blog_pages_include_real_visuals() -> None:
-    bundle = project_pages_bundle(version="0.16.0")
+    bundle = project_pages_bundle(version="0.17.0")
     for path in (
         "blog/github_breakout_analogs.html",
         "blog/btc_vs_gold_under_shocks.html",
@@ -933,7 +933,7 @@ def test_demo_server_html_mentions_local_live_demo() -> None:
 
 
 def test_pages_bundle_manifest_and_blog_are_present() -> None:
-    bundle = project_pages_bundle(version="0.16.0")
+    bundle = project_pages_bundle(version="0.17.0")
     assert "manifest/demo_manifest.json" in bundle
     assert "blog/github_breakout_analogs.html" in bundle
     manifest = json.loads(bundle["manifest/demo_manifest.json"])
@@ -941,11 +941,11 @@ def test_pages_bundle_manifest_and_blog_are_present() -> None:
 
 
 def test_new_guides_cover_live_demo_and_routing_contracts() -> None:
-    assert "tsontology-demo" in live_demo_guide()
+    assert "echotime-demo" in live_demo_guide()
     assert "ts_profile({data_ref" in routing_contract_guide()
 
 
 def test_project_demo_manifest_has_flagship_pages() -> None:
     manifest = project_demo_manifest()
     assert "github_breakout" in manifest["pages"]["reports"]
-    assert manifest["notes"][1].startswith("Use tsontology-demo")
+    assert manifest["notes"][1].startswith("Use echotime-demo")

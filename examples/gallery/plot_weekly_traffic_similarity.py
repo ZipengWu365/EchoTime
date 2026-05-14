@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
-from echowave import compare_series, rolling_similarity
+from echotime import compare_series, rolling_similarity
 
 
 data_path = Path(__file__).resolve().parents[1] / "data" / "real_python_javascript_pageviews_2024.csv"

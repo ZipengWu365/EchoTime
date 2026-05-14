@@ -2,7 +2,7 @@
 
 Question: is this repository a durable breakout or just a viral spike?
 
-What tsontology contributes:
+What echotime contributes:
 
 - a compact similarity verdict
 - a readable structural narrative for non-specialists

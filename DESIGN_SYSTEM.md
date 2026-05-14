@@ -1,6 +1,6 @@
-# EchoWave Ecosystem Design System
+# EchoTime Ecosystem Design System
 
-This document defines a reusable bright scientific design language for the EchoWave ecosystem and adjacent repositories around time series, benchmarks, symbolic regression, and agent-driven research tools.
+This document defines a reusable bright scientific design language for the EchoTime ecosystem and adjacent repositories around time series, benchmarks, symbolic regression, and agent-driven research tools.
 
 ## 1. Design rationale
 
@@ -230,7 +230,7 @@ border:
 ### Problem statement
 - Purpose: frame the pain clearly before listing features
 - Layout: two side-by-side cards
-- Content hierarchy: "why people get stuck" then "what EchoWave adds"
+- Content hierarchy: "why people get stuck" then "what EchoTime adds"
 - Visual treatment: one neutral card and one sun-emphasis card
 
 ### Key features
@@ -266,7 +266,7 @@ border:
 ### Ecosystem / related repos section
 - Purpose: place the repo honestly in a broader stack
 - Layout: table or card comparison
-- Content hierarchy: package family, strongest fit, relation to EchoWave
+- Content hierarchy: package family, strongest fit, relation to EchoTime
 - Visual treatment: simple table, no flashy visuals
 
 ### Final CTA
@@ -298,7 +298,7 @@ border:
 ## 6. Tailwind CSS theme proposal
 
 ```js
-// tailwind.echowave.theme.js
+// tailwind.echotime.theme.js
 module.exports = {
   theme: {
     extend: {
@@ -341,7 +341,7 @@ module.exports = {
 
 ## 7. Example landing page implementation
 
-See [examples/design_system/TSLabLanding.tsx](C:/Users/wzp07/OneDrive/文档/data%20library/TSontology/0.1.6/echowave-0.16.0/examples/design_system/TSLabLanding.tsx) for a production-quality single-file React + Tailwind example that follows this system.
+See [examples/design_system/TSLabLanding.tsx](C:/Users/wzp07/OneDrive/文档/data%20library/TSontology/0.1.6/echotime-0.17.0/examples/design_system/TSLabLanding.tsx) for a production-quality single-file React + Tailwind example that follows this system.
 
 ## 8. README visual structure template
 

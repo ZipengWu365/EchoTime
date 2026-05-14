@@ -17,23 +17,23 @@ SRC = ROOT / "src"
 
 
 def _load_similarity_methods() -> Any:
-    package = sys.modules.get("echowave")
+    package = sys.modules.get("echotime")
     if package is None:
-        package = types.ModuleType("echowave")
-        package.__path__ = [str(SRC / "echowave")]  # type: ignore[attr-defined]
-        sys.modules["echowave"] = package
+        package = types.ModuleType("echotime")
+        package.__path__ = [str(SRC / "echotime")]  # type: ignore[attr-defined]
+        sys.modules["echotime"] = package
 
-    metrics_module = sys.modules.get("echowave.metrics")
+    metrics_module = sys.modules.get("echotime.metrics")
     if metrics_module is None:
-        metrics_module = types.ModuleType("echowave.metrics")
+        metrics_module = types.ModuleType("echotime.metrics")
         metrics_module.EPS = 1e-12
-        sys.modules["echowave.metrics"] = metrics_module
+        sys.modules["echotime.metrics"] = metrics_module
 
-    spec = importlib.util.spec_from_file_location("echowave.similarity_methods", SRC / "echowave" / "similarity_methods.py")
+    spec = importlib.util.spec_from_file_location("echotime.similarity_methods", SRC / "echotime" / "similarity_methods.py")
     if spec is None or spec.loader is None:
-        raise RuntimeError("Unable to load echowave.similarity_methods.")
+        raise RuntimeError("Unable to load echotime.similarity_methods.")
     module = importlib.util.module_from_spec(spec)
-    sys.modules["echowave.similarity_methods"] = module
+    sys.modules["echotime.similarity_methods"] = module
     spec.loader.exec_module(module)
     return module
 

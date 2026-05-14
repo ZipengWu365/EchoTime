@@ -2,7 +2,7 @@
 <html lang='en'>
 <head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoWave docs - Getting Started</title><style>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime docs - Getting Started</title><style>
 :root {
   --page-bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -568,7 +568,7 @@ img.brand-card {
     <div class='brand'>
       <span class='brand-mark'></span>
       <div class='brand-copy'>
-        <strong>EchoWave</strong>
+        <strong>EchoTime</strong>
         <span>Explainable time-series similarity for humans and agents.</span>
       </div>
     </div>
@@ -601,19 +601,19 @@ img.brand-card {
     
   </aside>
   <section class='docs-main'>
-    <div class='docs-hero'><div class='eyebrow'>Documentation</div><h1>Getting Started</h1><p class='subhead'>The job of this page is simple: make the first successful EchoWave interaction obvious, fast, and realistic.</p></div>
+    <div class='docs-hero'><div class='eyebrow'>Documentation</div><h1>Getting Started</h1><p class='subhead'>The job of this page is simple: make the first successful EchoTime interaction obvious, fast, and realistic.</p></div>
     
     <div class='docs-grid-2'>
       <div class='docs-card'>
         <span class='pill sun'>Install</span>
-        <pre><code>pip install echowave</code></pre>
-        <p>EchoWave keeps the install surface light, but mixed scientific Python stacks can still produce resolver noise. Use a clean environment when possible, and use the compatibility / doctor flow when you cannot.</p>
+        <pre><code>pip install echotime</code></pre>
+        <p>EchoTime keeps the install surface light, but mixed scientific Python stacks can still produce resolver noise. Use a clean environment when possible, and use the compatibility / doctor flow when you cannot.</p>
       </div>
       <div class='docs-card'>
         <span class='pill blue'>What this page is for</span>
         <ul class='panel-list'>
           <li>Read data with pandas or NumPy.</li>
-          <li>Call one EchoWave function.</li>
+          <li>Call one EchoTime function.</li>
           <li>Print a summary card first; export HTML second.</li>
         </ul>
       </div>
@@ -622,7 +622,7 @@ img.brand-card {
       <div class='docs-card'>
         <span class='pill sun'>Compare two columns</span>
         <pre><code>import pandas as pd
-from echowave import compare_series
+from echotime import compare_series
 
 df = pd.read_csv("my_metrics.csv")
 report = compare_series(df["sessions"], df["signups"])
@@ -632,7 +632,7 @@ print(report.to_summary_card_markdown())</code></pre>
       <div class='docs-card'>
         <span class='pill blue'>Profile a wide table</span>
         <pre><code>import pandas as pd
-from echowave import profile_dataset
+from echotime import profile_dataset
 
 df = pd.read_csv("my_timeseries.csv").rename(columns={"date": "timestamp"})
 profile = profile_dataset(df, domain="energy")
@@ -644,7 +644,7 @@ print(profile.to_summary_card_markdown())</code></pre>
       <div class='docs-card'>
         <span class='pill sun'>Profile an irregular long table</span>
         <pre><code>import pandas as pd
-from echowave import profile_dataset
+from echotime import profile_dataset
 
 df = pd.read_csv("patient_vitals.csv").rename(columns={
     "patient_id": "subject",
@@ -658,7 +658,7 @@ print(profile.to_summary_card_markdown())</code></pre>
       </div>
       <div class='docs-card'>
         <span class='pill blue'>Expected output</span>
-        <pre><code># EchoWave similarity summary
+        <pre><code># EchoTime similarity summary
 overall similarity: ...
 top components: shape similarity, trend similarity, spectral similarity</code></pre>
         <p>Once the summary card looks sensible, write <span class='inline-code'>to_html_report()</span> to disk if you want a shareable artifact.</p>

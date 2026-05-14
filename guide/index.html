@@ -2,7 +2,7 @@
 <html lang='en'>
 <head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoWave docs - Documentation Home</title><style>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime docs - Documentation Home</title><style>
 :root {
   --page-bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -568,7 +568,7 @@ img.brand-card {
     <div class='brand'>
       <span class='brand-mark'></span>
       <div class='brand-copy'>
-        <strong>EchoWave</strong>
+        <strong>EchoTime</strong>
         <span>Explainable time-series similarity for humans and agents.</span>
       </div>
     </div>
@@ -606,16 +606,16 @@ img.brand-card {
     <div class='docs-grid-2'>
       <div class='docs-card'>
         <span class='pill sun'>Docs home</span>
-        <p><strong>Start here if you want to use EchoWave as a normal Python package.</strong> The human path is: load data, call one function, inspect the returned object, then export HTML only if you need to share the result.</p>
+        <p><strong>Start here if you want to use EchoTime as a normal Python package.</strong> The human path is: load data, call one function, inspect the returned object, then export HTML only if you need to share the result.</p>
         <div class='meta-line'>
-          <span class='meta-chip'><strong>Version</strong> 0.16.0</span>
+          <span class='meta-chip'><strong>Version</strong> 0.17.0</span>
           <span class='meta-chip'><strong>Audience</strong> researchers, engineers, analysts</span>
         </div>
       </div>
       <div class='docs-card'>
         <span class='pill blue'>Human path</span>
         <pre><code>import pandas as pd
-from echowave import profile_dataset
+from echotime import profile_dataset
 
 df = pd.read_csv("my_timeseries.csv").rename(columns={"date": "timestamp"})
 profile = profile_dataset(df, domain="energy")
@@ -625,8 +625,8 @@ print(profile.to_summary_card_markdown())</code></pre>
     <div class='docs-grid-2'>
       <div class='docs-card'>
         <span class='pill sun'>60-second quickstart</span>
-        <pre><code>pip install echowave
-python -c &quot;import numpy as np; from echowave import compare_series; x=np.sin(np.linspace(0,8*np.pi,128)); y=np.sin(np.linspace(0,8*np.pi,128)+0.2); print(compare_series(x,y).to_summary_card_markdown())&quot;</code></pre>
+        <pre><code>pip install echotime
+python -c &quot;import numpy as np; from echotime import compare_series; x=np.sin(np.linspace(0,8*np.pi,128)); y=np.sin(np.linspace(0,8*np.pi,128)+0.2); print(compare_series(x,y).to_summary_card_markdown())&quot;</code></pre>
       </div>
       <div class='docs-card'>
         <span class='pill blue'>Three first moves</span>
@@ -638,11 +638,11 @@ python -c &quot;import numpy as np; from echowave import compare_series; x=np.si
       </div>
     </div>
     <div class='docs-grid-3'>
-      <div class='docs-card'><span class='pill sun'>Getting Started</span><h3>Getting Started</h3><p>Start with your own CSV, DataFrame, or two columns and get to a first result quickly.</p><a class='button ghost' href='getting-started.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Tutorials</span><h3>Tutorials</h3><p>Runnable examples in the style of a human tutorial: load data, call a function, inspect the result.</p><a class='button ghost' href='tutorials.html'>Open page</a></div><div class='docs-card'><span class='pill sun'>API Reference</span><h3>API Reference</h3><p>The public compare/profile surface and the result objects you will actually call from Python.</p><a class='button ghost' href='api.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Methods Atlas</span><h3>Methods Atlas</h3><p>Audit EchoWave&#x27;s current similarity stack, the 127 extracted methods from ts_similarity_package_v2_pkg, and the formulas behind each one.</p><a class='button ghost' href='methods.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Scenarios</span><h3>Scenarios</h3><p>Where EchoWave fits across medicine, engineering, product, and research.</p><a class='button ghost' href='scenarios.html'>Open page</a></div><div class='docs-card'><span class='pill sun'>Ecosystem</span><h3>Ecosystem</h3><p>How EchoWave complements sktime, tsfresh, DTAIDistance, and others.</p><a class='button ghost' href='ecosystem.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Advanced Integrations</span><h3>Advanced Integrations</h3><p>Tool-calling and agent wrappers live here when you need them, not before.</p><a class='button ghost' href='agents.html'>Open page</a></div>
+      <div class='docs-card'><span class='pill sun'>Getting Started</span><h3>Getting Started</h3><p>Start with your own CSV, DataFrame, or two columns and get to a first result quickly.</p><a class='button ghost' href='getting-started.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Tutorials</span><h3>Tutorials</h3><p>Runnable examples in the style of a human tutorial: load data, call a function, inspect the result.</p><a class='button ghost' href='tutorials.html'>Open page</a></div><div class='docs-card'><span class='pill sun'>API Reference</span><h3>API Reference</h3><p>The public compare/profile surface and the result objects you will actually call from Python.</p><a class='button ghost' href='api.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Methods Atlas</span><h3>Methods Atlas</h3><p>Audit EchoTime&#x27;s current similarity stack, the 127 extracted methods from ts_similarity_package_v2_pkg, and the formulas behind each one.</p><a class='button ghost' href='methods.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Scenarios</span><h3>Scenarios</h3><p>Where EchoTime fits across medicine, engineering, product, and research.</p><a class='button ghost' href='scenarios.html'>Open page</a></div><div class='docs-card'><span class='pill sun'>Ecosystem</span><h3>Ecosystem</h3><p>How EchoTime complements sktime, tsfresh, DTAIDistance, and others.</p><a class='button ghost' href='ecosystem.html'>Open page</a></div><div class='docs-card'><span class='pill blue'>Advanced Integrations</span><h3>Advanced Integrations</h3><p>Tool-calling and agent wrappers live here when you need them, not before.</p><a class='button ghost' href='agents.html'>Open page</a></div>
     </div>
     <div class='docs-card'>
       <span class='pill sun'>Expected output</span>
-      <pre><code># EchoWave similarity summary
+      <pre><code># EchoTime similarity summary
 overall similarity: ...
 top components: shape similarity, trend similarity, spectral similarity</code></pre>
     </div>
