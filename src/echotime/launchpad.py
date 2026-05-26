@@ -40,13 +40,11 @@ def project_launchpad_html(*, version: str = PACKAGE_VERSION) -> str:
 <body>
 <header class='topbar'>
   <div class='shell topbar-inner'>
-    <div class='brand'>
-      <span class='brand-mark'></span>
-      <div class='brand-copy'>
-        <strong>{escape(DISPLAY_NAME)}</strong>
-        <span>{escape(TAGLINE)}</span>
-      </div>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
+    
     <nav class='nav'>
       <a href='index.html'>Homepage</a>
       <a href='playground.html'>Playground</a>
@@ -56,6 +54,7 @@ def project_launchpad_html(*, version: str = PACKAGE_VERSION) -> str:
 </header>
 <main class='shell section launch-grid'>
   <section class='hero'>
+    <div style='margin-bottom: 16px;'><a href='index.html' class='pill ghost' style='text-decoration: none;'>&larr; Back to docs</a></div>
     <div class='hero-grid'>
       <div class='card sun feature-card'>
         <div class='eyebrow'>Variant B · Productized open source</div>
@@ -118,10 +117,6 @@ pip install -c constraints/mixed-scientific-stack.txt echotime</code></pre>
       <span class='pill blue'>GitHub Pages export</span>
       <pre><code>echotime --export-pages docs
 # then publish docs/ with GitHub Pages</code></pre>
-    </div>
-    <div class='callout'>
-      <strong>Why this page exists</strong>
-      <p>Open-source adoption improves when the first decision is easy. This launchpad reduces the repo to a small number of explicit next steps instead of making users decode the entire codebase before they can try it.</p>
     </div>
   </section>
 </main>

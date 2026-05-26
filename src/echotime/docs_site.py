@@ -111,53 +111,53 @@ def _doc_shell(
     base_css = """
     .docs-wrap { display:grid; grid-template-columns: 240px minmax(0, 1fr); gap: 18px; padding: 24px 0 36px; }
     .docs-sidebar { position: sticky; top: 88px; align-self: start; display:grid; gap:14px; min-width: 0; }
-    .sidebar-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+    .sidebar-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
     .sidebar-title { margin:0 0 10px; font-size: 0.86rem; color: var(--text-600); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     .doc-link { display:block; padding: 10px 12px; border-radius: 12px; color: var(--text-600); font-weight: 600; word-break: break-word; }
-    .doc-link:hover { background: rgba(47,107,255,0.06); color: var(--text-900); }
-    .doc-link.active { background: rgba(255, 244, 194, 0.78); color: var(--text-900); border:1px solid rgba(255,200,61,0.38); }
+    .doc-link:hover { background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
+    .doc-link.active { background: rgba(255, 200, 61, 0.2); color: #FFE27A; border:1px solid rgba(255,200,61,0.4); }
     .docs-main { display:grid; gap: 24px; min-width: 0; }
     .docs-hero { display:grid; gap: 12px; }
     .docs-hero h1 { font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.02; }
-    .docs-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
+    .docs-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
     .docs-grid-2, .docs-grid-3 { display:grid; gap: 20px; }
     .docs-grid-2 { grid-template-columns: 1fr 1fr; }
     .docs-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .meta-line { display:flex; flex-wrap:wrap; gap: 10px; min-width: 0; }
-    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: var(--surface); border:1px solid var(--border); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
+    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
     .meta-chip strong { color: var(--text-900); }
     .entry-stack { display:grid; gap: 16px; }
-    .entry { border-top: 1px solid var(--border); padding-top: 16px; }
+    .entry { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 16px; }
     .entry:first-child { border-top: 0; padding-top: 0; }
     .entry h3 { font-size: 1.1rem; }
-    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #fffef8; border:1px solid var(--border); padding: 2px 6px; border-radius: 8px; }
+    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #1a1a1a; color: #FFE27A; border:1px solid rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 8px; }
     .small-table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
-    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid var(--border); vertical-align: top; }
-    .small-table th { background: #fffdf6; color: var(--text-600); font-size: 0.9rem; }
+    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid rgba(255, 255, 255, 0.1); vertical-align: top; }
+    .small-table th { background: #1a1a1a; color: var(--text-600); font-size: 0.9rem; }
     .small-table tr:last-child td { border-bottom: 0; }
     .toc-note { font-size: 0.92rem; color: var(--text-600); }
     .example-card { align-content: start; }
-    .example-preview { border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); padding: 12px; overflow: hidden; }
+    .example-preview { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); padding: 12px; overflow: hidden; }
     .example-preview svg { display: block; width: 100%; height: auto; }
     .example-link-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 4px; }
     .example-figure-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:20px; }
     .example-figure-wide { grid-column: 1 / -1; }
     .asset-list { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid var(--border); background: var(--surface); color: var(--text-900); }
-    .asset-link:hover { border-color: rgba(47,107,255,0.18); background: rgba(47,107,255,0.04); color: var(--text-900); }
+    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid rgba(255, 255, 255, 0.1); background: #1a1a1a; color: var(--text-900); }
+    .asset-link:hover { border-color: rgba(255, 200, 61, 0.3); background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
     .asset-link strong { font-size: 0.96rem; }
     .asset-link span { color: var(--text-600); font-size: 0.88rem; }
     .gallery-section { display:grid; gap: 14px; }
     .gallery-section h2 { font-size: 1.18rem; }
     .gallery-grid { display:grid; gap: 16px; }
-    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid var(--border); border-radius: 18px; background: var(--surface-strong); box-shadow: var(--shadow-sm); }
-    .gallery-thumb { display:block; border: 1px solid var(--border); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); overflow: hidden; }
+    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; background: #1a1a1a; box-shadow: var(--shadow-sm); }
+    .gallery-thumb { display:block; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); overflow: hidden; }
     .gallery-thumb svg { display:block; width: 100%; height: auto; }
     .gallery-body { display:grid; gap: 8px; min-width: 0; }
     .gallery-body h3 { font-size: 1.2rem; line-height: 1.25; }
     .gallery-body p { margin: 0; }
     .gallery-links { display:flex; flex-wrap:wrap; gap: 12px; font-weight: 700; }
-    .gallery-links a { color: var(--blue-700); }
+    .gallery-links a { color: var(--blue-600); }
     .gallery-links a:hover { text-decoration: underline; }
     .gallery-kicker { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-600); }
     .example-page-intro { display:grid; gap: 16px; }
@@ -171,8 +171,8 @@ def _doc_shell(
     .component-list { display:grid; gap: 10px; }
     .component-row { display:grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
     .component-row span { color: var(--text-600); }
-    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #f3f4f6; overflow: hidden; }
-    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #f1b62a); }
+    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #2a2a2a; overflow: hidden; }
+    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #FFD700); }
     @media (max-width: 1180px) {
       .docs-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .example-figure-grid, .asset-list { grid-template-columns: 1fr; }
@@ -191,13 +191,11 @@ def _doc_shell(
 <body>
 <header class='topbar'>
   <div class='shell topbar-inner'>
-    <div class='brand'>
-      <span class='brand-mark'></span>
-      <div class='brand-copy'>
-        <strong>{DISPLAY_NAME}</strong>
-        <span>{escape(TAGLINE)}</span>
-      </div>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='../logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
+    
     <nav class='nav'>
       <a href='../index.html'>Home</a>
       <a href='index.html'>Docs</a>
@@ -221,8 +219,9 @@ def _doc_shell(
       <a class='doc-link' href='../reports/github_breakout_similarity.html'>Real-data flagship report</a>
     </div>
     <div class='sidebar-card'>
-      <div class='sidebar-title'>Maintainer</div>
-      <div class='toc-note'><strong>{escape(AUTHOR_NAME)}</strong><br>{escape(AUTHOR_AFFILIATION)}<br><a href='mailto:{escape(AUTHOR_EMAIL)}'>{escape(AUTHOR_EMAIL)}</a></div>
+      <div class='sidebar-title'>Maintainers</div>
+      <div class='toc-note' style='margin-bottom: 10px;'><strong>{escape(AUTHOR_NAME)}</strong><br>{escape(AUTHOR_AFFILIATION)}<br><a href='mailto:{escape(AUTHOR_EMAIL)}'>{escape(AUTHOR_EMAIL)}</a></div>
+      <div class='toc-note'><strong>Jiajun Chen</strong><br>The University of Southampton<br><a href='mailto:jc15u24@soton.ac.uk'>jc15u24@soton.ac.uk</a></div>
     </div>
     {"".join(sidebar_sections)}
   </aside>
@@ -279,14 +278,21 @@ def _asset_link(label: str, href: str, caption: str) -> str:
 
 def _example_sidebar(entries: list[dict[str, Any]], active_href: str) -> str:
     links = []
+    has_active = False
     for entry in entries:
-        active = " active" if entry["href"] == active_href else ""
+        is_active = entry["href"] == active_href
+        if is_active:
+            has_active = True
+        active = " active" if is_active else ""
         links.append(f"<a class='doc-link{active}' href='{entry['href']}'>{escape(entry['title'])}</a>")
+    open_attr = "open" if has_active else ""
     return (
-        "<div class='sidebar-card'>"
-        "<div class='sidebar-title'>Example gallery</div>"
+        f"<details class='sidebar-card' {open_attr} style='padding: 0; background: transparent;'>"
+        "<summary class='sidebar-title' style='cursor: pointer; user-select: none; margin-bottom: 0;'>Example gallery <span style='float:right; opacity: 0.5;'>▼</span></summary>"
+        "<div style='margin-top: 10px;'>"
         + "".join(links)
         + "</div>"
+        "</details>"
     )
 
 
@@ -406,7 +412,10 @@ def _render_example_page(entry: dict[str, Any], entries: list[dict[str, Any]]) -
     highlights = "".join(f"<li>{escape(item)}</li>" for item in entry["highlights"])
     hero_html = f"""
     <div class='example-page-intro'>
-      <div class='example-breadcrumb'><a href='tutorials.html'>Examples</a> / {escape(entry['category'])}</div>
+      <div class='example-breadcrumb'>
+        <a href='tutorials.html' class='pill ghost' style='text-decoration: none; padding: 4px 10px; margin-right: 8px;'>&larr; Back to Tutorials</a>
+        <span style='color: var(--text-600);'>Examples / {escape(entry['category'])}</span>
+      </div>
       <div class='example-head'>
         <div class='eyebrow'>{escape(entry['category'])}</div>
         <h1>{escape(entry['title'])}</h1>
@@ -1254,11 +1263,17 @@ def project_api_reference_html(*, version: str = PACKAGE_VERSION) -> str:
             "</div>"
         )
     body = "".join(sections)
+    extra_css = """
+    .entry h3 { overflow-wrap: anywhere; }
+    .entry p, .entry li, .docs-card p, .docs-card li { overflow-wrap: anywhere; word-break: normal; }
+    .entry .inline-code { display: inline; max-width: 100%; vertical-align: baseline; white-space: normal; overflow-wrap: anywhere; word-break: break-word; line-height: 1.8; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    """
     return _doc_shell(
         page_key="api",
         title="API Reference",
         lead="The public API surface is intentionally small and role-based: compare, profile, summarize, and hand off.",
         body=body,
+        extra_css=extra_css,
     )
 
 

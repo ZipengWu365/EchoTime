@@ -98,6 +98,7 @@ h1 {{ margin:0 0 10px; font-size:clamp(2rem,4vw,3rem); line-height:1.05; letter-
 <body>
 <div class='container'>
   <div class='card hero'>
+    <div style='margin-bottom: 16px;'><a href='../index.html' class='pill ghost' style='text-decoration: none;'>&larr; Back to docs</a></div>
     <div><span class='pill sun'>flagship story</span><span class='pill'>EchoTime</span></div>
     <div class='hero-grid'>
       <div>
@@ -167,11 +168,12 @@ def project_demo_manifest(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     }
 
 
-def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
+def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     assets_root = resolve_repo_subdir("assets", sentinel="echotime_title_card.svg")
     title_card = (assets_root / "echotime_title_card.svg").read_text(encoding="utf-8") if (assets_root / "echotime_title_card.svg").exists() else ""
     mark_svg = (assets_root / "echotime_mark.svg").read_text(encoding="utf-8") if (assets_root / "echotime_mark.svg").exists() else ""
     affiliation_svg = (assets_root / "bham_affiliation_badge.svg").read_text(encoding="utf-8") if (assets_root / "bham_affiliation_badge.svg").exists() else ""
+    logo_png = (assets_root / "logo.png").read_bytes() if (assets_root / "logo.png").exists() else b""
     pageviews = python_javascript_pageviews_2024()
     pageview_profile = profile_dataset(pageviews["values"], domain="traffic", channel_names=pageviews["channels"])
 
@@ -202,6 +204,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, str]:
         "social/echotime_title_card.svg": title_card,
         "social/echotime_mark.svg": mark_svg,
         "social/bham_affiliation_badge.svg": affiliation_svg,
+        "logo.png": logo_png, "social/echotime_logo.png": logo_png,
         "reports/weekly_website_traffic_report.html": profile_html_report(pageview_profile, title="Python and JavaScript pageviews"),
         "reports/irregular_patient_vitals_report.html": profile_html_report(earthquake_profile, title="California and Alaska earthquake streams"),
         "reports/github_breakout_similarity.html": similarity_html_report(
@@ -330,7 +333,10 @@ def write_pages_bundle(path: str | Path, *, version: str = PACKAGE_VERSION) -> P
     for rel, content in project_pages_bundle(version=version).items():
         target = root / rel
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8")
+        if isinstance(content, bytes):
+            target.write_bytes(content)
+        else:
+            target.write_text(content, encoding="utf-8")
     return root
 
 

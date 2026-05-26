@@ -117,21 +117,21 @@ BEGINNER_EXAMPLES = (
 FLAGSHIP_DEMOS = (
     {
         "slug": "openclaw_breakout_analogs",
-        "title": "OpenClaw-style GitHub breakout analogs",
-        "story": "Ask whether a new repo looks like a durable breakout or a short viral spike.",
-        "social_hook": "Is this a real breakout or just a viral spike?",
+        "title": "Compare repository growth trajectories",
+        "story": "Find durable patterns versus viral spikes by comparing growth curves.",
+        "social_hook": "→ Discover hidden similarities in project growth curves",
     },
     {
         "slug": "btc_gold_oil_shocks",
-        "title": "BTC vs gold vs oil under shocks",
-        "story": "Ask which assets become more similar during macro or geopolitical stress.",
-        "social_hook": "When stress hits, does BTC behave more like gold or oil?",
+        "title": "Track asset behavior under stress",
+        "story": "See how BTC, gold, and oil become similar or diverge during market shocks.",
+        "social_hook": "→ Understand structural coupling under macro events",
     },
     {
         "slug": "energy_load_heatwave",
-        "title": "Heatwave vs grid load",
-        "story": "Ask which load curves drift or switch regime under extreme weather.",
-        "social_hook": "Which grid loses structural stability first in a heatwave?",
+        "title": "Monitor grid stability patterns",
+        "story": "Watch how load curves drift or stabilize when extreme weather hits.",
+        "social_hook": "→ Anticipate regime changes in infrastructure load",
     },
 )
 

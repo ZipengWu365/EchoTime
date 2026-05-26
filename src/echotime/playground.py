@@ -154,12 +154,15 @@ def project_playground_html(*, version: str = PACKAGE_VERSION) -> str:
     extra_css = """
     .play-layout { display:grid; gap:20px; }
     .play-toolbar { display:flex; flex-wrap:wrap; gap:12px; }
-    .play-grid { display:grid; grid-template-columns: 0.86fr 1.14fr; gap:20px; }
-    .sticky-column { display:grid; gap:20px; align-content:start; }
+    .play-grid { display:grid; grid-template-columns: 320px minmax(0, 1fr); gap:20px; align-items:start; }
+    .sticky-column { display:grid; gap:20px; position: sticky; top: 20px; align-content:start; }
+    .content-column { display:grid; gap:20px; }
+    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:20px; align-items:start; }
     .case-summary { min-height: 200px; }
     .case-visual { min-height: 340px; display:grid; place-items:center; }
     @media (max-width: 980px) {
-      .play-grid { grid-template-columns: 1fr; }
+      .play-grid, .grid-2 { grid-template-columns: 1fr; }
+      .sticky-column { position: static; }
     }
     """
     return f"""<!doctype html>
@@ -168,13 +171,11 @@ def project_playground_html(*, version: str = PACKAGE_VERSION) -> str:
 <body>
 <header class='topbar'>
   <div class='shell topbar-inner'>
-    <div class='brand'>
-      <span class='brand-mark'></span>
-      <div class='brand-copy'>
-        <strong>{DISPLAY_NAME}</strong>
-        <span>{escape(TAGLINE)}</span>
-      </div>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
+    
     <nav class='nav'>
       <a href='index.html'>Homepage</a>
       <a href='start-here.html'>Start here</a>
@@ -184,6 +185,7 @@ def project_playground_html(*, version: str = PACKAGE_VERSION) -> str:
 </header>
 <main class='shell section play-layout'>
   <section class='hero'>
+    <div style='margin-bottom: 16px;'><a href='index.html' class='pill ghost' style='text-decoration: none;'>&larr; Back to docs</a></div>
     <div class='hero-grid'>
       <div class='card sun feature-card'>
         <div class='eyebrow'>Variant C · Benchmark / dashboard</div>
@@ -223,13 +225,13 @@ def project_playground_html(*, version: str = PACKAGE_VERSION) -> str:
       </div>
     </div>
 
-    <div class='sticky-column'>
+    <div class='content-column'>
       <div class='card feature-card case-summary'>
         <span class='pill blue'>Plain-language summary</span>
         <pre id='summary'><code>{escape(first['summary'])}</code></pre>
       </div>
       <div class='surface-frame'>
-        <iframe id='report-frame' class='demo' srcdoc="{escape(first['html'])}" title='EchoTime report preview'></iframe>
+        <iframe id='report-frame' class='demo' srcdoc="{escape(first['html'])}" title='EchoTime report preview' style='width:100%; height: 600px; border:none; border-radius: 12px;'></iframe>
       </div>
       <div class='grid-2'>
         <div class='surface-frame pad'>

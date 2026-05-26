@@ -1,4 +1,4 @@
-﻿
+
 """Visual and HTML reporting helpers for EchoTime.
 
 These helpers keep runtime dependencies light by emitting standalone SVG/HTML
@@ -308,15 +308,15 @@ def rolling_similarity_svg(windows: Iterable[Mapping[str, Any]], *, width: int =
         return _svg_wrap("<text x='20' y='30'>No rolling windows available.</text>", width=width, height=height, title="Rolling component mean")
     arr = np.asarray(scores, dtype=float)
     xs = np.linspace(40, width - 20, len(arr))
-    ys = height - 28 - arr * (height - 52)
+    ys = height - 28 - arr * (height - 84)
     pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in zip(xs, ys))
     body = (
         "<rect width='100%' height='100%' fill='white'/>"
         f"<text x='16' y='24' font-size='16' font-weight='700' fill='{_TEXT}'>Rolling component mean</text>"
         f"<line x1='40' y1='24' x2='40' y2='212' stroke='{_BORDER}'/><line x1='40' y1='212' x2='700' y2='212' stroke='{_BORDER}'/>"
-        "<line x1='40' y1='118' x2='700' y2='118' stroke='#F3F4F6' stroke-dasharray='4 4'/>"
+        "<line x1='40' y1='134' x2='700' y2='134' stroke='#F3F4F6' stroke-dasharray='4 4'/>"
         f"<polyline points='{pts}' fill='none' stroke='{_BLUE}' stroke-width='2.5'/>"
-        f"<text x='46' y='42' font-size='11' fill='{_BLUE_DARK}'>mean={float(np.mean(arr)):.2f}, min={float(np.min(arr)):.2f}, max={float(np.max(arr)):.2f} across per-window metric means</text>"
+        f"<text x='40' y='42' font-size='13' fill='{_BLUE_DARK}'>mean={float(np.mean(arr)):.2f}, min={float(np.min(arr)):.2f}, max={float(np.max(arr)):.2f} across per-window metric means</text>"
     )
     return _svg_wrap(body, width=width, height=height, title="Rolling component mean")
 
@@ -326,7 +326,7 @@ def _brand_shell(*, title: str, body: str, accent: str = "#0b6cff") -> str:
 <html lang='en'>
 {page_head(title, extra_css=report_shell_css(accent))}
 <body>
-<header class='report-header'><div class='report-header-inner'><div class='brand'><span class='brand-mark'></span><div class='brand-copy'><strong>EchoTime</strong><span>Explainable time-series similarity for humans and agents.</span></div></div><div class='pill sun'>Scientific report surface</div></div></header>
+<header class='report-header'><div class='report-header-inner'><div style='display:flex; align-items:center; gap: 14px;'><a href='../index.html' class='pill ghost' style='text-decoration:none;'>&larr; Back to docs</a><div class='brand' style='display:flex;align-items:center;gap:14px;'><img src='../logo.png' alt='EchoTime logo' style='width:140px;height:auto;object-fit:contain;'><span style='color:var(--text-600);font-size:0.95rem;font-weight:500;'>Explainable time-series similarity for humans and agents.</span></div></div><div class='pill sun'>Scientific report surface</div></div></header>
 <div class='shell' style='padding:28px 0 40px'>{body}</div>
 </body>
 </html>"""
