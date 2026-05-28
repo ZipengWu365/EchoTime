@@ -10,7 +10,7 @@
 [![Author: Zipeng Wu](https://img.shields.io/badge/author-Zipeng%20Wu-1f2937?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
 [![Affiliation: The University of Birmingham](https://img.shields.io/badge/The%20University%20of%20Birmingham-academic-a51c30?style=flat-square)](https://www.birmingham.ac.uk/)
 
-![Quickstart preview](assets/logo.png)
+![Quickstart preview](assets/logo_raw.png)
 ![EchoTime title card](assets/echotime_title_card.svg)
 ![Maintainer and affiliation](assets/bham_affiliation_badge.svg)
 
