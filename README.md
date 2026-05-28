@@ -11,7 +11,6 @@
 [![Affiliation: The University of Birmingham](https://img.shields.io/badge/The%20University%20of%20Birmingham-academic-a51c30?style=flat-square)](https://www.birmingham.ac.uk/)
 
 ![Quickstart preview](assets/logo_raw.png)
-![EchoTime title card](assets/echotime_title_card.svg)
 ![Maintainer and affiliation](assets/bham_affiliation_badge.svg)
 
 **EchoTime** is an **explainable time-series similarity package for humans and agents.** It is built for the moment when a raw distance score is not enough: compare trajectories, compare datasets at the structural level, and hand the result to another person or another agent.
