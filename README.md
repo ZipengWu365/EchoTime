@@ -11,15 +11,14 @@
 [![Affiliation: The University of Birmingham](https://img.shields.io/badge/The%20University%20of%20Birmingham-academic-a51c30?style=flat-square)](https://www.birmingham.ac.uk/)
 
 ![Quickstart preview](assets/logo_raw.png)
-
-
 <img src="assets/bham_affiliation_badge.svg"
      alt="Maintainer and affiliation"
      width="520">
-
 <img src="assets/Jiajun_badget.png"
      alt="Jiajun Chen, University of Southampton"
      width="520">
+
+     
 **EchoTime** is an **explainable time-series similarity package for humans and agents.** It is built for the moment when a raw distance score is not enough: compare trajectories, compare datasets at the structural level, and hand the result to another person or another agent.
 
 **What it is:** EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
