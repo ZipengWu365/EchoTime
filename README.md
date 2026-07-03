@@ -12,7 +12,7 @@
 
 ![Quickstart preview](assets/logo_raw.png)
 ![Maintainer and affiliation](assets/bham_affiliation_badge.svg)
-
+![Maintainer and affiliation](assets/Jiajun_badget.png)
 **EchoTime** is an **explainable time-series similarity package for humans and agents.** It is built for the moment when a raw distance score is not enough: compare trajectories, compare datasets at the structural level, and hand the result to another person or another agent.
 
 **What it is:** EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
