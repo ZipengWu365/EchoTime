@@ -1403,6 +1403,18 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
       </div>
     </div>
     <div class='docs-card'>
+      {_pill('Literature anchors', 'blue')}
+      <p class='table-note'>These references anchor the major method families in the atlas. They support the method inventory; they do not imply that every listed method is implemented as a standalone EchoTime API.</p>
+      <ul class='panel-list'>
+        <li><strong>Broad distance comparisons:</strong> <a href='https://doi.org/10.14778/1454159.1454226'>Ding et al. 2008</a> and <a href='https://journal.r-project.org/articles/RJ-2016-058/'>TSdist</a>.</li>
+        <li><strong>Sliding and shape comparison:</strong> <a href='https://doi.org/10.1145/2723372.2737793'>SBD/k-Shape</a>.</li>
+        <li><strong>Elastic and edit distances:</strong> <a href='https://doi.org/10.1109/TASSP.1978.1163055'>DTW</a>, <a href='https://doi.org/10.1109/ICDE.2002.994784'>LCSS</a>, <a href='https://dblp.org/rec/conf/vldb/ChenN04'>ERP</a>, <a href='https://doi.org/10.1145/1066157.1066213'>EDR</a>, <a href='https://doi.org/10.1109/TPAMI.2008.76'>TWED</a>, <a href='https://doi.org/10.1109/TKDE.2012.88'>MSM</a>, and <a href='https://doi.org/10.1016/j.patcog.2017.09.020'>shapeDTW</a>.</li>
+        <li><strong>Kernel and differentiable alignment:</strong> <a href='https://icml.cc/2011/papers/489_icmlpaper.pdf'>global alignment kernels</a> and <a href='https://proceedings.mlr.press/v70/cuturi17a.html'>soft-DTW</a>.</li>
+        <li><strong>Feature and distribution distances:</strong> <a href='https://doi.org/10.1103/PhysRevLett.88.174102'>ordinal patterns</a>, <a href='https://doi.org/10.1109/18.61115'>Jensen-Shannon divergence</a>, and <a href='https://doi.org/10.1007/s10618-013-0312-3'>CID</a>.</li>
+        <li><strong>Related software:</strong> <a href='https://github.com/CharlesKZW/tsdistance'>tsdistance</a>, <a href='https://doi.org/10.1145/3802579'>tsdistances</a>, <a href='https://www.jmlr.org/papers/v21/20-091.html'>tslearn</a>, <a href='https://www.jmlr.org/papers/v25/23-1444.html'>aeon</a>, <a href='https://arxiv.org/abs/1909.07872'>sktime</a>, <a href='https://github.com/wannesm/dtaidistance'>DTAIDistance</a>, and <a href='https://doi.org/10.21105/joss.01504'>STUMPY</a>.</li>
+      </ul>
+    </div>
+    <div class='docs-card'>
       {_pill('Current EchoTime comparison layer', 'sun')}
       <p class='table-note'>These are the similarity characterizations EchoTime already uses in raw-series comparison reports. Every entry below includes the mathematical expression used or approximated by the current code path.</p>
       <div class='native-grid'>{native_cards}</div>

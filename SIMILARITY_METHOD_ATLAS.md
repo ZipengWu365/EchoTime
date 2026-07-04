@@ -2,6 +2,10 @@
 
 This guide audits EchoTime's current raw-series similarity stack, then imports the full method registry from `ts_similarity_package_v2_pkg` and marks which methods fit EchoTime's product direction.
 
+## Literature anchors
+
+The atlas should be read with the primary method literature and related software in view. Key anchors include DTW (Sakoe and Chiba, 1978), broad distance comparisons (Ding et al., 2008), SBD/k-Shape (Paparrizos and Gravano, 2015), LCSS (Vlachos et al., 2002), ERP (Chen and Ng, 2004), EDR (Chen et al., 2005), TWED (Marteau, 2009), MSM (Stefan et al., 2013), shapeDTW (Zhao and Itti, 2018), global alignment kernels (Cuturi, 2011), soft-DTW (Cuturi and Blondel, 2017), ordinal patterns (Bandt and Pompe, 2002), Jensen-Shannon divergence (Lin, 1991), TSdist (Mori et al., 2016), tsdistance, tsdistances (Azzari et al., 2026), tslearn (Tavenard et al., 2020), aeon (Middlehurst et al., 2024), sktime (Loning et al., 2019), DTAIDistance (Meert and Van Craenendonck, 2020), and STUMPY/matrix-profile tooling (Law, 2019; Yeh et al., 2016).
+
 ## Current EchoTime comparison layer
 
 ### shape_similarity
