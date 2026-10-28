@@ -31,8 +31,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://zipengwu365.github.io/EchoTime/"
-Documentation = "https://zipengwu365.github.io/EchoTime/guide/"
+Homepage = "https://zipengwu.me/EchoTime/"
+Documentation = "https://zipengwu.me/EchoTime/guide/"
 Repository = "https://github.com/ZipengWu365/EchoTime"
 Issues = "https://github.com/ZipengWu365/EchoTime/issues"
 

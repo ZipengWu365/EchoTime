@@ -27,6 +27,7 @@ from .real_tutorial_data import (
     usgs_earthquakes_ca_ak_2024,
 )
 from .runtime_paths import resolve_repo_subdir
+from .seo import enrich_pages_bundle
 from .similarity import compare_series, rolling_similarity
 from .visuals import (
     axis_bar_svg,
@@ -174,6 +175,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     mark_svg = (assets_root / "echotime_mark.svg").read_text(encoding="utf-8") if (assets_root / "echotime_mark.svg").exists() else ""
     affiliation_svg = (assets_root / "bham_affiliation_badge.svg").read_text(encoding="utf-8") if (assets_root / "bham_affiliation_badge.svg").exists() else ""
     logo_png = (assets_root / "logo.png").read_bytes() if (assets_root / "logo.png").exists() else b""
+    title_card_png = (assets_root / "echotime_title_card.png").read_bytes() if (assets_root / "echotime_title_card.png").exists() else b""
     pageviews = python_javascript_pageviews_2024()
     pageview_profile = profile_dataset(pageviews["values"], domain="traffic", channel_names=pageviews["channels"])
 
@@ -193,14 +195,15 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
 
     manifest = json.dumps(project_demo_manifest(version=version), indent=2)
 
-    return {
+    return enrich_pages_bundle({
         "index.html": project_homepage_html(version=version),
         "start-here.html": project_launchpad_html(version=version),
         "playground.html": project_playground_html(version=version),
         "404.html": project_launchpad_html(version=version),
         ".nojekyll": "",
         "manifest/demo_manifest.json": manifest,
-        "site.webmanifest": json.dumps({"name": "EchoTime", "short_name": "EchoTime", "start_url": "/", "display": "standalone"}, indent=2),
+        "site.webmanifest": json.dumps({"name": "EchoTime", "short_name": "EchoTime", "start_url": "/EchoTime/", "scope": "/EchoTime/", "id": "/EchoTime/", "display": "standalone"}, indent=2),
+        "social/echotime_title_card.png": title_card_png,
         "social/echotime_title_card.svg": title_card,
         "social/echotime_mark.svg": mark_svg,
         "social/bham_affiliation_badge.svg": affiliation_svg,
@@ -324,7 +327,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
             source_href="https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_heatwave_grid_load.py",
         ),
         **project_docs_pages(version=version),
-    }
+    }, version=version)
 
 
 def write_pages_bundle(path: str | Path, *, version: str = PACKAGE_VERSION) -> Path:

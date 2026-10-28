@@ -335,11 +335,12 @@ def project_homepage_html(*, version: str = PACKAGE_VERSION) -> str:
       <div class='section-head'>
         <div class='eyebrow'>Next step</div>
         <h2>Use the docs like a docs site, not like a landing page appendix</h2>
-        <p class='lead'>If you want tutorials, API detail, or ecosystem guidance, go to the left-sidebar docs area. That separation is what makes the site easier to scan and easier to trust.</p>
+        <p class='lead'>If you want tutorials, API detail, or <a href='guide/ecosystem.html'>ecosystem guidance</a>, go to the left-sidebar docs area. That separation is what makes the site easier to scan and easier to trust.</p>
       </div>
       <div class='button-row'>
         <a class='button primary' href='guide/index.html'>Open documentation</a>
         <a class='button secondary' href='guide/api.html'>Open API reference</a>
+        <a class='button secondary' href='guide/agents.html'>Open agent tools guide</a>
       </div>
     </div>
   </section>
