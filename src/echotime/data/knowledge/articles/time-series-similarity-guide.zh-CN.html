@@ -31,6 +31,7 @@ body { font-size:16px; } th,td { min-width:150px; } }
 <a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
 <h1 id="dtw">时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选</h1>
 <p><strong>从比较对象、数学假设到 Python 工具。</strong> 核查日期：2026 年 10 月 29 日。<a href="time-series-similarity-guide.en.html">English</a></p>
+<p>想逐步查看一种方法如何计算，可以打开<a href="https://zipengwu.me/EchoTime/guide/methods.html#method-animations">方法动图详解</a>：现有方法页的 137 个条目均配有 GIF、静态总结、四步说明、明确的示例输入和解释边界，可按方法名称查找。</p>
 <p>两条曲线可以形状一致，实际能耗相差很大；两段记录可以包含相同的短事件，整体变化却完全不同；两个数据集也可以具有相近的频谱，却来自不同的生成机制。选择相似性方法，首先需要说明我们关心其中哪一种关系。</p>
 <p>本文采用一个明确的选型顺序：<strong>先确定比较对象，再决定哪些差异必须保留，最后选择表示、比较规则与实现。</strong> 这是本文提出的决策框架。下文的方法介绍依据原始论文与官方文档，本文没有开展新的速度或精度排行榜实验。</p>
 <h2 id="_1">一、先把“匹配”定义清楚</h2>

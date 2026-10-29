@@ -2,6 +2,8 @@
 
 **A practical comparison of tasks, assumptions and Python tools.** Reviewed 29 October 2026. [中文版](time-series-similarity-guide.zh-CN.md)
 
+For the calculation behind a method, open the [animated Methods Atlas](https://zipengwu.me/EchoTime/guide/methods.html#method-animations): each of its 137 entries has a GIF, a static summary, four explanatory stages, explicit example inputs and interpretation limits. Use the method name to find the corresponding explanation.
+
 Two curves can share a shape and differ in energy consumption. Two recordings can contain the same short event while looking different overall. Two datasets can have similar spectra and different underlying mechanisms. A useful similarity method starts with a decision about which of these relationships matters.
 
 The selection rule used in this guide is simple: **define the object being compared, decide which differences should remain visible, then choose the representation, comparison rule and implementation.** This is a proposed decision framework. The method descriptions below are supported by original papers and official documentation; the guide contains no new runtime or accuracy leaderboard.

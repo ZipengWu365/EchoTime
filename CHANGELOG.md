@@ -5,6 +5,23 @@
 These changes describe the repository source. The package version remains 0.17.1
 until a separate release is made; existing PyPI artifacts are unchanged.
 
+### Animated method explanations
+
+- Add individual deterministic GIFs and static posters for the 10 native report
+  components and all 127 registry entries. Each method includes English/Chinese
+  explanations, four calculation stages, parameters, numerical traces, source
+  links and interpretation limits.
+- Extend the existing Methods Atlas in place with search, bilingual text,
+  keyboard-accessible click-to-play/stop controls and static defaults. Opening
+  the page starts no animation; only one requested animation plays at a time.
+- Keep current implementations, reference-formula demonstrations and explicitly
+  specified encoder/model protocols distinct. The examples make no training or
+  benchmark-performance claims and add no new public similarity algorithms.
+- Package the assets with the wheel and static export; add complete-coverage,
+  numerical-trace, link and asset-integrity checks to the documentation build.
+- Link each existing atlas row to its explanation and add an animation entry
+  point to the README and both method-selection articles.
+
 ### Numerical corrections
 
 - Correct multichannel normalized cross-correlation: the numerator and Frobenius

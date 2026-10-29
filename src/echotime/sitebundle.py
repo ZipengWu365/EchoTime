@@ -170,6 +170,7 @@ def project_demo_manifest(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
 
 
 def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
+    from .method_animations import animation_assets
     assets_root = resolve_repo_subdir("assets", sentinel="echotime_title_card.svg")
     title_card = (assets_root / "echotime_title_card.svg").read_text(encoding="utf-8") if (assets_root / "echotime_title_card.svg").exists() else ""
     mark_svg = (assets_root / "echotime_mark.svg").read_text(encoding="utf-8") if (assets_root / "echotime_mark.svg").exists() else ""
@@ -197,6 +198,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
 
     return enrich_pages_bundle({
         **_knowledge_pages(),
+        **animation_assets(),
         "index.html": project_homepage_html(version=version),
         "start-here.html": project_launchpad_html(version=version),
         "playground.html": project_playground_html(version=version),

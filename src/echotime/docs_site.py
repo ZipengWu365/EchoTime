@@ -49,6 +49,7 @@ from .real_tutorial_data import (
 )
 from .runtime_paths import resolve_repo_subdir
 from .similarity_method_atlas import similarity_method_atlas_dict
+from .method_animations import ANIMATION_CSS, animation_link, method_animations_html
 from .similarity import compare_series, rolling_similarity
 from .visuals import (
     axis_bar_svg,
@@ -1310,7 +1311,7 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
     counts_by_status = summary["counts_by_status"]
 
     extra_css = """
-    .formula-chip { display:block; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; white-space: normal; overflow-wrap: anywhere; line-height: 1.5; background: #fffef8; border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+    .formula-chip { display:block; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; white-space: normal; overflow-wrap: anywhere; line-height: 1.5; background: var(--surface-strong); color:var(--text-900); border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
     .native-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .native-card { display:grid; gap: 10px; }
     .status-stack { display:flex; flex-wrap:wrap; gap: 10px; }
@@ -1318,7 +1319,7 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
     @media (max-width: 980px) {
       .native-grid { grid-template-columns: 1fr; }
     }
-    """
+    """ + ANIMATION_CSS
 
     status_order = (
         "Implemented in EchoTime",
@@ -1340,12 +1341,13 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
         f"<p><strong>Kind:</strong> {escape(entry['kind'])}</p>"
         f"{_formula_html(entry['formula'])}"
         f"<p>{escape(entry['notes'])}</p>"
+        f"{animation_link(entry['name'])}"
         "</article>"
         for entry in native_methods
     )
     recommended_rows = "".join(
         "<tr>"
-        f"<td><strong>{escape(entry['name'])}</strong><br><span class='muted'>{escape(entry['family'])}</span></td>"
+        f"<td><strong>{escape(entry['name'])}</strong><br><span class='muted'>{escape(entry['family'])}</span><br>{animation_link(entry['name'])}</td>"
         f"<td><span class='pill {_atlas_status_tone(entry['echotime_status'])}'>{escape(entry['echotime_status'])}</span></td>"
         f"<td><span class='inline-code'>{escape(entry['echotime_api'] or '-')}</span></td>"
         f"<td>{_formula_html(entry['formula'])}</td>"
@@ -1358,7 +1360,7 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
     for family in families:
         rows = "".join(
             "<tr>"
-            f"<td><strong>{escape(entry['name'])}</strong></td>"
+            f"<td><strong>{escape(entry['name'])}</strong><br>{animation_link(entry['name'])}</td>"
             f"<td>{escape(entry['kind'])}</td>"
             f"<td>{escape(entry['metric'])}</td>"
             f"<td>{escape(entry['complexity'])}</td>"
@@ -1396,6 +1398,7 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
           <span class='meta-chip'><strong>Version</strong> {escape(version)}</span>
         </div>
         <div class='status-stack'>{status_chips}</div>
+        <p><a href='#method-animations'><strong>Explore 137 animated explanations / 查看全部方法动图 →</strong></a></p>
       </div>
       <div class='docs-card'>
         {_pill('What EchoTime now exposes', 'blue')}
@@ -1433,6 +1436,7 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
       <p class='table-note'>These are the similarity characterizations EchoTime already uses in raw-series comparison reports. Every entry below includes the mathematical expression used or approximated by the current code path.</p>
       <div class='native-grid'>{native_cards}</div>
     </div>
+    {method_animations_html()}
     <div class='docs-card'>
       {_pill('Operating modes for elastic methods', 'blue')}
       <ul class='panel-list'>

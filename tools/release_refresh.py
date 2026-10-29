@@ -60,6 +60,7 @@ from echotime.demo_server import demo_server_html  # noqa: E402
 from tools.generate_preview_assets import generate_preview_assets  # noqa: E402
 from tools.build_knowledge_pages import build_knowledge_pages  # noqa: E402
 from tools.sync_runtime_assets import sync_runtime_assets  # noqa: E402
+from tools.build_method_animations import build_method_animations, BUNDLE as ANIMATION_BUNDLE  # noqa: E402
 
 
 def _write(path: Path, content: str) -> None:
@@ -126,6 +127,8 @@ The old `tsontology` package name remains callable in this release as a compatib
 
 def main() -> None:
     build_knowledge_pages()
+    build_method_animations()
+    shutil.copytree(ANIMATION_BUNDLE, ROOT / "assets/method-animations", dirs_exist_ok=True)
     generate_preview_assets(ROOT)
     sync_runtime_assets()
 

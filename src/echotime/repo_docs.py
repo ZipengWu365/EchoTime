@@ -456,12 +456,25 @@ changes you are prepared to ignore.
 | Do I need DTW, matrix profiles, learned representations, or a Python library? | [Task and software comparison](docs/articles/README.md) |
 | Which papers support a method, and what did they actually evaluate? | [Verified reading list](docs/references/time-series-similarity-literature.md) · [BibTeX](docs/references/time-series-similarity-literature.bib) · [JSON](docs/references/time-series-similarity-literature.json) |
 | Which methods are implemented in this package? | [Implementation atlas](SIMILARITY_METHOD_ATLAS.md) |
+| How does each method work, step by step? | [137 animated explanations · 动图详解](docs/method-animations/README.md) |
 
 The [web reading guide]({PROJECT_DOCUMENTATION_URL}articles/) includes both languages.
 EchoTime's aggregate score is a weighted diagnostic summary. It is not a calibrated
 probability of a shared mechanism or successful transfer. `compare_series` uses a
 resampled, standardized representation (256 points by default); inspect the
 component metrics and preprocessing before interpreting a match.
+
+<details>
+<summary>Watch a calculation: DTW alignment / 查看 DTW 对齐动图</summary>
+
+![DTW: local costs, accumulated cost and an optimal alignment path](src/echotime/data/method_animations/media/dtw.gif)
+
+Each entry in the [animated method guide](docs/method-animations/README.md) includes
+its inputs, mathematical convention, four stages, limitations and definition
+sources, with English and Chinese explanations. The [existing Methods Atlas](https://zipengwu.me/EchoTime/guide/methods.html#method-animations)
+offers static previews, click-to-play GIFs and method search.
+
+</details>
 
 ## 60-second quickstart
 

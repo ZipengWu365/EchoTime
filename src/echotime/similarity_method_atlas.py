@@ -411,6 +411,8 @@ def similarity_method_atlas_guide(*, format: GuideFormat = "markdown") -> str | 
         "",
         "Use the [English selection guide](docs/articles/time-series-similarity-guide.en.md) or [中文选型指南](docs/articles/time-series-similarity-guide.zh-CN.md) to connect method families to whole-series, subsequence, dataset, and learning tasks.",
         "",
+        "The [animated method explanations](docs/method-animations/README.md) cover all 10 native entries and 127 registry entries with individual GIFs, static images, four calculation stages, example inputs, sources and limitations in English and Chinese. [Open the same explanations in the existing web atlas](https://zipengwu.me/EchoTime/guide/methods.html#method-animations). Teaching examples distinguish checked EchoTime implementations, explicit reference formulas and specified illustrative protocols.",
+        "",
         "The full registry is an inventory, not a claim that all methods have been implemented or independently reproduced here. The `implementation` column describes the imported reference registry; `EchoTime fit` and `EchoTime API` identify local coverage. `Conceptually covered` denotes a related component, which can use a different cost or transformation. Metric properties require the stated domain and parameter assumptions; feature-space metrics can be pseudometrics on the original series.",
         "",
         "## Current EchoTime comparison layer",
@@ -425,6 +427,7 @@ def similarity_method_atlas_guide(*, format: GuideFormat = "markdown") -> str | 
                 f"- kind: {entry['kind']}",
                 f"- formula: `{entry['formula']}`",
                 f"- note: {entry['notes']}",
+                f"- animation and explanation: [{entry['name']}](docs/method-animations/native.md#{entry['name']})",
                 "",
             ]
         )
@@ -440,7 +443,7 @@ def similarity_method_atlas_guide(*, format: GuideFormat = "markdown") -> str | 
     for entry in payload["recommended_additions"]:  # type: ignore[index]
         api_name = entry["echotime_api"] or "-"
         lines.append(
-            f"| {entry['name']} | {entry['family']} | {entry['echotime_status']} | `{_md_cell(api_name)}` | `{_md_cell(entry['formula'])}` | {_md_cell(entry['echotime_rationale'])} |"
+            f"| [{entry['name']}](docs/method-animations/{entry['family']}.md#{entry['name']}) | {entry['family']} | {entry['echotime_status']} | `{_md_cell(api_name)}` | `{_md_cell(entry['formula'])}` | {_md_cell(entry['echotime_rationale'])} |"
         )
 
     lines.extend(["", "## Full extracted atlas", ""])
@@ -458,7 +461,7 @@ def similarity_method_atlas_guide(*, format: GuideFormat = "markdown") -> str | 
         for entry in family["entries"]:
             api_name = entry["echotime_api"] or "-"
             lines.append(
-                f"| {entry['name']} | {entry['kind']} | {entry['metric']} | {entry['complexity']} | {entry['unequal_length']} | {entry['multivariate']} | {entry['implementation']} | {entry['echotime_status']} | `{_md_cell(api_name)}` | `{_md_cell(entry['formula'])}` | {_md_cell(entry['notes'])} |"
+                f"| [{entry['name']}](docs/method-animations/{entry['family']}.md#{entry['name']}) | {entry['kind']} | {entry['metric']} | {entry['complexity']} | {entry['unequal_length']} | {entry['multivariate']} | {entry['implementation']} | {entry['echotime_status']} | `{_md_cell(api_name)}` | `{_md_cell(entry['formula'])}` | {_md_cell(entry['notes'])} |"
             )
         lines.append("")
 
