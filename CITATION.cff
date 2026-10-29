@@ -12,7 +12,7 @@ version: 0.17.1
 license: MIT
 repository-code: https://github.com/ZipengWu365/EchoTime
 repository-artifact: https://pypi.org/project/echotime/
-url: https://zipengwu365.github.io/EchoTime/
+url: https://zipengwu.me/EchoTime/
 keywords:
   - time-series
   - similarity

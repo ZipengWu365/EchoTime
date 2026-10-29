@@ -1,0 +1,23 @@
+name: Method or reference contribution
+description: Suggest a paper, correct a method definition, or propose a useful comparison example.
+title: "[Methods]: "
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Primary paper or official implementation URL
+      description: A DOI, proceedings page, author manuscript, or official code repository.
+    validations:
+      required: true
+  - type: textarea
+    id: contribution
+    attributes:
+      label: What should change?
+      description: Identify the definition, property, evidence boundary, or practical task this source addresses.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and validation
+      description: Is this a reading-list addition, an implementation correction, or a new API proposal? For numerical changes, provide a small expected result or an independent reference.

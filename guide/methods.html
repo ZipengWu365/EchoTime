@@ -4,52 +4,56 @@
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime docs - Similarity Methods Atlas</title><style>
 :root {
-  --page-bg: #FFFFFF;
-  --surface: #FAFAFA;
-  --surface-strong: #FFFFFF;
-  --surface-sun: #FFF4C2;
-  --surface-sun-strong: #FFF9E4;
+  --page-bg: #000000;
+  --surface: #0a0a0a;
+  --surface-strong: #111111;
+  --surface-sun: rgba(255, 200, 61, 0.05);
+  --surface-sun-strong: rgba(255, 200, 61, 0.1);
   --sun-500: #FFC83D;
   --sun-300: #FFE27A;
   --sun-100: #FFF4C2;
   --sun-700: #C7950A;
-  --blue-600: #2F6BFF;
-  --blue-700: #2554CC;
-  --text-900: #1F2937;
-  --text-600: #6B7280;
-  --border: #E5E7EB;
-  --shadow-sm: 0 10px 30px rgba(31, 41, 55, 0.06);
-  --shadow-md: 0 18px 50px rgba(31, 41, 55, 0.08);
+  --blue-600: #3b82f6;
+  --blue-700: #2563eb;
+  --text-900: #FFFFFF;
+  --text-600: #A1A1AA;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 200, 61, 0.3);
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
   --radius-lg: 28px;
-  --radius-md: 20px;
-  --radius-sm: 14px;
-  --max-width: 980px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --max-width: 1280px;
 }
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 html {
   scroll-behavior: smooth;
 }
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top right, rgba(255, 226, 122, 0.16), transparent 24%),
-    linear-gradient(180deg, #fffef9 0%, var(--page-bg) 12%, var(--page-bg) 100%);
+  background-color: var(--page-bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 200, 61, 0.08), transparent 50%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05), transparent 50%);
   color: var(--text-900);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
 a {
-  color: var(--blue-600);
+  color: var(--text-900);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 a:hover {
-  color: var(--blue-700);
+  color: var(--sun-500);
 }
 code, pre {
-  font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 select, input, textarea {
   width: 100%;
@@ -61,7 +65,7 @@ select, input, textarea {
   font: inherit;
 }
 .shell {
-  width: min(var(--max-width), calc(100vw - 20px));
+  width: min(var(--max-width), calc(100vw - 40px));
   margin: 0 auto;
 }
 svg, img {
@@ -71,9 +75,9 @@ svg, img {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
-  border-bottom: 1px solid rgba(229, 231, 235, 0.94);
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(12px) saturate(180%);
 }
 .topbar-inner {
@@ -89,11 +93,21 @@ svg, img {
   gap: 14px;
 }
 .brand-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--sun-500), var(--sun-300));
-  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.06);
+  width: 38px;
+  height: 38px;
+  border-radius: 0px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.brand-mark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.2);
 }
 .brand-copy strong {
   display: block;
@@ -101,14 +115,20 @@ svg, img {
   letter-spacing: -0.02em;
 }
 .brand-copy span {
-  color: var(--text-600);
-  font-size: 0.95rem;
+  display: none;
+}
+@media (min-width: 768px) {
+  .brand-copy span {
+    display: block;
+    color: var(--text-600);
+    font-size: 0.85rem;
+  }
 }
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  font-size: 0.95rem;
+  gap: 20px;
+  font-size: 0.9rem;
 }
 .nav a {
   color: var(--text-600);
@@ -118,34 +138,63 @@ svg, img {
   color: var(--text-900);
 }
 .section {
-  padding: 26px 0 18px;
+  padding: 80px 0 40px;
+  position: relative;
 }
 .section-head {
   display: grid;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   width: fit-content;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 200, 61, 0.38);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border: 1px solid rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.1);
+  color: var(--sun-500);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.1);
 }
 .hero {
-  padding: 42px 0 18px;
+  padding: 100px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-canvas-container {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.8;
+  pointer-events: none;
+}
+@media (max-width: 1280px) {
+  .hero-canvas-container {
+    width: 100%;
+    right: 0;
+    opacity: 0.4;
+  }
+}
+.hero-content {
+  max-width: 760px;
+  position: relative;
+  z-index: 2;
+}
+.hero-content p {
+  margin-top: 24px;
 }
 .hero-grid, .grid-2, .grid-3 {
   display: grid;
-  gap: 20px;
+  gap: 32px;
 }
 .hero-grid {
   grid-template-columns: 1.1fr 0.9fr;
@@ -157,118 +206,162 @@ svg, img {
 .grid-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.showcase-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 1280px) {
+  .showcase-split {
+    grid-template-columns: 1fr;
+  }
+}
 .card {
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 22px 24px;
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
+  padding: 32px;
+  position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at top left, rgba(255, 200, 61, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.card:hover {
+  border-color: rgba(255, 200, 61, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 200, 61, 0.05);
+  transform: translateY(-2px);
+}
+.card:hover::before {
+  opacity: 1;
 }
 .card.sun {
-  background: linear-gradient(180deg, #fffdfa 0%, var(--surface-sun-strong) 100%);
+  background: var(--surface);
 }
 .card.soft {
   background: var(--surface);
 }
 .feature-card {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 .feature-card p,
 .card p {
   margin: 0;
+  color: var(--text-600);
 }
 .badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.trust-strip {
+.trust-strip, .trust-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.logo-chip {
+.logo-chip, .trust-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 0 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
-.logo-dot {
-  width: 9px;
-  height: 9px;
+.logo-dot, .trust-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--sun-500), var(--blue-600));
+  background: var(--sun-500);
+  box-shadow: 0 0 8px var(--sun-500);
 }
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 11px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-strong);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.pill:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-900);
 }
 .pill.sun {
-  border-color: rgba(255, 200, 61, 0.42);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border-color: rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.05);
+  color: var(--sun-500);
 }
 .pill.blue {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--blue-600);
 }
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 16px;
+  margin-top: 24px;
 }
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 24px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface-strong);
-  color: var(--text-900);
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
-.button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 .button.primary {
-  border-color: rgba(255, 200, 61, 0.48);
-  background: linear-gradient(180deg, #ffd65f 0%, var(--sun-500) 100%);
-  color: var(--text-900);
+  background: var(--text-900);
+  color: var(--page-bg);
+}
+.button.primary:hover {
+  background: var(--sun-500);
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.4);
+  transform: translateY(-2px);
 }
 .button.secondary {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  background: var(--surface-strong);
+  color: var(--text-900);
+  border-color: var(--border);
+}
+.button.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
 }
 .button.ghost {
   background: transparent;
-  box-shadow: none;
+  color: var(--text-600);
+}
+.button.ghost:hover {
+  color: var(--text-900);
 }
 .button.text {
   padding: 0;
@@ -280,28 +373,44 @@ svg, img {
 }
 h1, h2, h3 {
   margin: 0;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 h1 {
-  font-size: clamp(2.6rem, 5vw, 4.5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.scanline-text {
+  background-image:
+    repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px),
+    linear-gradient(180deg, #FFFFFF 0%, #a1a1aa 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  padding-bottom: 0.1em;
 }
 h2 {
-  font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
 }
 h3 {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 .subhead, .lead, .muted {
   color: var(--text-600);
 }
 .subhead {
-  max-width: 46rem;
-  font-size: 1.12rem;
+  max-width: 48rem;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 .lead {
   margin: 0;
-  max-width: 68rem;
+  max-width: 60rem;
+  font-size: 1.1rem;
 }
 .hero-stat {
   display: grid;
@@ -316,7 +425,7 @@ h3 {
 .stat {
   border: 1px solid rgba(255, 200, 61, 0.28);
   border-radius: var(--radius-sm);
-  background: rgba(255, 244, 194, 0.55);
+  background: rgba(255, 244, 194, 0.05);
   padding: 12px 14px;
 }
 .stat strong {
@@ -349,31 +458,44 @@ h3 {
   justify-content: center;
   border-radius: 999px;
   background: var(--sun-500);
-  color: var(--text-900);
+  color: var(--page-bg);
   font-weight: 800;
 }
 .code-block, pre {
   margin: 0;
-  padding: 16px;
+  padding: 20px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: #fffef8;
-  color: var(--text-900);
+  background: #0d0d0d;
+  color: #e5e7eb;
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+pre::before {
+  content: '';
+  display: block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+  margin-bottom: 16px;
 }
 .surface-frame {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-strong);
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
   overflow: hidden;
 }
 .surface-frame.pad {
-  padding: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
 }
 table {
   width: 100%;
@@ -393,7 +515,7 @@ th, td {
   border-bottom: 1px solid var(--border);
 }
 th {
-  background: #fffdf6;
+  background: #111111;
   color: var(--text-600);
   font-size: 0.92rem;
 }
@@ -416,8 +538,15 @@ img.brand-card {
   box-shadow: var(--shadow-sm);
 }
 .footer {
-  padding: 28px 0 54px;
+  padding: 40px 0 60px;
   color: var(--text-600);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .footer-grid {
   display: grid;
@@ -446,23 +575,29 @@ img.brand-card {
 }
 .diagram-card {
   padding: 18px;
-  border: 1px dashed rgba(47, 107, 255, 0.22);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, rgba(255, 244, 194, 0.38) 0%, #ffffff 100%);
+  background: rgba(255, 200, 61, 0.05);
 }
 .note-box {
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: var(--sun-500);
+  font-weight: 500;
+  font-style: italic;
 }
 .note-box.info {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.05);
+  border-left: 3px solid var(--sun-500);
+  background: transparent;
+  color: var(--sun-500);
 }
 .note-box.warn {
   border-color: rgba(255, 200, 61, 0.45);
-  background: rgba(255, 244, 194, 0.66);
+  background: rgba(255, 244, 194, 0.05);
 }
 .author-meta {
   display: grid;
@@ -470,71 +605,87 @@ img.brand-card {
   margin-top: 14px;
 }
 .callout {
-  padding: 18px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 200, 61, 0.42);
-  background: linear-gradient(180deg, #fff9e4 0%, #ffffff 100%);
-  box-shadow: var(--shadow-sm);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 200, 61, 0.2);
+  background: radial-gradient(circle at center, rgba(255, 200, 61, 0.08) 0%, #0a0a0a 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@media (max-width: 980px) {
+.callout .section-head {
+  align-items: center;
+  text-align: center;
+}
+@media (max-width: 1280px) {
   .topbar-inner {
-    padding: 12px 0;
+    padding: 16px 0;
     align-items: flex-start;
+    flex-direction: column;
   }
   .hero-grid, .grid-2, .grid-3, .workflow, .diagram-band, .hero-stat, .footer-grid {
     grid-template-columns: 1fr;
   }
 }
+svg text { fill: #A1A1AA; }
+svg text[fill='#1F2937'] { fill: #FFFFFF; }
+svg rect[fill='white'], svg rect[fill='#ffffff'] { fill: transparent; }
+svg rect[stroke='#E5E7EB'] { stroke: rgba(255, 255, 255, 0.1); }
+svg line[stroke='#E5E7EB'], svg line[stroke='#F3F4F6'] { stroke: rgba(255, 255, 255, 0.1); }
+svg rect[fill='#F3F4F6'] { fill: rgba(255, 255, 255, 0.05); }
+svg polyline[stroke='#2F6BFF'] { stroke: var(--sun-500); filter: drop-shadow(0 0 5px rgba(255, 200, 61, 0.5)); }
+svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
 
     .docs-wrap { display:grid; grid-template-columns: 240px minmax(0, 1fr); gap: 18px; padding: 24px 0 36px; }
     .docs-sidebar { position: sticky; top: 88px; align-self: start; display:grid; gap:14px; min-width: 0; }
-    .sidebar-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+    .sidebar-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
     .sidebar-title { margin:0 0 10px; font-size: 0.86rem; color: var(--text-600); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     .doc-link { display:block; padding: 10px 12px; border-radius: 12px; color: var(--text-600); font-weight: 600; word-break: break-word; }
-    .doc-link:hover { background: rgba(47,107,255,0.06); color: var(--text-900); }
-    .doc-link.active { background: rgba(255, 244, 194, 0.78); color: var(--text-900); border:1px solid rgba(255,200,61,0.38); }
+    .doc-link:hover { background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
+    .doc-link.active { background: rgba(255, 200, 61, 0.2); color: #FFE27A; border:1px solid rgba(255,200,61,0.4); }
     .docs-main { display:grid; gap: 24px; min-width: 0; }
     .docs-hero { display:grid; gap: 12px; }
     .docs-hero h1 { font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.02; }
-    .docs-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
+    .docs-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
     .docs-grid-2, .docs-grid-3 { display:grid; gap: 20px; }
     .docs-grid-2 { grid-template-columns: 1fr 1fr; }
     .docs-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .meta-line { display:flex; flex-wrap:wrap; gap: 10px; min-width: 0; }
-    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: var(--surface); border:1px solid var(--border); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
+    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
     .meta-chip strong { color: var(--text-900); }
     .entry-stack { display:grid; gap: 16px; }
-    .entry { border-top: 1px solid var(--border); padding-top: 16px; }
+    .entry { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 16px; }
     .entry:first-child { border-top: 0; padding-top: 0; }
     .entry h3 { font-size: 1.1rem; }
-    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #fffef8; border:1px solid var(--border); padding: 2px 6px; border-radius: 8px; }
+    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #1a1a1a; color: #FFE27A; border:1px solid rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 8px; }
     .small-table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
-    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid var(--border); vertical-align: top; }
-    .small-table th { background: #fffdf6; color: var(--text-600); font-size: 0.9rem; }
+    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid rgba(255, 255, 255, 0.1); vertical-align: top; }
+    .small-table th { background: #1a1a1a; color: var(--text-600); font-size: 0.9rem; }
     .small-table tr:last-child td { border-bottom: 0; }
     .toc-note { font-size: 0.92rem; color: var(--text-600); }
     .example-card { align-content: start; }
-    .example-preview { border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); padding: 12px; overflow: hidden; }
+    .example-preview { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); padding: 12px; overflow: hidden; }
     .example-preview svg { display: block; width: 100%; height: auto; }
     .example-link-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 4px; }
     .example-figure-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:20px; }
     .example-figure-wide { grid-column: 1 / -1; }
     .asset-list { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid var(--border); background: var(--surface); color: var(--text-900); }
-    .asset-link:hover { border-color: rgba(47,107,255,0.18); background: rgba(47,107,255,0.04); color: var(--text-900); }
+    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid rgba(255, 255, 255, 0.1); background: #1a1a1a; color: var(--text-900); }
+    .asset-link:hover { border-color: rgba(255, 200, 61, 0.3); background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
     .asset-link strong { font-size: 0.96rem; }
     .asset-link span { color: var(--text-600); font-size: 0.88rem; }
     .gallery-section { display:grid; gap: 14px; }
     .gallery-section h2 { font-size: 1.18rem; }
     .gallery-grid { display:grid; gap: 16px; }
-    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid var(--border); border-radius: 18px; background: var(--surface-strong); box-shadow: var(--shadow-sm); }
-    .gallery-thumb { display:block; border: 1px solid var(--border); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); overflow: hidden; }
+    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; background: #1a1a1a; box-shadow: var(--shadow-sm); }
+    .gallery-thumb { display:block; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); overflow: hidden; }
     .gallery-thumb svg { display:block; width: 100%; height: auto; }
     .gallery-body { display:grid; gap: 8px; min-width: 0; }
     .gallery-body h3 { font-size: 1.2rem; line-height: 1.25; }
     .gallery-body p { margin: 0; }
     .gallery-links { display:flex; flex-wrap:wrap; gap: 12px; font-weight: 700; }
-    .gallery-links a { color: var(--blue-700); }
+    .gallery-links a { color: var(--blue-600); }
     .gallery-links a:hover { text-decoration: underline; }
     .gallery-kicker { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-600); }
     .example-page-intro { display:grid; gap: 16px; }
@@ -548,8 +699,8 @@ img.brand-card {
     .component-list { display:grid; gap: 10px; }
     .component-row { display:grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
     .component-row span { color: var(--text-600); }
-    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #f3f4f6; overflow: hidden; }
-    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #f1b62a); }
+    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #2a2a2a; overflow: hidden; }
+    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #FFD700); }
     @media (max-width: 1180px) {
       .docs-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .example-figure-grid, .asset-list { grid-template-columns: 1fr; }
@@ -561,7 +712,7 @@ img.brand-card {
       .example-figure-grid { grid-template-columns: 1fr; }
       .gallery-card, .example-summary-grid { grid-template-columns: 1fr; }
     }
-    
+
     .formula-chip { display:block; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; white-space: normal; overflow-wrap: anywhere; line-height: 1.5; background: #fffef8; border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
     .native-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .native-card { display:grid; gap: 10px; }
@@ -574,13 +725,11 @@ img.brand-card {
 <body>
 <header class='topbar'>
   <div class='shell topbar-inner'>
-    <div class='brand'>
-      <span class='brand-mark'></span>
-      <div class='brand-copy'>
-        <strong>EchoTime</strong>
-        <span>Explainable time-series similarity for humans and agents.</span>
-      </div>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='../logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
+
     <nav class='nav'>
       <a href='../index.html'>Home</a>
       <a href='index.html'>Docs</a>
@@ -604,14 +753,15 @@ img.brand-card {
       <a class='doc-link' href='../reports/github_breakout_similarity.html'>Real-data flagship report</a>
     </div>
     <div class='sidebar-card'>
-      <div class='sidebar-title'>Maintainer</div>
-      <div class='toc-note'><strong>Zipeng Wu</strong><br>The University of Birmingham<br><a href='mailto:zxw365@student.bham.ac.uk'>zxw365@student.bham.ac.uk</a></div>
+      <div class='sidebar-title'>Maintainers</div>
+      <div class='toc-note' style='margin-bottom: 10px;'><strong>Zipeng Wu</strong><br>The University of Birmingham<br><a href='mailto:zxw365@student.bham.ac.uk'>zxw365@student.bham.ac.uk</a></div>
+      <div class='toc-note'><strong>Jiajun Chen</strong><br>The University of Southampton<br><a href='mailto:jc15u24@soton.ac.uk'>jc15u24@soton.ac.uk</a></div>
     </div>
-    
+
   </aside>
   <section class='docs-main'>
     <div class='docs-hero'><div class='eyebrow'>Documentation</div><h1>Similarity Methods Atlas</h1><p class='subhead'>A full audit of EchoTime&#x27;s current comparison math plus the 127 extracted time-series similarity methods from ts_similarity_package_v2_pkg, each with an explicit mathematical expression.</p></div>
-    
+
     <div class='docs-grid-2'>
       <div class='docs-card'>
         <span class='pill sun'>Audit summary</span>
@@ -641,6 +791,12 @@ img.brand-card {
     <div class='docs-card'>
       <span class='pill blue'>Literature anchors</span>
       <p class='table-note'>These references anchor the major method families in the atlas. They support the method inventory; they do not imply that every listed method is implemented as a standalone EchoTime API.</p>
+      <p>For checked titles, publication status, claims, and limitations, use the
+      <a href='../references/time-series-similarity-literature.html'>verified reading list</a>
+      with <a href='../references/time-series-similarity-literature.bib'>BibTeX</a> and
+      <a href='../references/time-series-similarity-literature.json'>JSON</a>.
+      The <a href='../articles/index.html'>method selection guide</a> separates
+      whole-series comparison, subsequence retrieval, dataset comparison, and learning losses.</p>
       <ul class='panel-list'>
         <li><strong>Broad distance comparisons:</strong> <a href='https://doi.org/10.14778/1454159.1454226'>Ding et al. 2008</a> and <a href='https://journal.r-project.org/articles/RJ-2016-058/'>TSdist</a>.</li>
         <li><strong>Sliding and shape comparison:</strong> <a href='https://doi.org/10.1145/2723372.2737793'>SBD/k-Shape</a>.</li>
@@ -653,7 +809,7 @@ img.brand-card {
     <div class='docs-card'>
       <span class='pill sun'>Current EchoTime comparison layer</span>
       <p class='table-note'>These are the similarity characterizations EchoTime already uses in raw-series comparison reports. Every entry below includes the mathematical expression used or approximated by the current code path.</p>
-      <div class='native-grid'><article class='docs-card native-card'><span class='pill sun'>shape_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_shape = GM(clip(r(x,y), 0, 1), clip(r(Delta x, Delta y), 0, 1))</code><p>Combines level correlation with first-difference correlation so the headline match does not ignore local dynamics.</p></article><article class='docs-card native-card'><span class='pill sun'>dtw_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_dtw = GM(exp(-DTW_w(x,y)/0.45), exp(-DTW_w(Delta x, Delta y)/0.35))</code><p>Turns constrained DTW distances into a similarity score and blends level-space and derivative-space warping.</p></article><article class='docs-card native-card'><span class='pill sun'>trend_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_trend = GM(clip(r(T(x), T(y)), 0, 1), clip(r(Delta T(x), Delta T(y)), 0, 1))</code><p>Smooths both series first, then compares both the trend level and the trend slope.</p></article><article class='docs-card native-card'><span class='pill sun'>derivative_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_diff = clip(r(Delta x, Delta y), 0, 1)</code><p>Focuses on whether local changes move together even when the levels differ.</p></article><article class='docs-card native-card'><span class='pill sun'>spectral_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_spec = GM(1 - JSD(P_x, P_y), clip(r(P_x - U, P_y - U), 0, 1))</code><p>Compares normalized spectra of differenced series, mixing JS overlap with structural similarity relative to a uniform spectrum U.</p></article><article class='docs-card native-card'><span class='pill blue'>pearson_r</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>r(x,y) = sum_t (x_t - x_bar)(y_t - y_bar) / sqrt(sum_t (x_t - x_bar)^2 sum_t (y_t - y_bar)^2)</code><p>Familiar linear correlation exposed directly in every raw-series similarity report.</p></article><article class='docs-card native-card'><span class='pill blue'>spearman_rho</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>rho(x,y) = corr(rank(x), rank(y))</code><p>Rank-order correlation used as a robustness check against nonlinear monotone relationships.</p></article><article class='docs-card native-card'><span class='pill blue'>kendall_tau</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>tau(x,y) = (C - D) / choose(n, 2)</code><p>Pairwise concordance measure that stays interpretable when rank ordering matters more than amplitude.</p></article><article class='docs-card native-card'><span class='pill blue'>best_lag_pearson_r</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>max_lag_r(x,y) = max_ell r(x_t, y_{t-ell})</code><p>Searches over a bounded lag window to show whether a shift-aware linear relationship is stronger than the aligned one.</p></article><article class='docs-card native-card'><span class='pill blue'>normalized_mutual_information</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>NMI(X,Y) = I(X;Y) / sqrt(H(X) H(Y))</code><p>Histogram-based nonlinear dependence score used as a familiar cross-check against linear metrics.</p></article></div>
+      <div class='native-grid'><article class='docs-card native-card'><span class='pill sun'>shape_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_shape = GM(clip(r(x,y), 0, 1), clip(r(Delta x, Delta y), 0, 1))</code><p>Combines level correlation with first-difference correlation so the headline match does not ignore local dynamics.</p></article><article class='docs-card native-card'><span class='pill sun'>dtw_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_dtw = GM(exp(-aDTW_w(x,y)/0.45), exp(-aDTW_w(z(Delta x), z(Delta y))/0.35)); aDTW = min_path sum |x_i-y_j| / (n+m)</code><p>A package-specific blend on resampled, z-normalized series and re-normalized first differences. Uses absolute local costs and divides accumulated cost by n+m; it is not the common square-root-of-squared-cost DTW distance or a calibrated probability.</p></article><article class='docs-card native-card'><span class='pill sun'>trend_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_trend = GM(clip(r(T(x), T(y)), 0, 1), clip(r(Delta T(x), Delta T(y)), 0, 1))</code><p>Smooths both series first, then compares both the trend level and the trend slope.</p></article><article class='docs-card native-card'><span class='pill sun'>derivative_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_diff = clip(r(Delta x, Delta y), 0, 1)</code><p>Focuses on whether local changes move together even when the levels differ.</p></article><article class='docs-card native-card'><span class='pill sun'>spectral_similarity</span><p><strong>Family:</strong> EchoTime native component</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>s_spec = GM(1 - JSD(P_x, P_y), clip(r(P_x - U, P_y - U), 0, 1))</code><p>Compares normalized spectra of differenced series, mixing JS overlap with structural similarity relative to a uniform spectrum U.</p></article><article class='docs-card native-card'><span class='pill blue'>pearson_r</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>r(x,y) = sum_t (x_t - x_bar)(y_t - y_bar) / sqrt(sum_t (x_t - x_bar)^2 sum_t (y_t - y_bar)^2)</code><p>Familiar linear correlation exposed directly in every raw-series similarity report.</p></article><article class='docs-card native-card'><span class='pill blue'>spearman_rho</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>rho(x,y) = corr(rank(x), rank(y))</code><p>Rank-order correlation used as a robustness check against nonlinear monotone relationships.</p></article><article class='docs-card native-card'><span class='pill blue'>kendall_tau</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>tau_b(x,y) = (C - D) / sqrt((C + D + T_x)(C + D + T_y))</code><p>Kendall tau-b uses tie corrections: T_x and T_y count pairs tied only in x or only in y. EchoTime retains a zero-score convention for constant inputs, where statistical correlation is undefined.</p></article><article class='docs-card native-card'><span class='pill blue'>best_lag_pearson_r</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>max_lag_r(x,y) = max_ell r(x_t, y_{t-ell})</code><p>Searches over a bounded lag window to show whether a shift-aware linear relationship is stronger than the aligned one.</p></article><article class='docs-card native-card'><span class='pill blue'>normalized_mutual_information</span><p><strong>Family:</strong> EchoTime reference metric</p><p><strong>Kind:</strong> similarity</p><code class='formula-chip'>NMI(X,Y) = I(X;Y) / sqrt(H(X) H(Y))</code><p>Histogram-based nonlinear dependence score used as a familiar cross-check against linear metrics.</p></article></div>
     </div>
     <div class='docs-card'>
       <span class='pill blue'>Operating modes for elastic methods</span>
@@ -669,11 +825,11 @@ img.brand-card {
       <p class='table-note'>This table stays selective: it shows only the methods already added to EchoTime and the strongest candidates from the 127-method v2 registry. In the current build, the full high-fit shortlist is already implemented.</p>
       <table class='small-table'>
         <thead><tr><th>Method</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Why it fits</th></tr></thead>
-        <tbody><tr><td><strong>independent_max_ncc</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_max_ncc</span></td><td><code class='formula-chip'>$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>independent_sbd</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_sbd</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>max_normalized_cross_correlation</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>max_ncc</span></td><td><code class='formula-chip'>$s(x,y)=\max_k NCC_k(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>sbd</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>sbd</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k NCC_k(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>edr</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>edr_distance</span></td><td><code class='formula-chip'>$EDR_{\epsilon}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>erp</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>erp_distance</span></td><td><code class='formula-chip'>$ERP(x,y;g)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>lcss_distance</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_distance</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{LCSS}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>lcss_similarity</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_similarity</span></td><td><code class='formula-chip'>$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>twed</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>twed_distance</span></td><td><code class='formula-chip'>$TWED_{\lambda,\nu}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>acf_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>acf_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|ACF(x)-ACF(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>ordinal_pattern_js_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>ordinal_pattern_js_distance</span></td><td><code class='formula-chip'>$d(x,y)=JS(\Pi(x),\Pi(y))$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>periodogram_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>periodogram_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>trend_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>trend_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>linear_trend_model_distance</strong><br><span class='muted'>model-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>linear_trend_model_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr></tbody>
+        <tbody><tr><td><strong>independent_max_ncc</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_max_ncc</span></td><td><code class='formula-chip'>$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>independent_sbd</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_sbd</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>max_normalized_cross_correlation</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>max_ncc</span></td><td><code class='formula-chip'>$s(x,y)=\max_k NCC_k(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>sbd</strong><br><span class='muted'>sliding</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>sbd</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k NCC_k(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>edr</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>edr_distance</span></td><td><code class='formula-chip'>$EDR_{\epsilon}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>erp</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>erp_distance</span></td><td><code class='formula-chip'>$ERP(x,y;g)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>lcss_distance</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_distance</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{LCSS}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>lcss_similarity</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_similarity</span></td><td><code class='formula-chip'>$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>twed</strong><br><span class='muted'>elastic</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>twed_distance</span></td><td><code class='formula-chip'>$TWED_{\lambda,\nu}(x,y)$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>acf_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>acf_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|ACF(x)-ACF(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>ordinal_pattern_js_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>ordinal_pattern_js_distance</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{JSD(\Pi(x),\Pi(y))}$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>periodogram_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>periodogram_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>trend_distance</strong><br><span class='muted'>feature-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>trend_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr><tr><td><strong>linear_trend_model_distance</strong><br><span class='muted'>model-based</span></td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>linear_trend_model_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\|_2$</code></td><td>This method is now available as a public low-level EchoTime similarity function.</td></tr></tbody>
       </table>
     </div>
-    <section class='docs-card'><span class='pill sun'>lock-step</span><p>Pointwise comparison on an already aligned timeline.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>euclidean</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_t \|x_t-y_t\|_2^2}$</code></td><td>Equal-length pointwise Euclidean distance.</td></tr><tr><td><strong>squared_euclidean</strong></td><td>distance</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_t \|x_t-y_t\|_2^2$</code></td><td>Squared Euclidean loss.</td></tr><tr><td><strong>rmse_distance</strong></td><td>distance</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{nd}\sum_t \|x_t-y_t\|_2^2}$</code></td><td>Root-mean-square error over aligned points.</td></tr><tr><td><strong>manhattan</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_t \|x_t-y_t\|_1$</code></td><td>L1 distance.</td></tr><tr><td><strong>mae_distance</strong></td><td>distance</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{nd}\sum_t \|x_t-y_t\|_1$</code></td><td>Mean absolute error.</td></tr><tr><td><strong>minkowski</strong></td><td>distance</td><td>yes (p≥1)</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d_p(x,y)=\left(\sum_t \|x_t-y_t\|_p^p\right)^{1/p}$</code></td><td>Generalized Lp distance.</td></tr><tr><td><strong>chebyshev</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\max_t \|x_t-y_t\|_{\infty}$</code></td><td>Maximum deviation distance.</td></tr><tr><td><strong>canberra</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \frac{|x_i-y_i|}{|x_i|+|y_i|}$</code></td><td>Relative L1 distance sensitive near zero.</td></tr><tr><td><strong>bray_curtis</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i |x_i+y_i|}$</code></td><td>Bray-Curtis dissimilarity.</td></tr><tr><td><strong>sorensen</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i (|x_i|+|y_i|)}$</code></td><td>Sorensen dissimilarity.</td></tr><tr><td><strong>soergel</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i \max(|x_i|,|y_i|)}$</code></td><td>Relative distance normalized by max magnitudes.</td></tr><tr><td><strong>kulczynski</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i \min(|x_i|,|y_i|)}$</code></td><td>Kulczynski-style relative dissimilarity.</td></tr><tr><td><strong>clark</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_i\left(\frac{|x_i-y_i|}{|x_i|+|y_i|}\right)^2}$</code></td><td>Clark distance.</td></tr><tr><td><strong>wave_hedges</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \frac{|x_i-y_i|}{\max(|x_i|,|y_i|)}$</code></td><td>Wave-Hedges distance.</td></tr><tr><td><strong>lorentzian</strong></td><td>distance-like</td><td>not guaranteed</td><td>O(n·d)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \log(1+|x_i-y_i|)$</code></td><td>Log-compressed deviation.</td></tr><tr><td><strong>cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=\frac{\langle x,y\rangle}{\|x\|\|y\|}$</code></td><td>Directional similarity.</td></tr><tr><td><strong>cosine_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(x,y)$</code></td><td>Monotone transform of cosine similarity.</td></tr><tr><td><strong>angular_distance</strong></td><td>distance</td><td>yes on normalized vectors</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\arccos(s_{\cos}(x,y))/\pi$</code></td><td>Angle-based distance.</td></tr><tr><td><strong>pearson_similarity</strong></td><td>similarity</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>pearson_r</span></td><td><code class='formula-chip'>$r(x,y)=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum_i(x_i-\bar x)^2}\sqrt{\sum_i(y_i-\bar y)^2}}$</code></td><td>Linear correlation.</td></tr><tr><td><strong>pearson_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>pearson_r</span></td><td><code class='formula-chip'>$d(x,y)=1-r(x,y)$</code></td><td>Correlation distance.</td></tr><tr><td><strong>spearman_similarity</strong></td><td>similarity</td><td>no</td><td>O(n \log n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spearman_rho</span></td><td><code class='formula-chip'>$s(x,y)=r(\mathrm{rank}(x),\mathrm{rank}(y))$</code></td><td>Rank correlation similarity.</td></tr><tr><td><strong>spearman_distance</strong></td><td>distance-like</td><td>no</td><td>O(n \log n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spearman_rho</span></td><td><code class='formula-chip'>$d(x,y)=1-\rho(x,y)$</code></td><td>Distance-like rank dissimilarity.</td></tr><tr><td><strong>kendall_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>kendall_tau</span></td><td><code class='formula-chip'>$s(x,y)=\tau_b(x,y)$</code></td><td>Kendall tau-b rank agreement.</td></tr><tr><td><strong>kendall_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>kendall_tau</span></td><td><code class='formula-chip'>$d(x,y)=1-\tau_b(x,y)$</code></td><td>Distance-like form of Kendall agreement.</td></tr><tr><td><strong>jensen_shannon</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spectral_similarity</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{2}KL(x\|m)+\frac{1}{2}KL(y\|m)}$</code></td><td>Symmetric divergence for nonnegative normalized sequences.</td></tr><tr><td><strong>kl_divergence</strong></td><td>divergence</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$D_{KL}(x\|y)=\sum_i p_i\log\frac{p_i}{q_i}$</code></td><td>Asymmetric divergence.</td></tr><tr><td><strong>jeffreys_divergence</strong></td><td>divergence</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$J(x,y)=KL(x\|y)+KL(y\|x)$</code></td><td>Symmetrized KL divergence.</td></tr><tr><td><strong>bhattacharyya_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=-\log\sum_i \sqrt{p_i q_i}$</code></td><td>Distribution overlap distance.</td></tr><tr><td><strong>hellinger_distance</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{2}\sum_i(\sqrt{p_i}-\sqrt{q_i})^2}$</code></td><td>Probability-distribution distance.</td></tr><tr><td><strong>chi_square_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{2}\sum_i\frac{(x_i-y_i)^2}{x_i+y_i}$</code></td><td>Chi-square distance for histograms.</td></tr><tr><td><strong>seuclidean_distance</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_i \frac{(x_i-y_i)^2}{v_i}}$</code></td><td>Variance-standardized Euclidean distance.</td></tr><tr><td><strong>znorm_euclidean</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\hat x-\hat y\|_2$</code></td><td>Euclidean after per-channel z-normalization.</td></tr><tr><td><strong>znorm_manhattan</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\hat x-\hat y\|_1$</code></td><td>Manhattan after z-normalization.</td></tr><tr><td><strong>cid_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$CID(x,y)=ED(x,y)\cdot \frac{\max(CE(x),CE(y))}{\min(CE(x),CE(y))}$</code></td><td>Complexity-invariant distance.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>sliding</span><p>Shift-aware comparison under pure translation or lead-lag offsets.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>max_normalized_cross_correlation</strong></td><td>similarity</td><td>no</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>max_ncc</span></td><td><code class='formula-chip'>$s(x,y)=\max_k NCC_k(x,y)$</code></td><td>Maximum normalized cross-correlation over shifts.</td></tr><tr><td><strong>sbd</strong></td><td>distance-like</td><td>no</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>sbd</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k NCC_k(x,y)$</code></td><td>Shape-based distance.</td></tr><tr><td><strong>shift_euclidean_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \|x_{\Omega_k}-y_{\Omega_k}\|_2$</code></td><td>Best-overlap Euclidean distance over integer shifts.</td></tr><tr><td><strong>shift_rmse_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \sqrt{\frac{1}{|\Omega_k|}\sum_{t\in\Omega_k}(x_t-y_{t-k})^2}$</code></td><td>Best-overlap RMSE.</td></tr><tr><td><strong>shift_manhattan_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \|x_{\Omega_k}-y_{\Omega_k}\|_1$</code></td><td>Best-overlap L1 distance.</td></tr><tr><td><strong>shift_mae_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \frac{1}{|\Omega_k|}\|x_{\Omega_k}-y_{\Omega_k}\|_1$</code></td><td>Best-overlap MAE.</td></tr><tr><td><strong>shift_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=\max_k s_{\cos}(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Best-overlap cosine similarity.</td></tr><tr><td><strong>shift_cosine_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k s_{\cos}(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Distance-like shift-invariant cosine measure.</td></tr><tr><td><strong>shift_pearson_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>best_lag_pearson_r</span></td><td><code class='formula-chip'>$s(x,y)=\max_k r(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Best-overlap Pearson correlation.</td></tr><tr><td><strong>shift_pearson_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>best_lag_pearson_r</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k r(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Distance-like shift-invariant correlation measure.</td></tr><tr><td><strong>independent_sbd</strong></td><td>distance-like</td><td>no</td><td>O(dn\log n)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_sbd</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent SBD.</td></tr><tr><td><strong>independent_max_ncc</strong></td><td>similarity</td><td>no</td><td>O(dn\log n)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_max_ncc</span></td><td><code class='formula-chip'>$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent maximum NCC.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>elastic</span><p>Dynamic-programming alignments that allow local stretching or compression.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>dtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW(x,y)=\min_{\pi}\sqrt{\sum_{(i,j)\in\pi} \|x_i-y_j\|_2^2}$</code></td><td>Dynamic Time Warping.</td></tr><tr><td><strong>cdtw</strong></td><td>distance</td><td>no</td><td>O(nw)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW_w(x,y)$ with Sakoe-Chiba window</code></td><td>Constrained DTW.</td></tr><tr><td><strong>itakura_dtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$DTW_{\mathrm{Itakura}}(x,y)$</code></td><td>DTW under Itakura parallelogram constraint.</td></tr><tr><td><strong>wdtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$WDTW(x,y)=\min_{\pi}\sqrt{\sum_{(i,j)\in\pi} w_{|i-j|}\|x_i-y_j\|_2^2}$</code></td><td>Weighted DTW.</td></tr><tr><td><strong>ddtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW(\Delta x,\Delta y)$</code></td><td>Derivative DTW.</td></tr><tr><td><strong>wddtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$WDTW(\Delta x,\Delta y)$</code></td><td>Weighted derivative DTW.</td></tr><tr><td><strong>soft_dtw</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$sDTW_{\gamma}(x,y)$</code></td><td>Soft minimum relaxation of DTW.</td></tr><tr><td><strong>soft_dtw_divergence</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$D^{\gamma}(x,y)=sDTW(x,y)-\frac{1}{2}sDTW(x,x)-\frac{1}{2}sDTW(y,y)$</code></td><td>Soft-DTW divergence.</td></tr><tr><td><strong>lcss_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_similarity</span></td><td><code class='formula-chip'>$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$</code></td><td>Longest Common Subsequence similarity.</td></tr><tr><td><strong>lcss_distance</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_distance</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{LCSS}(x,y)$</code></td><td>Distance-like LCSS form.</td></tr><tr><td><strong>edr</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>edr_distance</span></td><td><code class='formula-chip'>$EDR_{\epsilon}(x,y)$</code></td><td>Edit distance on real sequence.</td></tr><tr><td><strong>swale_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$SWALE_{\epsilon}(x,y)$</code></td><td>Similarity with reward and penalty.</td></tr><tr><td><strong>erp</strong></td><td>distance</td><td>yes</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>erp_distance</span></td><td><code class='formula-chip'>$ERP(x,y;g)$</code></td><td>Edit distance with real penalty.</td></tr><tr><td><strong>msm</strong></td><td>distance</td><td>yes</td><td>O(nm)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$MSM(x,y)$</code></td><td>Move-Split-Merge distance.</td></tr><tr><td><strong>twed</strong></td><td>distance</td><td>yes</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>twed_distance</span></td><td><code class='formula-chip'>$TWED_{\lambda,\nu}(x,y)$</code></td><td>Time Warp Edit distance.</td></tr><tr><td><strong>discrete_frechet</strong></td><td>distance</td><td>yes</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$\delta_F(x,y)$</code></td><td>Discrete Fréchet distance.</td></tr><tr><td><strong>needleman_wunsch_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$NW(x,y)$</code></td><td>Global alignment score.</td></tr><tr><td><strong>smith_waterman_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$SW(x,y)$</code></td><td>Local alignment score.</td></tr><tr><td><strong>shape_dtw</strong></td><td>distance</td><td>no</td><td>O(nmr)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$DTW(\phi_{\mathrm{shape}}(x),\phi_{\mathrm{shape}}(y))$</code></td><td>DTW on local shape descriptors.</td></tr><tr><td><strong>independent_dtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c DTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent DTW average.</td></tr><tr><td><strong>independent_cdtw</strong></td><td>distance</td><td>no</td><td>O(dnw)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c cDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent constrained DTW.</td></tr><tr><td><strong>independent_wdtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c WDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent weighted DTW.</td></tr><tr><td><strong>independent_ddtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c DDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent derivative DTW.</td></tr><tr><td><strong>independent_erp</strong></td><td>distance</td><td>yes</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c ERP(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent ERP.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>kernel</span><p>Similarity through kernel scores rather than direct distances.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>linear_kernel</strong></td><td>similarity</td><td>PSD if input space valid</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\langle x,y \rangle$</code></td><td>Linear kernel on flattened vectors.</td></tr><tr><td><strong>polynomial_kernel</strong></td><td>similarity</td><td>depends on parameters</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=(\gamma \langle x,y \rangle + c)^p$</code></td><td>Polynomial kernel.</td></tr><tr><td><strong>sigmoid_kernel</strong></td><td>similarity</td><td>not always PSD</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\tanh(\gamma \langle x,y \rangle + c)$</code></td><td>Sigmoid kernel.</td></tr><tr><td><strong>rbf_kernel</strong></td><td>similarity</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma \|x-y\|_2^2)$</code></td><td>Gaussian kernel over aligned vectors.</td></tr><tr><td><strong>dtw_rbf_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma DTW(x,y)^2)$</code></td><td>RBF on DTW distance.</td></tr><tr><td><strong>sbd_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma SBD(x,y))$</code></td><td>RBF-like kernel on SBD.</td></tr><tr><td><strong>soft_dtw_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-D^\gamma(x,y)/\gamma)$</code></td><td>Kernelized soft-DTW divergence.</td></tr><tr><td><strong>gak</strong></td><td>similarity</td><td>yes after normalization in practice</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K_G(x,y)=\sum_{\pi} \prod_{(i,j)\in\pi} k(x_i,y_j)$</code></td><td>Global Alignment Kernel.</td></tr><tr><td><strong>lgak</strong></td><td>similarity</td><td>not a metric</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$\log(K_G(x,y)+\epsilon)$</code></td><td>Log-transformed GAK.</td></tr><tr><td><strong>weighted_ncc_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\sum_k w_k \cdot NCC_k(x,y)$</code></td><td>Shift-aware weighted cross-correlation kernel.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>feature-based</span><p>Compare derived features instead of raw waveforms.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{stats}}(x)-\phi_{\mathrm{stats}}(y)\|_2$</code></td><td>Distance on basic summary statistics.</td></tr><tr><td><strong>robust_stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{robust}}(x)-\phi_{\mathrm{robust}}(y)\|_2$</code></td><td>Distance on robust statistics.</td></tr><tr><td><strong>acf_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(nL)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>acf_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|ACF(x)-ACF(y)\|_2$</code></td><td>Autocorrelation-feature distance.</td></tr><tr><td><strong>spectral_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spectral_similarity</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(|FFT(x)|,|FFT(y)|)$</code></td><td>Cosine similarity in the magnitude spectrum.</td></tr><tr><td><strong>spectral_distance</strong></td><td>distance-like</td><td>no</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(|FFT(x)|,|FFT(y)|)$</code></td><td>Distance-like spectral measure.</td></tr><tr><td><strong>periodogram_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>periodogram_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_2$</code></td><td>Distance between normalized periodograms.</td></tr><tr><td><strong>paa_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|PAA(x)-PAA(y)\|_2$</code></td><td>Piecewise Aggregate Approximation distance.</td></tr><tr><td><strong>dwt_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|W(x)-W(y)\|_2$</code></td><td>Distance on Haar wavelet coefficients.</td></tr><tr><td><strong>histogram_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|h(x)-h(y)\|_2$</code></td><td>Value-histogram distance.</td></tr><tr><td><strong>permutation_entropy_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=|H_{\pi}(x)-H_{\pi}(y)|$</code></td><td>Absolute difference in permutation entropy.</td></tr><tr><td><strong>ordinal_pattern_js_distance</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>ordinal_pattern_js_distance</span></td><td><code class='formula-chip'>$d(x,y)=JS(\Pi(x),\Pi(y))$</code></td><td>Jensen-Shannon distance between ordinal-pattern distributions.</td></tr><tr><td><strong>trend_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>trend_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\|_2$</code></td><td>Distance on trend/intercept/residual features.</td></tr><tr><td><strong>sax_hamming_distance</strong></td><td>distance</td><td>yes on symbolic strings</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{w}\sum_{i=1}^w [SAX_i(x)\neq SAX_i(y)]$</code></td><td>Hamming distance on SAX words.</td></tr><tr><td><strong>sax_mindist</strong></td><td>distance</td><td>lower-bounding</td><td>O(w)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$MINDIST(\hat x,\hat y)=\sqrt{\frac{n}{w}}\sqrt{\sum_i dist(\hat x_i,\hat y_i)^2}$</code></td><td>Lower-bounding symbolic distance in SAX space.</td></tr><tr><td><strong>bag_of_patterns_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(nw)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(BoP(x),BoP(y))$</code></td><td>Cosine similarity on bag-of-patterns histograms.</td></tr><tr><td><strong>bag_of_patterns_distance</strong></td><td>distance-like</td><td>no</td><td>O(nw)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(BoP(x),BoP(y))$</code></td><td>Distance-like bag-of-patterns measure.</td></tr><tr><td><strong>independent_stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(dn)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c \|\phi(X^{(c)})-\phi(Y^{(c)})\|_2$</code></td><td>Channel-independent stats distance.</td></tr><tr><td><strong>independent_paa_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(dn)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c \|PAA(X^{(c)})-PAA(Y^{(c)})\|_2$</code></td><td>Channel-independent PAA distance.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>model-based</span><p>Compare fitted dynamics or transition structure.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>ar_distance</strong></td><td>distance</td><td>yes in parameter space</td><td>O(np^2)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{AR}(x)-\theta_{AR}(y)\|_2$</code></td><td>Distance between autoregressive coefficients.</td></tr><tr><td><strong>ar_spectrum_distance</strong></td><td>distance</td><td>yes in spectral space</td><td>O(np^2 + Fp)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\log S_{AR}(x)-\log S_{AR}(y)\|_2$</code></td><td>Distance between AR-implied log spectra.</td></tr><tr><td><strong>ar_prediction_error_distance</strong></td><td>distance-like</td><td>no</td><td>O(np^2)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{2}(MSE_{x\to y}+MSE_{y\to x})$</code></td><td>Symmetric cross-prediction error.</td></tr><tr><td><strong>markov_distance</strong></td><td>distance</td><td>yes in transition space</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_F$</code></td><td>Distance between discretized transition matrices.</td></tr><tr><td><strong>linear_trend_model_distance</strong></td><td>distance</td><td>yes in parameter space</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>linear_trend_model_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\|_2$</code></td><td>Distance between linear trend models.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>embedding</span><p>Encode first, then compare in a latent or compressed space.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=d_{\mathcal Z}(\phi(x),\phi(y))$</code></td><td>Generic embedding-space distance.</td></tr><tr><td><strong>embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\mathcal Z}(\phi(x),\phi(y))$</code></td><td>Generic embedding-space similarity.</td></tr><tr><td><strong>paa_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the PAA encoder.</td></tr><tr><td><strong>paa_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the PAA encoder.</td></tr><tr><td><strong>dft_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the DFT-magnitude encoder.</td></tr><tr><td><strong>dft_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the DFT-magnitude encoder.</td></tr><tr><td><strong>stats_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the basic-statistics encoder.</td></tr><tr><td><strong>stats_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the basic-statistics encoder.</td></tr><tr><td><strong>robust_stats_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the robust-statistics encoder.</td></tr><tr><td><strong>robust_stats_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the robust-statistics encoder.</td></tr><tr><td><strong>acf_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the ACF encoder.</td></tr><tr><td><strong>acf_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the ACF encoder.</td></tr><tr><td><strong>wavelet_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the wavelet encoder.</td></tr><tr><td><strong>wavelet_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the wavelet encoder.</td></tr><tr><td><strong>histogram_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the histogram encoder.</td></tr><tr><td><strong>histogram_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the histogram encoder.</td></tr><tr><td><strong>periodogram_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the periodogram encoder.</td></tr><tr><td><strong>periodogram_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the periodogram encoder.</td></tr><tr><td><strong>trend_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the trend-feature encoder.</td></tr><tr><td><strong>trend_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the trend-feature encoder.</td></tr><tr><td><strong>random_projection_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the random projection encoder.</td></tr><tr><td><strong>random_projection_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the random projection encoder.</td></tr><tr><td><strong>identity_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the identity-resample encoder.</td></tr><tr><td><strong>identity_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the identity-resample encoder.</td></tr></tbody></table></section>
-    
+    <section class='docs-card'><span class='pill sun'>lock-step</span><p>Pointwise comparison on an already aligned timeline.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>euclidean</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_t \|x_t-y_t\|_2^2}$</code></td><td>Equal-length pointwise Euclidean distance.</td></tr><tr><td><strong>squared_euclidean</strong></td><td>distance</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_t \|x_t-y_t\|_2^2$</code></td><td>Squared Euclidean loss.</td></tr><tr><td><strong>rmse_distance</strong></td><td>distance</td><td>yes on a common fixed-dimensional domain</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{nd}\sum_t \|x_t-y_t\|_2^2}$</code></td><td>Root-mean-square error over aligned points: a positive constant times Euclidean distance when n and d are fixed.</td></tr><tr><td><strong>manhattan</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_t \|x_t-y_t\|_1$</code></td><td>L1 distance.</td></tr><tr><td><strong>mae_distance</strong></td><td>distance</td><td>yes on a common fixed-dimensional domain</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{nd}\sum_t \|x_t-y_t\|_1$</code></td><td>Mean absolute error: a positive constant times L1 distance when n and d are fixed.</td></tr><tr><td><strong>minkowski</strong></td><td>distance</td><td>yes (p≥1)</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d_p(x,y)=\left(\sum_t \|x_t-y_t\|_p^p\right)^{1/p}$</code></td><td>Generalized Lp distance.</td></tr><tr><td><strong>chebyshev</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\max_t \|x_t-y_t\|_{\infty}$</code></td><td>Maximum deviation distance.</td></tr><tr><td><strong>canberra</strong></td><td>distance</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \frac{|x_i-y_i|}{|x_i|+|y_i|}$</code></td><td>Relative L1 distance sensitive near zero.</td></tr><tr><td><strong>bray_curtis</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i |x_i+y_i|}$</code></td><td>Bray-Curtis dissimilarity.</td></tr><tr><td><strong>sorensen</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i (|x_i|+|y_i|)}$</code></td><td>Sorensen dissimilarity.</td></tr><tr><td><strong>soergel</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i \max(|x_i|,|y_i|)}$</code></td><td>Relative distance normalized by max magnitudes.</td></tr><tr><td><strong>kulczynski</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{\sum_i |x_i-y_i|}{\sum_i \min(|x_i|,|y_i|)}$</code></td><td>Kulczynski-style relative dissimilarity.</td></tr><tr><td><strong>clark</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_i\left(\frac{|x_i-y_i|}{|x_i|+|y_i|}\right)^2}$</code></td><td>Clark distance.</td></tr><tr><td><strong>wave_hedges</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \frac{|x_i-y_i|}{\max(|x_i|,|y_i|)}$</code></td><td>Wave-Hedges distance.</td></tr><tr><td><strong>lorentzian</strong></td><td>distance-like</td><td>not guaranteed</td><td>O(n·d)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sum_i \log(1+|x_i-y_i|)$</code></td><td>Log-compressed deviation.</td></tr><tr><td><strong>cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=\frac{\langle x,y\rangle}{\|x\|\|y\|}$</code></td><td>Directional similarity.</td></tr><tr><td><strong>cosine_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(x,y)$</code></td><td>Monotone transform of cosine similarity.</td></tr><tr><td><strong>angular_distance</strong></td><td>distance</td><td>yes on normalized vectors</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\arccos(s_{\cos}(x,y))/\pi$</code></td><td>Angle-based distance.</td></tr><tr><td><strong>pearson_similarity</strong></td><td>similarity</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>pearson_r</span></td><td><code class='formula-chip'>$r(x,y)=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum_i(x_i-\bar x)^2}\sqrt{\sum_i(y_i-\bar y)^2}}$</code></td><td>Linear correlation.</td></tr><tr><td><strong>pearson_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>pearson_r</span></td><td><code class='formula-chip'>$d(x,y)=1-r(x,y)$</code></td><td>Correlation distance.</td></tr><tr><td><strong>spearman_similarity</strong></td><td>similarity</td><td>no</td><td>O(n \log n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spearman_rho</span></td><td><code class='formula-chip'>$s(x,y)=r(\mathrm{rank}(x),\mathrm{rank}(y))$</code></td><td>Rank correlation similarity.</td></tr><tr><td><strong>spearman_distance</strong></td><td>distance-like</td><td>no</td><td>O(n \log n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spearman_rho</span></td><td><code class='formula-chip'>$d(x,y)=1-\rho(x,y)$</code></td><td>Distance-like rank dissimilarity.</td></tr><tr><td><strong>kendall_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>kendall_tau</span></td><td><code class='formula-chip'>$s(x,y)=\tau_b(x,y)$</code></td><td>Kendall tau-b rank agreement.</td></tr><tr><td><strong>kendall_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>kendall_tau</span></td><td><code class='formula-chip'>$d(x,y)=1-\tau_b(x,y)$</code></td><td>Distance-like form of Kendall agreement.</td></tr><tr><td><strong>jensen_shannon</strong></td><td>distance</td><td>yes on probability distributions</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spectral_similarity</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{2}KL(x\|m)+\frac{1}{2}KL(y\|m)}$</code></td><td>Square root of Jensen-Shannon divergence, defined on probability distributions over a common support.</td></tr><tr><td><strong>kl_divergence</strong></td><td>divergence</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$D_{KL}(x\|y)=\sum_i p_i\log\frac{p_i}{q_i}$</code></td><td>Asymmetric divergence.</td></tr><tr><td><strong>jeffreys_divergence</strong></td><td>divergence</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$J(x,y)=KL(x\|y)+KL(y\|x)$</code></td><td>Symmetrized KL divergence.</td></tr><tr><td><strong>bhattacharyya_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=-\log\sum_i \sqrt{p_i q_i}$</code></td><td>Distribution overlap distance.</td></tr><tr><td><strong>hellinger_distance</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\frac{1}{2}\sum_i(\sqrt{p_i}-\sqrt{q_i})^2}$</code></td><td>Probability-distribution distance.</td></tr><tr><td><strong>chi_square_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{2}\sum_i\frac{(x_i-y_i)^2}{x_i+y_i}$</code></td><td>Chi-square distance for histograms.</td></tr><tr><td><strong>seuclidean_distance</strong></td><td>distance</td><td>yes</td><td>O(n)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{\sum_i \frac{(x_i-y_i)^2}{v_i}}$</code></td><td>Variance-standardized Euclidean distance.</td></tr><tr><td><strong>znorm_euclidean</strong></td><td>distance</td><td>yes in normalized space; pseudometric on original series</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\hat x-\hat y\|_2$</code></td><td>Euclidean after per-channel z-normalization. Positive rescaling and offset can map distinct series to the same representation; constant channels need a declared convention.</td></tr><tr><td><strong>znorm_manhattan</strong></td><td>distance</td><td>yes in normalized space; pseudometric on original series</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\hat x-\hat y\|_1$</code></td><td>L1 after per-channel z-normalization. Positive rescaling and offset can map distinct series to the same representation; constant channels need a declared convention.</td></tr><tr><td><strong>cid_distance</strong></td><td>distance-like</td><td>no</td><td>O(n·d)</td><td>no</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$CID(x,y)=ED(x,y)\cdot \frac{\max(CE(x),CE(y))}{\min(CE(x),CE(y))}$</code></td><td>Complexity-invariant distance.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>sliding</span><p>Shift-aware comparison under pure translation or lead-lag offsets.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>max_normalized_cross_correlation</strong></td><td>similarity</td><td>no</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>max_ncc</span></td><td><code class='formula-chip'>$s(x,y)=\max_k NCC_k(x,y)$</code></td><td>Maximum normalized cross-correlation over shifts.</td></tr><tr><td><strong>sbd</strong></td><td>distance-like</td><td>no</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>sbd</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k NCC_k(x,y)$</code></td><td>Shape-based distance.</td></tr><tr><td><strong>shift_euclidean_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \|x_{\Omega_k}-y_{\Omega_k}\|_2$</code></td><td>Best-overlap Euclidean distance over integer shifts.</td></tr><tr><td><strong>shift_rmse_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \sqrt{\frac{1}{|\Omega_k|}\sum_{t\in\Omega_k}(x_t-y_{t-k})^2}$</code></td><td>Best-overlap RMSE.</td></tr><tr><td><strong>shift_manhattan_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \|x_{\Omega_k}-y_{\Omega_k}\|_1$</code></td><td>Best-overlap L1 distance.</td></tr><tr><td><strong>shift_mae_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\min_k \frac{1}{|\Omega_k|}\|x_{\Omega_k}-y_{\Omega_k}\|_1$</code></td><td>Best-overlap MAE.</td></tr><tr><td><strong>shift_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=\max_k s_{\cos}(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Best-overlap cosine similarity.</td></tr><tr><td><strong>shift_cosine_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k s_{\cos}(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Distance-like shift-invariant cosine measure.</td></tr><tr><td><strong>shift_pearson_similarity</strong></td><td>similarity</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>best_lag_pearson_r</span></td><td><code class='formula-chip'>$s(x,y)=\max_k r(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Best-overlap Pearson correlation.</td></tr><tr><td><strong>shift_pearson_distance</strong></td><td>distance-like</td><td>no</td><td>O(n^2·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>best_lag_pearson_r</span></td><td><code class='formula-chip'>$d(x,y)=1-\max_k r(x_{\Omega_k},y_{\Omega_k})$</code></td><td>Distance-like shift-invariant correlation measure.</td></tr><tr><td><strong>independent_sbd</strong></td><td>distance-like</td><td>no</td><td>O(dn\log n)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_sbd</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c SBD(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent SBD.</td></tr><tr><td><strong>independent_max_ncc</strong></td><td>similarity</td><td>no</td><td>O(dn\log n)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>independent_max_ncc</span></td><td><code class='formula-chip'>$s(X,Y)=\frac{1}{d}\sum_c \max_k NCC_k(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent maximum NCC.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>elastic</span><p>Dynamic-programming alignments that allow local stretching or compression.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>dtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW(x,y)=\min_{\pi}\sqrt{\sum_{(i,j)\in\pi} \|x_i-y_j\|_2^2}$</code></td><td>Dynamic Time Warping.</td></tr><tr><td><strong>cdtw</strong></td><td>distance</td><td>no</td><td>O(nw)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW_w(x,y)$ with Sakoe-Chiba window</code></td><td>Constrained DTW.</td></tr><tr><td><strong>itakura_dtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$DTW_{\mathrm{Itakura}}(x,y)$</code></td><td>DTW under Itakura parallelogram constraint.</td></tr><tr><td><strong>wdtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$WDTW(x,y)=\min_{\pi}\sqrt{\sum_{(i,j)\in\pi} w_{|i-j|}\|x_i-y_j\|_2^2}$</code></td><td>Weighted DTW.</td></tr><tr><td><strong>ddtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>dtw_similarity</span></td><td><code class='formula-chip'>$DTW(\Delta x,\Delta y)$</code></td><td>Derivative DTW.</td></tr><tr><td><strong>wddtw</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$WDTW(\Delta x,\Delta y)$</code></td><td>Weighted derivative DTW.</td></tr><tr><td><strong>soft_dtw</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$sDTW_{\gamma}(x,y)$</code></td><td>Soft minimum relaxation of DTW.</td></tr><tr><td><strong>soft_dtw_divergence</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$D^{\gamma}(x,y)=sDTW(x,y)-\frac{1}{2}sDTW(x,x)-\frac{1}{2}sDTW(y,y)$</code></td><td>Soft-DTW divergence.</td></tr><tr><td><strong>lcss_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_similarity</span></td><td><code class='formula-chip'>$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$</code></td><td>Longest Common Subsequence similarity.</td></tr><tr><td><strong>lcss_distance</strong></td><td>distance-like</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>lcss_distance</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{LCSS}(x,y)$</code></td><td>Distance-like LCSS form.</td></tr><tr><td><strong>edr</strong></td><td>distance</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>edr_distance</span></td><td><code class='formula-chip'>$EDR_{\epsilon}(x,y)$</code></td><td>Edit distance on real sequence.</td></tr><tr><td><strong>swale_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$SWALE_{\epsilon}(x,y)$</code></td><td>Similarity with reward and penalty.</td></tr><tr><td><strong>erp</strong></td><td>distance</td><td>requires a gap-domain convention</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>erp_distance</span></td><td><code class='formula-chip'>$ERP(x,y;g)$</code></td><td>Edit distance with real penalty. If gap values are valid observations, distinct raw sequences can have zero distance: with g=0, [1] and [0,1] do. State the sequence equivalence/domain before claiming a metric.</td></tr><tr><td><strong>msm</strong></td><td>distance</td><td>yes</td><td>O(nm)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$MSM(x,y)$</code></td><td>Move-Split-Merge distance.</td></tr><tr><td><strong>twed</strong></td><td>distance</td><td>under the original assumptions with nu &gt; 0</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>twed_distance</span></td><td><code class='formula-chip'>$TWED_{\lambda,\nu}(x,y)$</code></td><td>Time Warp Edit distance. The metric result requires positive stiffness and the original timestamp/cost/boundary conventions; fast resampling and window constraints do not inherit that guarantee.</td></tr><tr><td><strong>discrete_frechet</strong></td><td>distance</td><td>pseudometric on raw vertex sequences</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$\delta_F(x,y)$</code></td><td>Discrete Frechet distance can identify different vertex lists obtained by repeating vertices. A metric claim needs an appropriate equivalence/domain convention.</td></tr><tr><td><strong>needleman_wunsch_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$NW(x,y)$</code></td><td>Global alignment score.</td></tr><tr><td><strong>smith_waterman_similarity</strong></td><td>similarity</td><td>no</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$SW(x,y)$</code></td><td>Local alignment score.</td></tr><tr><td><strong>shape_dtw</strong></td><td>distance</td><td>no</td><td>O(nmr)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$DTW(\phi_{\mathrm{shape}}(x),\phi_{\mathrm{shape}}(y))$</code></td><td>DTW on local shape descriptors.</td></tr><tr><td><strong>independent_dtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c DTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent DTW average.</td></tr><tr><td><strong>independent_cdtw</strong></td><td>distance</td><td>no</td><td>O(dnw)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c cDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent constrained DTW.</td></tr><tr><td><strong>independent_wdtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c WDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent weighted DTW.</td></tr><tr><td><strong>independent_ddtw</strong></td><td>distance</td><td>no</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c DDTW(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent derivative DTW.</td></tr><tr><td><strong>independent_erp</strong></td><td>distance</td><td>requires a gap-domain convention</td><td>O(dnm)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c ERP(X^{(c)},Y^{(c)})$</code></td><td>Channel-independent ERP average; inherits the gap-domain qualifications of ERP.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>kernel</span><p>Similarity through kernel scores rather than direct distances.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>linear_kernel</strong></td><td>similarity</td><td>PSD if input space valid</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\langle x,y \rangle$</code></td><td>Linear kernel on flattened vectors.</td></tr><tr><td><strong>polynomial_kernel</strong></td><td>similarity</td><td>depends on parameters</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=(\gamma \langle x,y \rangle + c)^p$</code></td><td>Polynomial kernel.</td></tr><tr><td><strong>sigmoid_kernel</strong></td><td>similarity</td><td>not always PSD</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\tanh(\gamma \langle x,y \rangle + c)$</code></td><td>Sigmoid kernel.</td></tr><tr><td><strong>rbf_kernel</strong></td><td>similarity</td><td>yes</td><td>O(n·d)</td><td>no</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma \|x-y\|_2^2)$</code></td><td>Gaussian kernel over aligned vectors.</td></tr><tr><td><strong>dtw_rbf_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma DTW(x,y)^2)$</code></td><td>RBF on DTW distance.</td></tr><tr><td><strong>sbd_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-\gamma SBD(x,y))$</code></td><td>RBF-like kernel on SBD.</td></tr><tr><td><strong>soft_dtw_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(nm)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\exp(-D^\gamma(x,y)/\gamma)$</code></td><td>Kernelized soft-DTW divergence.</td></tr><tr><td><strong>gak</strong></td><td>similarity</td><td>yes after normalization in practice</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K_G(x,y)=\sum_{\pi} \prod_{(i,j)\in\pi} k(x_i,y_j)$</code></td><td>Global Alignment Kernel.</td></tr><tr><td><strong>lgak</strong></td><td>similarity</td><td>not a metric</td><td>O(nm)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$\log(K_G(x,y)+\epsilon)$</code></td><td>Log-transformed GAK.</td></tr><tr><td><strong>weighted_ncc_kernel</strong></td><td>similarity</td><td>not guaranteed</td><td>O(n \log n) or O(n^2)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$K(x,y)=\sum_k w_k \cdot NCC_k(x,y)$</code></td><td>Shift-aware weighted cross-correlation kernel.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>feature-based</span><p>Compare derived features instead of raw waveforms.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{stats}}(x)-\phi_{\mathrm{stats}}(y)\|_2$</code></td><td>Distance on basic summary statistics.</td></tr><tr><td><strong>robust_stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{robust}}(x)-\phi_{\mathrm{robust}}(y)\|_2$</code></td><td>Distance on robust statistics.</td></tr><tr><td><strong>acf_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(nL)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>acf_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|ACF(x)-ACF(y)\|_2$</code></td><td>Autocorrelation-feature distance.</td></tr><tr><td><strong>spectral_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill blue'>Conceptually covered</span></td><td><span class='inline-code'>spectral_similarity</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(|FFT(x)|,|FFT(y)|)$</code></td><td>Cosine similarity in the magnitude spectrum.</td></tr><tr><td><strong>spectral_distance</strong></td><td>distance-like</td><td>no</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(|FFT(x)|,|FFT(y)|)$</code></td><td>Distance-like spectral measure.</td></tr><tr><td><strong>periodogram_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n \log n)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>periodogram_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_2$</code></td><td>Distance between normalized periodograms.</td></tr><tr><td><strong>paa_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|PAA(x)-PAA(y)\|_2$</code></td><td>Piecewise Aggregate Approximation distance.</td></tr><tr><td><strong>dwt_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|W(x)-W(y)\|_2$</code></td><td>Distance on Haar wavelet coefficients.</td></tr><tr><td><strong>histogram_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|h(x)-h(y)\|_2$</code></td><td>Value-histogram distance.</td></tr><tr><td><strong>permutation_entropy_distance</strong></td><td>distance-like</td><td>no</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=|H_{\pi}(x)-H_{\pi}(y)|$</code></td><td>Absolute difference in permutation entropy.</td></tr><tr><td><strong>ordinal_pattern_js_distance</strong></td><td>distance</td><td>yes on pattern distributions; pseudometric on series</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>ordinal_pattern_js_distance</span></td><td><code class='formula-chip'>$d(x,y)=\sqrt{JSD(\Pi(x),\Pi(y))}$</code></td><td>Square root of Jensen-Shannon divergence between ordinal-pattern distributions; distinct series can have identical pattern distributions.</td></tr><tr><td><strong>trend_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(n·d)</td><td>yes</td><td>yes</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>trend_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\|_2$</code></td><td>Distance on trend/intercept/residual features.</td></tr><tr><td><strong>sax_hamming_distance</strong></td><td>distance</td><td>yes on symbolic strings</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{w}\sum_{i=1}^w [SAX_i(x)\neq SAX_i(y)]$</code></td><td>Hamming distance on SAX words.</td></tr><tr><td><strong>sax_mindist</strong></td><td>distance</td><td>no; lower bound under SAX assumptions</td><td>O(w)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$MINDIST(\hat x,\hat y)=\sqrt{\frac{n}{w}}\sqrt{\sum_i dist(\hat x_i,\hat y_i)^2}$</code></td><td>Lower-bounding symbolic dissimilarity under SAX normalization and aggregation assumptions. Adjacent symbols can have zero distance; lower-bounding does not imply metric properties.</td></tr><tr><td><strong>bag_of_patterns_cosine_similarity</strong></td><td>similarity</td><td>no</td><td>O(nw)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(BoP(x),BoP(y))$</code></td><td>Cosine similarity on bag-of-patterns histograms.</td></tr><tr><td><strong>bag_of_patterns_distance</strong></td><td>distance-like</td><td>no</td><td>O(nw)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=1-s_{\cos}(BoP(x),BoP(y))$</code></td><td>Distance-like bag-of-patterns measure.</td></tr><tr><td><strong>independent_stats_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(dn)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c \|\phi(X^{(c)})-\phi(Y^{(c)})\|_2$</code></td><td>Channel-independent stats distance.</td></tr><tr><td><strong>independent_paa_distance</strong></td><td>distance</td><td>yes in feature space</td><td>O(dn)</td><td>yes</td><td>multivariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(X,Y)=\frac{1}{d}\sum_c \|PAA(X^{(c)})-PAA(Y^{(c)})\|_2$</code></td><td>Channel-independent PAA distance.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>model-based</span><p>Compare fitted dynamics or transition structure.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>ar_distance</strong></td><td>distance</td><td>yes in parameter space</td><td>O(np^2)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{AR}(x)-\theta_{AR}(y)\|_2$</code></td><td>Distance between autoregressive coefficients.</td></tr><tr><td><strong>ar_spectrum_distance</strong></td><td>distance</td><td>yes in spectral space</td><td>O(np^2 + Fp)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\log S_{AR}(x)-\log S_{AR}(y)\|_2$</code></td><td>Distance between AR-implied log spectra.</td></tr><tr><td><strong>ar_prediction_error_distance</strong></td><td>distance-like</td><td>no</td><td>O(np^2)</td><td>yes</td><td>univariate only</td><td>reference</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\frac{1}{2}(MSE_{x\to y}+MSE_{y\to x})$</code></td><td>Symmetric cross-prediction error.</td></tr><tr><td><strong>markov_distance</strong></td><td>distance</td><td>yes in transition space</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill '>Possible addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|P_x-P_y\|_F$</code></td><td>Distance between discretized transition matrices.</td></tr><tr><td><strong>linear_trend_model_distance</strong></td><td>distance</td><td>yes in parameter space</td><td>O(n)</td><td>yes</td><td>univariate only</td><td>exact</td><td><span class='pill sun'>Implemented in EchoTime</span></td><td><span class='inline-code'>linear_trend_model_distance</span></td><td><code class='formula-chip'>$d(x,y)=\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\|_2$</code></td><td>Distance between linear trend models.</td></tr></tbody></table></section><section class='docs-card'><span class='pill sun'>embedding</span><p>Encode first, then compare in a latent or compressed space.</p><table class='small-table'><thead><tr><th>Method</th><th>Output</th><th>Metric</th><th>Complexity</th><th>Unequal length</th><th>Multivariate</th><th>Implementation</th><th>EchoTime fit</th><th>EchoTime API</th><th>Formula</th><th>Note</th></tr></thead><tbody><tr><td><strong>embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=d_{\mathcal Z}(\phi(x),\phi(y))$</code></td><td>Generic embedding-space distance.</td></tr><tr><td><strong>embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\mathcal Z}(\phi(x),\phi(y))$</code></td><td>Generic embedding-space similarity.</td></tr><tr><td><strong>paa_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the PAA encoder.</td></tr><tr><td><strong>paa_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the PAA encoder.</td></tr><tr><td><strong>dft_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the DFT-magnitude encoder.</td></tr><tr><td><strong>dft_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the DFT-magnitude encoder.</td></tr><tr><td><strong>stats_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the basic-statistics encoder.</td></tr><tr><td><strong>stats_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the basic-statistics encoder.</td></tr><tr><td><strong>robust_stats_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the robust-statistics encoder.</td></tr><tr><td><strong>robust_stats_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the robust-statistics encoder.</td></tr><tr><td><strong>acf_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the ACF encoder.</td></tr><tr><td><strong>acf_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the ACF encoder.</td></tr><tr><td><strong>wavelet_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the wavelet encoder.</td></tr><tr><td><strong>wavelet_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the wavelet encoder.</td></tr><tr><td><strong>histogram_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the histogram encoder.</td></tr><tr><td><strong>histogram_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the histogram encoder.</td></tr><tr><td><strong>periodogram_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the periodogram encoder.</td></tr><tr><td><strong>periodogram_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the periodogram encoder.</td></tr><tr><td><strong>trend_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the trend-feature encoder.</td></tr><tr><td><strong>trend_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the trend-feature encoder.</td></tr><tr><td><strong>random_projection_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the random projection encoder.</td></tr><tr><td><strong>random_projection_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the random projection encoder.</td></tr><tr><td><strong>identity_embedding_distance</strong></td><td>distance</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$d(x,y)=\|\phi(x)-\phi(y)\|_2$</code></td><td>Euclidean distance using the identity-resample encoder.</td></tr><tr><td><strong>identity_embedding_similarity</strong></td><td>similarity</td><td>depends on latent metric</td><td>depends on encoder</td><td>yes</td><td>yes</td><td>adapter</td><td><span class='pill '>Low-priority addition</span></td><td><span class='inline-code'>-</span></td><td><code class='formula-chip'>$s(x,y)=s_{\cos}(\phi(x),\phi(y))$</code></td><td>Cosine similarity using the identity-resample encoder.</td></tr></tbody></table></section>
+
   </section>
 </main>
 </body>

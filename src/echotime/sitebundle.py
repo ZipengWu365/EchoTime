@@ -196,6 +196,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     manifest = json.dumps(project_demo_manifest(version=version), indent=2)
 
     return enrich_pages_bundle({
+        **_knowledge_pages(),
         "index.html": project_homepage_html(version=version),
         "start-here.html": project_launchpad_html(version=version),
         "playground.html": project_playground_html(version=version),
@@ -330,6 +331,18 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     }, version=version)
 
 
+def _knowledge_pages() -> dict[str, str]:
+    """Load versioned reading pages bundled in both source and wheel installs."""
+    root = Path(__file__).with_name("data") / "knowledge"
+    if not root.is_dir():
+        raise FileNotFoundError(
+            "Missing reading pages. In a source checkout, install .[docs] and run "
+            "python tools/build_knowledge_pages.py; otherwise reinstall EchoTime."
+        )
+    return {file.relative_to(root).as_posix(): file.read_text(encoding="utf-8")
+            for file in sorted(root.rglob("*")) if file.is_file()}
+
+
 def write_pages_bundle(path: str | Path, *, version: str = PACKAGE_VERSION) -> Path:
     root = Path(path)
     root.mkdir(parents=True, exist_ok=True)
@@ -339,6 +352,8 @@ def write_pages_bundle(path: str | Path, *, version: str = PACKAGE_VERSION) -> P
         if isinstance(content, bytes):
             target.write_bytes(content)
         else:
+            if target.suffix == ".html":
+                content = "\n".join(line.rstrip() for line in content.splitlines()) + "\n"
             target.write_text(content, encoding="utf-8")
     return root
 

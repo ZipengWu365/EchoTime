@@ -434,19 +434,40 @@ def github_readme(*, format: GuideFormat = "markdown") -> str | dict:
 
 {badges}
 
-![Quickstart preview](assets/quickstart.gif)
-![EchoTime title card](assets/echotime_title_card.svg)
-![Maintainer and affiliation](assets/bham_affiliation_badge.svg)
+![EchoTime](assets/logo_raw.png)
+<img src="assets/members.png" alt="Maintainer and affiliation" width="520">
 
 **EchoTime** is an **explainable time-series similarity package for humans and agents.** It is built for the moment when a raw distance score is not enough: compare trajectories, compare datasets at the structural level, and hand the result to another person or another agent.
 
 **What it is:** {PRODUCT_PROMISE}
 
-**What it is not:** a forecasting library, a classifier library, a fastest-possible DTW engine, or a motif-mining toolkit.
+**Scope:** exploratory pairwise and dataset comparison, component diagnostics, and report export. Use the linked specialist libraries for estimator training, indexed retrieval, or motif discovery.
 
 {project_snapshot}
 
+## Choose a similarity method
+
+Start with the object you need to compare, the differences that matter, and the
+changes you are prepared to ignore.
+
+| Question | Reading route |
+|---|---|
+| Do two complete signals agree in level, shape, timing, or rhythm? | [Method selection guide](docs/articles/time-series-similarity-guide.en.md) · [中文](docs/articles/time-series-similarity-guide.zh-CN.md) |
+| Do I need DTW, matrix profiles, learned representations, or a Python library? | [Task and software comparison](docs/articles/README.md) |
+| Which papers support a method, and what did they actually evaluate? | [Verified reading list](docs/references/time-series-similarity-literature.md) · [BibTeX](docs/references/time-series-similarity-literature.bib) · [JSON](docs/references/time-series-similarity-literature.json) |
+| Which methods are implemented in this package? | [Implementation atlas](SIMILARITY_METHOD_ATLAS.md) |
+
+The [web reading guide]({PROJECT_DOCUMENTATION_URL}articles/) includes both languages.
+EchoTime's aggregate score is a weighted diagnostic summary. It is not a calibrated
+probability of a shared mechanism or successful transfer. `compare_series` uses a
+resampled, standardized representation (256 points by default); inspect the
+component metrics and preprocessing before interpreting a match.
+
 ## 60-second quickstart
+
+The current source checkout requires **Python 3.10 or later**. Numerical fixes in
+`main` are documented in [CHANGELOG.md](CHANGELOG.md); a repository update does not
+change an existing PyPI release.
 
 ```bash
 {QUICKSTART_INSTALL}
@@ -576,6 +597,7 @@ Pair it with other libraries when you move into:
 - feature extraction (`tsfresh`)
 - forecasting (`Darts`, `sktime`, `aeon`, `Kats`)
 - learning pipelines (`aeon`, `sktime`, `tslearn`)
+- whole-series and subsequence search (`aeon`)
 - DTW alignment (`DTAIDistance`)
 - motif / discord mining (`STUMPY`)
 
@@ -625,7 +647,7 @@ def pypi_long_description(*, format: GuideFormat = "markdown") -> str | dict:
 
 ## Why this package exists
 
-Most time-series tooling helps after you decide what to model. EchoTime helps one step earlier: compare two signals clearly, compare two datasets structurally, and emit a result that a human or an agent can actually act on.
+EchoTime supports exploratory comparison before or alongside modelling: compare signals, inspect dataset structure, and share component-level summaries with collaborators or downstream tools.
 
 ## Quickstart
 

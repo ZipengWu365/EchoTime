@@ -2,7 +2,7 @@
   "name": "EchoTime",
   "short_name": "EchoTime",
   "start_url": "/EchoTime/",
-  "display": "standalone",
   "scope": "/EchoTime/",
-  "id": "/EchoTime/"
+  "id": "/EchoTime/",
+  "display": "standalone"
 }

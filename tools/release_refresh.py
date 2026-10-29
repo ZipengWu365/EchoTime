@@ -58,10 +58,14 @@ from echotime import (  # noqa: E402
 )
 from echotime.demo_server import demo_server_html  # noqa: E402
 from tools.generate_preview_assets import generate_preview_assets  # noqa: E402
+from tools.build_knowledge_pages import build_knowledge_pages  # noqa: E402
+from tools.sync_runtime_assets import sync_runtime_assets  # noqa: E402
 
 
 def _write(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.suffix == ".html":
+        content = "\n".join(line.rstrip() for line in content.splitlines())
     path.write_text(content.rstrip() + "\n", encoding="utf-8")
 
 
@@ -121,7 +125,9 @@ The old `tsontology` package name remains callable in this release as a compatib
 
 
 def main() -> None:
+    build_knowledge_pages()
     generate_preview_assets(ROOT)
+    sync_runtime_assets()
 
     _write(ROOT / "README.generated.md", github_readme())
     _write(ROOT / "README.md", github_readme())

@@ -1,0 +1,35 @@
+{
+  "generated_at_utc": "2026-03-12T19:49:02.379052+00:00",
+  "sources": [
+    {
+      "path": "examples/data/real_treasury_yields_2024.csv",
+      "source_name": "FRED",
+      "source_url": "https://fred.stlouisfed.org/graph/?g=1Ht6O"
+    },
+    {
+      "path": "examples/data/real_python_javascript_pageviews_2024.csv",
+      "source_name": "Wikimedia Pageviews API",
+      "source_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data"
+    },
+    {
+      "path": "examples/data/real_ai_attention_breakouts.csv",
+      "source_name": "Wikimedia Pageviews API",
+      "source_url": "https://wikimedia.org/api/rest_v1/#/Pageviews%20data"
+    },
+    {
+      "path": "examples/data/real_usgs_earthquakes_ca_ak_2024.csv",
+      "source_name": "USGS Earthquake Catalog",
+      "source_url": "https://earthquake.usgs.gov/fdsnws/event/1/"
+    },
+    {
+      "path": "examples/data/real_btc_oil_vix_2024.csv",
+      "source_name": "FRED",
+      "source_url": "https://fred.stlouisfed.org/"
+    },
+    {
+      "path": "examples/data/real_heatwave_city_temps_2024.csv",
+      "source_name": "Open-Meteo archive API",
+      "source_url": "https://open-meteo.com/en/docs/historical-weather-api"
+    }
+  ]
+}

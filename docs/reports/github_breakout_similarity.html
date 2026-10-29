@@ -4,52 +4,56 @@
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>AI attention breakout analogs</title><style>
 :root {
-  --page-bg: #FFFFFF;
-  --surface: #FAFAFA;
-  --surface-strong: #FFFFFF;
-  --surface-sun: #FFF4C2;
-  --surface-sun-strong: #FFF9E4;
+  --page-bg: #000000;
+  --surface: #0a0a0a;
+  --surface-strong: #111111;
+  --surface-sun: rgba(255, 200, 61, 0.05);
+  --surface-sun-strong: rgba(255, 200, 61, 0.1);
   --sun-500: #FFC83D;
   --sun-300: #FFE27A;
   --sun-100: #FFF4C2;
   --sun-700: #C7950A;
-  --blue-600: #2F6BFF;
-  --blue-700: #2554CC;
-  --text-900: #1F2937;
-  --text-600: #6B7280;
-  --border: #E5E7EB;
-  --shadow-sm: 0 10px 30px rgba(31, 41, 55, 0.06);
-  --shadow-md: 0 18px 50px rgba(31, 41, 55, 0.08);
+  --blue-600: #3b82f6;
+  --blue-700: #2563eb;
+  --text-900: #FFFFFF;
+  --text-600: #A1A1AA;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 200, 61, 0.3);
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
   --radius-lg: 28px;
-  --radius-md: 20px;
-  --radius-sm: 14px;
-  --max-width: 980px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --max-width: 1280px;
 }
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 html {
   scroll-behavior: smooth;
 }
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top right, rgba(255, 226, 122, 0.16), transparent 24%),
-    linear-gradient(180deg, #fffef9 0%, var(--page-bg) 12%, var(--page-bg) 100%);
+  background-color: var(--page-bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 200, 61, 0.08), transparent 50%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05), transparent 50%);
   color: var(--text-900);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
 a {
-  color: var(--blue-600);
+  color: var(--text-900);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 a:hover {
-  color: var(--blue-700);
+  color: var(--sun-500);
 }
 code, pre {
-  font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 select, input, textarea {
   width: 100%;
@@ -61,7 +65,7 @@ select, input, textarea {
   font: inherit;
 }
 .shell {
-  width: min(var(--max-width), calc(100vw - 20px));
+  width: min(var(--max-width), calc(100vw - 40px));
   margin: 0 auto;
 }
 svg, img {
@@ -71,9 +75,9 @@ svg, img {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
-  border-bottom: 1px solid rgba(229, 231, 235, 0.94);
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(12px) saturate(180%);
 }
 .topbar-inner {
@@ -89,11 +93,21 @@ svg, img {
   gap: 14px;
 }
 .brand-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--sun-500), var(--sun-300));
-  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.06);
+  width: 38px;
+  height: 38px;
+  border-radius: 0px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.brand-mark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.2);
 }
 .brand-copy strong {
   display: block;
@@ -101,14 +115,20 @@ svg, img {
   letter-spacing: -0.02em;
 }
 .brand-copy span {
-  color: var(--text-600);
-  font-size: 0.95rem;
+  display: none;
+}
+@media (min-width: 768px) {
+  .brand-copy span {
+    display: block;
+    color: var(--text-600);
+    font-size: 0.85rem;
+  }
 }
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  font-size: 0.95rem;
+  gap: 20px;
+  font-size: 0.9rem;
 }
 .nav a {
   color: var(--text-600);
@@ -118,34 +138,63 @@ svg, img {
   color: var(--text-900);
 }
 .section {
-  padding: 26px 0 18px;
+  padding: 80px 0 40px;
+  position: relative;
 }
 .section-head {
   display: grid;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   width: fit-content;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 200, 61, 0.38);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border: 1px solid rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.1);
+  color: var(--sun-500);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.1);
 }
 .hero {
-  padding: 42px 0 18px;
+  padding: 100px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-canvas-container {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.8;
+  pointer-events: none;
+}
+@media (max-width: 1280px) {
+  .hero-canvas-container {
+    width: 100%;
+    right: 0;
+    opacity: 0.4;
+  }
+}
+.hero-content {
+  max-width: 760px;
+  position: relative;
+  z-index: 2;
+}
+.hero-content p {
+  margin-top: 24px;
 }
 .hero-grid, .grid-2, .grid-3 {
   display: grid;
-  gap: 20px;
+  gap: 32px;
 }
 .hero-grid {
   grid-template-columns: 1.1fr 0.9fr;
@@ -157,118 +206,162 @@ svg, img {
 .grid-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.showcase-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 1280px) {
+  .showcase-split {
+    grid-template-columns: 1fr;
+  }
+}
 .card {
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 22px 24px;
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
+  padding: 32px;
+  position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at top left, rgba(255, 200, 61, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.card:hover {
+  border-color: rgba(255, 200, 61, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 200, 61, 0.05);
+  transform: translateY(-2px);
+}
+.card:hover::before {
+  opacity: 1;
 }
 .card.sun {
-  background: linear-gradient(180deg, #fffdfa 0%, var(--surface-sun-strong) 100%);
+  background: var(--surface);
 }
 .card.soft {
   background: var(--surface);
 }
 .feature-card {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 .feature-card p,
 .card p {
   margin: 0;
+  color: var(--text-600);
 }
 .badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.trust-strip {
+.trust-strip, .trust-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.logo-chip {
+.logo-chip, .trust-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 0 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
-.logo-dot {
-  width: 9px;
-  height: 9px;
+.logo-dot, .trust-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--sun-500), var(--blue-600));
+  background: var(--sun-500);
+  box-shadow: 0 0 8px var(--sun-500);
 }
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 11px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-strong);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.pill:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-900);
 }
 .pill.sun {
-  border-color: rgba(255, 200, 61, 0.42);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border-color: rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.05);
+  color: var(--sun-500);
 }
 .pill.blue {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--blue-600);
 }
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 16px;
+  margin-top: 24px;
 }
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 24px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface-strong);
-  color: var(--text-900);
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
-.button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 .button.primary {
-  border-color: rgba(255, 200, 61, 0.48);
-  background: linear-gradient(180deg, #ffd65f 0%, var(--sun-500) 100%);
-  color: var(--text-900);
+  background: var(--text-900);
+  color: var(--page-bg);
+}
+.button.primary:hover {
+  background: var(--sun-500);
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.4);
+  transform: translateY(-2px);
 }
 .button.secondary {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  background: var(--surface-strong);
+  color: var(--text-900);
+  border-color: var(--border);
+}
+.button.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
 }
 .button.ghost {
   background: transparent;
-  box-shadow: none;
+  color: var(--text-600);
+}
+.button.ghost:hover {
+  color: var(--text-900);
 }
 .button.text {
   padding: 0;
@@ -280,28 +373,44 @@ svg, img {
 }
 h1, h2, h3 {
   margin: 0;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 h1 {
-  font-size: clamp(2.6rem, 5vw, 4.5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.scanline-text {
+  background-image:
+    repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px),
+    linear-gradient(180deg, #FFFFFF 0%, #a1a1aa 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  padding-bottom: 0.1em;
 }
 h2 {
-  font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
 }
 h3 {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 .subhead, .lead, .muted {
   color: var(--text-600);
 }
 .subhead {
-  max-width: 46rem;
-  font-size: 1.12rem;
+  max-width: 48rem;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 .lead {
   margin: 0;
-  max-width: 68rem;
+  max-width: 60rem;
+  font-size: 1.1rem;
 }
 .hero-stat {
   display: grid;
@@ -316,7 +425,7 @@ h3 {
 .stat {
   border: 1px solid rgba(255, 200, 61, 0.28);
   border-radius: var(--radius-sm);
-  background: rgba(255, 244, 194, 0.55);
+  background: rgba(255, 244, 194, 0.05);
   padding: 12px 14px;
 }
 .stat strong {
@@ -349,31 +458,44 @@ h3 {
   justify-content: center;
   border-radius: 999px;
   background: var(--sun-500);
-  color: var(--text-900);
+  color: var(--page-bg);
   font-weight: 800;
 }
 .code-block, pre {
   margin: 0;
-  padding: 16px;
+  padding: 20px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: #fffef8;
-  color: var(--text-900);
+  background: #0d0d0d;
+  color: #e5e7eb;
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+pre::before {
+  content: '';
+  display: block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+  margin-bottom: 16px;
 }
 .surface-frame {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-strong);
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
   overflow: hidden;
 }
 .surface-frame.pad {
-  padding: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
 }
 table {
   width: 100%;
@@ -393,7 +515,7 @@ th, td {
   border-bottom: 1px solid var(--border);
 }
 th {
-  background: #fffdf6;
+  background: #111111;
   color: var(--text-600);
   font-size: 0.92rem;
 }
@@ -416,8 +538,15 @@ img.brand-card {
   box-shadow: var(--shadow-sm);
 }
 .footer {
-  padding: 28px 0 54px;
+  padding: 40px 0 60px;
   color: var(--text-600);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .footer-grid {
   display: grid;
@@ -446,23 +575,29 @@ img.brand-card {
 }
 .diagram-card {
   padding: 18px;
-  border: 1px dashed rgba(47, 107, 255, 0.22);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, rgba(255, 244, 194, 0.38) 0%, #ffffff 100%);
+  background: rgba(255, 200, 61, 0.05);
 }
 .note-box {
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: var(--sun-500);
+  font-weight: 500;
+  font-style: italic;
 }
 .note-box.info {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.05);
+  border-left: 3px solid var(--sun-500);
+  background: transparent;
+  color: var(--sun-500);
 }
 .note-box.warn {
   border-color: rgba(255, 200, 61, 0.45);
-  background: rgba(255, 244, 194, 0.66);
+  background: rgba(255, 244, 194, 0.05);
 }
 .author-meta {
   display: grid;
@@ -470,33 +605,69 @@ img.brand-card {
   margin-top: 14px;
 }
 .callout {
-  padding: 18px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 200, 61, 0.42);
-  background: linear-gradient(180deg, #fff9e4 0%, #ffffff 100%);
-  box-shadow: var(--shadow-sm);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 200, 61, 0.2);
+  background: radial-gradient(circle at center, rgba(255, 200, 61, 0.08) 0%, #0a0a0a 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@media (max-width: 980px) {
+.callout .section-head {
+  align-items: center;
+  text-align: center;
+}
+@media (max-width: 1280px) {
   .topbar-inner {
-    padding: 12px 0;
+    padding: 16px 0;
     align-items: flex-start;
+    flex-direction: column;
   }
   .hero-grid, .grid-2, .grid-3, .workflow, .diagram-band, .hero-stat, .footer-grid {
     grid-template-columns: 1fr;
   }
 }
+svg text { fill: #A1A1AA; }
+svg text[fill='#1F2937'] { fill: #FFFFFF; }
+svg rect[fill='white'], svg rect[fill='#ffffff'] { fill: transparent; }
+svg rect[stroke='#E5E7EB'] { stroke: rgba(255, 255, 255, 0.1); }
+svg line[stroke='#E5E7EB'], svg line[stroke='#F3F4F6'] { stroke: rgba(255, 255, 255, 0.1); }
+svg rect[fill='#F3F4F6'] { fill: rgba(255, 255, 255, 0.05); }
+svg polyline[stroke='#2F6BFF'] { stroke: var(--sun-500); filter: drop-shadow(0 0 5px rgba(255, 200, 61, 0.5)); }
+svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
 
     :root {
       --accent: #FFC83D;
+      --page-bg: #000000;
+      --surface: #0a0a0a;
+      --surface-strong: #111111;
+      --surface-sun: rgba(255, 200, 61, 0.05);
+      --surface-sun-strong: rgba(255, 200, 61, 0.1);
+      --sun-500: #FFC83D;
+      --sun-300: #FFE27A;
+      --sun-100: #FFF4C2;
+      --sun-700: #C7950A;
+      --blue-600: #3b82f6;
+      --blue-700: #2563eb;
+      --text-900: #FFFFFF;
+      --text-600: #A1A1AA;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
+      --radius-lg: 28px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+      --max-width: 1280px;
     }
     body {
       background:
-        radial-gradient(circle at top right, rgba(255, 226, 122, 0.14), transparent 22%),
-        linear-gradient(180deg, #fffef9 0%, #ffffff 14%, #ffffff 100%);
+        radial-gradient(circle at top right, rgba(255, 200, 61, 0.08), transparent 22%),
+        linear-gradient(180deg, #0a0a0a 0%, #000000 14%, #000000 100%);
     }
     .report-header {
-      border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.92);
       backdrop-filter: blur(10px) saturate(180%);
     }
     .report-header-inner {
@@ -522,11 +693,14 @@ img.brand-card {
       gap: 6px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(47, 107, 255, 0.08);
-      color: var(--blue-700);
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--blue-600);
       font-size: 0.84rem;
       font-weight: 700;
     }
+    .back-nav { margin-bottom: 20px; }
+    .back-nav a { display: inline-flex; align-items: center; gap: 6px; color: var(--sun-500); font-weight: 600; text-decoration: none; font-size: 0.95rem; }
+    .back-nav a:hover { text-decoration: underline; }
     @media (max-width: 920px) {
       .report-grid {
         grid-template-columns: 1fr;
@@ -556,7 +730,7 @@ img.brand-card {
 <!-- echotime-search-metadata:end -->
 </head>
 <body>
-<header class='report-header'><div class='report-header-inner'><div class='brand'><span class='brand-mark'></span><div class='brand-copy'><strong>EchoTime</strong><span>Explainable time-series similarity for humans and agents.</span></div></div><div class='pill sun'>Scientific report surface</div></div></header>
+<header class='report-header'><div class='report-header-inner'><div style='display:flex; align-items:center; gap: 14px;'><a href='../index.html' class='pill ghost' style='text-decoration:none;'>&larr; Back to docs</a><div class='brand' style='display:flex;align-items:center;gap:14px;'><img src='../logo.png' alt='EchoTime logo' style='width:140px;height:auto;object-fit:contain;'><span style='color:var(--text-600);font-size:0.95rem;font-weight:500;'>Explainable time-series similarity for humans and agents.</span></div></div><div class='pill sun'>Scientific report surface</div></div></header>
 <div class='shell' style='padding:28px 0 40px'>
   <section class='hero'>
     <div class='card'>
@@ -569,20 +743,20 @@ img.brand-card {
       <ul><li>Plot both series after z-score normalization to show the shared shape without scale differences.</li><li>Run rolling or windowed similarity if you expect the relationship to change over time.</li><li>Use structural-profile similarity when scales, frequencies, or observation modes differ too much for raw-shape comparison.</li><li>For cumulative or monotonic inputs, compare first differences or daily increments before making an analog claim.</li></ul>
       <div class='signature'>Use this as an interpretable comparison summary. If you need alignment paths or distance matrices, pair the result with a lower-level similarity library.</div>
     </div>
-    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='320' viewBox='0 0 560 320' role='img' aria-label='Similarity radar'><title>Similarity radar</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Similarity radar</text><text x='16' y='40' font-size='11' fill='#6B7280'>Radar over the time-series metrics. Read it together with Pearson, Spearman, and mutual info.</text><polygon points='280.0,148.8 302.1,164.8 293.6,190.8 266.4,190.8 257.9,164.8' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,125.6 324.1,157.7 307.3,209.5 252.7,209.5 235.9,157.7' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,102.4 346.2,150.5 320.9,228.3 239.1,228.3 213.8,150.5' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,79.2 368.3,143.3 334.5,247.1 225.5,247.1 191.7,143.3' fill='none' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='280.0' y2='79.2' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='368.3' y2='143.3' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='334.5' y2='247.1' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='225.5' y2='247.1' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='191.7' y2='143.3' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,132.0 333.7,154.6 309.5,212.6 269.2,186.9 239.0,158.7' fill='rgba(255, 200, 61, 0.24)' stroke='#2F6BFF' stroke-width='2'/><text x='280.0' y='59.2' font-size='11' fill='#6B7280' text-anchor='middle' dominant-baseline='middle'>Shape</text><text x='387.3' y='137.1' font-size='11' fill='#6B7280' text-anchor='start' dominant-baseline='middle'>DTW</text><text x='346.3' y='263.3' font-size='11' fill='#6B7280' text-anchor='start' dominant-baseline='middle'>Trend</text><text x='213.7' y='263.3' font-size='11' fill='#6B7280' text-anchor='end' dominant-baseline='middle'>Derivative</text><text x='172.7' y='137.1' font-size='11' fill='#6B7280' text-anchor='end' dominant-baseline='middle'>Spectral</text></svg></div>
+    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='320' viewBox='0 0 560 320' role='img' aria-label='Similarity radar'><title>Similarity radar</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Similarity radar</text><text x='16' y='40' font-size='11' fill='#A1A1AA'>Radar over the time-series metrics. Read it together with Pearson, Spearman, and mutual info.</text><polygon points='280.0,148.8 302.1,164.8 293.6,190.8 266.4,190.8 257.9,164.8' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,125.6 324.1,157.7 307.3,209.5 252.7,209.5 235.9,157.7' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,102.4 346.2,150.5 320.9,228.3 239.1,228.3 213.8,150.5' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,79.2 368.3,143.3 334.5,247.1 225.5,247.1 191.7,143.3' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='280.0' y2='79.2' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='368.3' y2='143.3' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='334.5' y2='247.1' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='225.5' y2='247.1' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='191.7' y2='143.3' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,132.0 333.7,154.6 309.5,212.6 269.2,186.9 239.0,158.7' fill='rgba(255, 200, 61, 0.24)' stroke='#3b82f6' stroke-width='2'/><text x='280.0' y='59.2' font-size='11' fill='#A1A1AA' text-anchor='middle' dominant-baseline='middle'>Shape</text><text x='387.3' y='137.1' font-size='11' fill='#A1A1AA' text-anchor='start' dominant-baseline='middle'>DTW</text><text x='346.3' y='263.3' font-size='11' fill='#A1A1AA' text-anchor='start' dominant-baseline='middle'>Trend</text><text x='213.7' y='263.3' font-size='11' fill='#A1A1AA' text-anchor='end' dominant-baseline='middle'>Derivative</text><text x='172.7' y='137.1' font-size='11' fill='#A1A1AA' text-anchor='end' dominant-baseline='middle'>Spectral</text></svg></div>
   </section>
   <section class='grid'>
-    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='EchoTime series preview'><title>EchoTime series preview</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Series preview</text><line x1='40' y1='24' x2='40' y2='212' stroke='#E5E7EB'/><line x1='40' y1='212' x2='700' y2='212' stroke='#E5E7EB'/><polyline points='40.0,211.9 47.9,211.8 55.7,211.7 63.6,211.6 71.4,211.5 79.3,211.1 87.1,210.2 95.0,208.9 102.9,207.4 110.7,205.0 118.6,201.8 126.4,196.7 134.3,164.8 142.1,123.3 150.0,101.6 157.9,89.9 165.7,83.6 173.6,79.7 181.4,76.4 189.3,72.9 197.1,69.7 205.0,66.7 212.9,64.0 220.7,61.8 228.6,60.3 236.4,59.0 244.3,57.3 252.1,55.6 260.0,53.9 267.9,52.2 275.7,51.1 283.6,50.2 291.4,49.3 299.3,48.1 307.1,46.9 315.0,45.9 322.9,44.9 330.7,44.0 338.6,43.4 346.4,42.8 354.3,42.1 362.1,41.3 370.0,40.6 377.9,39.9 385.7,39.4 393.6,39.0 401.4,38.5 409.3,37.9 417.1,37.3 425.0,36.8 432.9,36.3 440.7,35.8 448.6,35.4 456.4,35.0 464.3,34.5 472.1,34.0 480.0,33.6 487.9,33.1 495.7,32.8 503.6,32.4 511.4,32.1 519.3,31.6 527.1,31.2 535.0,30.8 542.9,30.4 550.7,30.1 558.6,29.9 566.4,29.7 574.3,29.4 582.1,29.0 590.0,28.7 597.9,28.3 605.7,27.9 613.6,27.6 621.4,27.3 629.3,26.9 637.1,26.6 645.0,26.2 652.9,25.8 660.7,25.5 668.6,25.2 676.4,25.0 684.3,24.6 692.1,24.3 700.0,24.0' fill='none' stroke='#2F6BFF' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#2F6BFF'>DeepSeek</text><polyline points='40.0,212.0 47.9,212.0 55.7,211.1 63.6,210.3 71.4,209.4 79.3,208.5 87.1,207.7 95.0,207.1 102.9,206.4 110.7,205.7 118.6,205.1 126.4,204.5 134.3,204.1 142.1,203.7 150.0,203.5 157.9,203.1 165.7,202.5 173.6,202.0 181.4,201.6 189.3,201.3 197.1,200.9 205.0,200.6 212.9,200.3 220.7,200.0 228.6,199.8 236.4,199.5 244.3,199.3 252.1,199.0 260.0,198.8 267.9,198.5 275.7,198.3 283.6,198.0 291.4,197.9 299.3,197.7 307.1,197.6 315.0,197.4 322.9,197.3 330.7,197.1 338.6,196.9 346.4,196.8 354.3,196.6 362.1,196.5 370.0,196.4 377.9,196.2 385.7,196.1 393.6,195.9 401.4,195.7 409.3,195.6 417.1,195.4 425.0,195.3 432.9,195.2 440.7,195.1 448.6,195.0 456.4,194.9 464.3,194.7 472.1,194.6 480.0,194.5 487.9,194.4 495.7,194.3 503.6,194.2 511.4,194.1 519.3,194.0 527.1,193.9 535.0,193.8 542.9,193.7 550.7,193.6 558.6,193.6 566.4,193.5 574.3,193.4 582.1,193.3 590.0,193.2 597.9,193.1 605.7,193.0 613.6,192.9 621.4,192.8 629.3,192.7 637.1,192.6 645.0,192.5 652.9,192.5 660.7,192.4 668.6,192.3 676.4,192.2 684.3,192.1 692.1,192.0 700.0,191.9' fill='none' stroke='#C7950A' stroke-width='2.5' stroke-dasharray='5 4'/><text x='120' y='42' font-size='11' fill='#C7950A'>Threads</text></svg></div>
-    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='280' viewBox='0 0 560 280' role='img' aria-label='EchoTime similarity components'><title>EchoTime similarity components</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Similarity components</text><text x='16' y='40' font-size='11' fill='#6B7280'>Component mean 0.45 across 5 time-series metrics.</text><text x='16' y='62.0' font-size='12' fill='#1F2937'>DTW</text><rect x='160' y='48.0' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='48.0' width='231.0' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='61.0' font-size='11' fill='#6B7280' text-anchor='end'>0.61</text><text x='16' y='104.8' font-size='12' fill='#1F2937'>Trend</text><rect x='160' y='90.8' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='90.8' width='205.3' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='103.8' font-size='11' fill='#6B7280' text-anchor='end'>0.54</text><text x='16' y='147.6' font-size='12' fill='#1F2937'>Spectral</text><rect x='160' y='133.6' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='133.6' width='176.4' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='146.6' font-size='11' fill='#6B7280' text-anchor='end'>0.46</text><text x='16' y='190.4' font-size='12' fill='#1F2937'>Shape</text><rect x='160' y='176.4' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='176.4' width='163.9' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='189.4' font-size='11' fill='#6B7280' text-anchor='end'>0.43</text><text x='16' y='233.2' font-size='12' fill='#1F2937'>Derivative</text><rect x='160' y='219.2' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='219.2' width='75.6' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='232.2' font-size='11' fill='#6B7280' text-anchor='end'>0.20</text></svg></div>
+    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='EchoTime series preview'><title>EchoTime series preview</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Series preview</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><polyline points='40.0,211.9 47.9,211.8 55.7,211.7 63.6,211.6 71.4,211.5 79.3,211.1 87.1,210.2 95.0,208.9 102.9,207.4 110.7,205.0 118.6,201.8 126.4,196.7 134.3,164.8 142.1,123.3 150.0,101.6 157.9,89.9 165.7,83.6 173.6,79.7 181.4,76.4 189.3,72.9 197.1,69.7 205.0,66.7 212.9,64.0 220.7,61.8 228.6,60.3 236.4,59.0 244.3,57.3 252.1,55.6 260.0,53.9 267.9,52.2 275.7,51.1 283.6,50.2 291.4,49.3 299.3,48.1 307.1,46.9 315.0,45.9 322.9,44.9 330.7,44.0 338.6,43.4 346.4,42.8 354.3,42.1 362.1,41.3 370.0,40.6 377.9,39.9 385.7,39.4 393.6,39.0 401.4,38.5 409.3,37.9 417.1,37.3 425.0,36.8 432.9,36.3 440.7,35.8 448.6,35.4 456.4,35.0 464.3,34.5 472.1,34.0 480.0,33.6 487.9,33.1 495.7,32.8 503.6,32.4 511.4,32.1 519.3,31.6 527.1,31.2 535.0,30.8 542.9,30.4 550.7,30.1 558.6,29.9 566.4,29.7 574.3,29.4 582.1,29.0 590.0,28.7 597.9,28.3 605.7,27.9 613.6,27.6 621.4,27.3 629.3,26.9 637.1,26.6 645.0,26.2 652.9,25.8 660.7,25.5 668.6,25.2 676.4,25.0 684.3,24.6 692.1,24.3 700.0,24.0' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#3b82f6'>DeepSeek</text><polyline points='40.0,212.0 47.9,212.0 55.7,211.1 63.6,210.3 71.4,209.4 79.3,208.5 87.1,207.7 95.0,207.1 102.9,206.4 110.7,205.7 118.6,205.1 126.4,204.5 134.3,204.1 142.1,203.7 150.0,203.5 157.9,203.1 165.7,202.5 173.6,202.0 181.4,201.6 189.3,201.3 197.1,200.9 205.0,200.6 212.9,200.3 220.7,200.0 228.6,199.8 236.4,199.5 244.3,199.3 252.1,199.0 260.0,198.8 267.9,198.5 275.7,198.3 283.6,198.0 291.4,197.9 299.3,197.7 307.1,197.6 315.0,197.4 322.9,197.3 330.7,197.1 338.6,196.9 346.4,196.8 354.3,196.6 362.1,196.5 370.0,196.4 377.9,196.2 385.7,196.1 393.6,195.9 401.4,195.7 409.3,195.6 417.1,195.4 425.0,195.3 432.9,195.2 440.7,195.1 448.6,195.0 456.4,194.9 464.3,194.7 472.1,194.6 480.0,194.5 487.9,194.4 495.7,194.3 503.6,194.2 511.4,194.1 519.3,194.0 527.1,193.9 535.0,193.8 542.9,193.7 550.7,193.6 558.6,193.6 566.4,193.5 574.3,193.4 582.1,193.3 590.0,193.2 597.9,193.1 605.7,193.0 613.6,192.9 621.4,192.8 629.3,192.7 637.1,192.6 645.0,192.5 652.9,192.5 660.7,192.4 668.6,192.3 676.4,192.2 684.3,192.1 692.1,192.0 700.0,191.9' fill='none' stroke='#C7950A' stroke-width='2.5' stroke-dasharray='5 4'/><text x='120' y='42' font-size='11' fill='#C7950A'>Threads</text></svg></div>
+    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='280' viewBox='0 0 560 280' role='img' aria-label='EchoTime similarity components'><title>EchoTime similarity components</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Similarity components</text><text x='16' y='40' font-size='11' fill='#A1A1AA'>Component mean 0.45 across 5 time-series metrics.</text><text x='16' y='62.0' font-size='12' fill='#FFFFFF'>DTW</text><rect x='160' y='48.0' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='48.0' width='231.0' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='61.0' font-size='11' fill='#A1A1AA' text-anchor='end'>0.61</text><text x='16' y='104.8' font-size='12' fill='#FFFFFF'>Trend</text><rect x='160' y='90.8' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='90.8' width='205.3' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='103.8' font-size='11' fill='#A1A1AA' text-anchor='end'>0.54</text><text x='16' y='147.6' font-size='12' fill='#FFFFFF'>Spectral</text><rect x='160' y='133.6' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='133.6' width='176.4' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='146.6' font-size='11' fill='#A1A1AA' text-anchor='end'>0.46</text><text x='16' y='190.4' font-size='12' fill='#FFFFFF'>Shape</text><rect x='160' y='176.4' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='176.4' width='163.9' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='189.4' font-size='11' fill='#A1A1AA' text-anchor='end'>0.43</text><text x='16' y='233.2' font-size='12' fill='#FFFFFF'>Derivative</text><rect x='160' y='219.2' width='380.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='219.2' width='75.6' height='16' rx='8' fill='#FFC83D'/><text x='538.0' y='232.2' font-size='11' fill='#A1A1AA' text-anchor='end'>0.20</text></svg></div>
   </section>
   <section class='grid'>
-    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='Rolling component mean'><title>Rolling component mean</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Rolling component mean</text><line x1='40' y1='24' x2='40' y2='212' stroke='#E5E7EB'/><line x1='40' y1='212' x2='700' y2='212' stroke='#E5E7EB'/><line x1='40' y1='118' x2='700' y2='118' stroke='#F3F4F6' stroke-dasharray='4 4'/><polyline points='40.0,173.6 90.8,163.5 141.5,124.6 192.3,36.7 243.1,64.4 293.8,56.9 344.6,131.4 395.4,111.1 446.2,103.4 496.9,74.2 547.7,79.6 598.5,168.6 649.2,167.8 700.0,166.9' fill='none' stroke='#2F6BFF' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#2554CC'>mean=0.51, min=0.20, max=0.93 across per-window metric means</text></svg></div>
+    <div class='card'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='Rolling component mean'><title>Rolling component mean</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Rolling component mean</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='134' x2='700' y2='134' stroke='#F3F4F6' stroke-dasharray='4 4'/><polyline points='40.0,180.1 90.8,171.7 141.5,139.5 192.3,66.5 243.1,89.5 293.8,83.3 344.6,145.1 395.4,128.3 446.2,121.9 496.9,97.7 547.7,102.2 598.5,176.0 649.2,175.4 700.0,174.6' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='40' y='42' font-size='13' fill='#2563eb'>mean=0.51, min=0.20, max=0.93 across per-window metric means</text></svg></div>
     <div class='card'><h2>Familiar statistics</h2><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Pearson r</td><td>0.94</td></tr><tr><td>Spearman rho</td><td>1.00</td></tr><tr><td>Mutual info</td><td>0.64</td></tr><tr><td>Diff r</td><td>0.20</td></tr><tr><td>Kendall tau</td><td>1.00</td></tr><tr><td>Best-lag r</td><td>0.94</td></tr></tbody></table></div>
     <div class='card'><h2>Notes and guardrails</h2><ul><li>Both inputs look strongly monotonic or cumulative, so EchoTime tightened the comparison around first differences, differenced DTW, and differenced spectra.</li><li>Levels or cumulative trajectories are much closer than the first differences, so local change-by-change agreement is weaker than the headline coefficients suggest.</li><li>Dynamic-time-warping similarity is stronger than direct shape correlation, suggesting similar patterns with shifted timing.</li></ul></div>
     <div class='card'><h2>Compact agent context</h2><pre>{
   &quot;type&quot;: &quot;similarity&quot;,
   &quot;headline&quot;: &quot;DeepSeek vs Threads: Pearson r 0.94, Spearman rho 1.00, Kendall tau 1.00. The levels line up much more than the day-to-day changes, so the relationship is easier to defend as a broad shape analogy than as a local-dynamics match. The weakest agreement appears in derivative similarity, so timing or regime differences probably matter.&quot;,
-  &quot;overall_similarity&quot;: 0.43529273365547233,
+  &quot;overall_similarity&quot;: 0.43529273365545335,
   &quot;qualitative_label&quot;: &quot;low&quot;,
   &quot;top_components&quot;: [
     {
@@ -592,12 +766,12 @@ img.brand-card {
     },
     {
       &quot;name&quot;: &quot;trend_similarity&quot;,
-      &quot;score&quot;: 0.5402665601625736,
+      &quot;score&quot;: 0.5402665601624791,
       &quot;level&quot;: &quot;moderate&quot;
     },
     {
       &quot;name&quot;: &quot;spectral_similarity&quot;,
-      &quot;score&quot;: 0.46428886781680406,
+      &quot;score&quot;: 0.4642888678168035,
       &quot;level&quot;: &quot;moderate&quot;
     }
   ],

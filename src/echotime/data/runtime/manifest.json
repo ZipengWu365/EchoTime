@@ -1,0 +1,23 @@
+{
+  "description": "Generated runtime resources; edit the original repository files.",
+  "sources": {
+    "examples/data/real_example_sources.json": "1ec50b0c98ec693be5d95b784827acd29bcef364ee4311fa5417d3f04a71ba12",
+    "examples/data/real_ai_attention_breakouts.csv": "82276da24e9d00eb11ee19616112ac1cfe58ba8147ddd3eb7cd4467e497b5509",
+    "examples/data/real_btc_oil_vix_2024.csv": "d603bee710a7f6669b9ac47f73a80336c4e9820263948beddff12386bde55ac1",
+    "examples/data/real_heatwave_city_temps_2024.csv": "dc046c798459b6a7f10339687e232f5190311f7134724aab4eaa97844452e53a",
+    "examples/data/real_python_javascript_pageviews_2024.csv": "bc3ba72378352ace22fbd635215f6fda0b32e3f6de9397c1283240e24dfdfc93",
+    "examples/data/real_treasury_yields_2024.csv": "5d614dbc6585d950a560f0f96ad8cc78ba2ee760590bdd9934c9bd254e5c572d",
+    "examples/data/real_usgs_earthquakes_ca_ak_2024.csv": "411d5160390f75f30022d03433337a5430708e9e833169fb36daa513314fa628",
+    "examples/gallery/plot_btc_gold_under_shocks.py": "4e791b1f55daaaea5cc87797a2ac68c1084648a9c085619c9e7b749a67c66703",
+    "examples/gallery/plot_github_breakout_analogs.py": "04553b770651199d36cd98a8543369843628b651e06db6eb64914b7e8f6ccca8",
+    "examples/gallery/plot_heatwave_grid_load.py": "be4ff3f1fa7432a5d95e9184d861cbf211ec6ce160678cf2f4128440c1c1a635",
+    "examples/gallery/plot_irregular_patient_similarity.py": "40ca3afd0961f38d3dd01029aeaf1528e2cae7852ed09c033a7ab4656761f686",
+    "examples/gallery/plot_two_curves_similarity.py": "bffdd710d73682398646e5027e18f032d588b544fe2843c48f7c1560934b791b",
+    "examples/gallery/plot_weekly_traffic_similarity.py": "b84356fbad0671d49f31c2d66c73ca178e2c2d6224dbed9febbd4474dbacc542",
+    "assets/bham_affiliation_badge.svg": "ebc00dfdabb88d7dc8b8d14da936534e1cf606ab1aae7cc56a7d15816a201032",
+    "assets/echotime_mark.svg": "5efb126b5e6d1832b6ab44836375dc170ef6b6e431c1ee310c329c1840aaad2a",
+    "assets/echotime_title_card.svg": "58f4cbc8515c7c6afc6a6a1c9277c03c3c5e2fceec3d8f901fde013750c9ddaf",
+    "assets/echotime_title_card.png": "e5ca6bbe392af048cea15423c7a1536f7f3f53f625e4fb19d9dc72abfd69f7ac",
+    "assets/logo.png": "95b94e1709962517979fe7631b2f9e2c4deaaa0b0cb7f632082e687ee762f794"
+  }
+}

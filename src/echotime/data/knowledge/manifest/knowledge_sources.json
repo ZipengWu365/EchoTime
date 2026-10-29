@@ -1,0 +1,11 @@
+{
+  "description": "Generated reading pages; edit the Markdown/JSON/BibTeX sources.",
+  "sources": {
+    "docs/articles/README.md": "66fe284bff306e37fba90f3ec9539de9c3d4f9d37421b18b861a9f89a4bb5001",
+    "docs/articles/time-series-similarity-guide.en.md": "1a3247cb5ad590e929d517492c7487c7f0e60b702e3e3364da93959675440bad",
+    "docs/articles/time-series-similarity-guide.zh-CN.md": "4cbbac6c92bc4298f1fec2ec1dbc704c6415280752f029c289478b816fedd61e",
+    "docs/references/time-series-similarity-literature.md": "f1e20bb6ccda422c6420e903ec0c26bd8e2fdbd98b1feed61342916a72c27da3",
+    "docs/references/time-series-similarity-literature.json": "342b231374917e429908190a6d9953cef2b7a8ff40ed18b851c04d402be967d2",
+    "docs/references/time-series-similarity-literature.bib": "3e00d29f9bda0cbe28539915ef6272509f6d2db9dad6a2024c40584d88685165"
+  }
+}

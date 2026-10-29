@@ -112,19 +112,19 @@ ECOSYSTEM_ENTRIES: tuple[EcosystemEntry, ...] = (
             "estimators and pipelines",
             "benchmarking",
             "forecasting / classification / regression / clustering",
-            "similarity search",
+            "whole-series and subsequence similarity search",
         ),
         echotime_relation=(
-            "echotime sits earlier in the workflow: dataset characterization, ontology axes, summary cards, and compact context for collaborators or agents. aeon is the modelling-and-evaluation toolbox you use once you already know what sort of problem you have."
+            "aeon provides distance calculations, estimators, and whole-series/subsequence search. EchoTime adds component-level reports and dataset summaries for inspecting and communicating comparisons; choose the output required by the task."
         ),
         choose_it_when=(
-            "Choose aeon first when you need estimators, benchmarking, or algorithm comparison across time-series ML tasks."
+            "Choose aeon when you need distance comparisons, whole-series or subsequence search estimators, or time-series learning and benchmarking."
         ),
         pairing_pattern=(
-            "Use echotime before aeon in benchmark curation or cross-domain work, then pass the profiled dataset into aeon for modelling and evaluation."
+            "Use aeon for the requested search or learning workflow and EchoTime when component diagnostics or dataset summaries help inspect the inputs and results."
         ),
         source_label="aeon docs",
-        source_url="https://www.aeon-toolkit.org/en/v0.9.0/",
+        source_url="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html",
     ),
     EcosystemEntry(
         name="sktime",
@@ -522,7 +522,7 @@ def tooling_router(task: str, *, format: GuideFormat = "markdown") -> str | dict
 
 
 _REFERENCE_NOTE = (
-    "Positioning notes below are based on official documentation pages consulted on 2026-03-08. "
+    "The original ecosystem snapshot was checked on 2026-03-08; aeon's whole-series and subsequence search scope was rechecked on 2026-10-29. "
     "They describe what the packages publicly emphasize, not every edge capability they may contain."
 )
 

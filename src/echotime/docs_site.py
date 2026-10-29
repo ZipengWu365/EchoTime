@@ -1011,6 +1011,14 @@ def _tutorial_examples() -> list[dict[str, Any]]:
 def project_docs_home_html(*, version: str = PACKAGE_VERSION) -> str:
     expected = escape("\n".join(QUICKSTART_EXPECTED_LINES))
     body = f"""
+    <div class='docs-card'>
+      {_pill('Choose a similarity method', 'blue')}
+      <p>Compare tasks, alignment assumptions, matrix profiles, learned representations,
+      and Python libraries in the <a href='../articles/index.html'>cited reading guide</a>.
+      Read it in <a href='../articles/time-series-similarity-guide.en.html'>English</a>
+      or <a href='../articles/time-series-similarity-guide.zh-CN.html' lang='zh-CN'>中文</a>,
+      and follow the <a href='../references/time-series-similarity-literature.html'>primary-source paper index</a>.</p>
+    </div>
     <div class='docs-grid-2'>
       <div class='docs-card'>
         {_pill('Docs home', 'sun')}
@@ -1405,6 +1413,12 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
     <div class='docs-card'>
       {_pill('Literature anchors', 'blue')}
       <p class='table-note'>These references anchor the major method families in the atlas. They support the method inventory; they do not imply that every listed method is implemented as a standalone EchoTime API.</p>
+      <p>For checked titles, publication status, claims, and limitations, use the
+      <a href='../references/time-series-similarity-literature.html'>verified reading list</a>
+      with <a href='../references/time-series-similarity-literature.bib'>BibTeX</a> and
+      <a href='../references/time-series-similarity-literature.json'>JSON</a>.
+      The <a href='../articles/index.html'>method selection guide</a> separates
+      whole-series comparison, subsequence retrieval, dataset comparison, and learning losses.</p>
       <ul class='panel-list'>
         <li><strong>Broad distance comparisons:</strong> <a href='https://doi.org/10.14778/1454159.1454226'>Ding et al. 2008</a> and <a href='https://journal.r-project.org/articles/RJ-2016-058/'>TSdist</a>.</li>
         <li><strong>Sliding and shape comparison:</strong> <a href='https://doi.org/10.1145/2723372.2737793'>SBD/k-Shape</a>.</li>

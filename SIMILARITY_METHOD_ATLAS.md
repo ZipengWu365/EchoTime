@@ -4,7 +4,11 @@ This guide audits EchoTime's current raw-series similarity stack, then imports t
 
 ## Literature anchors
 
-The atlas should be read with the primary method literature and related software in view. Key anchors include DTW (Sakoe and Chiba, 1978), broad distance comparisons (Ding et al., 2008), SBD/k-Shape (Paparrizos and Gravano, 2015), LCSS (Vlachos et al., 2002), ERP (Chen and Ng, 2004), EDR (Chen et al., 2005), TWED (Marteau, 2009), MSM (Stefan et al., 2013), shapeDTW (Zhao and Itti, 2018), global alignment kernels (Cuturi, 2011), soft-DTW (Cuturi and Blondel, 2017), ordinal patterns (Bandt and Pompe, 2002), Jensen-Shannon divergence (Lin, 1991), TSdist (Mori et al., 2016), tsdistance, tsdistances (Azzari et al., 2026), tslearn (Tavenard et al., 2020), aeon (Middlehurst et al., 2024), sktime (Loning et al., 2019), DTAIDistance (Meert and Van Craenendonck, 2020), and STUMPY/matrix-profile tooling (Law, 2019; Yeh et al., 2016).
+The [verified reading map](docs/references/time-series-similarity-literature.md) links 30 research sources to definitions, comparisons, publication status, and evidence boundaries, including recent ADTW, multivariate-distance, retrieval-indexing, and representation-learning work. [BibTeX](docs/references/time-series-similarity-literature.bib) and [JSON](docs/references/time-series-similarity-literature.json) provide reusable records.
+
+Use the [English selection guide](docs/articles/time-series-similarity-guide.en.md) or [中文选型指南](docs/articles/time-series-similarity-guide.zh-CN.md) to connect method families to whole-series, subsequence, dataset, and learning tasks.
+
+The full registry is an inventory, not a claim that all methods have been implemented or independently reproduced here. The `implementation` column describes the imported reference registry; `EchoTime fit` and `EchoTime API` identify local coverage. `Conceptually covered` denotes a related component, which can use a different cost or transformation. Metric properties require the stated domain and parameter assumptions; feature-space metrics can be pseudometrics on the original series.
 
 ## Current EchoTime comparison layer
 
@@ -19,8 +23,8 @@ The atlas should be read with the primary method literature and related software
 
 - family: EchoTime native component
 - kind: similarity
-- formula: `s_dtw = GM(exp(-DTW_w(x,y)/0.45), exp(-DTW_w(Delta x, Delta y)/0.35))`
-- note: Turns constrained DTW distances into a similarity score and blends level-space and derivative-space warping.
+- formula: `s_dtw = GM(exp(-aDTW_w(x,y)/0.45), exp(-aDTW_w(z(Delta x), z(Delta y))/0.35)); aDTW = min_path sum |x_i-y_j| / (n+m)`
+- note: A package-specific blend on resampled, z-normalized series and re-normalized first differences. Uses absolute local costs and divides accumulated cost by n+m; it is not the common square-root-of-squared-cost DTW distance or a calibrated probability.
 
 ### trend_similarity
 
@@ -61,8 +65,8 @@ The atlas should be read with the primary method literature and related software
 
 - family: EchoTime reference metric
 - kind: similarity
-- formula: `tau(x,y) = (C - D) / choose(n, 2)`
-- note: Pairwise concordance measure that stays interpretable when rank ordering matters more than amplitude.
+- formula: `tau_b(x,y) = (C - D) / sqrt((C + D + T_x)(C + D + T_y))`
+- note: Kendall tau-b uses tie corrections: T_x and T_y count pairs tied only in x or only in y. EchoTime retains a zero-score convention for constant inputs, where statistical correlation is undefined.
 
 ### best_lag_pearson_r
 
@@ -92,7 +96,7 @@ The atlas should be read with the primary method literature and related software
 | lcss_similarity | elastic | Implemented in EchoTime | `lcss_similarity` | `$s(x,y)=LCSS_{\epsilon}(x,y)/\min(n,m)$` | This method is now available as a public low-level EchoTime similarity function. |
 | twed | elastic | Implemented in EchoTime | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | This method is now available as a public low-level EchoTime similarity function. |
 | acf_distance | feature-based | Implemented in EchoTime | `acf_distance` | `$d(x,y)=\\|ACF(x)-ACF(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
-| ordinal_pattern_js_distance | feature-based | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | This method is now available as a public low-level EchoTime similarity function. |
+| ordinal_pattern_js_distance | feature-based | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=\sqrt{JSD(\Pi(x),\Pi(y))}$` | This method is now available as a public low-level EchoTime similarity function. |
 | periodogram_distance | feature-based | Implemented in EchoTime | `periodogram_distance` | `$d(x,y)=\\|P_x-P_y\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
 | trend_distance | feature-based | Implemented in EchoTime | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
 | linear_trend_model_distance | model-based | Implemented in EchoTime | `linear_trend_model_distance` | `$d(x,y)=\\|\theta_{\mathrm{trend}}(x)-\theta_{\mathrm{trend}}(y)\\|_2$` | This method is now available as a public low-level EchoTime similarity function. |
@@ -107,9 +111,9 @@ Pointwise comparison on an already aligned timeline.
 |---|---|---|---|---|---|---|---|---|---|---|
 | euclidean | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sqrt{\sum_t \\|x_t-y_t\\|_2^2}$` | Equal-length pointwise Euclidean distance. |
 | squared_euclidean | distance | no | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sum_t \\|x_t-y_t\\|_2^2$` | Squared Euclidean loss. |
-| rmse_distance | distance | no | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sqrt{\frac{1}{nd}\sum_t \\|x_t-y_t\\|_2^2}$` | Root-mean-square error over aligned points. |
+| rmse_distance | distance | yes on a common fixed-dimensional domain | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sqrt{\frac{1}{nd}\sum_t \\|x_t-y_t\\|_2^2}$` | Root-mean-square error over aligned points: a positive constant times Euclidean distance when n and d are fixed. |
 | manhattan | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sum_t \\|x_t-y_t\\|_1$` | L1 distance. |
-| mae_distance | distance | no | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\frac{1}{nd}\sum_t \\|x_t-y_t\\|_1$` | Mean absolute error. |
+| mae_distance | distance | yes on a common fixed-dimensional domain | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\frac{1}{nd}\sum_t \\|x_t-y_t\\|_1$` | Mean absolute error: a positive constant times L1 distance when n and d are fixed. |
 | minkowski | distance | yes (p≥1) | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d_p(x,y)=\left(\sum_t \\|x_t-y_t\\|_p^p\right)^{1/p}$` | Generalized Lp distance. |
 | chebyshev | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\max_t \\|x_t-y_t\\|_{\infty}$` | Maximum deviation distance. |
 | canberra | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sum_i \frac{\|x_i-y_i\|}{\|x_i\|+\|y_i\|}$` | Relative L1 distance sensitive near zero. |
@@ -129,15 +133,15 @@ Pointwise comparison on an already aligned timeline.
 | spearman_distance | distance-like | no | O(n \log n) | no | yes | reference | Conceptually covered | `spearman_rho` | `$d(x,y)=1-\rho(x,y)$` | Distance-like rank dissimilarity. |
 | kendall_similarity | similarity | no | O(n^2) | no | yes | reference | Conceptually covered | `kendall_tau` | `$s(x,y)=\tau_b(x,y)$` | Kendall tau-b rank agreement. |
 | kendall_distance | distance-like | no | O(n^2) | no | yes | reference | Conceptually covered | `kendall_tau` | `$d(x,y)=1-\tau_b(x,y)$` | Distance-like form of Kendall agreement. |
-| jensen_shannon | distance | yes | O(n) | no | yes | exact | Conceptually covered | `spectral_similarity` | `$d(x,y)=\sqrt{\frac{1}{2}KL(x\\|m)+\frac{1}{2}KL(y\\|m)}$` | Symmetric divergence for nonnegative normalized sequences. |
+| jensen_shannon | distance | yes on probability distributions | O(n) | no | yes | exact | Conceptually covered | `spectral_similarity` | `$d(x,y)=\sqrt{\frac{1}{2}KL(x\\|m)+\frac{1}{2}KL(y\\|m)}$` | Square root of Jensen-Shannon divergence, defined on probability distributions over a common support. |
 | kl_divergence | divergence | no | O(n) | no | yes | exact | Low-priority addition | `-` | `$D_{KL}(x\\|y)=\sum_i p_i\log\frac{p_i}{q_i}$` | Asymmetric divergence. |
 | jeffreys_divergence | divergence | no | O(n) | no | yes | exact | Low-priority addition | `-` | `$J(x,y)=KL(x\\|y)+KL(y\\|x)$` | Symmetrized KL divergence. |
 | bhattacharyya_distance | distance-like | no | O(n) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=-\log\sum_i \sqrt{p_i q_i}$` | Distribution overlap distance. |
 | hellinger_distance | distance | yes | O(n) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\sqrt{\frac{1}{2}\sum_i(\sqrt{p_i}-\sqrt{q_i})^2}$` | Probability-distribution distance. |
 | chi_square_distance | distance-like | no | O(n) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\frac{1}{2}\sum_i\frac{(x_i-y_i)^2}{x_i+y_i}$` | Chi-square distance for histograms. |
 | seuclidean_distance | distance | yes | O(n) | no | yes | reference | Low-priority addition | `-` | `$d(x,y)=\sqrt{\sum_i \frac{(x_i-y_i)^2}{v_i}}$` | Variance-standardized Euclidean distance. |
-| znorm_euclidean | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\\|\hat x-\hat y\\|_2$` | Euclidean after per-channel z-normalization. |
-| znorm_manhattan | distance | yes | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\\|\hat x-\hat y\\|_1$` | Manhattan after z-normalization. |
+| znorm_euclidean | distance | yes in normalized space; pseudometric on original series | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\\|\hat x-\hat y\\|_2$` | Euclidean after per-channel z-normalization. Positive rescaling and offset can map distinct series to the same representation; constant channels need a declared convention. |
+| znorm_manhattan | distance | yes in normalized space; pseudometric on original series | O(n·d) | no | yes | exact | Low-priority addition | `-` | `$d(x,y)=\\|\hat x-\hat y\\|_1$` | L1 after per-channel z-normalization. Positive rescaling and offset can map distinct series to the same representation; constant channels need a declared convention. |
 | cid_distance | distance-like | no | O(n·d) | no | yes | reference | Low-priority addition | `-` | `$CID(x,y)=ED(x,y)\cdot \frac{\max(CE(x),CE(y))}{\min(CE(x),CE(y))}$` | Complexity-invariant distance. |
 
 ### sliding
@@ -177,10 +181,10 @@ Dynamic-programming alignments that allow local stretching or compression.
 | lcss_distance | distance-like | no | O(nm) | yes | yes | exact | Implemented in EchoTime | `lcss_distance` | `$d(x,y)=1-s_{LCSS}(x,y)$` | Distance-like LCSS form. |
 | edr | distance | no | O(nm) | yes | yes | exact | Implemented in EchoTime | `edr_distance` | `$EDR_{\epsilon}(x,y)$` | Edit distance on real sequence. |
 | swale_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$SWALE_{\epsilon}(x,y)$` | Similarity with reward and penalty. |
-| erp | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoTime | `erp_distance` | `$ERP(x,y;g)$` | Edit distance with real penalty. |
+| erp | distance | requires a gap-domain convention | O(nm) | yes | yes | exact | Implemented in EchoTime | `erp_distance` | `$ERP(x,y;g)$` | Edit distance with real penalty. If gap values are valid observations, distinct raw sequences can have zero distance: with g=0, [1] and [0,1] do. State the sequence equivalence/domain before claiming a metric. |
 | msm | distance | yes | O(nm) | yes | univariate only | exact | Possible addition | `-` | `$MSM(x,y)$` | Move-Split-Merge distance. |
-| twed | distance | yes | O(nm) | yes | yes | exact | Implemented in EchoTime | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | Time Warp Edit distance. |
-| discrete_frechet | distance | yes | O(nm) | yes | yes | reference | Possible addition | `-` | `$\delta_F(x,y)$` | Discrete Fréchet distance. |
+| twed | distance | under the original assumptions with nu > 0 | O(nm) | yes | yes | exact | Implemented in EchoTime | `twed_distance` | `$TWED_{\lambda,\nu}(x,y)$` | Time Warp Edit distance. The metric result requires positive stiffness and the original timestamp/cost/boundary conventions; fast resampling and window constraints do not inherit that guarantee. |
+| discrete_frechet | distance | pseudometric on raw vertex sequences | O(nm) | yes | yes | reference | Possible addition | `-` | `$\delta_F(x,y)$` | Discrete Frechet distance can identify different vertex lists obtained by repeating vertices. A metric claim needs an appropriate equivalence/domain convention. |
 | needleman_wunsch_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$NW(x,y)$` | Global alignment score. |
 | smith_waterman_similarity | similarity | no | O(nm) | yes | yes | reference | Possible addition | `-` | `$SW(x,y)$` | Local alignment score. |
 | shape_dtw | distance | no | O(nmr) | yes | yes | reference | Possible addition | `-` | `$DTW(\phi_{\mathrm{shape}}(x),\phi_{\mathrm{shape}}(y))$` | DTW on local shape descriptors. |
@@ -188,7 +192,7 @@ Dynamic-programming alignments that allow local stretching or compression.
 | independent_cdtw | distance | no | O(dnw) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c cDTW(X^{(c)},Y^{(c)})$` | Channel-independent constrained DTW. |
 | independent_wdtw | distance | no | O(dnm) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c WDTW(X^{(c)},Y^{(c)})$` | Channel-independent weighted DTW. |
 | independent_ddtw | distance | no | O(dnm) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c DDTW(X^{(c)},Y^{(c)})$` | Channel-independent derivative DTW. |
-| independent_erp | distance | yes | O(dnm) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c ERP(X^{(c)},Y^{(c)})$` | Channel-independent ERP. |
+| independent_erp | distance | requires a gap-domain convention | O(dnm) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c ERP(X^{(c)},Y^{(c)})$` | Channel-independent ERP average; inherits the gap-domain qualifications of ERP. |
 
 ### kernel
 
@@ -223,10 +227,10 @@ Compare derived features instead of raw waveforms.
 | dwt_distance | distance | yes in feature space | O(n·d) | yes | yes | reference | Possible addition | `-` | `$d(x,y)=\\|W(x)-W(y)\\|_2$` | Distance on Haar wavelet coefficients. |
 | histogram_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Possible addition | `-` | `$d(x,y)=\\|h(x)-h(y)\\|_2$` | Value-histogram distance. |
 | permutation_entropy_distance | distance-like | no | O(n) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\|H_{\pi}(x)-H_{\pi}(y)\|$` | Absolute difference in permutation entropy. |
-| ordinal_pattern_js_distance | distance | yes | O(n) | yes | univariate only | exact | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=JS(\Pi(x),\Pi(y))$` | Jensen-Shannon distance between ordinal-pattern distributions. |
+| ordinal_pattern_js_distance | distance | yes on pattern distributions; pseudometric on series | O(n) | yes | univariate only | exact | Implemented in EchoTime | `ordinal_pattern_js_distance` | `$d(x,y)=\sqrt{JSD(\Pi(x),\Pi(y))}$` | Square root of Jensen-Shannon divergence between ordinal-pattern distributions; distinct series can have identical pattern distributions. |
 | trend_distance | distance | yes in feature space | O(n·d) | yes | yes | exact | Implemented in EchoTime | `trend_distance` | `$d(x,y)=\\|\phi_{\mathrm{trend}}(x)-\phi_{\mathrm{trend}}(y)\\|_2$` | Distance on trend/intercept/residual features. |
 | sax_hamming_distance | distance | yes on symbolic strings | O(n) | yes | univariate only | exact | Possible addition | `-` | `$d(x,y)=\frac{1}{w}\sum_{i=1}^w [SAX_i(x)\neq SAX_i(y)]$` | Hamming distance on SAX words. |
-| sax_mindist | distance | lower-bounding | O(w) | yes | univariate only | exact | Possible addition | `-` | `$MINDIST(\hat x,\hat y)=\sqrt{\frac{n}{w}}\sqrt{\sum_i dist(\hat x_i,\hat y_i)^2}$` | Lower-bounding symbolic distance in SAX space. |
+| sax_mindist | distance | no; lower bound under SAX assumptions | O(w) | yes | univariate only | exact | Possible addition | `-` | `$MINDIST(\hat x,\hat y)=\sqrt{\frac{n}{w}}\sqrt{\sum_i dist(\hat x_i,\hat y_i)^2}$` | Lower-bounding symbolic dissimilarity under SAX normalization and aggregation assumptions. Adjacent symbols can have zero distance; lower-bounding does not imply metric properties. |
 | bag_of_patterns_cosine_similarity | similarity | no | O(nw) | yes | univariate only | reference | Possible addition | `-` | `$s(x,y)=s_{\cos}(BoP(x),BoP(y))$` | Cosine similarity on bag-of-patterns histograms. |
 | bag_of_patterns_distance | distance-like | no | O(nw) | yes | univariate only | reference | Possible addition | `-` | `$d(x,y)=1-s_{\cos}(BoP(x),BoP(y))$` | Distance-like bag-of-patterns measure. |
 | independent_stats_distance | distance | yes in feature space | O(dn) | yes | multivariate only | exact | Possible addition | `-` | `$d(X,Y)=\frac{1}{d}\sum_c \\|\phi(X^{(c)})-\phi(Y^{(c)})\\|_2$` | Channel-independent stats distance. |

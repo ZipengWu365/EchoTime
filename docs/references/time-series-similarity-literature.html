@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time-series similarity: a verified reading map | EchoTime</title><style>
+:root { color-scheme:light; --ink:#172336; --muted:#53647b; --blue:#235bcc; }
+* { box-sizing:border-box; } body { margin:0; color:var(--ink); background:#f5f7fb;
+font:17px/1.75 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { width:min(1080px,calc(100% - 32px)); margin:32px auto; padding:36px 48px;
+background:white; border:1px solid #dce3ef; border-radius:16px; }
+nav { display:flex; flex-wrap:wrap; gap:10px 24px; padding-bottom:20px;
+border-bottom:1px solid #dce3ef; font-size:14px; } a { color:var(--blue); }
+h1 { font-size:clamp(28px,4vw,42px); line-height:1.2; letter-spacing:-.025em; }
+h2 { margin-top:2.1em; line-height:1.3; } h3 { line-height:1.4; }
+table { display:block; width:100%; overflow-x:auto; border-collapse:collapse;
+font-size:15px; line-height:1.55; } th,td { padding:12px; min-width:140px;
+text-align:left; vertical-align:top; border:1px solid #dce3ef; }
+th { background:#edf2fc; } code { font-size:.88em; background:#f1f4fa;
+padding:2px 4px; border-radius:3px; } pre { overflow-x:auto; padding:18px;
+background:#f1f4fa; border-left:3px solid var(--blue); } pre code { padding:0; }
+img { max-width:100%; height:auto; } blockquote { margin-left:0; padding:8px 20px;
+border-left:3px solid #d9b84c; background:#fffbef; }
+.source { color:var(--muted); font-size:14px; } :target { scroll-margin-top:24px; }
+@media(max-width:640px) { main { margin:12px auto; padding:22px 18px; }
+body { font-size:16px; } th,td { min-width:150px; } }
+</style><!-- echotime-search-metadata:start -->
+<meta name="description" content="Explore a verified time-series similarity reading list with primary-source links, claim boundaries, recent research, and downloadable JSON and BibTeX references.">
+<link rel="canonical" href="https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EchoTime">
+<meta property="og:title" content="Time-series similarity: a verified reading map | EchoTime">
+<meta property="og:description" content="Explore a verified time-series similarity reading list with primary-source links, claim boundaries, recent research, and downloadable JSON and BibTeX references.">
+<meta property="og:url" content="https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html">
+<meta property="og:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<meta property="og:image:alt" content="EchoTime: explainable time-series similarity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Time-series similarity: a verified reading map | EchoTime">
+<meta name="twitter:description" content="Explore a verified time-series similarity reading list with primary-source links, claim boundaries, recent research, and downloadable JSON and BibTeX references.">
+<meta name="twitter:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<link rel="sitemap" type="application/xml" href="https://zipengwu.me/EchoTime/sitemap.xml">
+<link rel="manifest" href="https://zipengwu.me/EchoTime/site.webmanifest">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://zipengwu.me/EchoTime/#website", "url": "https://zipengwu.me/EchoTime/", "name": "EchoTime"}, {"@type": "WebPage", "@id": "https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html#webpage", "url": "https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html", "name": "Time-series similarity: a verified reading map | EchoTime", "description": "Explore a verified time-series similarity reading list with primary-source links, claim boundaries, recent research, and downloadable JSON and BibTeX references.", "inLanguage": "en", "isPartOf": {"@id": "https://zipengwu.me/EchoTime/#website"}, "breadcrumb": {"@id": "https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html#breadcrumbs"}}, {"@type": "BreadcrumbList", "@id": "https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "EchoTime", "item": "https://zipengwu.me/EchoTime/"}, {"@type": "ListItem", "position": 2, "name": "Time-series similarity: a verified reading map | EchoTime", "item": "https://zipengwu.me/EchoTime/references/time-series-similarity-literature.html"}]}]}</script>
+<!-- echotime-search-metadata:end -->
+</head>
+<body><main>
+<nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
+<a href="../articles/index.html">Reading guide</a>
+<a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
+<a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<h1 id="time-series-similarity-a-verified-reading-map">Time-series similarity: a verified reading map</h1>
+<p>Checked on <strong>2026-10-29</strong>. This page connects 30 research sources to specific definitions, comparisons and limitations. It complements the <a href="https://github.com/ZipengWu365/EchoTime/blob/main/SIMILARITY_METHOD_ATLAS.md">EchoTime method atlas</a>; an entry here is a literature reference, not an implementation or performance claim about EchoTime.</p>
+<p>The same records are available as <a href="time-series-similarity-literature.json">JSON</a> and <a href="time-series-similarity-literature.bib">BibTeX</a>. Citation keys are stable across all three files. The JSON records include verification level, successful source URLs, publication status and evidence boundaries.</p>
+<h2 id="what-to-decide-before-choosing-a-score">What to decide before choosing a score</h2>
+<p>Specify the comparison object (complete series, a local window, a multivariate event, or a learned representation), the differences that should count as errors, the differences that should be tolerated, and the downstream decision. These are design choices. A citation identifies the mathematical or empirical basis for a candidate; the target application still needs validation.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Relevant reading</th>
+<th>What must remain explicit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Is timing fixed, globally shifted, or locally warped?</td>
+<td><a href="#sakoe1978dtw">DTW</a>, <a href="#paparrizos2015kshape">SBD/k-Shape</a>, <a href="#zhao2018shapedtw">shapeDTW</a>, <a href="#herrmann2023adtw">ADTW</a></td>
+<td>Local cost, lag/window, endpoint and penalty policies</td>
+</tr>
+<tr>
+<td>May unmatched samples be ignored or edited?</td>
+<td><a href="#vlachos2002lcss">LCSS</a>, <a href="#chen2004erp">ERP</a>, <a href="#chen2005edr">EDR</a>, <a href="#stefan2013msm">MSM</a></td>
+<td>Thresholds, gap values and edit costs</td>
+</tr>
+<tr>
+<td>Do timestamps and channel synchronization matter?</td>
+<td><a href="#marteau2009twed">TWED</a>, <a href="#shokoohi2017multidtw">multivariate DTW</a>, <a href="#dhondt2025multivariate">2025 comparison</a></td>
+<td>Time units, shared origin, channel scales and coupled/independent alignments</td>
+</tr>
+<tr>
+<td>Is the object a training loss or a mathematical metric?</td>
+<td><a href="#cuturi2011gak">GAK</a>, <a href="#cuturi2017softdtw">soft-DTW</a>, <a href="#blondel2021divergences">corrected divergences</a>, <a href="#leguen2019dilate">DILATE</a></td>
+<td>Ground-cost conditions, differentiability, non-negativity and triangle inequality are separate properties</td>
+</tr>
+<tr>
+<td>Is the task finding repeated local patterns?</td>
+<td><a href="#yeh2016matrixprofile">Matrix Profile</a></td>
+<td>Window length, exclusion zone and normalization</td>
+</tr>
+<tr>
+<td>Is the challenge indexing a large collection?</td>
+<td><a href="#schaefer2012sfa">SFA</a>, <a href="#schaefer2025sofa">SOFA</a></td>
+<td>Exact target distance, lower-bound conditions, build cost and query workload</td>
+</tr>
+<tr>
+<td>Can a learned embedding define useful neighbors?</td>
+<td><a href="#yue2022ts2vec">TS2Vec</a>, <a href="#dong2023simmtm">SimMTM</a>, <a href="#goswami2024moment">MOMENT</a>, <a href="#ning2025tsrag">TS-RAG</a></td>
+<td>Checkpoint, pooling, scaling, data overlap and task-specific relevance evidence</td>
+</tr>
+</tbody>
+</table>
+<h2 id="recent-additions-and-their-evidence-type">Recent additions and their evidence type</h2>
+<p>The following 2023–2026 papers address different questions. Their outcomes should be compared within those questions.</p>
+<table>
+<thead>
+<tr>
+<th>Work</th>
+<th>What it contributes</th>
+<th>Evidence that must not be inferred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#herrmann2023adtw">ADTW, 2023</a></td>
+<td>An additive penalty on warping operations</td>
+<td>A universally optimal distance</td>
+</tr>
+<tr>
+<td><a href="#dong2023simmtm">SimMTM, 2023</a></td>
+<td>Similarity-assisted masked representation learning</td>
+<td>Validated standalone semantic retrieval</td>
+</tr>
+<tr>
+<td><a href="#goswami2024moment">MOMENT, 2024</a></td>
+<td>General-purpose pretrained time-series models</td>
+<td>A universal metric for all notions of similarity</td>
+</tr>
+<tr>
+<td><a href="#dhondt2025multivariate">Multivariate comparison, 2025</a></td>
+<td>Joint evaluation of distances, preprocessing and channel assumptions</td>
+<td>A ranking that transfers to every new task</td>
+</tr>
+<tr>
+<td><a href="#schaefer2025sofa">SOFA, 2025</a></td>
+<td>Exact Euclidean nearest-neighbor indexing</td>
+<td>General DTW acceleration or semantic ranking quality</td>
+</tr>
+<tr>
+<td><a href="#ning2025tsrag">TS-RAG, 2025</a></td>
+<td>Retrieval-augmented forecasting</td>
+<td>A retrieval-quality improvement isolated from the forecasting model</td>
+</tr>
+<tr>
+<td><a href="#azzari2026tsdistances">tsdistances, 2026</a></td>
+<td>CPU/GPU implementations of distance algorithms</td>
+<td>A speedup measured in EchoTime or on the reader's hardware</td>
+</tr>
+</tbody>
+</table>
+<h2 id="claim-to-citation-map">Claim-to-citation map</h2>
+<p>Rows marked <code>Boundary</code> include editorial inferences that limit a paper's scope. They do not claim that the cited authors explicitly tested every excluded use.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Claim supported or bounded</th>
+<th>Citation role</th>
+<th>Sources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C01</td>
+<td>Alignment restrictions and local costs define the DTW comparison.</td>
+<td>Definition</td>
+<td><a href="#sakoe1978dtw">sakoe1978dtw</a>, <a href="#herrmann2023adtw">herrmann2023adtw</a></td>
+</tr>
+<tr>
+<td>C02</td>
+<td>Matching tolerances and gap penalties change the meaning of elastic edit scores.</td>
+<td>Definition</td>
+<td><a href="#vlachos2002lcss">vlachos2002lcss</a>, <a href="#chen2004erp">chen2004erp</a>, <a href="#chen2005edr">chen2005edr</a>, <a href="#stefan2013msm">stefan2013msm</a></td>
+</tr>
+<tr>
+<td>C03</td>
+<td>Timestamp differences and channel coupling are explicit modeling choices.</td>
+<td>Boundary</td>
+<td><a href="#marteau2009twed">marteau2009twed</a>, <a href="#shokoohi2017multidtw">shokoohi2017multidtw</a>, <a href="#dhondt2025multivariate">dhondt2025multivariate</a></td>
+</tr>
+<tr>
+<td>C04</td>
+<td>Global shifts and local warps capture different forms of temporal mismatch.</td>
+<td>Contrast</td>
+<td><a href="#paparrizos2015kshape">paparrizos2015kshape</a>, <a href="#zhao2018shapedtw">zhao2018shapedtw</a>, <a href="#sakoe1978dtw">sakoe1978dtw</a></td>
+</tr>
+<tr>
+<td>C05</td>
+<td>Raw soft-DTW, corrected divergence, kernel and metric are distinct objects.</td>
+<td>Boundary</td>
+<td><a href="#cuturi2011gak">cuturi2011gak</a>, <a href="#cuturi2017softdtw">cuturi2017softdtw</a>, <a href="#blondel2021divergences">blondel2021divergences</a></td>
+</tr>
+<tr>
+<td>C06</td>
+<td>A fixed-window subsequence join needs a window and a self-match policy.</td>
+<td>Definition</td>
+<td><a href="#yeh2016matrixprofile">yeh2016matrixprofile</a></td>
+</tr>
+<tr>
+<td>C07</td>
+<td>Exact retrieval indexing preserves a chosen target distance; it does not establish semantic relevance.</td>
+<td>Boundary</td>
+<td><a href="#schaefer2012sfa">schaefer2012sfa</a>, <a href="#schaefer2025sofa">schaefer2025sofa</a></td>
+</tr>
+<tr>
+<td>C08</td>
+<td>Learned and pretrained representations require a separate test of the intended similarity task.</td>
+<td>Boundary</td>
+<td><a href="#yue2022ts2vec">yue2022ts2vec</a>, <a href="#dong2023simmtm">dong2023simmtm</a>, <a href="#goswami2024moment">goswami2024moment</a></td>
+</tr>
+<tr>
+<td>C09</td>
+<td>Retrieval-assisted forecast performance does not isolate retrieval quality.</td>
+<td>Boundary</td>
+<td><a href="#ning2025tsrag">ning2025tsrag</a></td>
+</tr>
+<tr>
+<td>C10</td>
+<td>Runtime comparisons must specify implementation, workload and hardware.</td>
+<td>Boundary</td>
+<td><a href="#wu2022fastdtw">wu2022fastdtw</a>, <a href="#azzari2026tsdistances">azzari2026tsdistances</a></td>
+</tr>
+<tr>
+<td>C11</td>
+<td>Method rankings and normalization findings are conditional on evaluation design.</td>
+<td>Boundary</td>
+<td><a href="#ding2008comparison">ding2008comparison</a>, <a href="#dhondt2025multivariate">dhondt2025multivariate</a></td>
+</tr>
+<tr>
+<td>C12</td>
+<td>Histogram construction and square-root choice matter for Jensen-Shannon comparison.</td>
+<td>Boundary</td>
+<td><a href="#bandt2002permutation">bandt2002permutation</a>, <a href="#lin1991js">lin1991js</a>, <a href="#endres2003jsmetric">endres2003jsmetric</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="source-records">Source records</h2>
+<p>Read the verification level beside each record. Definitions are concise paraphrases; quantitative rankings are intentionally left with the original experimental protocols.</p>
+<h3 id="sakoe1978dtw">sakoe1978dtw</h3>
+<p><strong><a href="https://ieeexplore.ieee.org/abstract/document/1163055/authors">Dynamic programming algorithm optimization for spoken word recognition</a></strong> — Hiroaki Sakoe, Seibi Chiba. IEEE Transactions on Acoustics, Speech, and Signal Processing (1978).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; elastic alignment.</li>
+<li><strong>Supported claim:</strong> Dynamic programming aligns sequences under temporal consistency and path constraints; the alignment restrictions are part of the method specification.</li>
+<li><strong>Boundary:</strong> A DTW score depends on local cost, step pattern, endpoint policy and path restrictions. The paper does not establish that every implementation or unconstrained alignment is appropriate for every domain.</li>
+<li><strong>Verification:</strong> Publisher metadata and abstract; original paper text. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/TASSP.1978.1163055">10.1109/TASSP.1978.1163055</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://jeffe.cs.illinois.edu/teaching/compgeom/refs/Sakoe-Chiba-DTW.pdf">source 2</a>.</li>
+</ul>
+<h3 id="vlachos2002lcss">vlachos2002lcss</h3>
+<p><strong><a href="https://people.cs.aau.dk/~simas/teaching/trajectories/00994784.pdf">Discovering Similar Multidimensional Trajectories</a></strong> — Michail Vlachos, Dimitrios Gunopulos, George Kollios. Proceedings of the 18th International Conference on Data Engineering (2002).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; thresholded elastic matching.</li>
+<li><strong>Supported claim:</strong> LCSS-based trajectory matching rewards temporally ordered matching portions while allowing unmatched observations.</li>
+<li><strong>Boundary:</strong> The spatial matching threshold, temporal tolerance and score normalization determine which observations count as matches. Robustness to noise is conditional on these choices and the evaluated data.</li>
+<li><strong>Verification:</strong> Original paper text and bibliographic record. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/ICDE.2002.994784">10.1109/ICDE.2002.994784</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://dblp.org/rec/conf/icde/VlachosGK02.html">source 2</a>.</li>
+</ul>
+<h3 id="chen2004erp">chen2004erp</h3>
+<p><strong><a href="https://www.vldb.org/conf/2004/RS21P2.PDF">On The Marriage of Lp-norms and Edit Distance</a></strong> — Lei Chen, Raymond T. Ng. Proceedings of the 30th International Conference on Very Large Data Bases (2004).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; edit-based elastic matching.</li>
+<li><strong>Supported claim:</strong> ERP combines edit operations with numerical penalties and develops lower bounds and pruning strategies for time-series retrieval.</li>
+<li><strong>Boundary:</strong> The gap reference value and local norm must be specified. Metric statements must respect the paper's domain and gap convention; arbitrary normalization, squared costs or additional constraints need separate checks.</li>
+<li><strong>Verification:</strong> Official VLDB paper; author institution metadata. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1016/B978-012088469-8.50070-X">10.1016/B978-012088469-8.50070-X</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://researchportal.hkust.edu.hk/en/publications/on-the-marriage-of-lp-norms-and-edit-distance/">source 2</a>.</li>
+</ul>
+<h3 id="chen2005edr">chen2005edr</h3>
+<p><strong><a href="https://cse.hkust.edu.hk/~leichen/pub/05/sigmod05.pdf">Robust and Fast Similarity Search for Moving Object Trajectories</a></strong> — Lei Chen, M. Tamer Özsu, Vincent Oria. Proceedings of the ACM SIGMOD International Conference on Management of Data (2005).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; thresholded edit distance.</li>
+<li><strong>Supported claim:</strong> EDR applies edit operations to real-valued sequences using a tolerance-based match decision and develops pruning methods for trajectory retrieval.</li>
+<li><strong>Boundary:</strong> Tolerance depends on units and preprocessing. The original trajectory experiments do not imply that EDR is universally best for arbitrary time-series retrieval or clustering.</li>
+<li><strong>Verification:</strong> Author-hosted original paper; author institution metadata. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1145/1066157.1066213">10.1145/1066157.1066213</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://digitalcommons.njit.edu/fac_pubs/19908/">source 2</a>.</li>
+</ul>
+<h3 id="marteau2009twed">marteau2009twed</h3>
+<p><strong><a href="https://arxiv.org/abs/cs/0703033">Time warp edit distance with stiffness adjustment for time series matching</a></strong> — Pierre-François Marteau. IEEE Transactions on Pattern Analysis and Machine Intelligence (2009).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; timestamp-aware elastic matching.</li>
+<li><strong>Supported claim:</strong> TWED uses value differences, timestamp differences and edit penalties to control temporal elasticity. The paper defines strictly increasing sample timestamps and distinguishes positive temporal stiffness from its zero boundary.</li>
+<li><strong>Boundary:</strong> The metric statement on value-time sequences requires positive stiffness and the stated cost assumptions. Timestamp units, a shared origin/sentinel and boundary initialization must be documented; a zero-stiffness variant does not retain the same guarantee.</li>
+<li><strong>Verification:</strong> Author preprint full-text sections III.A, IV.C-D and Figure 2; journal metadata. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/TPAMI.2008.76">10.1109/TPAMI.2008.76</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://arxiv.org/pdf/cs/0703033">source 2</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/19110495/">source 3</a>.</li>
+<li><strong>Version/access note:</strong> The arXiv record identifies the 2009 journal version. Figure 2 uses zero-valued, zero-time sentinels; the mathematical definition uses time distances.</li>
+</ul>
+<h3 id="stefan2013msm">stefan2013msm</h3>
+<p><strong><a href="https://ranger.uta.edu/~alex/publications/stefan_tkde2012_preprint.pdf">The Move-Split-Merge Metric for Time Series</a></strong> — Alexandra Stefan, Vassilis Athitsos, Gautam Das. IEEE Transactions on Knowledge and Data Engineering (2013).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; edit-based elastic matching.</li>
+<li><strong>Supported claim:</strong> MSM minimizes the cost of move, split and merge operations and supplies a quadratic-time dynamic program for the original formulation.</li>
+<li><strong>Boundary:</strong> The split/merge cost is a modeling parameter. Metric guarantees belong to the specified cost scheme and parameter domain; they do not transfer automatically to multivariate extensions or transformed similarities.</li>
+<li><strong>Verification:</strong> Author-hosted original preprint; final journal metadata corroborated. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/TKDE.2012.88">10.1109/TKDE.2012.88</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://www.scienceopen.com/document?vid=849b99f5-8fd5-4d95-ad30-245090ec583f">source 2</a>.</li>
+<li><strong>Version/access note:</strong> The DOI and preprint carry 2012; the journal issue is June 2013. Publisher full text was not accessible in this check.</li>
+</ul>
+<h3 id="paparrizos2015kshape">paparrizos2015kshape</h3>
+<p><strong><a href="https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf">k-Shape: Efficient and Accurate Clustering of Time Series</a></strong> — John Paparrizos, Luis Gravano. Proceedings of the ACM SIGMOD International Conference on Management of Data (2015).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; shift-aware shape comparison.</li>
+<li><strong>Supported claim:</strong> k-Shape combines a normalized cross-correlation-based shape dissimilarity with a centroid update designed for that comparison.</li>
+<li><strong>Boundary:</strong> Global shifts and local time warps express different assumptions. Normalization, overlap and padding conventions matter; implementing SBD alone does not implement the complete k-Shape clustering procedure.</li>
+<li><strong>Verification:</strong> Author-hosted original conference paper. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1145/2723372.2737793">10.1145/2723372.2737793</a>.</li>
+</ul>
+<h3 id="zhao2018shapedtw">zhao2018shapedtw</h3>
+<p><strong><a href="https://www.sciencedirect.com/science/article/pii/S0031320317303710">shapeDTW: Shape Dynamic Time Warping</a></strong> — Jiaping Zhao, Laurent Itti. Pattern Recognition (2018).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; local-descriptor elastic matching.</li>
+<li><strong>Supported claim:</strong> shapeDTW first describes local neighborhoods around timestamps, then aligns the resulting descriptor sequences with DTW.</li>
+<li><strong>Boundary:</strong> Descriptor design and neighborhood width determine the compared structure. Reported audio-alignment and classification results do not validate a different implementation or establish universal downstream superiority.</li>
+<li><strong>Verification:</strong> Publisher metadata, abstract and method description. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1016/j.patcog.2017.09.020">10.1016/j.patcog.2017.09.020</a>.</li>
+<li><strong>Version/access note:</strong> Online publication was in 2017; the cited journal issue is February 2018.</li>
+</ul>
+<h3 id="cuturi2011gak">cuturi2011gak</h3>
+<p><strong><a href="https://icml.cc/2011/papers/489_icmlpaper.pdf">Fast Global Alignment Kernels</a></strong> — Marco Cuturi. Proceedings of the 28th International Conference on Machine Learning (2011).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; alignment kernels.</li>
+<li><strong>Supported claim:</strong> Global alignment kernels aggregate contributions across alignments and study sufficient conditions for positive definiteness, with faster triangular variants.</li>
+<li><strong>Boundary:</strong> A kernel is not automatically a distance. Exponentiating an arbitrary DTW score does not inherit positive-definiteness guarantees from this paper.</li>
+<li><strong>Verification:</strong> Official conference paper text. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://researchportal.ip-paris.fr/en/publications/fast-global-alignment-kernels/">source 2</a>.</li>
+</ul>
+<h3 id="cuturi2017softdtw">cuturi2017softdtw</h3>
+<p><strong><a href="https://proceedings.mlr.press/v70/cuturi17a.html">Soft-DTW: a Differentiable Loss Function for Time-Series</a></strong> — Marco Cuturi, Mathieu Blondel. Proceedings of the 34th International Conference on Machine Learning (2017).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; differentiable alignment loss.</li>
+<li><strong>Supported claim:</strong> Soft-DTW replaces the hard minimum over alignment costs with a smooth minimum and permits gradient-based optimization of time-series outputs.</li>
+<li><strong>Boundary:</strong> The smoothing parameter changes the objective. Raw soft-DTW values are not a zero-diagonal metric, and the method should not be described as merely a faster exact DTW implementation.</li>
+<li><strong>Verification:</strong> Official PMLR publication and original paper. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://proceedings.mlr.press/v70/cuturi17a/cuturi17a.pdf">source 2</a>.</li>
+</ul>
+<h3 id="blondel2021divergences">blondel2021divergences</h3>
+<p><strong><a href="https://proceedings.mlr.press/v130/blondel21a.html">Differentiable Divergences Between Time Series</a></strong> — Mathieu Blondel, Arthur Mensch, Jean-Philippe Vert. Proceedings of the 24th International Conference on Artificial Intelligence and Statistics (2021).</p>
+<ul>
+<li><strong>Role and family:</strong> Boundary; corrected differentiable divergence.</li>
+<li><strong>Supported claim:</strong> The paper identifies the entropic bias of raw soft-DTW and constructs corrected divergences, with non-negativity and equality properties under stated ground-cost conditions.</li>
+<li><strong>Boundary:</strong> Non-negativity is conditional on the ground cost. A valid divergence need not obey the triangle inequality; the result does not turn every soft-DTW variant into a metric.</li>
+<li><strong>Verification:</strong> Official PMLR publication; author research page. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://research.google/pubs/differentiable-divergences-between-time-series/">source 2</a>.</li>
+</ul>
+<h3 id="leguen2019dilate">leguen2019dilate</h3>
+<p><strong><a href="https://papers.nips.cc/paper_files/paper/2019/hash/466accbac9a66b805ba50e42ad715740-Abstract.html">Shape and Time Distortion Loss for Training Deep Time Series Forecasting Models</a></strong> — Vincent Le Guen, Nicolas Thome. Advances in Neural Information Processing Systems (2019).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; shape-and-timing forecasting loss.</li>
+<li><strong>Supported claim:</strong> DILATE separates shape discrepancy and temporal distortion within a differentiable objective for multi-step forecasting.</li>
+<li><strong>Boundary:</strong> This is a training-objective paper. Its forecasting experiments do not establish a general-purpose retrieval ranking, calibrated similarity probability or causal relation between signals.</li>
+<li><strong>Verification:</strong> Official NeurIPS publication and abstract. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+</ul>
+<h3 id="yeh2016matrixprofile">yeh2016matrixprofile</h3>
+<p><strong><a href="https://ieeexplore.ieee.org/document/7837992/">Matrix Profile I: All Pairs Similarity Joins for Time Series: A Unifying View That Includes Motifs, Discords and Shapelets</a></strong> — Chin-Chia Michael Yeh, Yan Zhu, Liudmila Ulanova, Nurjahan Begum, Yifei Ding, Hoang Anh Dau, Diego Furtado Silva, Abdullah Mueen, Eamonn Keogh. 2016 IEEE 16th International Conference on Data Mining (2016).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; subsequence similarity joins.</li>
+<li><strong>Supported claim:</strong> A matrix profile records a nearest-neighbor distance for each fixed-length subsequence; the original method builds on z-normalized Euclidean subsequence comparison.</li>
+<li><strong>Boundary:</strong> A profile is an output of a similarity join, not a single whole-series distance. Window length, self-match exclusion, constants and missing values need explicit policies.</li>
+<li><strong>Verification:</strong> Publisher abstract and original paper text. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/ICDM.2016.0179">10.1109/ICDM.2016.0179</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://www.cs.uoi.gr/~pvassil/supervision/diplomatikes/extraMaterial/Timeseries/2016_matrix_profile.pdf">source 2</a>.</li>
+</ul>
+<h3 id="schaefer2012sfa">schaefer2012sfa</h3>
+<p><strong><a href="https://doi.org/10.1145/2247596.2247656">SFA: A Symbolic Fourier Approximation and Index for Similarity Search in High Dimensional Datasets</a></strong> — Patrick Schäfer, Mikael Högqvist. Proceedings of the 15th International Conference on Extending Database Technology (2012).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; lower-bound representation and indexing.</li>
+<li><strong>Supported claim:</strong> SFA quantizes Fourier-based representations and combines them with a trie for exact similarity-search candidate filtering and refinement.</li>
+<li><strong>Boundary:</strong> A lower-bound representation accelerates search for a specified target distance. Its symbolic comparison should not be assumed to preserve every semantic relation or arbitrary distance.</li>
+<li><strong>Verification:</strong> Publisher abstract and author-hosted original paper. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1145/2247596.2247656">10.1145/2247596.2247656</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://www2.informatik.hu-berlin.de/~schaefpa/sfa_trie.pdf">source 2</a>.</li>
+</ul>
+<h3 id="batista2011cid">batista2011cid</h3>
+<p><strong><a href="https://epubs.siam.org/doi/10.1137/1.9781611972818.60">A Complexity-Invariant Distance Measure for Time Series</a></strong> — Gustavo E. A. P. A. Batista, Xiaoyue Wang, Eamonn J. Keogh. Proceedings of the 2011 SIAM International Conference on Data Mining (2011).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; complexity-adjusted distance.</li>
+<li><strong>Supported claim:</strong> CID adjusts a base distance using a relative series-complexity factor, motivated by the effect of differing complexities on nearest-neighbor classification.</li>
+<li><strong>Boundary:</strong> The complexity estimator and its zero-complexity convention matter. The name does not imply exact invariance to every operation that changes complexity.</li>
+<li><strong>Verification:</strong> Official SIAM publication and abstract; software definition corroborates the formula. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1137/1.9781611972818.60">10.1137/1.9781611972818.60</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://search.r-project.org/CRAN/refmans/TSclust/html/diss.CID.html">source 2</a>.</li>
+</ul>
+<h3 id="shokoohi2017multidtw">shokoohi2017multidtw</h3>
+<p><strong><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5668684/">Generalizing DTW to the multi-dimensional case requires an adaptive approach</a></strong> — Mohammad Shokoohi-Yekta, Bing Hu, Hongxia Jin, Jun Wang, Eamonn Keogh. Data Mining and Knowledge Discovery (2017).</p>
+<ul>
+<li><strong>Role and family:</strong> Boundary; multivariate channel coupling.</li>
+<li><strong>Supported claim:</strong> Dependent multivariate DTW shares an alignment across channels, whereas independent DTW allows different channel alignments; the paper demonstrates that the choices can yield different classifications.</li>
+<li><strong>Boundary:</strong> The two constructions express different synchronization assumptions. Neither should be called a universally correct multivariate generalization.</li>
+<li><strong>Verification:</strong> Author manuscript text and journal metadata. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1007/s10618-016-0455-0">10.1007/s10618-016-0455-0</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://pubmed.ncbi.nlm.nih.gov/29104448/">source 2</a>.</li>
+<li><strong>Version/access note:</strong> Online publication was in 2016; journal volume year is 2017. PMC text was searchable but a direct open later returned an access check.</li>
+</ul>
+<h3 id="ding2008comparison">ding2008comparison</h3>
+<p><strong><a href="https://users.eecs.northwestern.edu/~peters/references/vldb08.pdf">Querying and Mining of Time Series Data: Experimental Comparison of Representations and Distance Measures</a></strong> — Hui Ding, Goce Trajcevski, Peter Scheuermann, Xiaoyue Wang, Eamonn Keogh. Proceedings of the VLDB Endowment (2008).</p>
+<ul>
+<li><strong>Role and family:</strong> Contrast; comparative evaluation.</li>
+<li><strong>Supported claim:</strong> This study compares representation and distance choices across multiple datasets rather than relying solely on the evaluations accompanying individual methods.</li>
+<li><strong>Boundary:</strong> It is historical empirical evidence under the study's datasets and protocols. Its rankings cannot establish the best method for a current task or new data distribution.</li>
+<li><strong>Verification:</strong> Author-hosted original paper and publication metadata. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.14778/1454159.1454226">10.14778/1454159.1454226</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://cir.nii.ac.jp/crid/1360292621315687168">source 2</a>.</li>
+</ul>
+<h3 id="wu2022fastdtw">wu2022fastdtw</h3>
+<p><strong><a href="https://wu.renjie.im/research/fastdtw-is-slow/">FastDTW is Approximate and Generally Slower Than the Algorithm it Approximates</a></strong> — Renjie Wu, Eamonn J. Keogh. IEEE Transactions on Knowledge and Data Engineering (2022).</p>
+<ul>
+<li><strong>Role and family:</strong> Boundary; implementation and runtime comparison.</li>
+<li><strong>Supported claim:</strong> The study shows that an approximate algorithm's name or asymptotic description is insufficient evidence of a runtime advantage over carefully implemented exact constrained DTW.</li>
+<li><strong>Boundary:</strong> Its conclusions depend on implementations, lengths, windows and approximation radii. It does not justify claiming that every exact DTW implementation always beats every approximate implementation.</li>
+<li><strong>Verification:</strong> Author project page with final journal citation and experiment descriptions. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/TKDE.2020.3033752">10.1109/TKDE.2020.3033752</a>.</li>
+<li><strong>Version/access note:</strong> Accepted/online in 2020; final journal citation is 2022. The ICDE 2021 extended abstract is not counted as a second study.</li>
+</ul>
+<h3 id="yue2022ts2vec">yue2022ts2vec</h3>
+<p><strong><a href="https://ojs.aaai.org/index.php/AAAI/article/view/20881">TS2Vec: Towards Universal Representation of Time Series</a></strong> — Zhihan Yue, Yujing Wang, Juanyong Duan, Tianmeng Yang, Congrui Huang, Yunhai Tong, Bixiong Xu. Proceedings of the AAAI Conference on Artificial Intelligence (2022).</p>
+<ul>
+<li><strong>Role and family:</strong> Tool; learned representation.</li>
+<li><strong>Supported claim:</strong> TS2Vec learns timestamp-level representations through hierarchical contrastive training and aggregates them to represent subsequences.</li>
+<li><strong>Boundary:</strong> Classification, forecasting and anomaly-detection evidence supports representation utility. An embedding distance still requires a target-specific retrieval or clustering evaluation, including pooling and normalization choices.</li>
+<li><strong>Verification:</strong> Official AAAI publication and abstract. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1609/aaai.v36i8.20881">10.1609/aaai.v36i8.20881</a>.</li>
+</ul>
+<h3 id="herrmann2023adtw">herrmann2023adtw</h3>
+<p><strong><a href="https://www.sciencedirect.com/science/article/pii/S0031320323000341">Amercing: An intuitive and effective constraint for dynamic time warping</a></strong> — Matthieu Herrmann, Geoffrey I. Webb. Pattern Recognition (2023).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; regularized elastic alignment.</li>
+<li><strong>Supported claim:</strong> Amerced DTW adds a fixed cost to non-diagonal warping steps, providing a tunable alternative to a hard warping window or multiplicative weighting.</li>
+<li><strong>Boundary:</strong> The additive penalty changes which alignments are preferred and needs an explicit tuning protocol. The paper's classification evidence does not prove universal retrieval superiority.</li>
+<li><strong>Verification:</strong> Publisher metadata and abstract; author preprint cross-check. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1016/j.patcog.2023.109333">10.1016/j.patcog.2023.109333</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://arxiv.org/abs/2111.13314">source 2</a>.</li>
+<li><strong>Version/access note:</strong> Cite the 2023 formal article rather than counting the 2021 preprint as another method.</li>
+</ul>
+<h3 id="dong2023simmtm">dong2023simmtm</h3>
+<p><strong><a href="https://papers.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html">SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling</a></strong> — Jiaxiang Dong, Haixu Wu, Haoran Zhang, Li Zhang, Jianmin Wang, Mingsheng Long. Advances in Neural Information Processing Systems (2023).</p>
+<ul>
+<li><strong>Role and family:</strong> Tool; similarity-assisted representation learning.</li>
+<li><strong>Supported claim:</strong> SimMTM uses learned series-level similarities to aggregate representations from masked examples for reconstruction during pretraining.</li>
+<li><strong>Boundary:</strong> Similarity is part of the learning mechanism. Forecasting and classification evaluations do not by themselves validate a standalone semantic retrieval metric.</li>
+<li><strong>Verification:</strong> Official NeurIPS publication; official code description. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://github.com/thuml/SimMTM">source 2</a>.</li>
+</ul>
+<h3 id="goswami2024moment">goswami2024moment</h3>
+<p><strong><a href="https://proceedings.mlr.press/v235/goswami24a.html">MOMENT: A Family of Open Time-series Foundation Models</a></strong> — Mononito Goswami, Konrad Szafer, Arjun Choudhry, Yifu Cai, Shuo Li, Artur Dubrawski. Proceedings of the 41st International Conference on Machine Learning (2024).</p>
+<ul>
+<li><strong>Role and family:</strong> Tool; pretrained representation.</li>
+<li><strong>Supported claim:</strong> MOMENT provides pretrained time-series models and evaluates them across several tasks and limited-supervision settings.</li>
+<li><strong>Boundary:</strong> The existence of pretrained embeddings does not establish a universal notion of similarity. Retrieval use needs relevant-query labels or another explicit target, training-data overlap checks, pooling, scaling and checkpoint specification.</li>
+<li><strong>Verification:</strong> Official PMLR publication; official project and implementation documentation. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://github.com/moment-timeseries-foundation-model/moment">source 2</a>.</li>
+</ul>
+<h3 id="paparrizos2024survey">paparrizos2024survey</h3>
+<p><strong><a href="https://arxiv.org/abs/2412.20574">A Survey on Time-Series Distance Measures</a></strong> — John Paparrizos, Haojun Li, Fan Yang, Kaize Wu, Jens E. d'Hondt, Odysseas Papapetrou. arXiv (2024).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; taxonomy and literature discovery.</li>
+<li><strong>Supported claim:</strong> The survey organizes distance measures into lock-step, sliding, elastic, kernel, feature, model and embedding families, covering both univariate and multivariate formulations.</li>
+<li><strong>Boundary:</strong> This is a survey, not a new head-to-head experiment. Original method papers remain the sources for individual definitions and guarantees; the family taxonomy is not a claim that all methods are implemented in EchoTime.</li>
+<li><strong>Verification:</strong> Author-uploaded arXiv record; author publication page. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Preprint survey.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://jensdhondt.com/publication/book_chapter_2024">source 2</a>.</li>
+<li><strong>Version/access note:</strong> The verified record is arXiv:2412.20574v1 (2024). A formally published successor was not established in this check.</li>
+</ul>
+<h3 id="dhondt2025multivariate">dhondt2025multivariate</h3>
+<p><strong><a href="https://doi.org/10.1145/3725258">A Structured Study of Multivariate Time-Series Distance Measures</a></strong> — Jens E. d'Hondt, Haojun Li, Fan Yang, Odysseas Papapetrou, John Paparrizos. Proceedings of the ACM on Management of Data (2025).</p>
+<ul>
+<li><strong>Role and family:</strong> Contrast; multivariate comparative evaluation.</li>
+<li><strong>Supported claim:</strong> The study jointly examines 30 distance measures, 13 normalizations, two channel-dependency models, 30 datasets and three downstream tasks, including supervised and unsupervised parameter selection.</li>
+<li><strong>Boundary:</strong> Reported rankings and normalization effects are conditional on the study design. This supports testing preprocessing and channel assumptions, not claiming one distance or normalization is universally optimal.</li>
+<li><strong>Verification:</strong> Publisher metadata and abstract; author institution record. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1145/3725258">10.1145/3725258</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://research.tue.nl/en/publications/a-structured-study-of-multivariate-time-series-distance-measures/">source 2</a>; <a href="https://jensdhondt.com/publication/sigmod_2025">source 3</a>.</li>
+</ul>
+<h3 id="schaefer2025sofa">schaefer2025sofa</h3>
+<p><strong><a href="https://helios2.mi.parisdescartes.fr/~themisp/publications/icde25-sofa.pdf">Fast and Exact Similarity Search in Less than a Blink of an Eye</a></strong> — Patrick Schäfer, Jakob Brand, Ulf Leser, Botao Peng, Themis Palpanas. Proceedings of the 41st IEEE International Conference on Data Engineering (2025).</p>
+<ul>
+<li><strong>Role and family:</strong> Tool; exact Euclidean retrieval indexing.</li>
+<li><strong>Supported claim:</strong> SOFA combines SFA-based summaries with a tree index and lower-bound filtering for exact Euclidean nearest-neighbor search.</li>
+<li><strong>Boundary:</strong> The target is exact Euclidean retrieval; speed comparisons do not establish superior semantic similarity or transfer automatically to DTW. Index construction, memory, data and implementation must be included in a local comparison.</li>
+<li><strong>Verification:</strong> Author-hosted original paper and official ICDE 2025 accepted-paper list; preprint cross-check. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://ieee-icde.org/2025/research-papers/">source 2</a>; <a href="https://arxiv.org/abs/2411.17483">source 3</a>.</li>
+<li><strong>Version/access note:</strong> The 2024 preprint and 2025 conference article are one work. DOI omitted because the publisher endpoint did not resolve in this check.</li>
+</ul>
+<h3 id="ning2025tsrag">ning2025tsrag</h3>
+<p><strong><a href="https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html">TS-RAG: Retrieval-Augmented Generation based Time Series Foundation Models are Stronger Zero-Shot Forecaster</a></strong> — Kanghui Ning, Zijie Pan, Yu Liu, Yushan Jiang, James Zhang, Kashif Rasul, Anderson Schneider, Lintao Ma, Yuriy Nevmyvaka, Dongjin Song. Advances in Neural Information Processing Systems (2025).</p>
+<ul>
+<li><strong>Role and family:</strong> Boundary; retrieval-augmented forecasting.</li>
+<li><strong>Supported claim:</strong> TS-RAG retrieves segments through pretrained encoders and integrates retrieved patterns with a forecasting model using an adaptive mixer.</li>
+<li><strong>Boundary:</strong> The reported downstream objective is forecasting. Forecast improvement alone does not establish general semantic nearest-neighbor accuracy, reliable causal analogues or superiority of the retrieval distance itself.</li>
+<li><strong>Verification:</strong> Official NeurIPS publication and abstract. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+</ul>
+<h3 id="azzari2026tsdistances">azzari2026tsdistances</h3>
+<p><strong><a href="https://www.di.univr.it/?ent=pubbdip&amp;id=1192651&amp;lang=en">Algorithm 1061: tsdistances: A High-Performance Python Library for Time Series Distances with GPU Support</a></strong> — Alberto Azzari, Andrea Cracco, Francesco Masillo, Pietro Sala. ACM Transactions on Mathematical Software (2026).</p>
+<ul>
+<li><strong>Role and family:</strong> Tool; CPU and GPU distance software.</li>
+<li><strong>Supported claim:</strong> The software paper describes CPU and GPU implementations of time-series distances, with particular attention to elastic algorithms and parallel computation.</li>
+<li><strong>Boundary:</strong> The publication establishes a relevant implementation source. This literature check did not run its benchmarks or verify interoperability; reported speedups must not be presented as EchoTime measurements.</li>
+<li><strong>Verification:</strong> Author university publication record and abstract; independent bibliographic corroboration. Publisher full text unavailable. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1145/3802579">10.1145/3802579</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://dblp.org/pid/351/1189.html">source 2</a>.</li>
+<li><strong>Version/access note:</strong> ACM returned HTTP 403 during the check. The university record verifies year, authors, journal, volume, issue and DOI; this is not a full-text implementation audit.</li>
+</ul>
+<h3 id="bandt2002permutation">bandt2002permutation</h3>
+<p><strong><a href="https://doi.org/10.1103/PhysRevLett.88.174102">Permutation Entropy: A Natural Complexity Measure for Time Series</a></strong> — Christoph Bandt, Bernd Pompe. Physical Review Letters (2002).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; ordinal-pattern representation.</li>
+<li><strong>Supported claim:</strong> Permutation entropy uses the order patterns of neighboring observations to characterize temporal complexity.</li>
+<li><strong>Boundary:</strong> An ordinal-pattern histogram is a representation, and a distance between such histograms is an additional design choice. Embedding dimension, delay and tie handling affect the representation; the original paper does not validate every histogram distance.</li>
+<li><strong>Verification:</strong> Official publisher metadata and abstract. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1103/PhysRevLett.88.174102">10.1103/PhysRevLett.88.174102</a>.</li>
+</ul>
+<h3 id="lin1991js">lin1991js</h3>
+<p><strong><a href="https://ieeexplore.ieee.org/abstract/document/61115/authors">Divergence Measures Based on the Shannon Entropy</a></strong> — Jianhua Lin. IEEE Transactions on Information Theory (1991).</p>
+<ul>
+<li><strong>Role and family:</strong> Definition; probability-distribution divergence.</li>
+<li><strong>Supported claim:</strong> Jensen-Shannon divergence compares probability distributions through entropy-based mixture differences and remains finite without the support restrictions of directed KL divergence.</li>
+<li><strong>Boundary:</strong> The logarithm base sets the scale. Probability normalization is required; applying the divergence to a spectrum or ordinal histogram compares those summaries, which can discard time-domain information.</li>
+<li><strong>Verification:</strong> Publisher metadata and abstract; original paper text. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/18.61115">10.1109/18.61115</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://www.cise.ufl.edu/~anand/sp06/jensen-shannon.pdf">source 2</a>.</li>
+</ul>
+<h3 id="endres2003jsmetric">endres2003jsmetric</h3>
+<p><strong><a href="https://research-repository.st-andrews.ac.uk/handle/10023/1591">A New Metric for Probability Distributions</a></strong> — Dominik M. Endres, Johannes E. Schindelin. IEEE Transactions on Information Theory (2003).</p>
+<ul>
+<li><strong>Role and family:</strong> Boundary; probability-distribution metric.</li>
+<li><strong>Supported claim:</strong> The paper establishes a metric proportional to the square root of equal-weight Jensen-Shannon divergence.</li>
+<li><strong>Boundary:</strong> The square-root transformation is essential to this metric statement. A metric on probability summaries need not distinguish the underlying raw series when different series produce the same summary.</li>
+<li><strong>Verification:</strong> Author institution repository metadata and original paper. Checked 2026-10-29.</li>
+<li><strong>Publication status:</strong> Published.</li>
+<li><strong>DOI:</strong> <a href="https://doi.org/10.1109/TIT.2003.813506">10.1109/TIT.2003.813506</a>.</li>
+<li><strong>Additional checked sources:</strong> <a href="https://research-repository.st-andrews.ac.uk/bitstream/10023/1591/1/Endres2003-IEEETransInfTheory49-NewMetric.pdf">source 2</a>.</li>
+</ul>
+<h2 id="search-scope-and-limitations">Search scope and limitations</h2>
+<p><strong>Review type:</strong> targeted narrative evidence collection, not an exhaustive systematic review.</p>
+<p>The search started from method families already present in EchoTime, then checked recent work on elastic alignment, exact retrieval, learned representations, multivariate comparisons and distance software. Sources were prioritized in this order: original publisher/conference papers; author-hosted manuscripts; author-institution records. Bibliographic indexes were used only to corroborate metadata or locate original sources.</p>
+<p><strong>Representative searches used on 2026-10-29:</strong></p>
+<ul>
+<li><code>time series similarity distance survey dynamic time warping 2024 2025 benchmark</code></li>
+<li><code>time series foundation models similarity retrieval 2025 2026</code></li>
+<li><code>The Move-Split-Merge Metric for Time Series Stefan</code></li>
+<li><code>On The Marriage of Lp-norms and Edit Distance vldb.org</code></li>
+<li><code>Discovering similar multidimensional trajectories</code></li>
+<li><code>Robust and Fast Similarity Search for Moving Object Trajectories Chen Ozsu Oria 2005</code></li>
+<li><code>Soft-DTW: a Differentiable Loss Function for Time-Series</code></li>
+<li><code>Differentiable Divergences Between Time Series</code></li>
+<li><code>Matrix Profile I All Pairs Similarity Joins for Time Series</code></li>
+<li><code>A Structured Study of Multivariate Time-Series Distance Measures 2025 pdf</code></li>
+<li><code>Amercing: An Intuitive, Elegant and Effective Constraint for Dynamic Time Warping</code></li>
+<li><code>Fast and Exact Similarity Search in less than a Blink of an Eye</code></li>
+<li><code>SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling</code></li>
+<li><code>MOMENT: A Family of Open Time-series Foundation Models</code></li>
+<li><code>tsdistances Azzari</code></li>
+<li><code>Time Warp Edit Distance t_0</code></li>
+<li><code>Divergence measures based on the Shannon entropy Lin 1991</code></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>This is a curated source set, not complete coverage of every method, paper or application.</li>
+<li>Per-record verification levels distinguish full-text checks, abstracts and metadata; not all proofs or experiments were re-audited.</li>
+<li>No cross-library benchmark, timing experiment or new model evaluation was performed for this literature collection.</li>
+<li>No exhaustive retraction/correction database audit was performed.</li>
+<li>Some publisher endpoints were blocked or unavailable; successful alternative sources and limits are recorded.</li>
+<li>Publication dates are taken from bibliographic records, not search-engine crawl or relative-time labels.</li>
+</ul>
+<p>A method citation supports a definition or a documented experiment. It does not certify that a similarly named function is equivalent to the reference implementation. Implementation comparisons should record the local cost, preprocessing, boundary cases, dependency version and test evidence.</p>
+<h2 id="maintaining-this-collection">Maintaining this collection</h2>
+<p>Add a reference only after checking a primary source. Record the precise supported claim, a boundary, the source URLs and the access date. Prefer a verified formal version over its preprint, and keep both URLs in one record when needed. Leave unavailable metadata out of BibTeX. Use the same stable key in the Markdown heading, JSON record and BibTeX entry. Do not insert unverified accuracy or speed claims into the method atlas.</p>
+<hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/references/time-series-similarity-literature.md">the versioned Markdown source</a>.
+Corrections and reproducible examples are welcome in the repository.</p>
+</main></body></html>

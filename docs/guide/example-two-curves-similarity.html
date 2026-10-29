@@ -4,52 +4,56 @@
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime docs - US Treasury 10Y and 2Y yields in 2024</title><style>
 :root {
-  --page-bg: #FFFFFF;
-  --surface: #FAFAFA;
-  --surface-strong: #FFFFFF;
-  --surface-sun: #FFF4C2;
-  --surface-sun-strong: #FFF9E4;
+  --page-bg: #000000;
+  --surface: #0a0a0a;
+  --surface-strong: #111111;
+  --surface-sun: rgba(255, 200, 61, 0.05);
+  --surface-sun-strong: rgba(255, 200, 61, 0.1);
   --sun-500: #FFC83D;
   --sun-300: #FFE27A;
   --sun-100: #FFF4C2;
   --sun-700: #C7950A;
-  --blue-600: #2F6BFF;
-  --blue-700: #2554CC;
-  --text-900: #1F2937;
-  --text-600: #6B7280;
-  --border: #E5E7EB;
-  --shadow-sm: 0 10px 30px rgba(31, 41, 55, 0.06);
-  --shadow-md: 0 18px 50px rgba(31, 41, 55, 0.08);
+  --blue-600: #3b82f6;
+  --blue-700: #2563eb;
+  --text-900: #FFFFFF;
+  --text-600: #A1A1AA;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 200, 61, 0.3);
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
   --radius-lg: 28px;
-  --radius-md: 20px;
-  --radius-sm: 14px;
-  --max-width: 980px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --max-width: 1280px;
 }
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 html {
   scroll-behavior: smooth;
 }
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top right, rgba(255, 226, 122, 0.16), transparent 24%),
-    linear-gradient(180deg, #fffef9 0%, var(--page-bg) 12%, var(--page-bg) 100%);
+  background-color: var(--page-bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 200, 61, 0.08), transparent 50%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05), transparent 50%);
   color: var(--text-900);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
 a {
-  color: var(--blue-600);
+  color: var(--text-900);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 a:hover {
-  color: var(--blue-700);
+  color: var(--sun-500);
 }
 code, pre {
-  font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 select, input, textarea {
   width: 100%;
@@ -61,7 +65,7 @@ select, input, textarea {
   font: inherit;
 }
 .shell {
-  width: min(var(--max-width), calc(100vw - 20px));
+  width: min(var(--max-width), calc(100vw - 40px));
   margin: 0 auto;
 }
 svg, img {
@@ -71,9 +75,9 @@ svg, img {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
-  border-bottom: 1px solid rgba(229, 231, 235, 0.94);
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(12px) saturate(180%);
 }
 .topbar-inner {
@@ -89,11 +93,21 @@ svg, img {
   gap: 14px;
 }
 .brand-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--sun-500), var(--sun-300));
-  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.06);
+  width: 38px;
+  height: 38px;
+  border-radius: 0px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.brand-mark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.2);
 }
 .brand-copy strong {
   display: block;
@@ -101,14 +115,20 @@ svg, img {
   letter-spacing: -0.02em;
 }
 .brand-copy span {
-  color: var(--text-600);
-  font-size: 0.95rem;
+  display: none;
+}
+@media (min-width: 768px) {
+  .brand-copy span {
+    display: block;
+    color: var(--text-600);
+    font-size: 0.85rem;
+  }
 }
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  font-size: 0.95rem;
+  gap: 20px;
+  font-size: 0.9rem;
 }
 .nav a {
   color: var(--text-600);
@@ -118,34 +138,63 @@ svg, img {
   color: var(--text-900);
 }
 .section {
-  padding: 26px 0 18px;
+  padding: 80px 0 40px;
+  position: relative;
 }
 .section-head {
   display: grid;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   width: fit-content;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 200, 61, 0.38);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border: 1px solid rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.1);
+  color: var(--sun-500);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.1);
 }
 .hero {
-  padding: 42px 0 18px;
+  padding: 100px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-canvas-container {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.8;
+  pointer-events: none;
+}
+@media (max-width: 1280px) {
+  .hero-canvas-container {
+    width: 100%;
+    right: 0;
+    opacity: 0.4;
+  }
+}
+.hero-content {
+  max-width: 760px;
+  position: relative;
+  z-index: 2;
+}
+.hero-content p {
+  margin-top: 24px;
 }
 .hero-grid, .grid-2, .grid-3 {
   display: grid;
-  gap: 20px;
+  gap: 32px;
 }
 .hero-grid {
   grid-template-columns: 1.1fr 0.9fr;
@@ -157,118 +206,162 @@ svg, img {
 .grid-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.showcase-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 1280px) {
+  .showcase-split {
+    grid-template-columns: 1fr;
+  }
+}
 .card {
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 22px 24px;
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
+  padding: 32px;
+  position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at top left, rgba(255, 200, 61, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.card:hover {
+  border-color: rgba(255, 200, 61, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 200, 61, 0.05);
+  transform: translateY(-2px);
+}
+.card:hover::before {
+  opacity: 1;
 }
 .card.sun {
-  background: linear-gradient(180deg, #fffdfa 0%, var(--surface-sun-strong) 100%);
+  background: var(--surface);
 }
 .card.soft {
   background: var(--surface);
 }
 .feature-card {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 .feature-card p,
 .card p {
   margin: 0;
+  color: var(--text-600);
 }
 .badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.trust-strip {
+.trust-strip, .trust-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 24px;
 }
-.logo-chip {
+.logo-chip, .trust-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 0 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
-.logo-dot {
-  width: 9px;
-  height: 9px;
+.logo-dot, .trust-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--sun-500), var(--blue-600));
+  background: var(--sun-500);
+  box-shadow: 0 0 8px var(--sun-500);
 }
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 11px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-strong);
   color: var(--text-600);
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.pill:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-900);
 }
 .pill.sun {
-  border-color: rgba(255, 200, 61, 0.42);
-  background: var(--surface-sun);
-  color: var(--sun-700);
+  border-color: rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.05);
+  color: var(--sun-500);
 }
 .pill.blue {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--blue-600);
 }
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 16px;
+  margin-top: 24px;
 }
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 24px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface-strong);
-  color: var(--text-900);
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
-.button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 .button.primary {
-  border-color: rgba(255, 200, 61, 0.48);
-  background: linear-gradient(180deg, #ffd65f 0%, var(--sun-500) 100%);
-  color: var(--text-900);
+  background: var(--text-900);
+  color: var(--page-bg);
+}
+.button.primary:hover {
+  background: var(--sun-500);
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.4);
+  transform: translateY(-2px);
 }
 .button.secondary {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.08);
-  color: var(--blue-700);
+  background: var(--surface-strong);
+  color: var(--text-900);
+  border-color: var(--border);
+}
+.button.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
 }
 .button.ghost {
   background: transparent;
-  box-shadow: none;
+  color: var(--text-600);
+}
+.button.ghost:hover {
+  color: var(--text-900);
 }
 .button.text {
   padding: 0;
@@ -280,28 +373,44 @@ svg, img {
 }
 h1, h2, h3 {
   margin: 0;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 h1 {
-  font-size: clamp(2.6rem, 5vw, 4.5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.scanline-text {
+  background-image:
+    repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px),
+    linear-gradient(180deg, #FFFFFF 0%, #a1a1aa 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  padding-bottom: 0.1em;
 }
 h2 {
-  font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
 }
 h3 {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 .subhead, .lead, .muted {
   color: var(--text-600);
 }
 .subhead {
-  max-width: 46rem;
-  font-size: 1.12rem;
+  max-width: 48rem;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 .lead {
   margin: 0;
-  max-width: 68rem;
+  max-width: 60rem;
+  font-size: 1.1rem;
 }
 .hero-stat {
   display: grid;
@@ -316,7 +425,7 @@ h3 {
 .stat {
   border: 1px solid rgba(255, 200, 61, 0.28);
   border-radius: var(--radius-sm);
-  background: rgba(255, 244, 194, 0.55);
+  background: rgba(255, 244, 194, 0.05);
   padding: 12px 14px;
 }
 .stat strong {
@@ -349,31 +458,44 @@ h3 {
   justify-content: center;
   border-radius: 999px;
   background: var(--sun-500);
-  color: var(--text-900);
+  color: var(--page-bg);
   font-weight: 800;
 }
 .code-block, pre {
   margin: 0;
-  padding: 16px;
+  padding: 20px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: #fffef8;
-  color: var(--text-900);
+  background: #0d0d0d;
+  color: #e5e7eb;
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+pre::before {
+  content: '';
+  display: block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+  margin-bottom: 16px;
 }
 .surface-frame {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-strong);
-  box-shadow: var(--shadow-sm);
-  min-width: 0;
   overflow: hidden;
 }
 .surface-frame.pad {
-  padding: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
 }
 table {
   width: 100%;
@@ -393,7 +515,7 @@ th, td {
   border-bottom: 1px solid var(--border);
 }
 th {
-  background: #fffdf6;
+  background: #111111;
   color: var(--text-600);
   font-size: 0.92rem;
 }
@@ -416,8 +538,15 @@ img.brand-card {
   box-shadow: var(--shadow-sm);
 }
 .footer {
-  padding: 28px 0 54px;
+  padding: 40px 0 60px;
   color: var(--text-600);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .footer-grid {
   display: grid;
@@ -446,23 +575,29 @@ img.brand-card {
 }
 .diagram-card {
   padding: 18px;
-  border: 1px dashed rgba(47, 107, 255, 0.22);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, rgba(255, 244, 194, 0.38) 0%, #ffffff 100%);
+  background: rgba(255, 200, 61, 0.05);
 }
 .note-box {
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: var(--sun-500);
+  font-weight: 500;
+  font-style: italic;
 }
 .note-box.info {
-  border-color: rgba(47, 107, 255, 0.18);
-  background: rgba(47, 107, 255, 0.05);
+  border-left: 3px solid var(--sun-500);
+  background: transparent;
+  color: var(--sun-500);
 }
 .note-box.warn {
   border-color: rgba(255, 200, 61, 0.45);
-  background: rgba(255, 244, 194, 0.66);
+  background: rgba(255, 244, 194, 0.05);
 }
 .author-meta {
   display: grid;
@@ -470,71 +605,87 @@ img.brand-card {
   margin-top: 14px;
 }
 .callout {
-  padding: 18px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 200, 61, 0.42);
-  background: linear-gradient(180deg, #fff9e4 0%, #ffffff 100%);
-  box-shadow: var(--shadow-sm);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 200, 61, 0.2);
+  background: radial-gradient(circle at center, rgba(255, 200, 61, 0.08) 0%, #0a0a0a 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@media (max-width: 980px) {
+.callout .section-head {
+  align-items: center;
+  text-align: center;
+}
+@media (max-width: 1280px) {
   .topbar-inner {
-    padding: 12px 0;
+    padding: 16px 0;
     align-items: flex-start;
+    flex-direction: column;
   }
   .hero-grid, .grid-2, .grid-3, .workflow, .diagram-band, .hero-stat, .footer-grid {
     grid-template-columns: 1fr;
   }
 }
+svg text { fill: #A1A1AA; }
+svg text[fill='#1F2937'] { fill: #FFFFFF; }
+svg rect[fill='white'], svg rect[fill='#ffffff'] { fill: transparent; }
+svg rect[stroke='#E5E7EB'] { stroke: rgba(255, 255, 255, 0.1); }
+svg line[stroke='#E5E7EB'], svg line[stroke='#F3F4F6'] { stroke: rgba(255, 255, 255, 0.1); }
+svg rect[fill='#F3F4F6'] { fill: rgba(255, 255, 255, 0.05); }
+svg polyline[stroke='#2F6BFF'] { stroke: var(--sun-500); filter: drop-shadow(0 0 5px rgba(255, 200, 61, 0.5)); }
+svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
 
     .docs-wrap { display:grid; grid-template-columns: 240px minmax(0, 1fr); gap: 18px; padding: 24px 0 36px; }
     .docs-sidebar { position: sticky; top: 88px; align-self: start; display:grid; gap:14px; min-width: 0; }
-    .sidebar-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+    .sidebar-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
     .sidebar-title { margin:0 0 10px; font-size: 0.86rem; color: var(--text-600); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     .doc-link { display:block; padding: 10px 12px; border-radius: 12px; color: var(--text-600); font-weight: 600; word-break: break-word; }
-    .doc-link:hover { background: rgba(47,107,255,0.06); color: var(--text-900); }
-    .doc-link.active { background: rgba(255, 244, 194, 0.78); color: var(--text-900); border:1px solid rgba(255,200,61,0.38); }
+    .doc-link:hover { background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
+    .doc-link.active { background: rgba(255, 200, 61, 0.2); color: #FFE27A; border:1px solid rgba(255,200,61,0.4); }
     .docs-main { display:grid; gap: 24px; min-width: 0; }
     .docs-hero { display:grid; gap: 12px; }
     .docs-hero h1 { font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.02; }
-    .docs-card { background: var(--surface-strong); border:1px solid var(--border); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
+    .docs-card { background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); display:grid; gap: 12px; min-width: 0; overflow: hidden; }
     .docs-grid-2, .docs-grid-3 { display:grid; gap: 20px; }
     .docs-grid-2 { grid-template-columns: 1fr 1fr; }
     .docs-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .meta-line { display:flex; flex-wrap:wrap; gap: 10px; min-width: 0; }
-    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: var(--surface); border:1px solid var(--border); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
+    .meta-chip { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; background: #1a1a1a; border:1px solid rgba(255, 255, 255, 0.1); color: var(--text-600); font-size: 0.84rem; font-weight: 700; min-width: 0; }
     .meta-chip strong { color: var(--text-900); }
     .entry-stack { display:grid; gap: 16px; }
-    .entry { border-top: 1px solid var(--border); padding-top: 16px; }
+    .entry { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 16px; }
     .entry:first-child { border-top: 0; padding-top: 0; }
     .entry h3 { font-size: 1.1rem; }
-    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #fffef8; border:1px solid var(--border); padding: 2px 6px; border-radius: 8px; }
+    .inline-code { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: bottom; white-space: nowrap; font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; background: #1a1a1a; color: #FFE27A; border:1px solid rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 8px; }
     .small-table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
-    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid var(--border); vertical-align: top; }
-    .small-table th { background: #fffdf6; color: var(--text-600); font-size: 0.9rem; }
+    .small-table th, .small-table td { padding: 11px 12px; text-align:left; border-bottom:1px solid rgba(255, 255, 255, 0.1); vertical-align: top; }
+    .small-table th { background: #1a1a1a; color: var(--text-600); font-size: 0.9rem; }
     .small-table tr:last-child td { border-bottom: 0; }
     .toc-note { font-size: 0.92rem; color: var(--text-600); }
     .example-card { align-content: start; }
-    .example-preview { border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); padding: 12px; overflow: hidden; }
+    .example-preview { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); padding: 12px; overflow: hidden; }
     .example-preview svg { display: block; width: 100%; height: auto; }
     .example-link-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 4px; }
     .example-figure-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:20px; }
     .example-figure-wide { grid-column: 1 / -1; }
     .asset-list { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid var(--border); background: var(--surface); color: var(--text-900); }
-    .asset-link:hover { border-color: rgba(47,107,255,0.18); background: rgba(47,107,255,0.04); color: var(--text-900); }
+    .asset-link { display:grid; gap:4px; padding: 14px 16px; border-radius: 14px; border:1px solid rgba(255, 255, 255, 0.1); background: #1a1a1a; color: var(--text-900); }
+    .asset-link:hover { border-color: rgba(255, 200, 61, 0.3); background: rgba(255, 200, 61, 0.1); color: var(--text-900); }
     .asset-link strong { font-size: 0.96rem; }
     .asset-link span { color: var(--text-600); font-size: 0.88rem; }
     .gallery-section { display:grid; gap: 14px; }
     .gallery-section h2 { font-size: 1.18rem; }
     .gallery-grid { display:grid; gap: 16px; }
-    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid var(--border); border-radius: 18px; background: var(--surface-strong); box-shadow: var(--shadow-sm); }
-    .gallery-thumb { display:block; border: 1px solid var(--border); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%); overflow: hidden; }
+    .gallery-card { display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 18px; border:1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; background: #1a1a1a; box-shadow: var(--shadow-sm); }
+    .gallery-thumb { display:block; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 10px; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%); overflow: hidden; }
     .gallery-thumb svg { display:block; width: 100%; height: auto; }
     .gallery-body { display:grid; gap: 8px; min-width: 0; }
     .gallery-body h3 { font-size: 1.2rem; line-height: 1.25; }
     .gallery-body p { margin: 0; }
     .gallery-links { display:flex; flex-wrap:wrap; gap: 12px; font-weight: 700; }
-    .gallery-links a { color: var(--blue-700); }
+    .gallery-links a { color: var(--blue-600); }
     .gallery-links a:hover { text-decoration: underline; }
     .gallery-kicker { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-600); }
     .example-page-intro { display:grid; gap: 16px; }
@@ -548,8 +699,8 @@ img.brand-card {
     .component-list { display:grid; gap: 10px; }
     .component-row { display:grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
     .component-row span { color: var(--text-600); }
-    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #f3f4f6; overflow: hidden; }
-    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #f1b62a); }
+    .component-track { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #2a2a2a; overflow: hidden; }
+    .component-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--sun-500), #FFD700); }
     @media (max-width: 1180px) {
       .docs-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .example-figure-grid, .asset-list { grid-template-columns: 1fr; }
@@ -584,13 +735,11 @@ img.brand-card {
 <body>
 <header class='topbar'>
   <div class='shell topbar-inner'>
-    <div class='brand'>
-      <span class='brand-mark'></span>
-      <div class='brand-copy'>
-        <strong>EchoTime</strong>
-        <span>Explainable time-series similarity for humans and agents.</span>
-      </div>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='../logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
+
     <nav class='nav'>
       <a href='../index.html'>Home</a>
       <a href='index.html'>Docs</a>
@@ -614,23 +763,27 @@ img.brand-card {
       <a class='doc-link' href='../reports/github_breakout_similarity.html'>Real-data flagship report</a>
     </div>
     <div class='sidebar-card'>
-      <div class='sidebar-title'>Maintainer</div>
-      <div class='toc-note'><strong>Zipeng Wu</strong><br>The University of Birmingham<br><a href='mailto:zxw365@student.bham.ac.uk'>zxw365@student.bham.ac.uk</a></div>
+      <div class='sidebar-title'>Maintainers</div>
+      <div class='toc-note' style='margin-bottom: 10px;'><strong>Zipeng Wu</strong><br>The University of Birmingham<br><a href='mailto:zxw365@student.bham.ac.uk'>zxw365@student.bham.ac.uk</a></div>
+      <div class='toc-note'><strong>Jiajun Chen</strong><br>The University of Southampton<br><a href='mailto:jc15u24@soton.ac.uk'>jc15u24@soton.ac.uk</a></div>
     </div>
-    <div class='sidebar-card'><div class='sidebar-title'>Example gallery</div><a class='doc-link active' href='example-two-curves-similarity.html'>US Treasury 10Y and 2Y yields in 2024</a><a class='doc-link' href='example-weekly-traffic-signals.html'>Python and JavaScript pageviews move together, but not identically</a><a class='doc-link' href='example-irregular-patient-similarity.html'>Irregular earthquake streams can still be compared</a><a class='doc-link' href='example-github-breakout-analogs.html'>AI attention breakout analogs</a><a class='doc-link' href='example-btc-gold-under-shocks.html'>BTC, Brent, and VIX in 2024</a><a class='doc-link' href='example-heatwave-grid-load.html'>Southwest heatwave city temperatures</a></div>
+    <details class='sidebar-card' open style='padding: 0; background: transparent;'><summary class='sidebar-title' style='cursor: pointer; user-select: none; margin-bottom: 0;'>Example gallery <span style='float:right; opacity: 0.5;'>▼</span></summary><div style='margin-top: 10px;'><a class='doc-link active' href='example-two-curves-similarity.html'>US Treasury 10Y and 2Y yields in 2024</a><a class='doc-link' href='example-weekly-traffic-signals.html'>Python and JavaScript pageviews move together, but not identically</a><a class='doc-link' href='example-irregular-patient-similarity.html'>Irregular earthquake streams can still be compared</a><a class='doc-link' href='example-github-breakout-analogs.html'>AI attention breakout analogs</a><a class='doc-link' href='example-btc-gold-under-shocks.html'>BTC, Brent, and VIX in 2024</a><a class='doc-link' href='example-heatwave-grid-load.html'>Southwest heatwave city temperatures</a></div></details>
   </aside>
   <section class='docs-main'>
-    
+
     <div class='example-page-intro'>
-      <div class='example-breadcrumb'><a href='tutorials.html'>Examples</a> / Beginner example</div>
+      <div class='example-breadcrumb'>
+        <a href='tutorials.html' class='pill ghost' style='text-decoration: none; padding: 4px 10px; margin-right: 8px;'>&larr; Back to Tutorials</a>
+        <span style='color: var(--text-600);'>Examples / Beginner example</span>
+      </div>
       <div class='example-head'>
         <div class='eyebrow'>Beginner example</div>
         <h1>US Treasury 10Y and 2Y yields in 2024</h1>
         <p class='subhead'>A first real-data example: read two columns from a CSV snapshot, compare them, and inspect how stable the relationship stays across the year.</p>
       </div>
     </div>
-    
-    
+
+
     <div class='example-summary-grid'>
       <div class='docs-card example-teaser'>
         <span class='pill blue'>Question</span>
@@ -644,7 +797,7 @@ img.brand-card {
         <ol class='panel-list'><li>Read the local CSV snapshot with pandas.</li><li>Select the two yield columns you want to compare.</li><li>Run compare_series(...) first, then rolling_similarity(...) if you want time-local context.</li></ol>
         <div class='gallery-links'>
           <a href='example-two-curves-similarity.html'>Permalink</a>
-          
+
           <a href='https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_two_curves_similarity.py'>Open script</a>
         </div>
       </div>
@@ -722,13 +875,13 @@ print({&quot;rolling_windows&quot;: len(windows), &quot;mean_similarity&quot;: r
       <ul class='panel-list'><li>Swap df[&#x27;dgs10&#x27;] and df[&#x27;dgs2&#x27;] for the two numeric columns you care about.</li><li>If your file has timestamps, keep them in the DataFrame even if the first compare_series(...) call does not require them.</li><li>Write report.to_html_report() to disk when you need something you can hand to a teammate.</li></ul>
     </div>
     <div class='example-figure-grid'>
-      <div class='docs-card'><span class='pill blue'>Series overlay</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='EchoTime series preview'><title>EchoTime series preview</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Series preview</text><line x1='40' y1='24' x2='40' y2='212' stroke='#E5E7EB'/><line x1='40' y1='212' x2='700' y2='212' stroke='#E5E7EB'/><polyline points='40.0,156.2 42.7,161.1 45.3,151.4 48.0,144.1 50.6,148.9 53.3,147.7 55.9,145.3 58.6,152.6 61.2,155.0 63.9,141.7 66.5,138.0 69.2,133.2 71.8,131.9 74.5,136.8 77.1,133.2 79.8,128.3 82.4,133.2 85.1,131.9 87.7,140.4 90.4,142.9 93.0,151.4 95.7,165.9 98.3,146.5 101.0,129.5 103.6,139.2 106.3,139.2 108.9,131.9 111.6,129.5 114.2,129.5 116.9,112.5 119.5,117.4 122.2,121.0 124.8,113.8 127.5,117.4 130.1,111.3 132.8,110.1 135.4,118.6 138.1,116.2 140.7,112.5 143.4,117.4 146.0,119.8 148.7,127.1 151.3,123.5 154.0,134.4 156.6,136.8 159.3,139.2 161.9,139.2 164.6,138.0 167.2,130.7 169.9,127.1 172.5,115.0 175.2,112.5 177.8,108.9 180.5,113.8 183.1,117.4 185.8,117.4 188.4,123.5 191.1,119.8 193.7,121.0 196.4,125.9 199.0,125.9 201.7,110.1 204.3,106.5 207.0,106.5 209.6,112.5 212.3,102.8 214.9,99.2 217.6,106.5 220.2,83.4 222.9,82.2 225.5,89.5 228.2,73.7 230.8,68.9 233.5,78.6 236.1,72.5 238.8,74.9 241.4,74.9 244.1,76.2 246.7,71.3 249.4,65.2 252.0,68.9 254.7,73.7 257.3,66.5 260.0,73.7 262.7,79.8 265.3,89.5 268.0,90.7 270.6,93.1 273.3,91.9 275.9,95.6 278.6,89.5 281.2,91.9 283.9,95.6 286.5,106.5 289.2,104.1 291.8,99.2 294.5,96.8 297.1,100.4 299.8,98.0 302.4,93.1 305.1,94.3 307.7,84.6 310.4,76.2 313.0,83.4 315.7,88.3 318.3,100.4 321.0,110.1 323.6,115.0 326.3,116.2 328.9,98.0 331.6,93.1 334.2,102.8 336.9,112.5 339.5,121.0 342.2,125.9 344.8,116.2 347.5,123.5 350.1,119.8 352.8,119.8 355.4,119.8 358.1,122.2 360.7,111.3 363.4,115.0 366.0,106.5 368.7,91.9 371.3,98.0 374.0,106.5 376.6,116.2 379.3,116.2 381.9,113.8 384.6,116.2 387.2,125.9 389.9,128.3 392.5,122.2 395.2,129.5 397.8,130.7 400.5,125.9 403.1,119.8 405.8,118.6 408.4,119.8 411.1,116.2 413.7,117.4 416.4,125.9 419.0,129.5 421.7,131.9 424.3,139.2 427.0,151.4 429.6,174.4 432.3,176.8 434.9,162.3 437.6,155.0 440.2,151.4 442.9,157.4 445.5,162.3 448.2,168.3 450.8,170.8 453.5,159.8 456.1,163.5 458.8,167.1 461.4,172.0 464.1,175.6 466.7,167.1 469.4,173.2 472.0,172.0 474.7,170.8 477.3,169.5 480.0,165.9 482.7,161.1 485.3,169.5 488.0,178.0 490.6,182.9 493.3,184.1 495.9,186.5 498.6,192.6 501.2,192.6 503.9,189.0 506.5,191.4 509.2,195.0 511.8,192.6 514.5,186.5 517.1,182.9 519.8,182.9 522.4,180.5 525.1,181.7 527.7,175.6 530.4,175.6 533.0,180.5 535.7,173.2 538.3,181.7 541.0,175.6 543.6,168.3 546.3,152.6 548.9,146.5 551.6,145.3 554.2,142.9 556.9,139.2 559.5,140.4 562.2,146.5 564.8,147.7 567.5,139.2 570.1,140.4 572.8,127.1 575.4,125.9 578.1,121.0 580.7,124.7 583.4,119.8 586.0,116.2 588.7,116.2 591.3,115.0 594.0,116.2 596.6,105.3 599.3,112.5 601.9,118.6 604.6,99.2 607.2,112.5 609.9,113.8 612.5,98.0 615.2,96.8 617.8,98.0 620.5,98.0 623.1,99.2 625.8,102.8 628.4,100.4 631.1,98.0 633.7,100.4 636.4,117.4 639.0,113.8 641.7,119.8 644.3,128.3 647.0,127.1 649.6,122.2 652.3,127.1 654.9,129.5 657.6,131.9 660.2,125.9 662.9,123.5 665.5,118.6 668.2,111.3 670.8,101.6 673.5,102.8 676.1,101.6 678.8,89.5 681.4,81.0 684.1,87.1 686.7,78.6 689.4,78.6 692.0,79.8 694.7,74.9 697.3,83.4 700.0,79.8' fill='none' stroke='#2F6BFF' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#2F6BFF'>10Y</text><polyline points='40.0,110.1 42.7,110.1 45.3,104.1 48.0,101.6 50.6,106.5 53.3,106.5 55.9,105.3 58.6,118.6 61.2,133.2 63.9,123.5 66.5,108.9 69.2,108.9 71.8,102.8 74.5,105.3 77.1,112.5 79.8,108.9 82.4,116.2 85.1,108.9 87.7,115.0 90.4,106.5 93.0,117.4 95.7,125.9 98.3,106.5 101.0,94.3 103.6,102.8 106.3,100.4 108.9,94.3 111.6,91.9 114.2,94.3 116.9,72.5 119.5,82.2 122.2,82.2 124.8,72.5 127.5,78.6 130.1,72.5 132.8,66.5 135.4,68.9 138.1,66.5 140.7,65.2 143.4,72.5 146.0,72.5 148.7,84.6 151.3,76.2 154.0,84.6 156.6,83.4 159.3,89.5 161.9,91.9 164.6,88.3 167.2,79.8 169.9,76.2 172.5,67.7 175.2,62.8 177.8,61.6 180.5,67.7 183.1,78.6 185.8,74.9 188.4,78.6 191.1,84.6 193.7,82.2 196.4,84.6 199.0,78.6 201.7,62.8 204.3,65.2 207.0,67.7 209.6,71.3 212.3,61.6 214.9,55.5 217.6,60.4 220.2,32.5 222.9,37.3 225.5,43.4 228.2,37.3 230.8,32.5 233.5,37.3 236.1,31.3 238.8,32.5 241.4,32.5 244.1,45.8 246.7,42.2 249.4,33.7 252.0,33.7 254.7,32.5 257.3,24.0 260.0,33.7 262.7,44.6 265.3,51.9 268.0,50.7 270.6,50.7 273.3,48.3 275.9,53.1 278.6,44.6 281.2,47.0 283.9,51.9 286.5,61.6 289.2,55.5 291.8,49.5 294.5,50.7 297.1,50.7 299.8,45.8 302.4,39.8 305.1,37.3 307.7,36.1 310.4,33.7 313.0,38.6 315.7,42.2 318.3,50.7 321.0,56.7 323.6,62.8 326.3,62.8 328.9,44.6 331.6,44.6 334.2,51.9 336.9,59.2 339.5,67.7 342.2,68.9 344.8,59.2 347.5,66.5 350.1,65.2 352.8,65.2 355.4,64.0 358.1,71.3 360.7,64.0 363.4,65.2 366.0,64.0 368.7,56.7 371.3,60.4 374.0,64.0 376.6,77.4 379.3,74.9 381.9,74.9 384.6,74.9 387.2,89.5 389.9,95.6 392.5,96.8 395.2,98.0 397.8,99.2 400.5,94.3 403.1,90.7 405.8,89.5 408.4,101.6 411.1,105.3 413.7,100.4 416.4,106.5 419.0,106.5 421.7,107.7 424.3,115.0 427.0,130.7 429.6,164.7 432.3,163.5 434.9,151.4 437.6,150.1 440.2,145.3 442.9,144.1 445.5,148.9 448.2,158.6 450.8,157.4 453.5,140.4 456.1,142.9 458.8,142.9 461.4,151.4 464.1,159.8 466.7,151.4 469.4,162.3 472.0,161.1 474.7,170.8 477.3,170.8 480.0,165.9 482.7,161.1 485.3,164.7 488.0,179.3 490.6,180.5 493.3,191.4 495.9,189.0 498.6,199.9 501.2,196.2 503.9,193.8 506.5,202.3 509.2,203.5 511.8,199.9 514.5,197.4 517.1,199.9 519.8,204.7 522.4,202.3 525.1,212.0 527.7,207.1 530.4,198.7 533.0,204.7 535.7,191.4 538.3,197.4 541.0,195.0 543.6,186.5 546.3,158.6 548.9,151.4 551.6,152.6 554.2,151.4 556.9,152.6 559.5,156.2 562.2,156.2 564.8,158.6 567.5,155.0 570.1,156.2 572.8,147.7 575.4,146.5 578.1,141.7 580.7,141.7 583.4,136.8 586.0,135.6 588.7,136.8 591.3,131.9 594.0,130.7 596.6,124.7 599.3,129.5 601.9,127.1 604.6,117.4 607.2,124.7 609.9,118.6 612.5,108.9 615.2,117.4 617.8,108.9 620.5,112.5 623.1,115.0 625.8,117.4 628.4,112.5 631.1,108.9 633.7,105.3 636.4,124.7 639.0,124.7 641.7,127.1 644.3,134.4 647.0,129.5 649.6,129.5 652.3,134.4 654.9,131.9 657.6,138.0 660.2,134.4 662.9,131.9 665.5,131.9 668.2,128.3 670.8,119.8 673.5,119.8 676.1,119.8 678.8,107.7 681.4,111.3 684.1,113.8 686.7,113.8 689.4,115.0 692.0,113.8 694.7,112.5 697.3,121.0 700.0,119.8' fill='none' stroke='#C7950A' stroke-width='2.5' stroke-dasharray='5 4'/><text x='120' y='42' font-size='11' fill='#C7950A'>2Y</text></svg></div><p class='muted'>The overlay is generated from the real 2024 Treasury yield curves after EchoTime normalizes scale.</p></div><div class='docs-card'><span class='pill sun'>Similarity radar</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='320' viewBox='0 0 560 320' role='img' aria-label='Similarity radar'><title>Similarity radar</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Similarity radar</text><text x='16' y='40' font-size='11' fill='#6B7280'>Radar over the time-series metrics. Read it together with Pearson, Spearman, and mutual info.</text><polygon points='280.0,148.8 302.1,164.8 293.6,190.8 266.4,190.8 257.9,164.8' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,125.6 324.1,157.7 307.3,209.5 252.7,209.5 235.9,157.7' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,102.4 346.2,150.5 320.9,228.3 239.1,228.3 213.8,150.5' fill='none' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,79.2 368.3,143.3 334.5,247.1 225.5,247.1 191.7,143.3' fill='none' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='280.0' y2='79.2' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='368.3' y2='143.3' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='334.5' y2='247.1' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='225.5' y2='247.1' stroke='#E5E7EB' stroke-width='1'/><line x1='280.0' y1='172.0' x2='191.7' y2='143.3' stroke='#E5E7EB' stroke-width='1'/><polygon points='280.0,96.1 333.4,154.6 327.5,237.4 235.7,233.0 214.1,150.6' fill='rgba(255, 200, 61, 0.24)' stroke='#2F6BFF' stroke-width='2'/><text x='280.0' y='59.2' font-size='11' fill='#6B7280' text-anchor='middle' dominant-baseline='middle'>Shape</text><text x='387.3' y='137.1' font-size='11' fill='#6B7280' text-anchor='start' dominant-baseline='middle'>DTW</text><text x='346.3' y='263.3' font-size='11' fill='#6B7280' text-anchor='start' dominant-baseline='middle'>Trend</text><text x='213.7' y='263.3' font-size='11' fill='#6B7280' text-anchor='end' dominant-baseline='middle'>Derivative</text><text x='172.7' y='137.1' font-size='11' fill='#6B7280' text-anchor='end' dominant-baseline='middle'>Spectral</text></svg></div><p class='muted'>The radar shows which time-series-specific metrics stay high instead of hiding everything inside one opaque number.</p></div><div class='docs-card example-figure-wide'><span class='pill blue'>Rolling component mean</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='Rolling component mean'><title>Rolling component mean</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#1F2937'>Rolling component mean</text><line x1='40' y1='24' x2='40' y2='212' stroke='#E5E7EB'/><line x1='40' y1='212' x2='700' y2='212' stroke='#E5E7EB'/><line x1='40' y1='118' x2='700' y2='118' stroke='#F3F4F6' stroke-dasharray='4 4'/><polyline points='40.0,77.9 70.0,59.1 100.0,46.4 130.0,60.8 160.0,46.3 190.0,56.4 220.0,53.8 250.0,58.5 280.0,46.2 310.0,43.5 340.0,48.9 370.0,68.8 400.0,52.9 430.0,53.3 460.0,49.1 490.0,64.4 520.0,85.4 550.0,67.7 580.0,60.0 610.0,65.5 640.0,62.1 670.0,61.8 700.0,63.7' fill='none' stroke='#2F6BFF' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#2554CC'>mean=0.81, min=0.67, max=0.90 across per-window metric means</text></svg></div><p class='muted'>Rolling windows show where the average across the similarity metrics stays tight and where it loosens.</p></div>
+      <div class='docs-card'><span class='pill blue'>Series overlay</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='EchoTime series preview'><title>EchoTime series preview</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Series preview</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><polyline points='40.0,156.2 42.7,161.1 45.3,151.4 48.0,144.1 50.6,148.9 53.3,147.7 55.9,145.3 58.6,152.6 61.2,155.0 63.9,141.7 66.5,138.0 69.2,133.2 71.8,131.9 74.5,136.8 77.1,133.2 79.8,128.3 82.4,133.2 85.1,131.9 87.7,140.4 90.4,142.9 93.0,151.4 95.7,165.9 98.3,146.5 101.0,129.5 103.6,139.2 106.3,139.2 108.9,131.9 111.6,129.5 114.2,129.5 116.9,112.5 119.5,117.4 122.2,121.0 124.8,113.8 127.5,117.4 130.1,111.3 132.8,110.1 135.4,118.6 138.1,116.2 140.7,112.5 143.4,117.4 146.0,119.8 148.7,127.1 151.3,123.5 154.0,134.4 156.6,136.8 159.3,139.2 161.9,139.2 164.6,138.0 167.2,130.7 169.9,127.1 172.5,115.0 175.2,112.5 177.8,108.9 180.5,113.8 183.1,117.4 185.8,117.4 188.4,123.5 191.1,119.8 193.7,121.0 196.4,125.9 199.0,125.9 201.7,110.1 204.3,106.5 207.0,106.5 209.6,112.5 212.3,102.8 214.9,99.2 217.6,106.5 220.2,83.4 222.9,82.2 225.5,89.5 228.2,73.7 230.8,68.9 233.5,78.6 236.1,72.5 238.8,74.9 241.4,74.9 244.1,76.2 246.7,71.3 249.4,65.2 252.0,68.9 254.7,73.7 257.3,66.5 260.0,73.7 262.7,79.8 265.3,89.5 268.0,90.7 270.6,93.1 273.3,91.9 275.9,95.6 278.6,89.5 281.2,91.9 283.9,95.6 286.5,106.5 289.2,104.1 291.8,99.2 294.5,96.8 297.1,100.4 299.8,98.0 302.4,93.1 305.1,94.3 307.7,84.6 310.4,76.2 313.0,83.4 315.7,88.3 318.3,100.4 321.0,110.1 323.6,115.0 326.3,116.2 328.9,98.0 331.6,93.1 334.2,102.8 336.9,112.5 339.5,121.0 342.2,125.9 344.8,116.2 347.5,123.5 350.1,119.8 352.8,119.8 355.4,119.8 358.1,122.2 360.7,111.3 363.4,115.0 366.0,106.5 368.7,91.9 371.3,98.0 374.0,106.5 376.6,116.2 379.3,116.2 381.9,113.8 384.6,116.2 387.2,125.9 389.9,128.3 392.5,122.2 395.2,129.5 397.8,130.7 400.5,125.9 403.1,119.8 405.8,118.6 408.4,119.8 411.1,116.2 413.7,117.4 416.4,125.9 419.0,129.5 421.7,131.9 424.3,139.2 427.0,151.4 429.6,174.4 432.3,176.8 434.9,162.3 437.6,155.0 440.2,151.4 442.9,157.4 445.5,162.3 448.2,168.3 450.8,170.8 453.5,159.8 456.1,163.5 458.8,167.1 461.4,172.0 464.1,175.6 466.7,167.1 469.4,173.2 472.0,172.0 474.7,170.8 477.3,169.5 480.0,165.9 482.7,161.1 485.3,169.5 488.0,178.0 490.6,182.9 493.3,184.1 495.9,186.5 498.6,192.6 501.2,192.6 503.9,189.0 506.5,191.4 509.2,195.0 511.8,192.6 514.5,186.5 517.1,182.9 519.8,182.9 522.4,180.5 525.1,181.7 527.7,175.6 530.4,175.6 533.0,180.5 535.7,173.2 538.3,181.7 541.0,175.6 543.6,168.3 546.3,152.6 548.9,146.5 551.6,145.3 554.2,142.9 556.9,139.2 559.5,140.4 562.2,146.5 564.8,147.7 567.5,139.2 570.1,140.4 572.8,127.1 575.4,125.9 578.1,121.0 580.7,124.7 583.4,119.8 586.0,116.2 588.7,116.2 591.3,115.0 594.0,116.2 596.6,105.3 599.3,112.5 601.9,118.6 604.6,99.2 607.2,112.5 609.9,113.8 612.5,98.0 615.2,96.8 617.8,98.0 620.5,98.0 623.1,99.2 625.8,102.8 628.4,100.4 631.1,98.0 633.7,100.4 636.4,117.4 639.0,113.8 641.7,119.8 644.3,128.3 647.0,127.1 649.6,122.2 652.3,127.1 654.9,129.5 657.6,131.9 660.2,125.9 662.9,123.5 665.5,118.6 668.2,111.3 670.8,101.6 673.5,102.8 676.1,101.6 678.8,89.5 681.4,81.0 684.1,87.1 686.7,78.6 689.4,78.6 692.0,79.8 694.7,74.9 697.3,83.4 700.0,79.8' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#3b82f6'>10Y</text><polyline points='40.0,110.1 42.7,110.1 45.3,104.1 48.0,101.6 50.6,106.5 53.3,106.5 55.9,105.3 58.6,118.6 61.2,133.2 63.9,123.5 66.5,108.9 69.2,108.9 71.8,102.8 74.5,105.3 77.1,112.5 79.8,108.9 82.4,116.2 85.1,108.9 87.7,115.0 90.4,106.5 93.0,117.4 95.7,125.9 98.3,106.5 101.0,94.3 103.6,102.8 106.3,100.4 108.9,94.3 111.6,91.9 114.2,94.3 116.9,72.5 119.5,82.2 122.2,82.2 124.8,72.5 127.5,78.6 130.1,72.5 132.8,66.5 135.4,68.9 138.1,66.5 140.7,65.2 143.4,72.5 146.0,72.5 148.7,84.6 151.3,76.2 154.0,84.6 156.6,83.4 159.3,89.5 161.9,91.9 164.6,88.3 167.2,79.8 169.9,76.2 172.5,67.7 175.2,62.8 177.8,61.6 180.5,67.7 183.1,78.6 185.8,74.9 188.4,78.6 191.1,84.6 193.7,82.2 196.4,84.6 199.0,78.6 201.7,62.8 204.3,65.2 207.0,67.7 209.6,71.3 212.3,61.6 214.9,55.5 217.6,60.4 220.2,32.5 222.9,37.3 225.5,43.4 228.2,37.3 230.8,32.5 233.5,37.3 236.1,31.3 238.8,32.5 241.4,32.5 244.1,45.8 246.7,42.2 249.4,33.7 252.0,33.7 254.7,32.5 257.3,24.0 260.0,33.7 262.7,44.6 265.3,51.9 268.0,50.7 270.6,50.7 273.3,48.3 275.9,53.1 278.6,44.6 281.2,47.0 283.9,51.9 286.5,61.6 289.2,55.5 291.8,49.5 294.5,50.7 297.1,50.7 299.8,45.8 302.4,39.8 305.1,37.3 307.7,36.1 310.4,33.7 313.0,38.6 315.7,42.2 318.3,50.7 321.0,56.7 323.6,62.8 326.3,62.8 328.9,44.6 331.6,44.6 334.2,51.9 336.9,59.2 339.5,67.7 342.2,68.9 344.8,59.2 347.5,66.5 350.1,65.2 352.8,65.2 355.4,64.0 358.1,71.3 360.7,64.0 363.4,65.2 366.0,64.0 368.7,56.7 371.3,60.4 374.0,64.0 376.6,77.4 379.3,74.9 381.9,74.9 384.6,74.9 387.2,89.5 389.9,95.6 392.5,96.8 395.2,98.0 397.8,99.2 400.5,94.3 403.1,90.7 405.8,89.5 408.4,101.6 411.1,105.3 413.7,100.4 416.4,106.5 419.0,106.5 421.7,107.7 424.3,115.0 427.0,130.7 429.6,164.7 432.3,163.5 434.9,151.4 437.6,150.1 440.2,145.3 442.9,144.1 445.5,148.9 448.2,158.6 450.8,157.4 453.5,140.4 456.1,142.9 458.8,142.9 461.4,151.4 464.1,159.8 466.7,151.4 469.4,162.3 472.0,161.1 474.7,170.8 477.3,170.8 480.0,165.9 482.7,161.1 485.3,164.7 488.0,179.3 490.6,180.5 493.3,191.4 495.9,189.0 498.6,199.9 501.2,196.2 503.9,193.8 506.5,202.3 509.2,203.5 511.8,199.9 514.5,197.4 517.1,199.9 519.8,204.7 522.4,202.3 525.1,212.0 527.7,207.1 530.4,198.7 533.0,204.7 535.7,191.4 538.3,197.4 541.0,195.0 543.6,186.5 546.3,158.6 548.9,151.4 551.6,152.6 554.2,151.4 556.9,152.6 559.5,156.2 562.2,156.2 564.8,158.6 567.5,155.0 570.1,156.2 572.8,147.7 575.4,146.5 578.1,141.7 580.7,141.7 583.4,136.8 586.0,135.6 588.7,136.8 591.3,131.9 594.0,130.7 596.6,124.7 599.3,129.5 601.9,127.1 604.6,117.4 607.2,124.7 609.9,118.6 612.5,108.9 615.2,117.4 617.8,108.9 620.5,112.5 623.1,115.0 625.8,117.4 628.4,112.5 631.1,108.9 633.7,105.3 636.4,124.7 639.0,124.7 641.7,127.1 644.3,134.4 647.0,129.5 649.6,129.5 652.3,134.4 654.9,131.9 657.6,138.0 660.2,134.4 662.9,131.9 665.5,131.9 668.2,128.3 670.8,119.8 673.5,119.8 676.1,119.8 678.8,107.7 681.4,111.3 684.1,113.8 686.7,113.8 689.4,115.0 692.0,113.8 694.7,112.5 697.3,121.0 700.0,119.8' fill='none' stroke='#C7950A' stroke-width='2.5' stroke-dasharray='5 4'/><text x='120' y='42' font-size='11' fill='#C7950A'>2Y</text></svg></div><p class='muted'>The overlay is generated from the real 2024 Treasury yield curves after EchoTime normalizes scale.</p></div><div class='docs-card'><span class='pill sun'>Similarity radar</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='560' height='320' viewBox='0 0 560 320' role='img' aria-label='Similarity radar'><title>Similarity radar</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Similarity radar</text><text x='16' y='40' font-size='11' fill='#A1A1AA'>Radar over the time-series metrics. Read it together with Pearson, Spearman, and mutual info.</text><polygon points='280.0,148.8 302.1,164.8 293.6,190.8 266.4,190.8 257.9,164.8' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,125.6 324.1,157.7 307.3,209.5 252.7,209.5 235.9,157.7' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,102.4 346.2,150.5 320.9,228.3 239.1,228.3 213.8,150.5' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,79.2 368.3,143.3 334.5,247.1 225.5,247.1 191.7,143.3' fill='none' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='280.0' y2='79.2' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='368.3' y2='143.3' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='334.5' y2='247.1' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='225.5' y2='247.1' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><line x1='280.0' y1='172.0' x2='191.7' y2='143.3' stroke='rgba(255, 255, 255, 0.1)' stroke-width='1'/><polygon points='280.0,96.1 333.4,154.6 327.5,237.4 235.7,233.0 214.1,150.6' fill='rgba(255, 200, 61, 0.24)' stroke='#3b82f6' stroke-width='2'/><text x='280.0' y='59.2' font-size='11' fill='#A1A1AA' text-anchor='middle' dominant-baseline='middle'>Shape</text><text x='387.3' y='137.1' font-size='11' fill='#A1A1AA' text-anchor='start' dominant-baseline='middle'>DTW</text><text x='346.3' y='263.3' font-size='11' fill='#A1A1AA' text-anchor='start' dominant-baseline='middle'>Trend</text><text x='213.7' y='263.3' font-size='11' fill='#A1A1AA' text-anchor='end' dominant-baseline='middle'>Derivative</text><text x='172.7' y='137.1' font-size='11' fill='#A1A1AA' text-anchor='end' dominant-baseline='middle'>Spectral</text></svg></div><p class='muted'>The radar shows which time-series-specific metrics stay high instead of hiding everything inside one opaque number.</p></div><div class='docs-card example-figure-wide'><span class='pill blue'>Rolling component mean</span><div class='example-preview'><svg xmlns='http://www.w3.org/2000/svg' width='720' height='240' viewBox='0 0 720 240' role='img' aria-label='Rolling component mean'><title>Rolling component mean</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Rolling component mean</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='134' x2='700' y2='134' stroke='#F3F4F6' stroke-dasharray='4 4'/><polyline points='40.0,100.7 70.0,85.2 100.0,74.6 130.0,86.5 160.0,74.5 190.0,82.9 220.0,80.8 250.0,84.6 280.0,74.4 310.0,72.2 340.0,76.6 370.0,93.2 400.0,80.0 430.0,80.4 460.0,76.8 490.0,89.5 520.0,106.9 550.0,92.2 580.0,85.9 610.0,90.4 640.0,87.6 670.0,87.3 700.0,88.9' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='40' y='42' font-size='13' fill='#2563eb'>mean=0.81, min=0.67, max=0.90 across per-window metric means</text></svg></div><p class='muted'>Rolling windows show where the average across the similarity metrics stays tight and where it loosens.</p></div>
     </div>
     <div class='docs-card'>
       <span class='pill sun'>Data and outputs</span>
       <div class='asset-list'><a class='asset-link' href='https://github.com/ZipengWu365/EchoTime/blob/main/examples/gallery/plot_two_curves_similarity.py'><strong>Python source</strong><span>The exact script used for this example.</span></a><a class='asset-link' href='https://github.com/ZipengWu365/EchoTime/blob/main/examples/data/real_treasury_yields_2024.csv'><strong>Real CSV snapshot</strong><span>The frozen CSV snapshot used to generate this page.</span></a><a class='asset-link' href='https://fred.stlouisfed.org/graph/?g=1Ht6O'><strong>Original source</strong><span>The public upstream source used to refresh the CSV snapshot.</span></a></div>
     </div>
-    
+
   </section>
 </main>
 </body>

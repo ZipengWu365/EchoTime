@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time-series similarity: choosing between DTW, matrix profiles and learned representations | EchoTime</title><style>
+:root { color-scheme:light; --ink:#172336; --muted:#53647b; --blue:#235bcc; }
+* { box-sizing:border-box; } body { margin:0; color:var(--ink); background:#f5f7fb;
+font:17px/1.75 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { width:min(1080px,calc(100% - 32px)); margin:32px auto; padding:36px 48px;
+background:white; border:1px solid #dce3ef; border-radius:16px; }
+nav { display:flex; flex-wrap:wrap; gap:10px 24px; padding-bottom:20px;
+border-bottom:1px solid #dce3ef; font-size:14px; } a { color:var(--blue); }
+h1 { font-size:clamp(28px,4vw,42px); line-height:1.2; letter-spacing:-.025em; }
+h2 { margin-top:2.1em; line-height:1.3; } h3 { line-height:1.4; }
+table { display:block; width:100%; overflow-x:auto; border-collapse:collapse;
+font-size:15px; line-height:1.55; } th,td { padding:12px; min-width:140px;
+text-align:left; vertical-align:top; border:1px solid #dce3ef; }
+th { background:#edf2fc; } code { font-size:.88em; background:#f1f4fa;
+padding:2px 4px; border-radius:3px; } pre { overflow-x:auto; padding:18px;
+background:#f1f4fa; border-left:3px solid var(--blue); } pre code { padding:0; }
+img { max-width:100%; height:auto; } blockquote { margin-left:0; padding:8px 20px;
+border-left:3px solid #d9b84c; background:#fffbef; }
+.source { color:var(--muted); font-size:14px; } :target { scroll-margin-top:24px; }
+@media(max-width:640px) { main { margin:12px auto; padding:22px 18px; }
+body { font-size:16px; } th,td { min-width:150px; } }
+</style><!-- echotime-search-metadata:start -->
+<meta name="description" content="Compare Euclidean distance, DTW, matrix profiles, learned representations, and Python tools by task, assumptions, invariances, and evidence limits.">
+<link rel="canonical" href="https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EchoTime">
+<meta property="og:title" content="Time-series similarity: choosing between DTW, matrix profiles and learned representations | EchoTime">
+<meta property="og:description" content="Compare Euclidean distance, DTW, matrix profiles, learned representations, and Python tools by task, assumptions, invariances, and evidence limits.">
+<meta property="og:url" content="https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html">
+<meta property="og:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<meta property="og:image:alt" content="EchoTime: explainable time-series similarity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Time-series similarity: choosing between DTW, matrix profiles and learned representations | EchoTime">
+<meta name="twitter:description" content="Compare Euclidean distance, DTW, matrix profiles, learned representations, and Python tools by task, assumptions, invariances, and evidence limits.">
+<meta name="twitter:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<link rel="sitemap" type="application/xml" href="https://zipengwu.me/EchoTime/sitemap.xml">
+<link rel="manifest" href="https://zipengwu.me/EchoTime/site.webmanifest">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://zipengwu.me/EchoTime/#website", "url": "https://zipengwu.me/EchoTime/", "name": "EchoTime"}, {"@type": "WebPage", "@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html#webpage", "url": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html", "name": "Time-series similarity: choosing between DTW, matrix profiles and learned representations | EchoTime", "description": "Compare Euclidean distance, DTW, matrix profiles, learned representations, and Python tools by task, assumptions, invariances, and evidence limits.", "inLanguage": "en", "isPartOf": {"@id": "https://zipengwu.me/EchoTime/#website"}, "breadcrumb": {"@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html#breadcrumbs"}}, {"@type": "BreadcrumbList", "@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "EchoTime", "item": "https://zipengwu.me/EchoTime/"}, {"@type": "ListItem", "position": 2, "name": "Time-series similarity: choosing between DTW, matrix profiles and learned representations | EchoTime", "item": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.en.html"}]}]}</script>
+<!-- echotime-search-metadata:end -->
+</head>
+<body><main>
+<nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
+<a href="../articles/index.html">Reading guide</a>
+<a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
+<a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<h1 id="time-series-similarity-choosing-between-dtw-matrix-profiles-and-learned-representations">Time-series similarity: choosing between DTW, matrix profiles and learned representations</h1>
+<p><strong>A practical comparison of tasks, assumptions and Python tools.</strong> Reviewed 29 October 2026. <a href="time-series-similarity-guide.zh-CN.html">中文版</a></p>
+<p>Two curves can share a shape and differ in energy consumption. Two recordings can contain the same short event while looking different overall. Two datasets can have similar spectra and different underlying mechanisms. A useful similarity method starts with a decision about which of these relationships matters.</p>
+<p>The selection rule used in this guide is simple: <strong>define the object being compared, decide which differences should remain visible, then choose the representation, comparison rule and implementation.</strong> This is a proposed decision framework. The method descriptions below are supported by original papers and official documentation; the guide contains no new runtime or accuracy leaderboard.</p>
+<h2 id="1-first-decide-what-constitutes-a-match">1. First decide what constitutes a match</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Object being compared</th>
+<th>Output to evaluate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Which complete recording resembles this recording?</td>
+<td>Whole series or explicitly segmented episodes</td>
+<td>Ranked recordings and their relevance</td>
+</tr>
+<tr>
+<td>Where does this short pattern recur?</td>
+<td>A query against candidate subsequences</td>
+<td>Match locations, durations and distances</td>
+</tr>
+<tr>
+<td>Which datasets have comparable temporal characteristics?</td>
+<td>Distributions of series or structural summaries</td>
+<td>Specific properties that agree or differ</td>
+</tr>
+<tr>
+<td>What discrepancy should a model minimize?</td>
+<td>Predicted and observed sequences, or learned representations</td>
+<td>Optimization behaviour and downstream performance</td>
+</tr>
+</tbody>
+</table>
+<p>A whole-recording average can obscure one short event. A subsequence search can find a close local match in a recording whose remaining content is unrelated. A dataset profile can support exploratory grouping without establishing that individual trajectories correspond. Keeping these outputs separate makes a comparison easier to interpret. The distinction between whole-series and subsequence search also appears explicitly in <a href="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html">aeon's search interfaces</a>.</p>
+<p>Before selecting a method, write one concrete acceptance statement. For example: “Retrieve recordings containing the same machine operating cycle; allow modest timing variation, but retain the difference between normal and excessive vibration.” That sentence gives both a desired invariance and a difference that should survive preprocessing.</p>
+<h2 id="2-every-invariance-removes-information">2. Every invariance removes information</h2>
+<p>For a nonconstant series (x), positive rescaling and translation give the same standardized shape: (z(3x+7)=z(x)). This follows directly from subtracting the mean and dividing by the standard deviation. It is useful when sensor gain and offset are irrelevant. It loses the amplitude and level information needed to compare absolute loads.</p>
+<table>
+<thead>
+<tr>
+<th>Processing or comparison choice</th>
+<th>Information it can discount</th>
+<th>Check before using it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per-series z-normalization</td>
+<td>Mean level and positive amplitude scale</td>
+<td>Should absolute level or excursion size distinguish a match?</td>
+</tr>
+<tr>
+<td>Global-shift matching</td>
+<td>A common displacement of the waveform</td>
+<td>Is event timing itself part of the target?</td>
+</tr>
+<tr>
+<td>Local time warping</td>
+<td>Some differences in local duration and pace</td>
+<td>Which duration changes are physically acceptable?</td>
+</tr>
+<tr>
+<td>Magnitude-spectrum comparison</td>
+<td>Fourier phase</td>
+<td>Do event order and precise timing matter?</td>
+</tr>
+<tr>
+<td>Summary-feature comparison</td>
+<td>Details not retained by the features</td>
+<td>Can important counterexamples share those summaries?</td>
+</tr>
+<tr>
+<td>Learned representation</td>
+<td>Distinctions suppressed by training and pooling</td>
+<td>Does training preserve the distinctions in this retrieval task?</td>
+</tr>
+</tbody>
+</table>
+<p>The trade-off has a mathematical consequence. If a feature map φ sends two distinct inputs to the same vector, Euclidean distance between their features is zero. It remains a metric in feature space, but cannot separate every original series. This does not make the representation unusable; it tells you exactly which claim its distance can support.</p>
+<h2 id="3-what-the-main-method-families-compare">3. What the main method families compare</h2>
+<p><strong>Pointwise distances and correlation.</strong> On a shared observation grid, Euclidean or absolute error preserves disagreement at each aligned position. Correlation describes association after centring and scaling; it does not measure absolute agreement. For equal-length nonconstant vectors standardized with population variance, the identity $|z(x)-z(y)|^2 = 2n(1-r)$ explains why normalized Euclidean distance and Pearson correlation rank pairs equivalently under these conditions. Missing-data policies and different normalization conventions can break that equivalence.</p>
+<p><strong>DTW and constrained DTW.</strong> DTW searches admissible monotone alignment paths. The local cost, endpoint rules and allowed paths define the calculation. A warping band limits the allowed deformation. Standard DTW does not satisfy all metric axioms, so downstream procedures requiring a metric need separate justification. See the <a href="https://tslearn.readthedocs.io/en/stable/user_guide/dtw.html">tslearn formulation and constraints</a>.</p>
+<p>Inspect the alignment as well as the score. A low cost can result from a path that repeatedly stretches a scientifically important episode. Whether that is acceptable follows from the task. Also record whether an implementation reports a sum of absolute costs, a sum of squared costs, its square root, or a normalized transformation; these quantities are not interchangeable.</p>
+<p><strong>Global shape alignment and local shape descriptors.</strong> The SBD comparison used in k-Shape searches normalized cross-correlation over shifts. The k-Shape algorithm additionally defines a centroid update. <a href="https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf">Paparrizos and Gravano (2015)</a> provide the original formulation. <a href="https://doi.org/10.1016/j.patcog.2017.09.020">shapeDTW</a> instead builds local descriptors before alignment. A global shift and a locally varying alignment permit different changes; a descriptor's neighbourhood size introduces another modelling choice.</p>
+<p><strong>Edit-based and penalized alignment.</strong> LCSS, EDR, ERP, MSM and TWE specify different matching, insertion/deletion, split/merge or temporal penalties. Their names do not establish identical robustness or mathematical properties. Choose the cost and threshold with the measurement units in view. The <a href="../references/time-series-similarity-literature.html">literature map</a> links their original definitions. A more recent example, <a href="https://doi.org/10.1016/j.patcog.2023.109333">ADTW (2023)</a>, penalizes warping with an additive cost. A penalty controls a modelling preference and must be scaled and selected consistently.</p>
+<p><strong>Feature, spectral and symbolic comparisons.</strong> A feature map can isolate a property such as autocorrelation, frequency content, trend or a symbolic pattern. For exploratory comparisons, inspect the property directly and name it in the result: “similar normalized spectra” is a narrower, testable statement than “the same temporal process.” Frequency comparisons require compatible physical sampling scales; an array index alone does not define hertz.</p>
+<p>For multivariate data, specify which channels correspond and whether they share one alignment path. A joint path constrains the channels to move together; channel-wise paths permit separate adjustments. <a href="https://doi.org/10.1145/3725258">d'Hondt et al. (2025)</a> evaluate distance families together with normalization and channel-dependency choices. Their study supports including these choices in the comparison protocol. It does not establish one setting for every application.</p>
+<h2 id="4-a-matrix-profile-changes-the-search-object">4. A matrix profile changes the search object</h2>
+<p>In its standard form, a matrix profile stores each fixed-length subsequence's distance to its nearest eligible neighbour, commonly using z-normalized Euclidean distance. A self-join excludes trivial nearby matches; a join between recordings searches another series. <a href="https://stumpy.readthedocs.io/en/stable/Tutorial_The_Matrix_Profile.html">STUMPY's introduction</a> and <a href="https://stumpy.readthedocs.io/en/latest/Tutorial_AB_Joins.html">AB-join tutorial</a> explain these operations.</p>
+<p>This representation is useful for asking where repeated or unusually isolated patterns occur. A large profile value identifies isolation under the chosen window, distance and eligible comparison set. Assigning that segment a clinical or engineering meaning requires additional evidence.</p>
+<p>Window length is part of the question. An event occupying five samples and a cycle occupying five hundred samples should not silently be evaluated as the same search problem. For a reproducible result, report the window, normalization, exclusion policy, constant-window convention and join direction. If several lengths are searched, state how matches across lengths are selected and compared.</p>
+<h2 id="5-learning-a-representation-and-learning-with-a-loss">5. Learning a representation and learning with a loss</h2>
+<p><a href="https://proceedings.mlr.press/v70/cuturi17a.html">Soft-DTW</a> uses a smooth aggregation over alignment costs, enabling differentiation with a suitable ground cost and positive smoothing parameter. This makes it useful as an optimization component. Its raw value can be negative and need not be minimized at equality. <a href="https://proceedings.mlr.press/v130/blondel21a.html">Blondel, Mensch and Vert (2021)</a> introduce corrected divergences and establish properties under stated assumptions. A smooth loss, a nonnegative divergence and a mathematical metric have different requirements.</p>
+<p>Learned embeddings provide another comparison space. <a href="https://ojs.aaai.org/index.php/AAAI/article/view/20881">TS2Vec</a> uses hierarchical contrastive learning to build timestamp and subsequence representations. <a href="https://proceedings.mlr.press/v235/goswami24a.html">MOMENT</a> supplies pretrained representations for multiple time-series tasks. Both motivate evaluating learned representations; neither citation settles the relevance definition for a new retrieval application.</p>
+<p>Recent retrieval-augmented systems make the distinction especially useful. <a href="https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html">TS-RAG (NeurIPS 2025)</a> retrieves segments to support forecasting. Forecast accuracy measures the combined system's endpoint. A claim about retrieval quality additionally needs a relevance target and retrieval evaluation.</p>
+<p>For an embedding-based comparison, record the checkpoint, training exposure, input length, preprocessing, pooling and latent distance. Validate that known task-relevant differences remain distinguishable. For example, a representation that places small and large excursions together may suit shape retrieval while failing an amplitude-sensitive search.</p>
+<h2 id="6-which-python-library-fits-the-output">6. Which Python library fits the output?</h2>
+<p>The tools below overlap. The table identifies useful entry points, based on official documentation checked on the review date; it is not a speed ranking.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Relevant documented capabilities</th>
+<th>A useful starting task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aeon-toolkit.org/en/stable/api_reference/distances.html">aeon</a></td>
+<td>Multiple distances, paths, pairwise calculations and <a href="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html">similarity-search estimators</a></td>
+<td>Compare distance choices or build whole-series/subsequence search</td>
+</tr>
+<tr>
+<td><a href="https://tslearn.readthedocs.io/en/stable/user_guide/userguide.html">tslearn</a></td>
+<td>DTW, soft-DTW, barycentres and time-series learning</td>
+<td>Connect an alignment geometry to clustering or learning</td>
+</tr>
+<tr>
+<td><a href="https://dtaidistance.readthedocs.io/en/latest/modules/dtw.html">DTAIDistance</a></td>
+<td>DTW implementations, paths, pruning and pairwise matrices</td>
+<td>Compute and inspect DTW alignments and distances</td>
+</tr>
+<tr>
+<td><a href="https://stumpy.readthedocs.io/en/stable/Tutorial_The_Matrix_Profile.html">STUMPY</a></td>
+<td>Matrix profiles and subsequence joins</td>
+<td>Locate repeated or isolated fixed-length patterns</td>
+</tr>
+<tr>
+<td><a href="https://www.sktime.net/docs/get-started/">sktime</a></td>
+<td>Interfaces and compositions across time-series learning tasks</td>
+<td>Integrate transformations, estimators and evaluation</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ZipengWu365/EchoTime">EchoTime</a></td>
+<td>Composite series reports, profile comparison, HTML and JSON output</td>
+<td>Inspect and communicate several structural views together</td>
+</tr>
+</tbody>
+</table>
+<p>Read the exact function's documentation before comparing numeric outputs. For example, DTAIDistance's <code>distance_fast</code> selects its C implementation and pruning defaults. EchoTime's low-level elastic <code>mode="fast"</code> uses bounded-resolution screening. The shared word “fast” does not imply the same approximation policy. <a href="https://dtaidistance.readthedocs.io/en/latest/modules/dtw.html">DTAIDistance API</a> · <a href="https://github.com/ZipengWu365/EchoTime/blob/main/src/echotime/similarity_methods.py">EchoTime implementation</a>.</p>
+<h2 id="7-a-comparison-protocol-you-can-defend">7. A comparison protocol you can defend</h2>
+<p>The following is a recommended procedure, rather than an empirical finding about a particular method.</p>
+<ol>
+<li><strong>Freeze the match definition.</strong> Specify the query, eligible candidates, physical units, duration, tolerated transformations and relevance labels. Class labels can be one relevance definition; they need not encode every scientifically meaningful match.</li>
+<li><strong>Protect the evaluation boundary.</strong> Split by the independent unit appropriate to the application before creating overlapping windows. Keep near-duplicate windows and future observations out of a retrieval pool when they would make the intended evaluation trivial or unavailable in practice.</li>
+<li><strong>Expose preprocessing.</strong> Report normalization, timestamp handling, gap treatment, channel order and resampling. Keep processing identical when isolating the effect of a distance, or explicitly compare the combined pipelines.</li>
+<li><strong>Select parameters without using test outcomes.</strong> Alignment windows, edit thresholds, pooling and learned checkpoints all belong to the protocol. If labels are used for selection, report that supervision.</li>
+<li><strong>Measure the requested output.</strong> Retrieval needs relevance-based ranking measures; alignment needs correspondence evidence; clustering needs a clustering evaluation; a forecasting system needs its forecast endpoint. Add runtime and memory for the actual workload.</li>
+<li><strong>Inspect informative failures.</strong> Include pairs with equal shape but different amplitude, a shifted event, changed duration and missing observations when those cases are relevant. Keep these controlled examples separate from evidence on real data.</li>
+</ol>
+<p>For an approximate search, measure neighbour recall against an exact reference on a declared evaluation set. Recomputing precise distances for the returned shortlist improves those scores, but cannot recover a candidate the first stage omitted.</p>
+<h2 id="8-use-echotime-to-inspect-several-structural-views">8. Use EchoTime to inspect several structural views</h2>
+<p>EchoTime provides a compact way to generate a component-level comparison and share it. The current <code>compare_series</code> implementation resamples each input to a common number of points, standardizes channels, and combines shape, DTW-related, trend, derivative and spectral components. Its default is 256 resampled points. When timestamps are supplied, each input's time span is normalized separately; absolute duration and clock alignment therefore need an explicit check outside this report. See the <a href="https://github.com/ZipengWu365/EchoTime/blob/320b7e65c74be6decef665cea87f56c5dc88ccd2/src/echotime/similarity.py">inspected implementation</a>.</p>
+<pre><code class="language-bash">python -m pip install echotime
+</code></pre>
+<pre><code class="language-python">from pathlib import Path
+import numpy as np
+from echotime import compare_series
+
+# Synthetic illustration of the report interface; no benchmark claim.
+t = np.linspace(0, 4 * np.pi, 128)
+x = np.sin(t)
+y = np.sin(t + 0.2)
+
+report = compare_series(x, y, left_name=&quot;reference&quot;, right_name=&quot;shifted&quot;)
+print(report.to_summary_card_markdown())
+Path(&quot;similarity_report.html&quot;).write_text(
+    report.to_html_report(), encoding=&quot;utf-8&quot;
+)
+</code></pre>
+<p>Read the components and processing choices alongside the overall score. The weighted score is an exploratory summary, with no demonstrated probability calibration. A profile-level comparison similarly describes agreement between selected structural axes; it supplies no independent evidence of a shared causal mechanism or successful model transfer.</p>
+<p>The practical next step is to take a pair whose similarity your team can explain, inspect the report, and compare its component behaviour against that explanation. Use a dedicated alignment or subsequence-search implementation when its outputs are required. The <a href="https://github.com/ZipengWu365/EchoTime/blob/main/SIMILARITY_METHOD_ATLAS.md">method atlas</a> distinguishes EchoTime coverage from broader methods, and the <a href="../references/time-series-similarity-literature.html">literature map</a> provides the sources for extending the comparison.</p>
+<hr>
+<p><strong>Scope and provenance.</strong> This is a targeted narrative guide, reviewed against original papers, official software documentation and repository source. It does not claim exhaustive coverage, independent reproduction of cited studies, or measured superiority of EchoTime. <a href="index.html">Evidence ledger and editorial checks</a>.</p>
+<hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/time-series-similarity-guide.en.md">the versioned Markdown source</a>.
+Corrections and reproducible examples are welcome in the repository.</p>
+</main></body></html>

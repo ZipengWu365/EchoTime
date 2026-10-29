@@ -61,7 +61,7 @@ def test_sitemap_contains_exactly_the_indexable_canonical_pages(bundle: dict) ->
     root = ElementTree.fromstring(bundle["sitemap.xml"])
     urls = [item.text for item in root.findall("{*}url/{*}loc")]
     expected = {canonical_url(path) for path in bundle if path.endswith(".html") and path != "404.html"}
-    assert len(urls) == len(set(urls)) == 25
+    assert len(urls) == len(set(urls)) == len(DESCRIPTIONS)
     assert set(urls) == expected
     assert all(url.startswith("https://zipengwu.me/EchoTime/") for url in urls)
     assert not any("index.html" in url or "404.html" in url for url in urls)

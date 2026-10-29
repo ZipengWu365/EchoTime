@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="84" viewBox="0 0 520 84" role="img" aria-label="Zipeng Wu, The University of Birmingham">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a51c30"/>
+      <stop offset="100%" stop-color="#d64a5e"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="84" rx="18" fill="#ffffff"/>
+  <rect x="1.5" y="1.5" width="517" height="81" rx="16.5" fill="none" stroke="#d9e2ec" stroke-width="3"/>
+  <rect x="14" y="14" width="58" height="56" rx="14" fill="url(#g)"/>
+  <path d="M27 58h32v4H27zM31 56V32l12-8 12 8v24h-4V36l-8-5-8 5v20zM39 40h8v16h-8z" fill="#fff"/>
+  <text x="88" y="34" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#102a43">Zipeng Wu</text>
+  <text x="88" y="56" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#486581">The University of Birmingham</text>
+  <text x="88" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#7b8794">zxw365@student.bham.ac.uk</text>
+</svg>

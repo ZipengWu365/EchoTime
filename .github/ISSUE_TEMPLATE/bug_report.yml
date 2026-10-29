@@ -1,0 +1,26 @@
+name: Bug report
+description: Report a reproducible numerical, installation, or documentation problem.
+title: "[Bug]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Expected and observed behavior
+      description: Include the function or documentation page and the result you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproducible example
+      description: Use small synthetic arrays when possible. Include parameters, timestamps, and channel layout.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and installation
+      description: Include Python, EchoTime, NumPy and SciPy versions, operating system, and the installation command or source commit.
+    validations:
+      required: true

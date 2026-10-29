@@ -22,6 +22,10 @@ _START = "<!-- echotime-search-metadata:start -->"
 _END = "<!-- echotime-search-metadata:end -->"
 
 DESCRIPTIONS = {
+    "articles/index.html": "Read a cited guide to time-series similarity: task definitions, method selection, software comparisons, and verified primary references in English and Chinese.",
+    "articles/time-series-similarity-guide.en.html": "Compare Euclidean distance, DTW, matrix profiles, learned representations, and Python tools by task, assumptions, invariances, and evidence limits.",
+    "articles/time-series-similarity-guide.zh-CN.html": "时序相似性方法选型指南：比较欧氏距离、DTW、矩阵轮廓、学习表征和 Python 工具，说明任务定义、不变性、适用条件与证据边界。",
+    "references/time-series-similarity-literature.html": "Explore a verified time-series similarity reading list with primary-source links, claim boundaries, recent research, and downloadable JSON and BibTeX references.",
     "index.html": "EchoTime is an open-source Python library for explainable time-series and dataset similarity, with component metrics, rolling comparisons, and HTML reports.",
     "start-here.html": "Get started with EchoTime: install the Python package, try a similarity example, open the static playground, and check your scientific Python environment.",
     "playground.html": "Explore EchoTime's static time-series similarity playground with example comparisons, component metrics, visual reports, and Python commands to reproduce them.",
@@ -58,9 +62,12 @@ class _TitleParser(HTMLParser):
         self.in_head = False
         self.in_title = False
         self.parts: list[str] = []
+        self.language = "en"
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        if tag == "head":
+        if tag == "html":
+            self.language = dict(attrs).get("lang") or "en"
+        elif tag == "head":
             self.in_head = True
         elif tag == "title" and self.in_head:
             self.in_title = True
@@ -100,7 +107,7 @@ def search_metadata(html: str, path: str, *, version: str = PACKAGE_VERSION) -> 
         url = canonical_url(path)
         page: dict[str, Any] = {
             "@type": "WebPage", "@id": url + "#webpage", "url": url,
-            "name": title, "description": description, "inLanguage": "en",
+            "name": title, "description": description, "inLanguage": parser.language,
             "isPartOf": {"@id": SITE_URL + "#website"},
         }
         graph: list[dict[str, Any]] = [

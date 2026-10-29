@@ -6,22 +6,18 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/echotime?style=flat-square)](https://pypi.org/project/echotime/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-ffc83d?style=flat-square)](LICENSE)
 [![Status: Beta](https://img.shields.io/badge/status-beta-2f6bff?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
-[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu365.github.io/EchoTime/)
+[![Docs: GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2f6bff?style=flat-square)](https://zipengwu.me/EchoTime/)
 [![Author: Zipeng Wu](https://img.shields.io/badge/author-Zipeng%20Wu-1f2937?style=flat-square)](https://github.com/ZipengWu365/EchoTime)
 [![Affiliation: The University of Birmingham](https://img.shields.io/badge/The%20University%20of%20Birmingham-academic-a51c30?style=flat-square)](https://www.birmingham.ac.uk/)
 
-![Quickstart preview](assets/logo_raw.png)
-<img src="assets/members.png"
-     alt="Maintainer and affiliation"
-     width="520">
+![EchoTime](assets/logo_raw.png)
+<img src="assets/members.png" alt="Maintainer and affiliation" width="520">
 
-
-     
 **EchoTime** is an **explainable time-series similarity package for humans and agents.** It is built for the moment when a raw distance score is not enough: compare trajectories, compare datasets at the structural level, and hand the result to another person or another agent.
 
 **What it is:** EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
 
-**What it is not:** a forecasting library, a classifier library, a fastest-possible DTW engine, or a motif-mining toolkit.
+**Scope:** exploratory pairwise and dataset comparison, component diagnostics, and report export. Use the linked specialist libraries for estimator training, indexed retrieval, or motif discovery.
 
 ## Project snapshot
 
@@ -29,11 +25,33 @@
 - **Core promise:** EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports.
 - **Best for:** analog search, regime comparison, irregular longitudinal data, and dataset-level similarity handoff
 - **Primary outputs:** plain-English summaries, shareable HTML reports, and compact agent-ready JSON
-- **Live docs and homepage:** https://zipengwu365.github.io/EchoTime/
+- **Live docs and homepage:** https://zipengwu.me/EchoTime/
 - **Repository:** https://github.com/ZipengWu365/EchoTime
 
 
+## Choose a similarity method
+
+Start with the object you need to compare, the differences that matter, and the
+changes you are prepared to ignore.
+
+| Question | Reading route |
+|---|---|
+| Do two complete signals agree in level, shape, timing, or rhythm? | [Method selection guide](docs/articles/time-series-similarity-guide.en.md) · [中文](docs/articles/time-series-similarity-guide.zh-CN.md) |
+| Do I need DTW, matrix profiles, learned representations, or a Python library? | [Task and software comparison](docs/articles/README.md) |
+| Which papers support a method, and what did they actually evaluate? | [Verified reading list](docs/references/time-series-similarity-literature.md) · [BibTeX](docs/references/time-series-similarity-literature.bib) · [JSON](docs/references/time-series-similarity-literature.json) |
+| Which methods are implemented in this package? | [Implementation atlas](SIMILARITY_METHOD_ATLAS.md) |
+
+The [web reading guide](https://zipengwu.me/EchoTime/articles/) includes both languages.
+EchoTime's aggregate score is a weighted diagnostic summary. It is not a calibrated
+probability of a shared mechanism or successful transfer. `compare_series` uses a
+resampled, standardized representation (256 points by default); inspect the
+component metrics and preprocessing before interpreting a match.
+
 ## 60-second quickstart
+
+The current source checkout requires **Python 3.10 or later**. Numerical fixes in
+`main` are documented in [CHANGELOG.md](CHANGELOG.md); a repository update does not
+change an existing PyPI release.
 
 ```bash
 pip install echotime
@@ -44,8 +62,10 @@ Expected output starts like this:
 
 ```text
 # EchoTime similarity summary
-overall similarity: ...
-top components: shape similarity, trend similarity, spectral similarity
+
+**Compared:** left vs right
+
+## Headline
 ```
 
 ## Use your own data
@@ -183,9 +203,9 @@ The extracted elastic similarity functions now support two operating modes:
 
 ## Flagship demos
 
-- **OpenClaw-style GitHub breakout analogs** - Ask whether a new repo looks like a durable breakout or a short viral spike.
-- **BTC vs gold vs oil under shocks** - Ask which assets become more similar during macro or geopolitical stress.
-- **Heatwave vs grid load** - Ask which load curves drift or switch regime under extreme weather.
+- **Compare DeepSeek and Threads pageview trajectories** - Inspect cumulative Wikimedia pageviews for DeepSeek and Threads across their selected attention windows.
+- **Compare BTC and VIX in 2024** - Inspect whole-window and rolling similarity between the BTC price and VIX series in the bundled 2024 data.
+- **Compare Phoenix and Las Vegas temperatures** - Profile daily maximum temperatures in Phoenix and Las Vegas over the selected 2024 heatwave window.
 
 ## Three copy-paste entry points
 
@@ -216,7 +236,7 @@ print(ts_compare(x, y))
 - **Email:** zxw365@student.bham.ac.uk
 - **Affiliation:** The University of Birmingham
 - **Repository:** https://github.com/ZipengWu365/EchoTime
-- **Documentation:** https://zipengwu365.github.io/EchoTime/
+- **Documentation:** https://zipengwu.me/EchoTime/
 
 ## Starter datasets, notebooks, and integration templates
 
@@ -267,6 +287,7 @@ Pair it with other libraries when you move into:
 - feature extraction (`tsfresh`)
 - forecasting (`Darts`, `sktime`, `aeon`, `Kats`)
 - learning pipelines (`aeon`, `sktime`, `tslearn`)
+- whole-series and subsequence search (`aeon`)
 - DTW alignment (`DTAIDistance`)
 - motif / discord mining (`STUMPY`)
 

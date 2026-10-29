@@ -21,21 +21,21 @@
   "flagship_demos": [
     {
       "slug": "openclaw_breakout_analogs",
-      "title": "OpenClaw-style GitHub breakout analogs",
-      "story": "Ask whether a new repo looks like a durable breakout or a short viral spike.",
-      "social_hook": "Is this a real breakout or just a viral spike?"
+      "title": "Compare DeepSeek and Threads pageview trajectories",
+      "story": "Inspect cumulative Wikimedia pageviews for DeepSeek and Threads across their selected attention windows.",
+      "social_hook": "\u2192 Compare two cumulative pageview trajectories"
     },
     {
       "slug": "btc_gold_oil_shocks",
-      "title": "BTC vs gold vs oil under shocks",
-      "story": "Ask which assets become more similar during macro or geopolitical stress.",
-      "social_hook": "When stress hits, does BTC behave more like gold or oil?"
+      "title": "Compare BTC and VIX in 2024",
+      "story": "Inspect whole-window and rolling similarity between the BTC price and VIX series in the bundled 2024 data.",
+      "social_hook": "\u2192 Inspect how BTC\u2013VIX similarity varies across windows"
     },
     {
       "slug": "energy_load_heatwave",
-      "title": "Heatwave vs grid load",
-      "story": "Ask which load curves drift or switch regime under extreme weather.",
-      "social_hook": "Which grid loses structural stability first in a heatwave?"
+      "title": "Compare Phoenix and Las Vegas temperatures",
+      "story": "Profile daily maximum temperatures in Phoenix and Las Vegas over the selected 2024 heatwave window.",
+      "social_hook": "\u2192 Inspect temperature patterns across two cities"
     }
   ],
   "notes": [

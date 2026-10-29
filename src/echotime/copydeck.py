@@ -43,8 +43,10 @@ QUICKSTART_ONE_LINER = (
 )
 QUICKSTART_EXPECTED_LINES = (
     "# EchoTime similarity summary",
-    "overall similarity: ...",
-    "top components: shape similarity, trend similarity, spectral similarity",
+    "",
+    "**Compared:** left vs right",
+    "",
+    "## Headline",
 )
 
 ZERO_INSTALL_OPTIONS = (
@@ -117,21 +119,21 @@ BEGINNER_EXAMPLES = (
 FLAGSHIP_DEMOS = (
     {
         "slug": "openclaw_breakout_analogs",
-        "title": "Compare repository growth trajectories",
-        "story": "Find durable patterns versus viral spikes by comparing growth curves.",
-        "social_hook": "→ Discover hidden similarities in project growth curves",
+        "title": "Compare DeepSeek and Threads pageview trajectories",
+        "story": "Inspect cumulative Wikimedia pageviews for DeepSeek and Threads across their selected attention windows.",
+        "social_hook": "→ Compare two cumulative pageview trajectories",
     },
     {
         "slug": "btc_gold_oil_shocks",
-        "title": "Track asset behavior under stress",
-        "story": "See how BTC, gold, and oil become similar or diverge during market shocks.",
-        "social_hook": "→ Understand structural coupling under macro events",
+        "title": "Compare BTC and VIX in 2024",
+        "story": "Inspect whole-window and rolling similarity between the BTC price and VIX series in the bundled 2024 data.",
+        "social_hook": "→ Inspect how BTC–VIX similarity varies across windows",
     },
     {
         "slug": "energy_load_heatwave",
-        "title": "Monitor grid stability patterns",
-        "story": "Watch how load curves drift or stabilize when extreme weather hits.",
-        "social_hook": "→ Anticipate regime changes in infrastructure load",
+        "title": "Compare Phoenix and Las Vegas temperatures",
+        "story": "Profile daily maximum temperatures in Phoenix and Las Vegas over the selected 2024 heatwave window.",
+        "social_hook": "→ Inspect temperature patterns across two cities",
     },
 )
 

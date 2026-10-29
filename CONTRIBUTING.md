@@ -15,10 +15,30 @@ EchoTime is a compare-first time-series project. Good contributions make the pac
 
 ## Local setup
 
-1. Create a virtual environment for the repo.
+1. Create a Python 3.10+ virtual environment for the repo.
 2. Install the package in editable mode with dev dependencies: `pip install -e .[dev]`
 3. Run `pytest` before opening a pull request.
-4. If you changed generated docs, Pages assets, or root showcase files, run `python tools/release_refresh.py`.
+4. For documentation builds, install `pip install -e '.[dev,docs]'`. Edit the
+   generating source for generated guides. Then run `python tools/release_refresh.py`.
+
+## Articles and references
+
+Author the cited reading pages in `docs/articles/` and `docs/references/`. Run
+`python tools/build_knowledge_pages.py` after editing them; `--check` verifies that
+the bundled copies match their sources. The renderer checks local link targets
+and bundles the HTML, JSON, and BibTeX with the wheel. `echotime --export-pages docs`
+then exports these pages along with the existing site. New pages also need an
+intentional description in `src/echotime/seo.py`.
+
+If runtime tutorial snapshots, gallery scripts, or required visual assets change,
+run `python tools/sync_runtime_assets.py` to update the small bundled resource set.
+Its `--check` mode verifies byte equality and the source-hash manifest. The complete
+release refresh also performs this synchronization.
+
+For a new reference, record the primary URL, publication status, the claim it
+supports, and the limits of that evidence. A paper appearing in the reading list
+does not mean its method is implemented in EchoTime. Performance comparisons need
+a shared task, data, preprocessing, parameters, and reproducible measurements.
 
 ## Development expectations
 

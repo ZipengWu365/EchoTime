@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from itertools import permutations
+from operator import index
 from typing import Any, Literal
 
 import numpy as np
@@ -37,7 +38,12 @@ def _clean_series(values: np.ndarray, timestamps: np.ndarray | None = None) -> t
     ts = np.asarray(timestamps, dtype=float).reshape(-1)
     if ts.size != arr.shape[0]:
         raise ValueError("timestamps must match the time dimension of the input series.")
-    return clean, ts[mask]
+    clean_ts = ts[mask]
+    if not np.all(np.isfinite(clean_ts)):
+        raise ValueError("timestamps must be finite at every retained observation.")
+    if np.any(np.diff(clean_ts) <= 0):
+        raise ValueError("timestamps must be strictly increasing after removing nonfinite observations.")
+    return clean, clean_ts
 
 
 def _pair_series(
@@ -73,12 +79,31 @@ def _validate_mode(mode: Literal["exact", "fast"] | str) -> Literal["exact", "fa
     return mode
 
 
+def _nonnegative_parameter(name: str, value: float) -> float:
+    try:
+        result = float(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"{name} must be finite and nonnegative.") from None
+    if not np.isfinite(result) or result < 0:
+        raise ValueError(f"{name} must be finite and nonnegative.")
+    return result
+
+
 def _resolved_window(n: int, m: int, window: int | None, mode: Literal["exact", "fast"]) -> int | None:
     if window is None:
         if mode == "exact":
             return None
         window = int(np.ceil(_FAST_MODE_BAND_RATIO * max(n, m)))
-    return max(int(window), abs(n - m))
+    else:
+        if isinstance(window, (bool, np.bool_)):
+            raise ValueError("window must be a nonnegative integer or None.")
+        try:
+            window = index(window)
+        except TypeError:
+            raise ValueError("window must be a nonnegative integer or None.") from None
+        if window < 0:
+            raise ValueError("window must be a nonnegative integer or None.")
+    return max(window, abs(n - m))
 
 
 def _resample_series(
@@ -189,7 +214,16 @@ def _autocorrelation_vector(x: np.ndarray, max_lag: int) -> np.ndarray:
 
 
 def ncc_sequence(x: Any, y: Any, *, normalize: bool = True) -> tuple[np.ndarray, np.ndarray]:
+    """Return shift-wise correlation using a single joint channel normalization.
+
+    Channels share one lag. With nonzero energy, an identical input has a
+    zero-lag value of one regardless of the channel count. If either input
+    has zero energy after optional z-normalization, the existing zero-score
+    convention is retained; a correlation of a constant signal is undefined.
+    """
     left, right, _, _ = _pair_series(x, y)
+    if not len(left) or not len(right):
+        return np.asarray([], dtype=float), np.asarray([], dtype=int)
     xs = _z_normalize(left) if normalize else left
     ys = _z_normalize(right) if normalize else right
     corr = None
@@ -197,12 +231,11 @@ def ncc_sequence(x: Any, y: Any, *, normalize: bool = True) -> tuple[np.ndarray,
         current = np.correlate(xs[:, dim], ys[:, dim], mode="full")
         corr = current if corr is None else corr + current
     assert corr is not None
-    corr = corr / max(xs.shape[1], 1)
     denom = float(np.linalg.norm(xs) * np.linalg.norm(ys))
     if denom <= EPS:
         ncc = np.zeros_like(corr, dtype=float)
     else:
-        ncc = corr / denom
+        ncc = np.clip(corr / denom, -1.0, 1.0)
     lags = np.arange(-(len(ys) - 1), len(xs), dtype=int)
     return ncc.astype(float), lags
 
@@ -380,6 +413,7 @@ def lcss_similarity(
     window: int | None = None,
     mode: Literal["exact", "fast"] = "exact",
 ) -> float:
+    epsilon = _nonnegative_parameter("epsilon", epsilon)
     left, right, _, _, resolved_mode = _prepare_elastic_pair(x, y, mode=mode)
     n, m = len(left), len(right)
     if n == 0 or m == 0:
@@ -423,6 +457,7 @@ def edr_distance(
     window: int | None = None,
     mode: Literal["exact", "fast"] = "exact",
 ) -> float:
+    epsilon = _nonnegative_parameter("epsilon", epsilon)
     left, right, _, _, resolved_mode = _prepare_elastic_pair(x, y, mode=mode)
     n, m = len(left), len(right)
     if n == 0 or m == 0:
@@ -463,6 +498,8 @@ def erp_distance(
         gap = np.full(left.shape[1], float(gap))
     if gap.shape != (left.shape[1],):
         raise ValueError(f"gap_value must broadcast to shape {(left.shape[1],)}.")
+    if not np.all(np.isfinite(gap)):
+        raise ValueError("gap_value must be finite.")
     left_gap_costs = _pointwise_l2_to_reference(left, gap)
     right_gap_costs = _pointwise_l2_to_reference(right, gap)
     prev = np.full(m + 1, np.inf, dtype=float)
@@ -496,6 +533,21 @@ def twed_distance(
     window: int | None = None,
     mode: Literal["exact", "fast"] = "exact",
 ) -> float:
+    """Compute TWED with the zero sentinel and infinite DP boundary.
+
+    ``lambda_`` and ``nu`` must be finite and nonnegative. The metric claim
+    from the original TWED definition requires positive ``nu``; ``nu=0`` is
+    accepted as a nonmetric boundary case. Supplied timestamps must be finite
+    and strictly increasing at retained observations. Both series use the
+    same zero-time, zero-value sentinel, without separately shifting origins.
+
+    Nonfinite observation rows are dropped. Supply timestamps to preserve
+    elapsed time across such gaps. ``mode="fast"`` interpolates each series
+    to at most 512 samples and applies a path band: it is an approximation,
+    with no guaranteed error or retrieval-recall bound.
+    """
+    lambda_ = _nonnegative_parameter("lambda_", lambda_)
+    nu = _nonnegative_parameter("nu", nu)
     left, right, left_ts, right_ts, resolved_mode = _prepare_elastic_pair(
         x,
         y,
@@ -520,11 +572,8 @@ def twed_distance(
     prev = np.full(m + 1, np.inf, dtype=float)
     curr = np.full(m + 1, np.inf, dtype=float)
     prev[0] = 0.0
-    for j in range(1, m + 1):
-        prev[j] = prev[j - 1] + right_delete_costs[j - 1]
     for i in range(1, n + 1):
         curr.fill(np.inf)
-        curr[0] = prev[0] + left_delete_costs[i - 1]
         xi = left[i - 1]
         xim1 = left_prev[i - 1]
         ti = tx[i - 1]

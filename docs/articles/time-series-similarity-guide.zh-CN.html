@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选 | EchoTime</title><style>
+:root { color-scheme:light; --ink:#172336; --muted:#53647b; --blue:#235bcc; }
+* { box-sizing:border-box; } body { margin:0; color:var(--ink); background:#f5f7fb;
+font:17px/1.75 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { width:min(1080px,calc(100% - 32px)); margin:32px auto; padding:36px 48px;
+background:white; border:1px solid #dce3ef; border-radius:16px; }
+nav { display:flex; flex-wrap:wrap; gap:10px 24px; padding-bottom:20px;
+border-bottom:1px solid #dce3ef; font-size:14px; } a { color:var(--blue); }
+h1 { font-size:clamp(28px,4vw,42px); line-height:1.2; letter-spacing:-.025em; }
+h2 { margin-top:2.1em; line-height:1.3; } h3 { line-height:1.4; }
+table { display:block; width:100%; overflow-x:auto; border-collapse:collapse;
+font-size:15px; line-height:1.55; } th,td { padding:12px; min-width:140px;
+text-align:left; vertical-align:top; border:1px solid #dce3ef; }
+th { background:#edf2fc; } code { font-size:.88em; background:#f1f4fa;
+padding:2px 4px; border-radius:3px; } pre { overflow-x:auto; padding:18px;
+background:#f1f4fa; border-left:3px solid var(--blue); } pre code { padding:0; }
+img { max-width:100%; height:auto; } blockquote { margin-left:0; padding:8px 20px;
+border-left:3px solid #d9b84c; background:#fffbef; }
+.source { color:var(--muted); font-size:14px; } :target { scroll-margin-top:24px; }
+@media(max-width:640px) { main { margin:12px auto; padding:22px 18px; }
+body { font-size:16px; } th,td { min-width:150px; } }
+</style><!-- echotime-search-metadata:start -->
+<meta name="description" content="时序相似性方法选型指南：比较欧氏距离、DTW、矩阵轮廓、学习表征和 Python 工具，说明任务定义、不变性、适用条件与证据边界。">
+<link rel="canonical" href="https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EchoTime">
+<meta property="og:title" content="时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选 | EchoTime">
+<meta property="og:description" content="时序相似性方法选型指南：比较欧氏距离、DTW、矩阵轮廓、学习表征和 Python 工具，说明任务定义、不变性、适用条件与证据边界。">
+<meta property="og:url" content="https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html">
+<meta property="og:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<meta property="og:image:alt" content="EchoTime: explainable time-series similarity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选 | EchoTime">
+<meta name="twitter:description" content="时序相似性方法选型指南：比较欧氏距离、DTW、矩阵轮廓、学习表征和 Python 工具，说明任务定义、不变性、适用条件与证据边界。">
+<meta name="twitter:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<link rel="sitemap" type="application/xml" href="https://zipengwu.me/EchoTime/sitemap.xml">
+<link rel="manifest" href="https://zipengwu.me/EchoTime/site.webmanifest">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://zipengwu.me/EchoTime/#website", "url": "https://zipengwu.me/EchoTime/", "name": "EchoTime"}, {"@type": "WebPage", "@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html#webpage", "url": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html", "name": "时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选 | EchoTime", "description": "时序相似性方法选型指南：比较欧氏距离、DTW、矩阵轮廓、学习表征和 Python 工具，说明任务定义、不变性、适用条件与证据边界。", "inLanguage": "zh-CN", "isPartOf": {"@id": "https://zipengwu.me/EchoTime/#website"}, "breadcrumb": {"@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html#breadcrumbs"}}, {"@type": "BreadcrumbList", "@id": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "EchoTime", "item": "https://zipengwu.me/EchoTime/"}, {"@type": "ListItem", "position": 2, "name": "时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选 | EchoTime", "item": "https://zipengwu.me/EchoTime/articles/time-series-similarity-guide.zh-CN.html"}]}]}</script>
+<!-- echotime-search-metadata:end -->
+</head>
+<body><main>
+<nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
+<a href="../articles/index.html">Reading guide</a>
+<a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
+<a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<h1 id="dtw">时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选</h1>
+<p><strong>从比较对象、数学假设到 Python 工具。</strong> 核查日期：2026 年 10 月 29 日。<a href="time-series-similarity-guide.en.html">English</a></p>
+<p>两条曲线可以形状一致，实际能耗相差很大；两段记录可以包含相同的短事件，整体变化却完全不同；两个数据集也可以具有相近的频谱，却来自不同的生成机制。选择相似性方法，首先需要说明我们关心其中哪一种关系。</p>
+<p>本文采用一个明确的选型顺序：<strong>先确定比较对象，再决定哪些差异必须保留，最后选择表示、比较规则与实现。</strong> 这是本文提出的决策框架。下文的方法介绍依据原始论文与官方文档，本文没有开展新的速度或精度排行榜实验。</p>
+<h2 id="_1">一、先把“匹配”定义清楚</h2>
+<table>
+<thead>
+<tr>
+<th>你要回答的问题</th>
+<th>实际比较对象</th>
+<th>应当评价的输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>哪段完整记录与这段记录相似？</td>
+<td>整条序列，或事先明确切分的完整过程</td>
+<td>候选记录排序及其相关性</td>
+</tr>
+<tr>
+<td>这个短模式在哪里再次出现？</td>
+<td>查询片段与候选子序列</td>
+<td>匹配位置、持续时间和距离</td>
+</tr>
+<tr>
+<td>哪些数据集具有可比较的时间结构？</td>
+<td>序列集合的分布或结构摘要</td>
+<td>具体哪些性质相近、哪些性质不同</td>
+</tr>
+<tr>
+<td>模型应当最小化什么误差？</td>
+<td>预测与观测，或学习到的表示</td>
+<td>优化行为及下游任务表现</td>
+</tr>
+</tbody>
+</table>
+<p>整段平均得分可能掩盖一个很短的事件；子序列搜索可能在整体差异很大的记录中找到局部匹配；数据集画像能够支持探索性分组，但单凭画像无法证明具体轨迹一一对应。把输出区分清楚，才能解释算法回答了什么。<a href="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html">aeon 的相似性搜索接口</a>也明确区分整序列搜索与子序列搜索。</p>
+<p>一个可操作的需求可以写成：“检索同一种设备运行周期，允许适度的速度变化，同时保留正常振动与过强振动之间的区别。”这句话同时给出了需要容忍的变化，以及预处理必须保留的差异。</p>
+<h2 id="_2">二、每一种不变性都会舍弃信息</h2>
+<p>对非常数序列 $x$，正比例缩放和平移满足 $z(3x+7)=z(x)$。这是减去均值、除以标准差的直接结果。如果传感器增益和零点偏移与任务无关，这个性质很有用；如果目标是比较绝对负荷，它恰好丢失了需要保留的信息。</p>
+<table>
+<thead>
+<tr>
+<th>处理或比较方式</th>
+<th>可能弱化的信息</th>
+<th>使用前需要回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每条序列分别做 z 标准化</td>
+<td>平均水平、正比例幅度差异</td>
+<td>绝对水平或波动幅度是否决定匹配？</td>
+</tr>
+<tr>
+<td>全局位移匹配</td>
+<td>整个波形共同提前或延后</td>
+<td>事件发生时间本身是否重要？</td>
+</tr>
+<tr>
+<td>局部时间规整</td>
+<td>部分局部持续时间和速度差异</td>
+<td>哪些时间变形在物理上可以接受？</td>
+</tr>
+<tr>
+<td>幅值频谱比较</td>
+<td>傅里叶相位</td>
+<td>事件顺序和准确发生时刻是否重要？</td>
+</tr>
+<tr>
+<td>统计特征比较</td>
+<td>特征没有保留的细节</td>
+<td>关键反例能否具有相同的这些摘要？</td>
+</tr>
+<tr>
+<td>学习表示</td>
+<td>训练与池化压缩掉的差异</td>
+<td>本次检索要区分的信息是否还存在？</td>
+</tr>
+</tbody>
+</table>
+<p>这里还有一个容易忽略的数学边界：若表示映射 $\phi$ 把两条不同序列映成同一个向量，它们在特征空间的欧氏距离就是零。欧氏距离仍然是特征空间上的度量，但无法分开原序列空间中的所有对象。这个性质限定了结果能够支持的结论。</p>
+<h2 id="_3">三、主要方法家族分别比较什么</h2>
+<h3 id="_4">逐点距离与相关系数</h3>
+<p>当观测位于共同时间网格时，欧氏距离或绝对误差保留每个对应位置上的数值差异。相关系数描述中心化与尺度处理后的关联程度，不能直接衡量绝对数值的一致性。</p>
+<p>对于等长、非常数、采用总体方差进行标准化的两个向量，有 $|z(x)-z(y)|^2=2n(1-r)$。因此在这些条件下，标准化欧氏距离与 Pearson 相关系数给出的排序等价。缺失值处理和标准化约定发生变化时，需要重新核对条件。</p>
+<h3 id="dtw-dtw">DTW 与受约束 DTW</h3>
+<p>DTW 在允许的单调对齐路径中搜索较小的匹配代价。局部代价、起止点规则和路径约束共同定义计算结果；规整窗口限制允许的时间变形。标准 DTW 不满足全部度量公理，依赖度量性质的下游算法需要额外论证。<a href="https://tslearn.readthedocs.io/en/stable/user_guide/dtw.html">tslearn 的 DTW 文档</a>给出了公式和常用约束。</p>
+<p>建议同时检查路径和分数。一个低代价路径可能反复拉伸某段具有研究意义的过程，这种匹配是否合理，需要依据任务判断。还应记录输出到底是绝对代价之和、平方代价之和、开平方后的值，还是经过长度归一化的转换分数。仅写“采用 DTW”不足以复现数值。</p>
+<h3 id="_5">全局形状匹配与局部形状描述</h3>
+<p>k-Shape 使用的 SBD 基于归一化互相关寻找整体位移，k-Shape 算法本身还定义了聚类中心更新方法。原始定义见 <a href="https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf">Paparrizos 与 Gravano（2015）</a>。<a href="https://doi.org/10.1016/j.patcog.2017.09.020">shapeDTW</a>先构建局部描述子，再对描述子序列进行对齐。整体位移与局部非线性对齐允许的变化不同；局部描述子的邻域大小也需要明确设置。</p>
+<h3 id="_6">编辑式距离与带惩罚的对齐</h3>
+<p>LCSS、EDR、ERP、MSM、TWE 对匹配、插入删除、分裂合并或时间惩罚采用不同规定，鲁棒性和数学性质不能仅凭家族名称判断。阈值与代价参数需要结合观测单位确定。<a href="../references/time-series-similarity-literature.html">文献地图</a>提供了各方法的原始来源。</p>
+<p>一个较新的例子是 <a href="https://doi.org/10.1016/j.patcog.2023.109333">ADTW（2023）</a>，它为时间规整步骤加入加性惩罚。惩罚反映对时间变形的容忍程度，其量级、选择方式以及调参是否使用标签，都应进入实验协议。</p>
+<h3 id="_7">特征、频谱与符号比较</h3>
+<p>特征映射可以突出自相关、频率成分、趋势或符号模式等性质。探索性分析中，应当直接说明比较了什么：“归一化频谱相近”是可核对的具体判断，“来自同一种时间过程”则需要更多证据。频率比较还需要兼容的物理采样尺度，数组下标本身不能定义赫兹。</p>
+<p>对于多变量序列，还要说明通道对应关系，以及各通道是否共享同一条时间对齐路径。共享路径约束通道一起移动；逐通道路径允许它们分别调整。<a href="https://doi.org/10.1145/3725258">d'Hondt 等（2025）</a>把距离家族、标准化和通道依赖假设纳入统一比较，支持我们把这些因素明确列入协议。该研究的结论仍受其数据集和设置范围约束。</p>
+<h2 id="_8">四、矩阵轮廓回答的是局部搜索问题</h2>
+<p>标准矩阵轮廓记录每个固定长度子序列与最近合格邻居之间的距离，常见定义采用 z 标准化欧氏距离。自连接需要排除平凡的邻近匹配；跨记录连接则在另一条序列中寻找邻居。<a href="https://stumpy.readthedocs.io/en/stable/Tutorial_The_Matrix_Profile.html">STUMPY 的矩阵轮廓介绍</a>和 <a href="https://stumpy.readthedocs.io/en/latest/Tutorial_AB_Joins.html">AB-join 教程</a>说明了这些操作。</p>
+<p>这种表示适合寻找重复模式或相对孤立的片段。较大的轮廓值表示：在给定窗口、距离和候选集合下，该片段缺少近邻。要进一步把它解释为临床异常、设备故障或其他具有领域含义的事件，还需要相应证据。</p>
+<p>窗口长度直接参与定义任务。持续五个采样点的事件和持续五百个采样点的周期，不能在未说明的情况下作为同一个搜索问题处理。可复现的报告至少应交代窗口、归一化、排除区、常数窗口约定以及连接方向。若同时搜索多种长度，还需说明跨长度结果如何筛选和比较。</p>
+<h2 id="_9">五、学习表示与训练损失分别解决什么</h2>
+<p><a href="https://proceedings.mlr.press/v70/cuturi17a.html">Soft-DTW</a>对路径代价进行平滑聚合，在合适的局部代价和正平滑参数下支持求导，因此可以作为模型优化的一部分。原始 soft-DTW 可能为负，相同输入处也未必达到最小值。<a href="https://proceedings.mlr.press/v130/blondel21a.html">Blondel、Mensch 与 Vert（2021）</a>提出了校正散度，并在明确条件下证明相关性质。平滑损失、非负散度和数学度量各有不同要求。</p>
+<p>学习嵌入提供了另一种比较空间。<a href="https://ojs.aaai.org/index.php/AAAI/article/view/20881">TS2Vec</a>通过层次化对比学习构建时间点及子序列表示；<a href="https://proceedings.mlr.press/v235/goswami24a.html">MOMENT</a>提供面向多种时序任务的预训练表示。它们构成测试学习表示的依据，但新的检索任务仍需要独立定义“什么结果算相关”。</p>
+<p>近期的检索增强研究进一步体现了这个区别。<a href="https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html">TS-RAG（NeurIPS 2025）</a>检索片段以支持时序预测。预测精度衡量组合系统的最终任务表现；若进一步主张检索质量更高，还需要相关性目标与检索评价。</p>
+<p>采用嵌入比较时，建议记录检查点、训练数据暴露情况、输入长度、预处理、池化方式和潜空间距离，并检查任务要求保留的差异是否仍可区分。例如，将小幅和大幅波动放在一起的表示，可能适用于形状检索，却不符合幅度敏感的匹配要求。</p>
+<h2 id="python">六、Python 工具应该按输出选择</h2>
+<p>这些库的能力存在交集。下表依据核查当日的官方文档列出实用入口，不构成速度排名。</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>相关公开能力</th>
+<th>可以从哪类任务入手</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aeon-toolkit.org/en/stable/api_reference/distances.html">aeon</a></td>
+<td>多种距离、对齐路径、成对计算，以及<a href="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html">相似性搜索接口</a></td>
+<td>比较距离选择，构建整序列或子序列搜索</td>
+</tr>
+<tr>
+<td><a href="https://tslearn.readthedocs.io/en/stable/user_guide/userguide.html">tslearn</a></td>
+<td>DTW、soft-DTW、重心计算与时序学习</td>
+<td>将对齐几何用于聚类或学习</td>
+</tr>
+<tr>
+<td><a href="https://dtaidistance.readthedocs.io/en/latest/modules/dtw.html">DTAIDistance</a></td>
+<td>DTW 实现、路径、剪枝与成对距离矩阵</td>
+<td>计算并检查 DTW 距离和对齐</td>
+</tr>
+<tr>
+<td><a href="https://stumpy.readthedocs.io/en/stable/Tutorial_The_Matrix_Profile.html">STUMPY</a></td>
+<td>矩阵轮廓与子序列连接</td>
+<td>定位重复或孤立的固定长度模式</td>
+</tr>
+<tr>
+<td><a href="https://www.sktime.net/docs/get-started/">sktime</a></td>
+<td>多类时序学习任务的接口及组合</td>
+<td>整合变换、估计器与评价流程</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ZipengWu365/EchoTime">EchoTime</a></td>
+<td>序列综合报告、结构画像比较、HTML 与 JSON 输出</td>
+<td>同时检查并交流多个结构视角</td>
+</tr>
+</tbody>
+</table>
+<p>比较数值前，需要阅读具体函数的定义。例如 DTAIDistance 的 <code>distance_fast</code> 选择 C 实现及相应剪枝默认值；EchoTime 的底层弹性方法 <code>mode="fast"</code> 采用有分辨率上限的筛选计算。函数名称都带有“fast”，并不说明近似策略一致。<a href="https://dtaidistance.readthedocs.io/en/latest/modules/dtw.html">DTAIDistance API</a> · <a href="https://github.com/ZipengWu365/EchoTime/blob/main/src/echotime/similarity_methods.py">EchoTime 实现</a>。</p>
+<h2 id="_10">七、一套便于团队审查的比较协议</h2>
+<p>以下是本文建议的执行步骤，不是关于某个方法优越性的实证结论。</p>
+<ol>
+<li><strong>固定匹配定义。</strong> 明确查询对象、候选范围、物理单位、持续时间、允许变化和相关性标签。类别标签可以是一种相关性定义，但未必涵盖所有具有研究意义的匹配。</li>
+<li><strong>保护评价边界。</strong> 根据实际应用，先按独立个体、设备或时间段等单位划分，再生成重叠窗口。若近重复窗口或未来观测会使评价变得平凡，或在实际使用时不可获得，就应从候选池中排除。</li>
+<li><strong>公开预处理。</strong> 记录标准化、时间戳、缺口、通道顺序和重采样。如果要隔离距离函数的影响，应保持其他处理一致；若比较完整流程，则明确报告各流程的差异。</li>
+<li><strong>调参不使用测试结果。</strong> 对齐窗口、编辑阈值、池化及模型检查点都属于协议的一部分。若选择过程使用标签，应明确报告监督信息。</li>
+<li><strong>评价所需输出。</strong> 检索采用相关性排序评价；对齐采用对应关系证据；聚类评价聚类结果；预测系统评价预测终点。计算开销也应针对实际工作负载测量。</li>
+<li><strong>检查有解释力的失败案例。</strong> 依据任务加入同形异幅、事件平移、持续时间变化、缺失观测等情境。将这些受控示例与真实数据证据分别报告。</li>
+</ol>
+<p>对于近似搜索，应在明确的评价集合上，以精确参考结果测量近邻召回率。对筛选出的候选重新计算精确距离，可以修正这些候选的分数，但无法找回第一阶段已经遗漏的对象。</p>
+<h2 id="echotime">八、用 EchoTime 同时检查多个结构视角</h2>
+<p>EchoTime 可以生成组件级比较，并输出便于分享的报告。当前 <code>compare_series</code> 会把输入重采样到共同点数，对通道进行标准化，再组合形状、DTW 相关、趋势、一阶变化与频谱组件。默认重采样点数为 256。传入时间戳时，两条输入的时间跨度分别归一化，因此绝对持续时间和真实时钟对齐仍需单独检查。具体行为见<a href="https://github.com/ZipengWu365/EchoTime/blob/320b7e65c74be6decef665cea87f56c5dc88ccd2/src/echotime/similarity.py">本次检查的实现</a>。</p>
+<pre><code class="language-bash">python -m pip install echotime
+</code></pre>
+<pre><code class="language-python">from pathlib import Path
+import numpy as np
+from echotime import compare_series
+
+# 合成数据用于演示报告接口，不作为性能比较证据。
+t = np.linspace(0, 4 * np.pi, 128)
+x = np.sin(t)
+y = np.sin(t + 0.2)
+
+report = compare_series(x, y, left_name=&quot;reference&quot;, right_name=&quot;shifted&quot;)
+print(report.to_summary_card_markdown())
+Path(&quot;similarity_report.html&quot;).write_text(
+    report.to_html_report(), encoding=&quot;utf-8&quot;
+)
+</code></pre>
+<p>解读时应同时查看组件和处理约定。综合分数是探索性摘要，目前没有证据将它解释为经过校准的概率。画像层面的比较也只描述所选结构轴的接近程度，不能据此确认共同因果机制或模型迁移一定成功。</p>
+<p>一个具体的起点是：选一对团队能够解释其相似关系的序列，检查报告各组件是否符合这个解释。需要完整对齐路径或子序列搜索结果时，再使用相应工具的接口。<a href="https://github.com/ZipengWu365/EchoTime/blob/main/SIMILARITY_METHOD_ATLAS.md">方法图谱</a>区分 EchoTime 当前覆盖与更广的方法，<a href="../references/time-series-similarity-literature.html">文献地图</a>提供进一步扩展的原始依据。</p>
+<hr>
+<p><strong>范围与来源。</strong> 本文是面向选型的叙述性比较，核查了原始论文、官方软件文档和仓库源码；不主张文献穷尽、不代表已独立复现所引论文，也不宣称 EchoTime 具有已测量的普遍优势。<a href="index.html">证据表与编辑检查</a>。</p>
+<hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/time-series-similarity-guide.zh-CN.md">the versioned Markdown source</a>.
+Corrections and reproducible examples are welcome in the repository.</p>
+</main></body></html>

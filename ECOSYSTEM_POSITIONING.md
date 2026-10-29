@@ -1,6 +1,6 @@
 # EchoTime in the time-series Python ecosystem
 
-Positioning notes below are based on official documentation pages consulted on 2026-03-08. They describe what the packages publicly emphasize, not every edge capability they may contain.
+The original ecosystem snapshot was checked on 2026-03-08; aeon's whole-series and subsequence search scope was rechecked on 2026-10-29. They describe what the packages publicly emphasize, not every edge capability they may contain.
 
 EchoTime is **dataset-first**. It profiles, compares, and explains time-series datasets before or beside modelling. It does not try to replace the forecasting, estimator, DTW, or matrix-profile libraries that already do those jobs well.
 
@@ -9,7 +9,7 @@ EchoTime is **dataset-first**. It profiles, compares, and explains time-series d
 | package | official emphasis | strongest fit | how echotime relates |
 |---|---|---|---|
 | tsfresh | Automatically calculates a large number of time-series characteristics and includes methods to evaluate their explaining power for regression or classification tasks. | large handcrafted feature extraction, feature filtering, series-as-features pipelines | EchoTime is not a feature-zoo replacement; it is dataset-first structural profiling. Use echotime when the first question is 'what kind of temporal dataset is this?' and tsfresh when you need a broad handcrafted feature matrix for downstream supervised learning. |
-| aeon | A scikit-learn compatible toolkit for time-series tasks such as forecasting, classification, regression, clustering, anomaly detection, similarity search, and benchmarking. | estimators and pipelines, benchmarking, forecasting / classification / regression / clustering, similarity search | echotime sits earlier in the workflow: dataset characterization, ontology axes, summary cards, and compact context for collaborators or agents. aeon is the modelling-and-evaluation toolbox you use once you already know what sort of problem you have. |
+| aeon | A scikit-learn compatible toolkit for time-series tasks such as forecasting, classification, regression, clustering, anomaly detection, similarity search, and benchmarking. | estimators and pipelines, benchmarking, forecasting / classification / regression / clustering, whole-series and subsequence similarity search | aeon provides distance calculations, estimators, and whole-series/subsequence search. EchoTime adds component-level reports and dataset summaries for inspecting and communicating comparisons; choose the output required by the task. |
 | sktime | A unified toolbox for machine learning with time series, including algorithms, transformations, pipelining, tuning, ensembling, and forecasting/classification workflows. | forecasting pipelines, composite estimators, time-series transformations, evaluation and tuning | EchoTime is for structural triage, communication, and dataset cards; sktime is for building, tuning, and evaluating models. |
 | tslearn | A Python package that provides machine-learning tools for the analysis of time series. | time-series clustering, classification and regression, distance-based learning | EchoTime is not primarily a learner library. It focuses on understanding and comparing datasets before or beside modelling, while tslearn focuses on machine-learning algorithms over time-series objects. |
 | DTAIDistance | A library for time-series distances such as Dynamic Time Warping, with Python and faster C-backed implementations. | DTW distance, alignment paths, pairwise distance matrices, distance-based clustering | echotime does include high-level similarity summaries, but it is not a dedicated DTW engine. Use DTAIDistance when alignment paths, distance matrices, or lower-level DTW controls are the main deliverable. |
@@ -35,7 +35,7 @@ EchoTime is **dataset-first**. It profiles, compares, and explains time-series d
 ## Sources consulted
 
 - tsfresh: tsfresh docs — https://tsfresh.readthedocs.io/en/latest/
-- aeon: aeon docs — https://www.aeon-toolkit.org/en/v0.9.0/
+- aeon: aeon docs — https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html
 - sktime: sktime docs — https://www.sktime.net/en/stable/user_guide/introduction.html
 - tslearn: tslearn docs — https://tslearn.readthedocs.io/en/stable/
 - DTAIDistance: DTAIDistance docs — https://dtaidistance.readthedocs.io/en/latest/
