@@ -5,6 +5,8 @@
     "homepage": "index.html",
     "start_here": "start-here.html",
     "playground": "playground.html",
+    "similarity_lab": "guide/similarity-lab.html",
+    "mechanism_tour": "articles/what-time-series-similarity-measures.en.html",
     "reports": {
       "weekly_website_traffic": "reports/weekly_website_traffic_report.html",
       "irregular_patient_vitals": "reports/irregular_patient_vitals_report.html",

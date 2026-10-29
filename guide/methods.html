@@ -723,6 +723,7 @@ svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
     }
 
 .method-animations { margin: 24px 0; }
+.method-animations, .animation-method { scroll-margin-top:140px; }
 .animation-toolbar { display:flex; flex-wrap:wrap; align-items:end; gap:16px; margin-top:20px; }
 .animation-toolbar label { display:grid; gap:6px; flex:1; min-width:220px; font-weight:600; }
 .animation-toolbar input { width:100%; box-sizing:border-box; padding:12px; font:inherit; color:var(--text-900, #fff); background:var(--surface-strong, #111); border:1px solid var(--border, #ccd4de); border-radius:8px; }
@@ -749,7 +750,7 @@ svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
 .method-animations[data-enhanced][data-language='en'] [data-animation-lang='zh'],
 .method-animations[data-enhanced][data-language='zh'] [data-animation-lang='en'] { display:none; }
 .method-animations [hidden] { display:none !important; }
-@media (max-width:650px) { .animation-content { padding:0 8px 12px; } .animation-method > summary { padding:12px; } }
+@media (max-width:650px) { .method-animations, .animation-method { scroll-margin-top:220px; } .animation-content { padding:0 8px 12px; } .animation-method > summary { padding:12px; } }
 </style></head>
 <body>
 <header class='topbar'>
@@ -804,6 +805,9 @@ svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
         </div>
         <div class='status-stack'><span class='meta-chip'><strong>Implemented in EchoTime</strong> 14</span><span class='meta-chip'><strong>Conceptually covered</strong> 13</span><span class='meta-chip'><strong>Possible addition</strong> 39</span><span class='meta-chip'><strong>Low-priority addition</strong> 61</span></div>
         <p><a href='#method-animations'><strong>Explore 137 animated explanations / 查看全部方法动图 →</strong></a></p>
+        <p><a href='similarity-lab.html'>Compare methods on the same curves / 同一组曲线交互对照</a>
+        · <a href='../articles/what-time-series-similarity-measures.en.html'>Read the mechanism tour</a>
+        · <a href='https://github.com/ZipengWu365/EchoTime/discussions'>Discuss</a></p>
       </div>
       <div class='docs-card'>
         <span class='pill blue'>What EchoTime now exposes</span>

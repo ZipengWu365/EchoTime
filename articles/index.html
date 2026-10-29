@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time-series similarity articles | EchoTime</title><style>
+:root { color-scheme:light; --ink:#172336; --muted:#53647b; --blue:#235bcc; }
+* { box-sizing:border-box; } body { margin:0; color:var(--ink); background:#f5f7fb;
+font:17px/1.75 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { width:min(1080px,calc(100% - 32px)); margin:32px auto; padding:36px 48px;
+background:white; border:1px solid #dce3ef; border-radius:16px; }
+nav { display:flex; flex-wrap:wrap; gap:10px 24px; padding-bottom:20px;
+border-bottom:1px solid #dce3ef; font-size:14px; } a { color:var(--blue); }
+h1 { font-size:clamp(28px,4vw,42px); line-height:1.2; letter-spacing:-.025em; }
+h2 { margin-top:2.1em; line-height:1.3; } h3 { line-height:1.4; }
+table { display:block; width:100%; overflow-x:auto; border-collapse:collapse;
+font-size:15px; line-height:1.55; } th,td { padding:12px; min-width:140px;
+text-align:left; vertical-align:top; border:1px solid #dce3ef; }
+th { background:#edf2fc; } code { font-size:.88em; background:#f1f4fa;
+padding:2px 4px; border-radius:3px; } pre { overflow-x:auto; padding:18px;
+background:#f1f4fa; border-left:3px solid var(--blue); } pre code { padding:0; }
+img { max-width:100%; height:auto; } blockquote { margin-left:0; padding:8px 20px;
+border-left:3px solid #d9b84c; background:#fffbef; }
+.source { color:var(--muted); font-size:14px; } :target { scroll-margin-top:24px; }
+@media(max-width:640px) { main { margin:12px auto; padding:22px 18px; }
+body { font-size:16px; } th,td { min-width:150px; } }
+</style></head>
+<body><main>
+<nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
+<a href="../articles/index.html">Reading guide</a>
+<a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
+<a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
+<a href="../articles/what-time-series-similarity-measures.en.html">Mechanism tour</a>
+<a href="../guide/similarity-lab.html">Interactive lab</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a>
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
+<h1 id="time-series-similarity-articles">Time-series similarity articles</h1>
+<p>These articles compare tasks, mathematical assumptions and software interfaces. They do not report a new cross-library benchmark.</p>
+<table>
+<thead>
+<tr>
+<th>Article</th>
+<th>Language</th>
+<th>Reviewed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="time-series-similarity-guide.en.html">Time-series similarity: choosing between DTW, matrix profiles and learned representations</a></td>
+<td>English</td>
+<td>2026-10-29</td>
+</tr>
+<tr>
+<td><a href="time-series-similarity-guide.zh-CN.html">时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选</a></td>
+<td>简体中文</td>
+<td>2026-10-29</td>
+</tr>
+<tr>
+<td><a href="what-time-series-similarity-measures.en.html">What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations</a></td>
+<td>English</td>
+<td>2026-10-29</td>
+</tr>
+</tbody>
+</table>
+<h2 id="compare-mechanisms-on-the-same-curves">Compare mechanisms on the same curves</h2>
+<p>The <a href="../guide/similarity-lab.html">interactive similarity lab</a>
+holds one reference curve fixed while changing offset, gain, global timing, local
+warping, a local event, Fourier phase or sample order. Compare eleven explicit
+method definitions through their actual alignments, features and contributions.
+The new mechanism tour connects those observations to the original papers and
+includes three reproducible numerical examples.</p>
+<p><a href="../assets/similarity-lab/mechanism-comparison.gif">Open the overview GIF</a>
+or <a href="https://github.com/ZipengWu365/EchoTime/discussions">discuss assumptions and suggest examples</a>.</p>
+<h2 id="evidence-ledger">Evidence ledger</h2>
+<p>The ledger was assembled before drafting. Citation roles describe what each source supports; recommendations in the articles are explicitly presented as a proposed evaluation procedure. Software documentation was checked on 2026-10-29. This is a targeted narrative comparison, with no claim of systematic-review completeness. No library speed or accuracy ranking was measured for these articles.</p>
+<table>
+<thead>
+<tr>
+<th>Claim or object</th>
+<th>Role</th>
+<th>Primary source</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DTW aligns ordered observations under admissible paths; local cost and path constraints define the result</td>
+<td>Definition / Tool</td>
+<td><a href="https://tslearn.readthedocs.io/en/stable/user_guide/dtw.html">tslearn DTW guide</a></td>
+<td>A package's transformed similarity score need not equal a canonical raw DTW distance</td>
+</tr>
+<tr>
+<td>SBD uses normalized cross-correlation to allow a global shift; k-Shape also defines a centroid procedure</td>
+<td>Origin / Definition</td>
+<td><a href="https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf">Paparrizos and Gravano, SIGMOD 2015</a></td>
+<td>A global shift differs from local nonlinear time deformation; classification/clustering results do not establish universal retrieval performance</td>
+</tr>
+<tr>
+<td>shapeDTW aligns sequences of local descriptors</td>
+<td>Origin / Definition</td>
+<td><a href="https://doi.org/10.1016/j.patcog.2017.09.020">Zhao and Itti, Pattern Recognition 2018</a>; <a href="https://arxiv.org/abs/1606.01601">author preprint</a></td>
+<td>Descriptor and neighbourhood settings are part of the method</td>
+</tr>
+<tr>
+<td>ADTW adds a penalty for warping</td>
+<td>Origin / Definition</td>
+<td><a href="https://doi.org/10.1016/j.patcog.2023.109333">Herrmann and Webb, Pattern Recognition 2023</a></td>
+<td>Parameter scale and tuning protocol matter; no claim of task-independent dominance</td>
+</tr>
+<tr>
+<td>Soft-DTW replaces hard path minimization with a smooth aggregation</td>
+<td>Origin / Definition</td>
+<td><a href="https://proceedings.mlr.press/v70/cuturi17a.html">Cuturi and Blondel, ICML 2017</a></td>
+<td>Differentiability requires a suitable ground cost and positive smoothing parameter</td>
+</tr>
+<tr>
+<td>Raw soft-DTW can be negative; corrected divergences have assumptions</td>
+<td>Limitation / Boundary</td>
+<td><a href="https://proceedings.mlr.press/v130/blondel21a.html">Blondel, Mensch and Vert, AISTATS 2021</a></td>
+<td>The paper's divergence result is conditional on the ground cost; it does not establish the triangle inequality</td>
+</tr>
+<tr>
+<td>A matrix profile records nearest-neighbour distances for fixed-length subsequences</td>
+<td>Definition / Tool</td>
+<td><a href="https://stumpy.readthedocs.io/en/stable/Tutorial_The_Matrix_Profile.html">STUMPY matrix-profile tutorial</a></td>
+<td>Standard formulation uses z-normalized Euclidean distances and a self-match exclusion policy</td>
+</tr>
+<tr>
+<td>STUMPY supports joins between two series and optional normalization</td>
+<td>Tool</td>
+<td><a href="https://stumpy.readthedocs.io/en/latest/Tutorial_AB_Joins.html">STUMPY AB joins</a></td>
+<td>Window length, join direction and normalization remain part of the query</td>
+</tr>
+<tr>
+<td>TS2Vec learns hierarchical contrastive representations of timestamps and subsequences</td>
+<td>Origin / Boundary</td>
+<td><a href="https://ojs.aaai.org/index.php/AAAI/article/view/20881">Yue et al., AAAI 2022</a></td>
+<td>Classification, forecasting and anomaly-detection evidence does not establish every retrieval objective</td>
+</tr>
+<tr>
+<td>MOMENT supplies pretrained representations for multiple time-series tasks</td>
+<td>Origin / Boundary</td>
+<td><a href="https://proceedings.mlr.press/v235/goswami24a.html">Goswami et al., ICML 2024</a></td>
+<td>Pretraining does not by itself determine a domain's similarity labels</td>
+</tr>
+<tr>
+<td>TS-RAG retrieves segments to support forecasting</td>
+<td>Origin / Boundary</td>
+<td><a href="https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html">Ning et al., NeurIPS 2025</a></td>
+<td>Forecasting improvement is an endpoint distinct from retrieval relevance</td>
+</tr>
+<tr>
+<td>Multivariate comparisons depend on normalization and channel assumptions</td>
+<td>Contrast / Boundary</td>
+<td><a href="https://doi.org/10.1145/3725258">d'Hondt et al., PACMMOD 2025</a>; <a href="https://research.tue.nl/en/publications/a-structured-study-of-multivariate-time-series-distance-measures/">author institution record</a></td>
+<td>Findings concern the evaluated measures, datasets and protocols</td>
+</tr>
+<tr>
+<td>aeon offers distances, alignment paths, and whole-series/subsequence search</td>
+<td>Tool</td>
+<td><a href="https://www.aeon-toolkit.org/en/stable/api_reference/distances.html">aeon distances</a>; <a href="https://www.aeon-toolkit.org/en/stable/examples/similarity_search/similarity_search.html">similarity search</a></td>
+<td>Availability differs by estimator and installed version</td>
+</tr>
+<tr>
+<td>tslearn offers time-series learning and DTW/soft-DTW-based workflows</td>
+<td>Tool</td>
+<td><a href="https://tslearn.readthedocs.io/en/stable/">tslearn documentation</a>; <a href="https://tslearn.readthedocs.io/en/stable/user_guide/userguide.html">user guide</a></td>
+<td>Do not infer relative runtime from API availability</td>
+</tr>
+<tr>
+<td>DTAIDistance provides C implementations, pruning, paths and pairwise matrices</td>
+<td>Tool</td>
+<td><a href="https://dtaidistance.readthedocs.io/en/latest/modules/dtw.html">DTW API</a></td>
+<td>Its <code>distance_fast</code> name refers to the accelerated implementation; it does not imply downsampling</td>
+</tr>
+<tr>
+<td>sktime supports multiple learning tasks and composable interfaces</td>
+<td>Tool</td>
+<td><a href="https://www.sktime.net/docs/get-started/">sktime get-started guide</a></td>
+<td>Treat as overlapping ecosystem functionality, not an exclusive category</td>
+</tr>
+<tr>
+<td>EchoTime's <code>compare_series</code> is a resampled, normalized, composite report</td>
+<td>Tool / Limitation</td>
+<td><a href="https://github.com/ZipengWu365/EchoTime/blob/320b7e65c74be6decef665cea87f56c5dc88ccd2/src/echotime/similarity.py">Inspected source</a></td>
+<td>Fixed weights and qualitative labels are not calibrated probabilities; inspect later code for changes</td>
+</tr>
+<tr>
+<td>EchoTime's <code>compare_profiles</code> compares profile-axis summaries</td>
+<td>Tool / Boundary</td>
+<td><a href="https://github.com/ZipengWu365/EchoTime/blob/320b7e65c74be6decef665cea87f56c5dc88ccd2/src/echotime/similarity.py">Inspected source</a></td>
+<td>Structural agreement does not establish shared mechanisms or successful model transfer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="editorial-checks">Editorial checks</h2>
+<ul>
+<li><strong>Facts:</strong> linked methods to original papers or official documentation; kept literature coverage separate from implemented APIs; reported no new performance numbers.</li>
+<li><strong>Expression:</strong> explained comparison objects and information loss before method names; used explicit assumptions for normalization, time alignment and multivariate channels.</li>
+<li><strong>Distribution:</strong> one clear question per social card; links lead to the full comparison and reproducible package entry point. Social copy is stored as drafts in <a href="https://github.com/ZipengWu365/EchoTime/blob/main/social/2026-10-29-similarity-roundup.md"><code>social/2026-10-29-similarity-roundup.md</code></a>.</li>
+</ul>
+<p>Review links and implementation notes before reusing this material after package updates. The companion <a href="../references/time-series-similarity-literature.html">literature map</a> records the broader paper inventory.</p>
+<hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/README.md">the versioned Markdown source</a>.
+Share questions, corrections and reproducible examples in
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">GitHub Discussions</a>.</p>
+</main></body></html>

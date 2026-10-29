@@ -5,6 +5,21 @@
 These changes describe the repository source. The package version remains 0.17.1
 until a separate release is made; existing PyPI artifacts are unchanged.
 
+### Shared-input similarity lab and mechanism tour
+
+- Add a static interactive lab with one shared 64-sample input pair, seven
+  controlled transformations, 21 levels each and eleven explicit reference
+  definitions. Views expose the actual alignment, feature representation,
+  contribution and score for the selected pair.
+- Include a reproducible overview GIF and static poster, downloadable numerical
+  states, keyboard controls, explicit preprocessing and per-method units.
+- Add an English mechanism-level article linking original papers, comparing
+  retained information and allowed deformations, and presenting three verified
+  numerical examples plus research questions for GitHub Discussions.
+- Link the lab and article from the existing Methods Atlas, reading pages and
+  README; include all six lab resources and the article in wheel and Pages
+  exports. Release refresh can explicitly reuse verified method animations.
+
 ### Animated method explanations
 
 - Add individual deterministic GIFs and static posters for the 10 native report

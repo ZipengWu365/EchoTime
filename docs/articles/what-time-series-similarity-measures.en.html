@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations | EchoTime</title><style>
+:root { color-scheme:light; --ink:#172336; --muted:#53647b; --blue:#235bcc; }
+* { box-sizing:border-box; } body { margin:0; color:var(--ink); background:#f5f7fb;
+font:17px/1.75 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { width:min(1080px,calc(100% - 32px)); margin:32px auto; padding:36px 48px;
+background:white; border:1px solid #dce3ef; border-radius:16px; }
+nav { display:flex; flex-wrap:wrap; gap:10px 24px; padding-bottom:20px;
+border-bottom:1px solid #dce3ef; font-size:14px; } a { color:var(--blue); }
+h1 { font-size:clamp(28px,4vw,42px); line-height:1.2; letter-spacing:-.025em; }
+h2 { margin-top:2.1em; line-height:1.3; } h3 { line-height:1.4; }
+table { display:block; width:100%; overflow-x:auto; border-collapse:collapse;
+font-size:15px; line-height:1.55; } th,td { padding:12px; min-width:140px;
+text-align:left; vertical-align:top; border:1px solid #dce3ef; }
+th { background:#edf2fc; } code { font-size:.88em; background:#f1f4fa;
+padding:2px 4px; border-radius:3px; } pre { overflow-x:auto; padding:18px;
+background:#f1f4fa; border-left:3px solid var(--blue); } pre code { padding:0; }
+img { max-width:100%; height:auto; } blockquote { margin-left:0; padding:8px 20px;
+border-left:3px solid #d9b84c; background:#fffbef; }
+.source { color:var(--muted); font-size:14px; } :target { scroll-margin-top:24px; }
+@media(max-width:640px) { main { margin:12px auto; padding:22px 18px; }
+body { font-size:16px; } th,td { min-width:150px; } }
+</style><!-- echotime-search-metadata:start -->
+<meta name="description" content="Understand what time-series similarity methods retain, ignore and deform: original-paper mechanisms, controlled transformations, numerical examples and research questions.">
+<link rel="canonical" href="https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EchoTime">
+<meta property="og:title" content="What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations | EchoTime">
+<meta property="og:description" content="Understand what time-series similarity methods retain, ignore and deform: original-paper mechanisms, controlled transformations, numerical examples and research questions.">
+<meta property="og:url" content="https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html">
+<meta property="og:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<meta property="og:image:alt" content="EchoTime: explainable time-series similarity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations | EchoTime">
+<meta name="twitter:description" content="Understand what time-series similarity methods retain, ignore and deform: original-paper mechanisms, controlled transformations, numerical examples and research questions.">
+<meta name="twitter:image" content="https://zipengwu.me/EchoTime/social/echotime_title_card.png">
+<link rel="sitemap" type="application/xml" href="https://zipengwu.me/EchoTime/sitemap.xml">
+<link rel="manifest" href="https://zipengwu.me/EchoTime/site.webmanifest">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://zipengwu.me/EchoTime/#website", "url": "https://zipengwu.me/EchoTime/", "name": "EchoTime"}, {"@type": "WebPage", "@id": "https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html#webpage", "url": "https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html", "name": "What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations | EchoTime", "description": "Understand what time-series similarity methods retain, ignore and deform: original-paper mechanisms, controlled transformations, numerical examples and research questions.", "inLanguage": "en", "isPartOf": {"@id": "https://zipengwu.me/EchoTime/#website"}, "breadcrumb": {"@id": "https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html#breadcrumbs"}}, {"@type": "BreadcrumbList", "@id": "https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "EchoTime", "item": "https://zipengwu.me/EchoTime/"}, {"@type": "ListItem", "position": 2, "name": "What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations | EchoTime", "item": "https://zipengwu.me/EchoTime/articles/what-time-series-similarity-measures.en.html"}]}]}</script>
+<!-- echotime-search-metadata:end -->
+</head>
+<body><main>
+<nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
+<a href="../articles/index.html">Reading guide</a>
+<a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
+<a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
+<a href="../articles/what-time-series-similarity-measures.en.html">Mechanism tour</a>
+<a href="../guide/similarity-lab.html">Interactive lab</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a>
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
+<h1 id="what-does-similar-mean-for-a-time-series-a-mechanism-level-tour-of-distances-alignments-and-representations">What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations</h1>
+<p>Two curves can share a rhythm while their peaks occur at different times. They can trace the same rise and fall at different amplitudes. They can contain one identical event and otherwise behave differently. Each resemblance supports a different answer to “How similar are these series?”</p>
+<p>A useful way to read the literature is to ask three questions: <strong>What information enters the comparison? Which correspondences are allowed? What evidence is compressed into the final score?</strong> These questions connect methods that are often presented as an alphabetical catalogue of distances.</p>
+<p>The interactive companion uses one 64-sample reference curve containing an oscillation, a broad peak, a narrow negative event and a small trend. It applies one controlled transformation at a time: baseline, gain, timing, event content, phase or ordering. These controlled comparisons reveal what each method treats as meaningful.</p>
+<p><a href="../guide/similarity-lab.html">Explore the interactive companion</a>.</p>
+<p><img alt="Animated comparison of time-series similarity mechanisms" src="../assets/similarity-lab/mechanism-comparison.gif"></p>
+<h2 id="a-map-of-the-mechanisms">A map of the mechanisms</h2>
+<p>The table summarizes the comparisons developed below. “Retained” means that the information can affect the comparison; it does not imply that the representation reconstructs the original signal.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Evidence retained</th>
+<th>Freedom or information loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Euclidean distance</td>
+<td>Values at corresponding timestamps</td>
+<td>Timing is fixed; normalization can remove level and gain</td>
+</tr>
+<tr>
+<td>DTW</td>
+<td>Values and monotone correspondence</td>
+<td>Local stretching and repeated matches</td>
+</tr>
+<tr>
+<td>DDTW</td>
+<td>Local derivative estimates</td>
+<td>Level is removed; slopes drive alignment</td>
+</tr>
+<tr>
+<td>shapeDTW</td>
+<td>Neighbourhood descriptors</td>
+<td>Descriptor choice determines which local details survive</td>
+</tr>
+<tr>
+<td>soft-DTW</td>
+<td>Costs of admissible alignment paths</td>
+<td>Smooth aggregation replaces selection of one minimum</td>
+</tr>
+<tr>
+<td>SBD</td>
+<td>Globally aligned, standardized waveform</td>
+<td>One shared lag; no independent local stretching</td>
+</tr>
+<tr>
+<td>LCSS</td>
+<td>Ordered matches within tolerances</td>
+<td>Unmatched observations can be skipped</td>
+</tr>
+<tr>
+<td>ERP / MSM / TWED</td>
+<td>Values connected by specified edit operations</td>
+<td>Gaps, duplication and timing receive different costs</td>
+</tr>
+<tr>
+<td>ADTW</td>
+<td>DTW local costs plus warping count</td>
+<td>Every horizontal or vertical step has an added price</td>
+</tr>
+<tr>
+<td>DFT magnitude / ACF</td>
+<td>Frequency strengths / lagged dependence</td>
+<td>Detailed event localization is compressed</td>
+</tr>
+<tr>
+<td>SAX / catch22</td>
+<td>Ordered coarse symbols / selected statistics</td>
+<td>Within-bin detail / information outside the features is lost</td>
+</tr>
+<tr>
+<td>Matrix Profile</td>
+<td>Each window's nearest matching window</td>
+<td>Whole-record similarity requires a further aggregation</td>
+</tr>
+<tr>
+<td>TS2Vec / CoST</td>
+<td>Learned contextual / seasonal and trend features</td>
+<td>Training objectives and aggregation shape the comparison</td>
+</tr>
+</tbody>
+</table>
+<h2 id="start-with-the-values-and-the-clock">Start with the values and the clock</h2>
+<p>For equally sampled, equal-length series, Euclidean distance accumulates discrepancies at the same index. A delayed peak therefore incurs error at both its old and new positions. That response is appropriate when timestamps denote a shared experimental clock.</p>
+<p>Preprocessing changes the question before any alignment occurs. For a nonconstant series, standardizing each curve separately gives</p>
+<pre><code class="language-text">z(x)[t] = (x[t] - mean(x)) / sd(x)
+</code></pre>
+<p>If <code>y = a*x + b</code> with <code>a &gt; 0</code>, their standardized curves coincide. This is an algebraic removal of baseline and positive gain. Negative gain reverses the standardized curve. A study of waveform shape may welcome this removal; a study of absolute excursion size must preserve that information elsewhere. The normalization choice should therefore appear beside the distance name.</p>
+<h2 id="dtw-and-three-changes-to-its-mechanism">DTW and three changes to its mechanism</h2>
+<h3 id="dtw-change-the-correspondence">DTW: change the correspondence</h3>
+<p><a href="https://jeffe.cs.illinois.edu/teaching/compgeom/refs/Sakoe-Chiba-DTW.pdf">Sakoe and Chiba's dynamic-programming formulation</a> finds a low-cost, temporally ordered alignment. With the common diagonal, horizontal and vertical steps, the accumulated cost satisfies</p>
+<pre><code class="language-text">D[i,j] = c(x[i], y[j]) + min(D[i-1,j-1], D[i-1,j], D[i,j-1])
+</code></pre>
+<p>With squared Euclidean local costs, <code>D</code> is an accumulated squared cost; some implementations report its square root.</p>
+<p>Horizontal and vertical steps permit one observation to correspond to several observations in the other series. A broad peak can consequently match a narrower peak. The path preserves order: it cannot freely exchange two events.</p>
+<p>The local cost, endpoint conditions and admissible path region are substantive choices. A narrow band limits timing displacement; a wider band permits more deformation. If event duration is diagnostic, an inexpensive alignment can conceal useful differences. Inspecting the path reveals which durations the comparison treated as interchangeable.</p>
+<h3 id="ddtw-change-the-evidence-being-aligned">DDTW: change the evidence being aligned</h3>
+<p><a href="https://ics.uci.edu/~pazzani/Publications/keogh-kdd.pdf">Keogh and Pazzani's DDTW</a> aligns derivative estimates. On a unit-spaced grid, its original interior-point estimate averages the backward slope and a two-step central slope:</p>
+<pre><code class="language-text">derivative[i] = ((x[i] - x[i-1]) + (x[i+1] - x[i-1])/2) / 2
+</code></pre>
+<p>A constant vertical offset disappears from these estimates. A rise aligns according to its direction and steepness, helping distinguish similar heights reached through different local behaviour. Gain still scales the derivatives. Differentiation also changes the influence of noise and short spikes. Thus the derivative estimator, sampling interval and any smoothing all help define the comparison.</p>
+<h3 id="shapedtw-give-each-match-a-neighbourhood">shapeDTW: give each match a neighbourhood</h3>
+<p><a href="https://arxiv.org/abs/1606.01601">Zhao and Itti's shapeDTW</a> builds a descriptor around each timestamp and aligns the descriptor sequence. Two samples of equal height may have very different surroundings: one belongs to a rising edge, another to a plateau. Neighbourhood evidence helps distinguish those correspondences.</p>
+<p>Window width controls the scale of that evidence. Descriptor choice controls its content: raw subsequences retain local values, whereas slope or derivative descriptors emphasize change and remove constant level offsets. A descriptor that averages heavily can weaken a brief event. Calling all shapeDTW variants amplitude-invariant would obscure these different constructions.</p>
+<h3 id="soft-dtw-change-how-paths-contribute">soft-DTW: change how paths contribute</h3>
+<p><a href="https://proceedings.mlr.press/v70/cuturi17a.html">Cuturi and Blondel's soft-DTW</a> replaces the hard minimum over path costs <code>Cπ</code> with</p>
+<pre><code class="language-text">softDTWγ(x,y) = -γ log Σπ exp(-Cπ/γ),   γ &gt; 0
+</code></pre>
+<p>Near-optimal paths contribute alongside the best path, and the objective approaches the hard minimum as the smoothing parameter tends to zero. With differentiable local costs, this supplies gradients for learning and averaging. It does not itself impose a stronger restriction on deformation.</p>
+<p>The log-sum over several low-cost paths can put the objective below every individual path cost. Raw soft-DTW can therefore be negative and need not vanish on self-comparison. <a href="https://proceedings.mlr.press/v130/blondel21a.html">Blondel, Mensch and Vert</a> study corrections based on self-comparisons and establish divergence properties under particular ground-cost assumptions. The smoothing parameter controls path aggregation; it is distinct from a warping penalty or window.</p>
+<h2 id="sbd-move-the-entire-curve-together">SBD: move the entire curve together</h2>
+<p>The shape-based distance in <a href="https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf">Paparrizos and Gravano's k-Shape paper</a> uses</p>
+<pre><code class="language-text">SBD(x,y) = 1 - max over lags ℓ of NCCℓ(z(x), z(y))
+</code></pre>
+<p>Every event receives the same lag. Relative spacing between the broad peak and short event survives alignment, making SBD useful for reasoning about an unknown starting time. If the early oscillation needs one lag and the later peak needs another, a single shift cannot satisfy both.</p>
+<p>The original construction uses linear cross-correlation with full-series norm normalization and zero padding outside the observed overlap. It does not wrap the end back to the beginning. Consequently, cropping and boundary loss still matter. SBD is the comparison component; k-Shape additionally specifies a clustering and centroid procedure.</p>
+<h2 id="when-observations-may-remain-unmatched">When observations may remain unmatched</h2>
+<p>These methods assign different meanings to an extra event. Their edit rules reveal whether the event is tolerated, preserved or charged according to its magnitude and timing.</p>
+<p><strong>LCSS counts acceptable ordered matches.</strong> <a href="https://homes.cs.aau.dk/~simas/teaching/trajectories/00994784.pdf">Vlachos, Kollios and Gunopulos</a> combine a value tolerance with an index-displacement tolerance. Observations outside those conditions can be skipped while later matches remain available. A short spike can therefore reduce matched coverage without contributing an arbitrarily large amplitude error. Thresholds create discrete decisions: moving just across a tolerance boundary can change the match count. Normalizing by the shorter length also allows a short sequence to match completely inside a longer one, provided the temporal tolerance admits those matches.</p>
+<p><strong>ERP prices gaps relative to a reference value.</strong> In <a href="https://www.vldb.org/conf/2004/RS21P2.PDF">Chen and Ng's ERP</a>, matching compares values, while deletion or insertion compares a value with a chosen gap value <code>g</code>. Under absolute local costs, deleting <code>x[i]</code> costs <code>abs(x[i] - g)</code>. A near-baseline sample and a large excursion consequently have different deletion costs. The gap reference expresses what an absent observation should resemble; changing it changes the preferred edits.</p>
+<p><strong>MSM edits through moves, splits and merges.</strong> In <a href="https://crystal.uta.edu/~athitsos/publications/stefan_tkde2012_preprint.pdf">Stefan, Athitsos and Das's formulation</a>, moves cost the absolute value change; duplicating a sample through a split or merging equal adjacent samples has a fixed cost. The dynamic program folds necessary moves into context-dependent insertion and deletion costs, so extending a plateau and inserting an excursion receive different treatment. Its translation invariance concerns shifting both inputs by the same constant. Shifting only one input still changes their relative values.</p>
+<p><strong>TWED makes timestamps part of the edit cost.</strong> <a href="https://arxiv.org/abs/cs/0703033">Marteau's formulation</a> combines value discrepancies, adjacent-sample transitions and explicit time differences. An edit penalty controls insertion and deletion, while a stiffness parameter weights temporal separation. Two identical value sequences sampled on different time grids can therefore differ. Timestamp units matter: replacing seconds with milliseconds changes the temporal contribution unless the stiffness is adjusted. This is a direct way to keep elapsed time relevant while permitting edits.</p>
+<p><strong>ADTW charges for every warping step.</strong> <a href="https://doi.org/10.1016/j.patcog.2023.109333">Herrmann and Webb's amerced DTW</a> adds a fixed penalty to horizontal and vertical steps. Diagonal progress avoids that surcharge. At zero penalty the recurrence becomes ordinary DTW; for equal-length inputs, a sufficiently large penalty favours the diagonal path. A band limits where a path may go. Amercement prices how much non-diagonal movement it uses. Because the penalty competes with local costs, its meaningful scale depends on the amplitude preprocessing and cost definition.</p>
+<h2 id="compare-representations-what-survives-the-transformation">Compare representations: what survives the transformation?</h2>
+<h3 id="fourier-coefficients-and-magnitude-spectra">Fourier coefficients and magnitude spectra</h3>
+<p><a href="https://www.cs.cmu.edu/~christos/PUBLICATIONS.OLDER/fodo.pdf">Agrawal, Faloutsos and Swami</a> use Fourier coefficients for similarity indexing. The complete complex DFT retains phase and, with the appropriate normalization, preserves Euclidean distance through Parseval's identity. Keeping fewer coefficients emphasizes selected frequencies and loses the omitted components.</p>
+<p>Taking only magnitudes makes a further change. For a circular shift, each coefficient receives a unit-magnitude phase factor, so its magnitude remains unchanged. More generally, different phase arrangements can share the same magnitude spectrum while producing different event layouts. Magnitude comparison therefore retains how strongly frequencies occur and discards how their phases combine to locate events. Normalizing spectral energy also removes overall gain. Finite-window shifts that crop or introduce samples need separate treatment because they change the observed signal.</p>
+<h3 id="acf-retain-dependence-at-selected-lags">ACF: retain dependence at selected lags</h3>
+<p>An autocorrelation representation summarizes how values co-vary with their own delayed values. The <a href="https://itl.nist.gov/div898/handbook/eda/section3/eda35c.htm">NIST definition</a> centers the series and normalizes lagged products by total centered energy. Comparing selected lags emphasizes persistence, alternation and recurring timescales.</p>
+<p>Event locations are aggregated, but temporal order still matters through the lagged pairs. Arbitrarily shuffling samples usually changes the ACF. Distinct signals can nevertheless have the same second-order dependence, so matching autocorrelation does not identify a unique waveform or generating process. For finite records, estimator normalization and endpoint treatment affect the result.</p>
+<h3 id="sax-retain-coarse-order-quantize-amplitude">SAX: retain coarse order, quantize amplitude</h3>
+<p><a href="https://www.cs.ucr.edu/~stelo/papers/DMKD07b.pdf">Lin and colleagues' SAX</a> standardizes the series, averages successive segments through piecewise aggregate approximation, and maps those averages into symbols using Gaussian breakpoints. The resulting word preserves segment order while suppressing within-segment detail and within-bin amplitude differences.</p>
+<p>A narrow event can be diluted by segment averaging. A small amplitude change near a breakpoint can change a symbol. The paper's MINDIST uses distances between symbol intervals to lower-bound the corresponding Euclidean distance. A later conversion into a bag of words discards additional ordering information; that loss comes from the bag representation, rather than from the SAX word itself.</p>
+<h3 id="catch22-retain-a-vocabulary-of-dynamical-properties">catch22: retain a vocabulary of dynamical properties</h3>
+<p><a href="https://link.springer.com/article/10.1007/s10618-019-00647-x">Lubba and colleagues' catch22</a> selects 22 complementary statistics covering such properties as autocorrelation, distributions, fluctuations and outliers. Two curves can be close in this feature space because they share these properties despite differing event-by-event.</p>
+<p>The <a href="https://github.com/DynamicsAndNeuralSystems/catch22">authors' implementation</a> computes these features on standardized values; raw mean and standard deviation are additional catch24 features. Feature coordinates also have different scales. A Euclidean comparison between catch22 vectors therefore needs a declared feature-scaling policy, fitted on the reference data when appropriate. The resulting geometry depends on both the extracted statistics and that policy.</p>
+<h2 id="matrix-profile-ask-which-windows-have-neighbours">Matrix Profile: ask which windows have neighbours</h2>
+<p><a href="https://www.cs.ucr.edu/~eamonn/PID4481997_extend_Matrix%20Profile_I.pdf">Yeh and colleagues' Matrix Profile</a> changes the comparison object. For a selected window length <code>m</code>, a profile from series <code>A</code> to series <code>B</code> records</p>
+<pre><code class="language-text">P(A→B)[i] = min over j of d_z(window(A,i,m), window(B,j,m))
+</code></pre>
+<p>Here <code>window(A,i,m)</code> contains <code>m</code> samples starting at <code>i</code>, and the standard construction uses window-wise z-normalized Euclidean distance. Each window retains an internal clock, while its match may occur anywhere in the other record. Self-joins exclude trivial neighbouring matches.</p>
+<p>A small profile entry identifies a close local match. It says little about the rest of either record. Summarizing the minimum asks whether any motif is shared; summarizing coverage or profile quantiles asks how broadly the records resemble one another. The reverse join can give a different picture. Window length determines whether the target is a brief event, a complete cycle or a longer operating regime.</p>
+<h2 id="learned-representations-let-the-objective-shape-the-geometry">Learned representations: let the objective shape the geometry</h2>
+<p><strong>TS2Vec learns contextual representations at multiple scales.</strong> <a href="https://ojs.aaai.org/index.php/AAAI/article/view/20881">Yue and colleagues</a> contrast representations from overlapping, augmented contexts. The objective combines temporal discrimination and discrimination between instances, applied hierarchically. Timestamp representations can be aggregated by max pooling to represent a subsequence or whole series.</p>
+<p>This makes the aggregation choice scientifically consequential. Max pooling retains strong feature activations while compressing their timing and multiplicity. The encoder has already used temporal context, so the pooled representation is not generally invariant to rearranging the raw observations. A useful retrieval study should examine which events activate its coordinates and which transformations change neighbour rankings.</p>
+<p><strong>CoST builds separate seasonal and trend representations.</strong> <a href="https://arxiv.org/abs/2202.01575">Woo and colleagues</a> use causal convolutional experts for trend features and a learnable Fourier layer for seasonal features. Their contrastive objective includes time-domain learning and frequency-domain terms for both amplitude and phase. The learned features support a downstream forecasting regressor.</p>
+<p>The phase term is a particularly useful distinction from magnitude-spectrum comparison: seasonal timing can remain informative. Using CoST features for similarity additionally requires choosing which timestamps to compare, how to combine seasonal and trend coordinates, and how to scale them. Those decisions should reflect whether the desired neighbour shares a waveform, a recurring regime or a forecasting-relevant state.</p>
+<h2 id="seven-transformations-to-inspect-on-the-same-curves">Seven transformations to inspect on the same curves</h2>
+<p>The following are analytical consequences and testable expectations from the mechanisms above. They suggest controlled comparisons without assuming a universal ranking.</p>
+<table>
+<thead>
+<tr>
+<th>Transformation</th>
+<th>What it probes</th>
+<th>Consequence to inspect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constant offset</td>
+<td>Is absolute level meaningful?</td>
+<td>Separate z-normalization and derivatives remove it; raw value costs retain it.</td>
+</tr>
+<tr>
+<td>Positive gain</td>
+<td>Is excursion size meaningful?</td>
+<td>Standardization removes gain; raw slopes and unnormalized spectral magnitudes still change.</td>
+</tr>
+<tr>
+<td>Global shift</td>
+<td>Is the start time arbitrary?</td>
+<td>SBD chooses one lag; circular DFT magnitudes coincide; cropped observations require boundary checks.</td>
+</tr>
+<tr>
+<td>Local time warp</td>
+<td>May relative durations change?</td>
+<td>Elastic paths accommodate it; a shared lag cannot generally align every event.</td>
+</tr>
+<tr>
+<td>Added local event</td>
+<td>Should an unmatched event dominate?</td>
+<td>LCSS may skip it, edit costs price it, and window matching reveals which regions still have neighbours.</td>
+</tr>
+<tr>
+<td>Changed Fourier phase</td>
+<td>Does event placement matter beyond frequency content?</td>
+<td>Magnitude spectra remain identical by construction; waveform comparisons can change substantially.</td>
+</tr>
+<tr>
+<td>Reordered events</td>
+<td>Does sequence order define identity?</td>
+<td>Monotone alignments preserve ordering constraints; feature summaries may merge distinctions. SAX words retain coarse order.</td>
+</tr>
+</tbody>
+</table>
+<p>An informative comparison includes both a transformation that should be tolerated and a nearby change that should remain detectable. For example, delay an entire two-event pattern, then move only its second event. Their difference tests whether the desired invariance concerns the start time or the spacing between events.</p>
+<h3 id="a-controlled-numerical-example">A controlled numerical example</h3>
+<p>The companion's <a href="https://github.com/ZipengWu365/EchoTime/blob/main/tools/build_similarity_lab.py">reproducible generator</a> gives the following results at full perturbation strength. Read each column according to its own definition and units.</p>
+<table>
+<thead>
+<tr>
+<th>Change to the same reference curve</th>
+<th style="text-align: right;">Raw RMSE</th>
+<th style="text-align: right;">z-RMSE</th>
+<th style="text-align: right;">DFT magnitude L2</th>
+<th style="text-align: right;">Adjusted ACF L2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add a constant 1.5</td>
+<td style="text-align: right;">1.5000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12.0000</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Change Fourier phases</td>
+<td style="text-align: right;">1.2423</td>
+<td style="text-align: right;">1.8055</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5108</td>
+</tr>
+<tr>
+<td>Reverse the sample order</td>
+<td style="text-align: right;">1.3198</td>
+<td style="text-align: right;">1.9181</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>The DFT column compares 33 unweighted orthonormal real-FFT magnitudes, including DC. The ACF column compares lags 1–12 using centered products divided by <code>(64-k)</code> times the population variance. The z-RMSE column standardizes each curve separately. A displayed zero here rounds to zero at ten decimal places.</p>
+<p>The constant offset changes only the DC coefficient in the spectrum, explaining its magnitude distance of 12. Phase perturbation preserves Fourier magnitudes while changing this finite-window ACF. Its boundary rule counts only actual overlapping pairs; the 64-point DFT has a circular boundary convention. Exact reversal preserves both: reversing a real sequence preserves spectral magnitudes, and each lagged product has a reversed counterpart. Event order has nevertheless reversed. This is a concrete information loss to consider when choosing a representation.</p>
+<h2 id="three-questions-for-discussion">Three questions for discussion</h2>
+<ol>
+<li>
+<p><strong>How much temporal freedom is justified by the measurement process?</strong> If repeated measurements exhibit a distribution of timing jitter, can that evidence determine a warping band, TWED stiffness or ADTW penalty? Which diagnostic event relationships disappear as the allowance increases?</p>
+</li>
+<li>
+<p><strong>What amount of shared local structure should establish similarity between complete records?</strong> Would one common motif suffice, or should most windows find counterparts in both directions? How should a rare, consequential event influence a profile-based aggregation alongside abundant routine behaviour?</p>
+</li>
+<li>
+<p><strong>Which invariances survive representation learning and pooling?</strong> Under a fixed checkpoint and retrieval protocol, do positive gain, local time warp and phase rearrangement preserve the neighbours that domain experts expect? Can separate seasonal, trend and event-level evaluations explain the failures of a single pooled score?</p>
+</li>
+</ol>
+<p>Answering these questions turns similarity selection into an explicit account of which differences matter. The most informative output is often a score together with the correspondence, matched regions or retained features that made the score possible.</p>
+<hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/what-time-series-similarity-measures.en.md">the versioned Markdown source</a>.
+Share questions, corrections and reproducible examples in
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">GitHub Discussions</a>.</p>
+</main></body></html>

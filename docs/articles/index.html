@@ -47,7 +47,10 @@ body { font-size:16px; } th,td { min-width:150px; } }
 <a href="../articles/index.html">Reading guide</a>
 <a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
 <a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
-<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<a href="../articles/what-time-series-similarity-measures.en.html">Mechanism tour</a>
+<a href="../guide/similarity-lab.html">Interactive lab</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a>
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
 <h1 id="time-series-similarity-articles">Time-series similarity articles</h1>
 <p>These articles compare tasks, mathematical assumptions and software interfaces. They do not report a new cross-library benchmark.</p>
 <table>
@@ -69,8 +72,22 @@ body { font-size:16px; } th,td { min-width:150px; } }
 <td>简体中文</td>
 <td>2026-10-29</td>
 </tr>
+<tr>
+<td><a href="what-time-series-similarity-measures.en.html">What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations</a></td>
+<td>English</td>
+<td>2026-10-29</td>
+</tr>
 </tbody>
 </table>
+<h2 id="compare-mechanisms-on-the-same-curves">Compare mechanisms on the same curves</h2>
+<p>The <a href="../guide/similarity-lab.html">interactive similarity lab</a>
+holds one reference curve fixed while changing offset, gain, global timing, local
+warping, a local event, Fourier phase or sample order. Compare eleven explicit
+method definitions through their actual alignments, features and contributions.
+The new mechanism tour connects those observations to the original papers and
+includes three reproducible numerical examples.</p>
+<p><a href="../assets/similarity-lab/mechanism-comparison.gif">Open the overview GIF</a>
+or <a href="https://github.com/ZipengWu365/EchoTime/discussions">discuss assumptions and suggest examples</a>.</p>
 <h2 id="evidence-ledger">Evidence ledger</h2>
 <p>The ledger was assembled before drafting. Citation roles describe what each source supports; recommendations in the articles are explicitly presented as a proposed evaluation procedure. Software documentation was checked on 2026-10-29. This is a targeted narrative comparison, with no claim of systematic-review completeness. No library speed or accuracy ranking was measured for these articles.</p>
 <table>
@@ -201,5 +218,6 @@ body { font-size:16px; } th,td { min-width:150px; } }
 </ul>
 <p>Review links and implementation notes before reusing this material after package updates. The companion <a href="../references/time-series-similarity-literature.html">literature map</a> records the broader paper inventory.</p>
 <hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/README.md">the versioned Markdown source</a>.
-Corrections and reproducible examples are welcome in the repository.</p>
+Share questions, corrections and reproducible examples in
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">GitHub Discussions</a>.</p>
 </main></body></html>

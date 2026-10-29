@@ -1,0 +1,1082 @@
+<!doctype html>
+<html lang='en'>
+<head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'><title>EchoTime - Explainable time-series similarity for humans and agents.</title><style>
+:root {
+  --page-bg: #000000;
+  --surface: #0a0a0a;
+  --surface-strong: #111111;
+  --surface-sun: rgba(255, 200, 61, 0.05);
+  --surface-sun-strong: rgba(255, 200, 61, 0.1);
+  --sun-500: #FFC83D;
+  --sun-300: #FFE27A;
+  --sun-100: #FFF4C2;
+  --sun-700: #C7950A;
+  --blue-600: #3b82f6;
+  --blue-700: #2563eb;
+  --text-900: #FFFFFF;
+  --text-600: #A1A1AA;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(255, 200, 61, 0.3);
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --radius-lg: 28px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --max-width: 1280px;
+}
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background-color: var(--page-bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 200, 61, 0.08), transparent 50%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05), transparent 50%);
+  color: var(--text-900);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a {
+  color: var(--text-900);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--sun-500);
+}
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+select, input, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-strong);
+  color: var(--text-900);
+  font: inherit;
+}
+.shell {
+  width: min(var(--max-width), calc(100vw - 40px));
+  margin: 0 auto;
+}
+svg, img {
+  max-width: 100%;
+  height: auto;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+}
+.topbar-inner {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 0px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.brand-mark img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.2);
+}
+.brand-copy strong {
+  display: block;
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+}
+.brand-copy span {
+  display: none;
+}
+@media (min-width: 768px) {
+  .brand-copy span {
+    display: block;
+    color: var(--text-600);
+    font-size: 0.85rem;
+  }
+}
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 0.9rem;
+}
+.nav a {
+  color: var(--text-600);
+  font-weight: 500;
+}
+.nav a:hover {
+  color: var(--text-900);
+}
+.section {
+  padding: 80px 0 40px;
+  position: relative;
+}
+.section-head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.1);
+  color: var(--sun-500);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.1);
+}
+.hero {
+  padding: 100px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-canvas-container {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.8;
+  pointer-events: none;
+}
+@media (max-width: 1280px) {
+  .hero-canvas-container {
+    width: 100%;
+    right: 0;
+    opacity: 0.4;
+  }
+}
+.hero-content {
+  max-width: 760px;
+  position: relative;
+  z-index: 2;
+}
+.hero-content p {
+  margin-top: 24px;
+}
+.hero-grid, .grid-2, .grid-3 {
+  display: grid;
+  gap: 32px;
+}
+.hero-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: start;
+}
+.grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.showcase-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 1280px) {
+  .showcase-split {
+    grid-template-columns: 1fr;
+  }
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at top left, rgba(255, 200, 61, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.card:hover {
+  border-color: rgba(255, 200, 61, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 200, 61, 0.05);
+  transform: translateY(-2px);
+}
+.card:hover::before {
+  opacity: 1;
+}
+.card.sun {
+  background: var(--surface);
+}
+.card.soft {
+  background: var(--surface);
+}
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.feature-card p,
+.card p {
+  margin: 0;
+  color: var(--text-600);
+}
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.trust-strip, .trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.logo-chip, .trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-600);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.logo-dot, .trust-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sun-500);
+  box-shadow: 0 0 8px var(--sun-500);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text-600);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.pill:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-900);
+}
+.pill.sun {
+  border-color: rgba(255, 200, 61, 0.3);
+  background: rgba(255, 200, 61, 0.05);
+  color: var(--sun-500);
+}
+.pill.blue {
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--blue-600);
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.button.primary {
+  background: var(--text-900);
+  color: var(--page-bg);
+}
+.button.primary:hover {
+  background: var(--sun-500);
+  box-shadow: 0 0 20px rgba(255, 200, 61, 0.4);
+  transform: translateY(-2px);
+}
+.button.secondary {
+  background: var(--surface-strong);
+  color: var(--text-900);
+  border-color: var(--border);
+}
+.button.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+.button.ghost {
+  background: transparent;
+  color: var(--text-600);
+}
+.button.ghost:hover {
+  color: var(--text-900);
+}
+.button.text {
+  padding: 0;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--blue-700);
+}
+h1, h2, h3 {
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+h1 {
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.scanline-text {
+  background-image:
+    repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px),
+    linear-gradient(180deg, #FFFFFF 0%, #a1a1aa 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  padding-bottom: 0.1em;
+}
+h2 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.subhead, .lead, .muted {
+  color: var(--text-600);
+}
+.subhead {
+  max-width: 48rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.lead {
+  margin: 0;
+  max-width: 60rem;
+  font-size: 1.1rem;
+}
+.hero-stat {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.hero-stage {
+  display: grid;
+  gap: 18px;
+}
+.stat {
+  border: 1px solid rgba(255, 200, 61, 0.28);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 244, 194, 0.05);
+  padding: 12px 14px;
+}
+.stat strong {
+  display: block;
+  font-size: 1.2rem;
+}
+.panel-list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.step {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+}
+.step-number {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--sun-500);
+  color: var(--page-bg);
+  font-weight: 800;
+}
+.code-block, pre {
+  margin: 0;
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: #0d0d0d;
+  color: #e5e7eb;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+pre::before {
+  content: '';
+  display: block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+  margin-bottom: 16px;
+}
+.surface-frame {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  overflow: hidden;
+}
+.surface-frame.pad {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-sm);
+  display: block;
+  overflow-x: auto;
+}
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: #111111;
+  color: var(--text-600);
+  font-size: 0.92rem;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+iframe.demo {
+  width: 100%;
+  min-height: 460px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+}
+img.brand-card {
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-sm);
+}
+.footer {
+  padding: 40px 0 60px;
+  color: var(--text-600);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+.diagram {
+  display: grid;
+  gap: 14px;
+}
+.diagram-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.diagram-arrow {
+  color: var(--blue-700);
+  font-weight: 800;
+}
+.diagram-band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.diagram-card {
+  padding: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 200, 61, 0.05);
+}
+.note-box {
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.95rem;
+  width: 100%;
+  color: var(--sun-500);
+  font-weight: 500;
+  font-style: italic;
+}
+.note-box.info {
+  border-left: 3px solid var(--sun-500);
+  background: transparent;
+  color: var(--sun-500);
+}
+.note-box.warn {
+  border-color: rgba(255, 200, 61, 0.45);
+  background: rgba(255, 244, 194, 0.05);
+}
+.author-meta {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+.callout {
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 200, 61, 0.2);
+  background: radial-gradient(circle at center, rgba(255, 200, 61, 0.08) 0%, #0a0a0a 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.callout .section-head {
+  align-items: center;
+  text-align: center;
+}
+@media (max-width: 1280px) {
+  .topbar-inner {
+    padding: 16px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .hero-grid, .grid-2, .grid-3, .workflow, .diagram-band, .hero-stat, .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+svg text { fill: #A1A1AA; }
+svg text[fill='#1F2937'] { fill: #FFFFFF; }
+svg rect[fill='white'], svg rect[fill='#ffffff'] { fill: transparent; }
+svg rect[stroke='#E5E7EB'] { stroke: rgba(255, 255, 255, 0.1); }
+svg line[stroke='#E5E7EB'], svg line[stroke='#F3F4F6'] { stroke: rgba(255, 255, 255, 0.1); }
+svg rect[fill='#F3F4F6'] { fill: rgba(255, 255, 255, 0.05); }
+svg polyline[stroke='#2F6BFF'] { stroke: var(--sun-500); filter: drop-shadow(0 0 5px rgba(255, 200, 61, 0.5)); }
+svg polyline[stroke='#C7950A'] { stroke: var(--text-600); }
+
+    .home-grid { display:grid; grid-template-columns: 1.05fr 0.95fr; gap: 22px; align-items:start; }
+    .home-grid-2, .home-grid-3 { display:grid; gap: 20px; }
+    .home-grid-2 { grid-template-columns: 1fr 1fr; }
+    .home-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .trust-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+    .trust-chip { display:inline-flex; align-items:center; gap:8px; padding: 7px 12px; border-radius: 999px; border:1px solid var(--border); background: var(--surface-strong); color: var(--text-600); font-size:0.86rem; font-weight:700; }
+    .trust-dot { width:8px; height:8px; border-radius:999px; background: linear-gradient(135deg, var(--sun-500), var(--blue-600)); }
+    .docs-tiles { display:grid; gap: 16px; }
+    .docs-tile { display:grid; gap: 8px; padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface-strong); }
+    .showcase-grid { display:grid; gap:20px; }
+    .section-copy { max-width: 54rem; }
+    .intuition-panel { display:grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr); gap: 0; align-items: stretch; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .timeline-stage { position: relative; min-height: 420px; padding: 34px; background: radial-gradient(circle at 22% 22%, rgba(255, 200, 61, 0.1), transparent 30%), linear-gradient(180deg, #111111 0%, #070707 100%); overflow: hidden; }
+    .timeline-stage::before { content: ""; position: absolute; inset: 34px; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 46px 46px; mask-image: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.2)); pointer-events: none; }
+    .timeline-stage svg { position: relative; z-index: 1; width: 100%; height: 100%; min-height: 310px; display: block; }
+    .series-fill { opacity: 0.16; }
+    .series-line { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 760; animation: traceLine 5.5s ease-in-out infinite; }
+    .series-line.reference { stroke: var(--sun-500); filter: drop-shadow(0 0 10px rgba(255, 200, 61, 0.45)); }
+    .series-line.candidate { stroke: var(--blue-600); stroke-dasharray: 720; animation-delay: 0.45s; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.35)); }
+    .window-band { animation: driftWindow 5.5s ease-in-out infinite; }
+    .pulse-node { transform-origin: center; animation: pulseNode 2.8s ease-in-out infinite; }
+    .pulse-node.delay-1 { animation-delay: 0.4s; }
+    .pulse-node.delay-2 { animation-delay: 0.8s; }
+    .metric-strip { position: absolute; left: 34px; right: 34px; bottom: 28px; z-index: 2; display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .metric-tile { border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); background: rgba(10,10,10,0.72); backdrop-filter: blur(10px); padding: 12px; min-width: 0; }
+    .metric-tile strong { display:block; font-size: 0.94rem; color: var(--text-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metric-tile span { display:block; margin-top: 2px; color: var(--text-600); font-size: 0.78rem; line-height: 1.35; }
+    .timeline-label { position: absolute; top: 28px; left: 34px; z-index: 2; color: var(--text-600); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .intuition-points { display:flex; flex-direction: column; justify-content: center; gap: 22px; padding: 40px 36px; border-left: 1px solid var(--border); background: #0a0a0a; }
+    .intuition-point { display:grid; grid-template-columns: 16px minmax(0, 1fr); gap: 14px; align-items: start; }
+    .point-dot { width: 10px; height: 10px; margin-top: 8px; border-radius: 999px; background: var(--sun-500); box-shadow: 0 0 12px rgba(255, 200, 61, 0.55); }
+    .intuition-point:nth-child(2) .point-dot { background: var(--blue-600); box-shadow: 0 0 12px rgba(59, 130, 246, 0.45); }
+    .intuition-point:nth-child(3) .point-dot { background: var(--text-900); box-shadow: 0 0 12px rgba(255, 255, 255, 0.3); }
+    .intuition-point h3 { margin: 0 0 6px; font-size: 1.08rem; letter-spacing: 0; }
+    .intuition-point p { margin: 0; color: var(--text-600); font-size: 0.94rem; line-height: 1.55; }
+    @media (max-width: 980px) {
+      .home-grid, .home-grid-2, .home-grid-3, .intuition-panel { grid-template-columns: 1fr; }
+      .intuition-points { border-left: 0; border-top: 1px solid var(--border); }
+      .timeline-stage { min-height: 360px; padding: 24px; }
+      .metric-strip { left: 24px; right: 24px; bottom: 22px; grid-template-columns: 1fr; }
+    }
+    @keyframes traceLine { 0% { stroke-dashoffset: 760; opacity: 0.35; } 35%, 72% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: -760; opacity: 0.4; } }
+    @keyframes driftWindow { 0%, 100% { transform: translateX(0); opacity: 0.22; } 50% { transform: translateX(92px); opacity: 0.42; } }
+    @keyframes pulseNode { 0%, 100% { r: 5; opacity: 0.75; } 50% { r: 8; opacity: 1; } }
+    @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 200, 61, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 200, 61, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 200, 61, 0); } }
+    @keyframes scanline { 0% { top: -10px; } 100% { top: 100%; } }
+    </style></head>
+<body>
+<header class='topbar'>
+  <div class='shell topbar-inner'>
+    <div class='brand' style='display: flex; align-items: center; gap: 14px;'>
+      <img src='logo.png' alt='EchoTime logo' style='width: 140px; height: auto; object-fit: contain;'>
+      <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
+    </div>
+
+    <nav class='nav'>
+      <a href='guide/index.html'>Docs</a>
+      <a href='guide/getting-started.html'>Getting started</a>
+      <a href='guide/tutorials.html'>Tutorials</a>
+      <a href='guide/api.html'>API</a>
+      <a href='playground.html'>Playground</a>
+      <a href='https://github.com/ZipengWu365/EchoTime'>GitHub</a>
+    </nav>
+  </div>
+</header>
+<main class='shell'>
+  <section class='hero'>
+    <!-- Dynamic Canvas Animation -->
+    <div class="hero-canvas-container">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+
+    <div class="hero-content">
+      <div class='eyebrow'>EchoTime 1.0</div>
+      <h1 class="scanline-text">Compare time series and datasets with explainable structural similarity.</h1>
+      <p class='subhead'>EchoTime compares time series and time-series datasets, explains why they match or differ, and emits compact JSON plus shareable HTML reports. The homepage is intentionally short. Tutorials, API material, and ecosystem detail now live in dedicated docs pages with a left sidebar.</p>
+      <div class='badge-row'><span class='pill'>MIT License</span><span class='pill'>Beta release</span><span class='pill'>Agent tools</span><span class='pill'>GitHub Pages</span><span class='pill'>The University of Birmingham</span></div>
+        <div class='button-row'>
+          <a class='button primary' href='guide/getting-started.html'>Read the getting-started guide</a>
+          <a class='button secondary' href='guide/tutorials.html'>Browse tutorials</a>
+          <a class='button ghost' href='playground.html?case=openclaw_breakout_analogs'>Open playground</a>
+        </div>
+        <div class='trust-row'>
+          <span class='trust-chip'><span class='trust-dot'></span>MIT License</span>
+          <span class='trust-chip'><span class='trust-dot'></span>Beta release</span>
+          <span class='trust-chip'><span class='trust-dot'></span>The University of Birmingham</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+    <section class='section'>
+    <div class='section-head'>
+      <div class='eyebrow'>Why EchoTime?</div>
+      <h2>Designed for human intuition and agent reasoning</h2>
+      <p class='lead section-copy'>Stop trusting black-box scalars. EchoTime breaks down structural similarity into explainable components.</p>
+    </div>
+    <div class='intuition-panel'>
+      <div class='timeline-stage' aria-label='Animated EchoTime time-series comparison'>
+        <div class='timeline-label'>rolling similarity timeline</div>
+        <svg viewBox='0 0 680 360' role='img' aria-label='Two time-series curves being compared over rolling windows'>
+          <defs>
+            <linearGradient id='reference-fill' x1='0' y1='0' x2='0' y2='1'>
+              <stop offset='0%' stop-color='var(--sun-500)' stop-opacity='0.55'/>
+              <stop offset='100%' stop-color='var(--sun-500)' stop-opacity='0'/>
+            </linearGradient>
+            <linearGradient id='candidate-fill' x1='0' y1='0' x2='0' y2='1'>
+              <stop offset='0%' stop-color='var(--blue-600)' stop-opacity='0.45'/>
+              <stop offset='100%' stop-color='var(--blue-600)' stop-opacity='0'/>
+            </linearGradient>
+          </defs>
+          <rect class='window-band' x='88' y='60' width='118' height='210' rx='18' fill='var(--sun-500)' opacity='0.26'/>
+          <path class='series-fill' fill='url(#reference-fill)' d='M40 260 C90 238 110 158 165 170 C224 183 242 88 306 102 C360 114 374 210 430 194 C486 178 504 94 560 110 C610 124 632 184 650 154 L650 300 L40 300 Z'/>
+          <path class='series-fill' fill='url(#candidate-fill)' d='M40 274 C100 250 116 194 165 202 C228 212 252 130 306 138 C370 146 382 232 430 220 C500 204 510 128 560 142 C608 154 632 214 650 178 L650 300 L40 300 Z'/>
+          <path class='series-line reference' d='M40 260 C90 238 110 158 165 170 C224 183 242 88 306 102 C360 114 374 210 430 194 C486 178 504 94 560 110 C610 124 632 184 650 154'/>
+          <path class='series-line candidate' d='M40 274 C100 250 116 194 165 202 C228 212 252 130 306 138 C370 146 382 232 430 220 C500 204 510 128 560 142 C608 154 632 214 650 178'/>
+          <line x1='40' y1='300' x2='650' y2='300' stroke='rgba(255,255,255,0.16)'/>
+          <line x1='40' y1='66' x2='40' y2='300' stroke='rgba(255,255,255,0.16)'/>
+          <circle class='pulse-node' cx='306' cy='102' r='5' fill='var(--sun-500)'/>
+          <circle class='pulse-node delay-1' cx='430' cy='220' r='5' fill='var(--blue-600)'/>
+          <circle class='pulse-node delay-2' cx='560' cy='110' r='5' fill='var(--sun-500)'/>
+          <text x='48' y='332'>raw signal</text>
+          <text x='296' y='332'>profile</text>
+          <text x='552' y='332'>agent context</text>
+        </svg>
+        <div class='metric-strip'>
+          <div class='metric-tile'><strong>Profile</strong><span>dataset structure first</span></div>
+          <div class='metric-tile'><strong>Compare</strong><span>shape, trend, rhythm</span></div>
+          <div class='metric-tile'><strong>Explain</strong><span>JSON plus narrative</span></div>
+        </div>
+      </div>
+      <div class='intuition-points'>
+        <div class='intuition-point'>
+          <span class='point-dot'></span>
+          <div>
+            <h3>Explainable by default</h3>
+            <p>Similarity is shown as components a person can inspect, not just one opaque score.</p>
+          </div>
+        </div>
+        <div class='intuition-point'>
+          <span class='point-dot'></span>
+          <div>
+            <h3>Domain agnostic</h3>
+            <p>The same workflow fits finance, healthcare, traffic, climate, logs, and research cohorts.</p>
+          </div>
+        </div>
+        <div class='intuition-point'>
+          <span class='point-dot'></span>
+          <div>
+            <h3>Agent ready</h3>
+            <p>Compact outputs let tool-calling agents carry the result without dragging around oversized reports.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='section-head'>
+      <div class='eyebrow'>Quickstart</div>
+      <h2>The first interaction is obvious</h2>
+    </div>
+    <div class='home-grid-2' style='grid-template-columns: 1fr 1fr; gap: 20px;'>
+      <div class='card feature-card'>
+        <span class='pill sun'>Installation & Copy-paste</span>
+        <pre style='font-size: 0.8rem; padding: 16px; margin: 0;'><code>pip install echotime
+python -c &quot;import numpy as np; from echotime import compare_series; x=np.sin(np.linspace(0,8*np.pi,128)); y=np.sin(np.linspace(0,8*np.pi,128)+0.2); print(compare_series(x,y).to_summary_card_markdown())&quot;</code></pre>
+      </div>
+      <div class='card feature-card'>
+        <span class='pill blue'>Expected output</span>
+        <pre style='font-size: 0.8rem; padding: 16px; margin: 0;'><code># EchoTime similarity summary
+
+**Compared:** left vs right
+
+## Headline</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='section-head'>
+      <div class='eyebrow'>Showcase</div>
+      <h2>One strong example, then deeper material in docs</h2>
+      <p class='lead section-copy'>The homepage only needs enough proof to earn a click into the docs. It should not carry the whole manual.</p>
+    </div>
+    <div class='home-grid-2' style='grid-template-columns: 1fr 1fr; gap: 20px;'>
+      <div class='card feature-card' style='padding: 0; overflow: hidden; display: flex; flex-direction: column;'>
+        <div style='background: var(--surface-strong); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: center; align-items: center;'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='620' height='250' viewBox='0 0 620 250' role='img' aria-label='EchoTime series preview'><title>EchoTime series preview</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Series preview</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><polyline points='40.0,221.6 44.7,218.6 49.4,215.4 54.1,212.3 58.8,209.2 63.5,206.1 68.2,203.0 72.9,199.9 77.6,197.1 82.4,194.3 87.1,191.6 91.8,188.8 96.5,186.1 101.2,183.2 105.9,180.3 110.6,177.4 115.3,174.5 120.0,171.7 124.7,169.0 129.4,166.5 134.1,164.2 138.8,162.0 143.5,160.1 148.2,158.4 152.9,156.7 157.6,155.1 162.4,153.7 167.1,152.3 171.8,150.8 176.5,149.3 181.2,147.8 185.9,146.4 190.6,145.0 195.3,143.6 200.0,142.3 204.7,141.1 209.4,139.8 214.1,138.5 218.8,137.2 223.5,135.9 228.2,134.7 232.9,133.3 237.6,131.9 242.4,130.5 247.1,129.0 251.8,127.5 256.5,126.0 261.2,124.4 265.9,123.0 270.6,121.6 275.3,120.4 280.0,119.3 284.7,118.2 289.4,117.1 294.1,116.1 298.8,114.8 303.5,113.6 308.2,112.2 312.9,110.9 317.6,109.5 322.4,108.1 327.1,106.8 331.8,105.3 336.5,104.1 341.2,102.9 345.9,101.8 350.6,100.5 355.3,99.3 360.0,98.1 364.7,97.1 369.4,95.8 374.1,94.4 378.8,92.8 383.5,91.4 388.2,89.8 392.9,88.4 397.6,87.1 402.4,85.7 407.1,84.4 411.8,83.1 416.5,81.9 421.2,80.8 425.9,79.6 430.6,78.3 435.3,77.1 440.0,75.6 444.7,74.0 449.4,72.4 454.1,70.8 458.8,69.2 463.5,67.7 468.2,66.2 472.9,64.9 477.6,63.6 482.4,62.4 487.1,61.0 491.8,59.7 496.5,58.4 501.2,57.0 505.9,55.5 510.6,53.9 515.3,52.2 520.0,50.5 524.7,49.0 529.4,47.4 534.1,45.9 538.8,44.5 543.5,43.1 548.2,41.9 552.9,40.5 557.6,39.1 562.4,37.7 567.1,36.1 571.8,34.5 576.5,32.7 581.2,31.0 585.9,29.2 590.6,27.4 595.3,25.7 600.0,24.0' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='46' y='42' font-size='11' fill='#3b82f6'>OpenClaw-style candidate</text><polyline points='40.0,222.0 44.7,219.5 49.4,216.8 54.1,214.3 58.8,211.6 63.5,209.0 68.2,206.5 72.9,203.8 77.6,201.4 82.4,199.1 87.1,196.6 91.8,194.2 96.5,191.6 101.2,189.2 105.9,186.6 110.6,184.0 115.3,181.4 120.0,178.8 124.7,176.3 129.4,173.8 134.1,171.6 138.8,169.5 143.5,167.7 148.2,165.8 152.9,164.1 157.6,162.3 162.4,160.7 167.1,159.1 171.8,157.6 176.5,156.2 181.2,154.5 185.9,153.1 190.6,151.9 195.3,150.8 200.0,149.7 204.7,148.7 209.4,147.7 214.1,146.8 218.8,145.9 223.5,144.8 228.2,143.8 232.9,142.4 237.6,141.1 242.4,139.7 247.1,138.6 251.8,137.3 256.5,136.1 261.2,135.0 265.9,133.9 270.6,132.7 275.3,131.6 280.0,130.5 284.7,129.2 289.4,127.9 294.1,126.7 298.8,125.4 303.5,124.1 308.2,122.8 312.9,121.6 317.6,120.4 322.4,119.1 327.1,117.9 331.8,116.8 336.5,115.8 341.2,114.6 345.9,113.4 350.6,112.1 355.3,110.8 360.0,109.5 364.7,108.1 369.4,106.8 374.1,105.5 378.8,104.2 383.5,103.0 388.2,101.7 392.9,100.5 397.6,99.3 402.4,98.0 407.1,96.7 411.8,95.3 416.5,93.9 421.2,92.5 425.9,91.1 430.6,89.6 435.3,88.2 440.0,86.8 444.7,85.4 449.4,84.1 454.1,82.8 458.8,81.5 463.5,80.0 468.2,78.7 472.9,77.1 477.6,75.6 482.4,74.0 487.1,72.5 491.8,70.9 496.5,69.5 501.2,67.9 505.9,66.5 510.6,65.1 515.3,63.7 520.0,62.1 524.7,60.6 529.4,59.0 534.1,57.5 538.8,55.8 543.5,54.1 548.2,52.3 552.9,50.6 557.6,49.0 562.4,47.3 567.1,45.7 571.8,44.2 576.5,42.5 581.2,40.9 585.9,39.3 590.6,37.5 595.3,35.7 600.0,33.9' fill='none' stroke='#C7950A' stroke-width='2.5' stroke-dasharray='5 4'/><text x='120' y='42' font-size='11' fill='#C7950A'>durable breakout analog</text></svg>
+        </div>
+        <div style='padding: 24px; flex-grow: 1;'>
+          <span class='pill blue'>Explainable Similarity</span>
+          <h3 style='margin-top: 12px;'>Plain-English similarity preview</h3>
+          <pre style='font-size: 0.8rem; padding: 16px; margin: 16px 0 0 0;'><code># EchoTime similarity summary
+
+**Compared:** OpenClaw-style candidate vs durable breakout analog
+
+## Headline
+
+OpenClaw-style candidate vs durable breakout analog: Pearson r 1.00, Spearman rho 1.00, Kendall tau 1.00. The best agreement appears in spectral similarity and trend similarity.
+
+## Familiar statistics
+
+| metric | value |
+|---|---:|
+| Pearson r | 1.000 |
+| Spearman rho | 1.000 |
+| Kendall tau | 1.000 |
+| Best-lag Pearson r | 1.000 |
+| Mutual info | 0.805 |
+| First-difference r | 0.924 |
+
+## Time-series-specific metrics
+
+| plain-language label | score |
+|---|---:|
+| spectral similarity | 0.988 |
+| trend similarity | 0.983 |
+| shape similarity | 0.961 |
+| derivative similarity | 0.924 |
+
+## Recommended next actions
+
+- Plot both series after z-score normalization to show the shared shape without scale differences.
+- Run rolling or windowed similarity if you expect the relationship to change over time.
+- Use structural-profile similarity when scales, frequencies, or observation modes differ too much for raw-shape comparison.
+- For cumulative or monotonic inputs, compare first differences or daily increments before making an analog claim.
+- Inspect spectral or seasonality-aware models because the two series share rhythm strongly.</code></pre>
+        </div>
+      </div>
+      <div class='card feature-card' style='padding: 0; overflow: hidden; display: flex; flex-direction: column;'>
+        <div style='background: var(--surface-strong); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: center; align-items: center;'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='620' height='250' viewBox='0 0 620 250' role='img' aria-label='EchoTime similarity components'><title>EchoTime similarity components</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Similarity components</text><text x='16' y='40' font-size='11' fill='#A1A1AA'>Component mean 0.95 across 5 time-series metrics.</text><text x='16' y='62.0' font-size='12' fill='#FFFFFF'>Spectral</text><rect x='160' y='48.0' width='440.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='48.0' width='434.8' height='16' rx='8' fill='#FFC83D'/><text x='598.0' y='61.0' font-size='11' fill='#A1A1AA' text-anchor='end'>0.99</text><text x='16' y='98.8' font-size='12' fill='#FFFFFF'>Trend</text><rect x='160' y='84.8' width='440.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='84.8' width='432.7' height='16' rx='8' fill='#FFC83D'/><text x='598.0' y='97.8' font-size='11' fill='#A1A1AA' text-anchor='end'>0.98</text><text x='16' y='135.6' font-size='12' fill='#FFFFFF'>Shape</text><rect x='160' y='121.6' width='440.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='121.6' width='422.9' height='16' rx='8' fill='#FFC83D'/><text x='598.0' y='134.6' font-size='11' fill='#A1A1AA' text-anchor='end'>0.96</text><text x='16' y='172.4' font-size='12' fill='#FFFFFF'>Derivative</text><rect x='160' y='158.4' width='440.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='158.4' width='406.6' height='16' rx='8' fill='#FFC83D'/><text x='598.0' y='171.4' font-size='11' fill='#A1A1AA' text-anchor='end'>0.92</text><text x='16' y='209.2' font-size='12' fill='#FFFFFF'>DTW</text><rect x='160' y='195.2' width='440.0' height='16' rx='8' fill='#F3F4F6'/><rect x='160' y='195.2' width='386.6' height='16' rx='8' fill='#FFC83D'/><text x='598.0' y='208.2' font-size='11' fill='#A1A1AA' text-anchor='end'>0.88</text></svg>
+        </div>
+        <div style='padding: 24px; flex-grow: 1;'>
+          <span class='pill sun'>Diagnostics</span>
+          <h3 style='margin-top: 12px;'>Similarity components</h3>
+          <p style='margin-top: 8px; color: var(--text-600); font-size: 0.95rem; line-height: 1.6;'>Understand exactly which structural elements match and which don't, breaking down the similarity score. Trace the origin of the similarity index to specific time-series characteristics.</p>
+        </div>
+      </div>
+    <div class='card feature-card' style='padding: 0; overflow: hidden; display: flex; flex-direction: column; margin-top: 20px;'>
+      <div style='background: var(--surface-strong); border-bottom: 1px solid var(--border); padding: 20px; display: flex; justify-content: center; align-items: center; overflow-x: auto;'>
+        <svg xmlns='http://www.w3.org/2000/svg' width='620' height='250' viewBox='0 0 620 250' role='img' aria-label='Rolling component mean'><title>Rolling component mean</title><rect width='100%' height='100%' fill='white'/><text x='16' y='24' font-size='16' font-weight='700' fill='#FFFFFF'>Rolling component mean</text><line x1='40' y1='24' x2='40' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='212' x2='700' y2='212' stroke='rgba(255, 255, 255, 0.1)'/><line x1='40' y1='134' x2='700' y2='134' stroke='#F3F4F6' stroke-dasharray='4 4'/><polyline points='40.0,111.3 68.0,63.5 96.0,62.1 124.0,72.6 152.0,84.0 180.0,86.0 208.0,108.9 236.0,158.1 264.0,178.7 292.0,178.9 320.0,181.3 348.0,183.3 376.0,176.6 404.0,178.4 432.0,181.2 460.0,180.0 488.0,182.8 516.0,185.4 544.0,179.7 572.0,181.9 600.0,185.6' fill='none' stroke='#3b82f6' stroke-width='2.5'/><text x='40' y='42' font-size='13' fill='#2563eb'>mean=0.45, min=0.22, max=0.96 across per-window metric means</text></svg>
+      </div>
+      <div style='padding: 24px; flex-grow: 1;'>
+        <span class='pill blue'>Stability over time</span>
+        <h3 style='margin-top: 12px;'>Rolling component mean</h3>
+        <p style='margin-top: 8px; color: var(--text-600); font-size: 0.95rem; line-height: 1.6;'>Analyze how the similarity between the two series evolves over time. The breakdown shows whether the structural relationship is durable or just a short-lived artifact.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='section-head'>
+      <div class='eyebrow'>Flagship demos</div>
+      <h2>Built to travel beyond the docs</h2>
+    </div>
+    <div class='home-grid-3'>
+      <a href='blog/github_breakout_analogs.html' style='text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;'><div class='card feature-card' style='display: flex; flex-direction: column; flex-grow: 1; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;' onmouseover='this.style.transform="translateY(-2px)"; this.style.boxShadow="var(--shadow-md)"' onmouseout='this.style.transform="none"; this.style.boxShadow="var(--shadow-sm)"'><span class='pill blue'>Compare DeepSeek and Threads pageview trajectories</span><p style='flex-grow: 1;'>Inspect cumulative Wikimedia pageviews for DeepSeek and Threads across their selected attention windows.</p><div class='note-box info'>→ Compare two cumulative pageview trajectories</div></div></a><a href='blog/btc_vs_gold_under_shocks.html' style='text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;'><div class='card feature-card' style='display: flex; flex-direction: column; flex-grow: 1; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;' onmouseover='this.style.transform="translateY(-2px)"; this.style.boxShadow="var(--shadow-md)"' onmouseout='this.style.transform="none"; this.style.boxShadow="var(--shadow-sm)"'><span class='pill blue'>Compare BTC and VIX in 2024</span><p style='flex-grow: 1;'>Inspect whole-window and rolling similarity between the BTC price and VIX series in the bundled 2024 data.</p><div class='note-box info'>→ Inspect how BTC–VIX similarity varies across windows</div></div></a><a href='blog/heatwave_vs_grid_load.html' style='text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;'><div class='card feature-card' style='display: flex; flex-direction: column; flex-grow: 1; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;' onmouseover='this.style.transform="translateY(-2px)"; this.style.boxShadow="var(--shadow-md)"' onmouseout='this.style.transform="none"; this.style.boxShadow="var(--shadow-sm)"'><span class='pill blue'>Compare Phoenix and Las Vegas temperatures</span><p style='flex-grow: 1;'>Profile daily maximum temperatures in Phoenix and Las Vegas over the selected 2024 heatwave window.</p><div class='note-box info'>→ Inspect temperature patterns across two cities</div></div></a>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='callout'>
+      <div class='section-head'>
+        <div class='eyebrow'>Next step</div>
+        <h2>Use the docs like a docs site, not like a landing page appendix</h2>
+        <p class='lead'>If you want tutorials, API detail, or <a href='guide/ecosystem.html'>ecosystem guidance</a>, go to the left-sidebar docs area. That separation is what makes the site easier to scan and easier to trust.</p>
+      </div>
+      <div class='button-row'>
+        <a class='button primary' href='guide/index.html'>Open documentation</a>
+        <a class='button secondary' href='guide/api.html'>Open API reference</a>
+        <a class='button secondary' href='guide/agents.html'>Open agent tools guide</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class='shell footer'>
+  <div>
+    EchoTime homepage for product overview. Tutorials and reference content live in the <a href='guide/index.html'>documentation section</a>.
+  </div>
+  <div>
+    Maintainers: <a href="mailto:zxw365@student.bham.ac.uk">Zipeng Wu</a>, The University of Birmingham &nbsp;|&nbsp; <a href="mailto:jc15u24@soton.ac.uk">Jiajun Chen</a>, The University of Southampton
+  </div>
+</footer>
+
+<script>
+  // 3D Cube + Particles Animation
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    w = canvas.width = rect.width;
+    h = canvas.height = rect.height;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor(x, y, vx, vy, life) {
+      this.x = x;
+      this.y = y;
+      this.vx = vx;
+      this.vy = vy;
+      this.life = life;
+      this.maxLife = life;
+      this.size = Math.random() * 2 + 1;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life--;
+      this.vy += 0.02; // slight gravity
+      this.vx *= 0.98; // air resistance
+    }
+
+    draw(ctx) {
+      const alpha = (this.life / this.maxLife) * 0.7;
+      ctx.fillStyle = `rgba(255, 200, 61, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  let particles = [];
+
+  const vertices = [
+    [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+    [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]
+  ];
+
+  const edges = [
+    [0, 1], [1, 2], [2, 3], [3, 0], // back
+    [4, 5], [5, 6], [6, 7], [7, 4], // front
+    [0, 4], [1, 5], [2, 6], [3, 7]  // connecting
+  ];
+
+  let angleX = 0;
+  let angleY = 0;
+
+  function project(x, y, z) {
+    const scale = Math.min(w, h) * 0.35;
+    const distance = 3;
+    const zProjected = 1 / (distance - z);
+    const px = x * zProjected * scale + w / 2;
+    const py = y * zProjected * scale + h / 2;
+    return [px, py];
+  }
+
+  function rotateX(v, angle) {
+    const [x, y, z] = v;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return [x, y * cos - z * sin, y * sin + z * cos];
+  }
+
+  function rotateY(v, angle) {
+    const [x, y, z] = v;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return [x * cos + z * sin, y, -x * sin + z * cos];
+  }
+
+  function rotateZ(v, angle) {
+    const [x, y, z] = v;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return [x * cos - y * sin, x * sin + y * cos, z];
+  }
+
+  function emitParticles() {
+    if (Math.random() < 0.3) {
+      const emission = Math.floor(Math.random() * 2) + 1;
+      for (let i = 0; i < emission; i++) {
+        const x = w / 2 + (Math.random() - 0.5) * (Math.min(w, h) * 0.9);
+        const y = h / 2 + (Math.random() - 0.5) * (Math.min(w, h) * 0.9);
+        const vx = (Math.random() - 0.5) * 1.5;
+        const vy = (Math.random() - 0.5) * 1.5 - 0.5;
+        particles.push(new Particle(x, y, vx, vy, Math.random() * 60 + 40));
+      }
+    }
+
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+      p.update();
+      p.draw(ctx);
+    });
+  }
+
+  function animate(time) {
+    ctx.clearRect(0, 0, w, h);
+
+    angleX += 0.002;
+    angleY += 0.003;
+    const angleZ = Math.sin(time * 0.0005) * 0.2;
+
+    ctx.strokeStyle = 'rgba(255, 200, 61, 0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = 'rgba(255, 200, 61, 0.5)';
+    ctx.lineJoin = 'round';
+
+    const projected = vertices.map(v => {
+      let r = rotateX(v, angleX);
+      r = rotateY(r, angleY);
+      r = rotateZ(r, angleZ);
+      return project(...r);
+    });
+
+    ctx.beginPath();
+    edges.forEach(edge => {
+      const [p1, p2] = edge;
+      ctx.moveTo(projected[p1][0], projected[p1][1]);
+      ctx.lineTo(projected[p2][0], projected[p2][1]);
+    });
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = '#FFFFFF';
+    projected.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 2, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    emitParticles();
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+</script>
+
+
+</body>
+</html>

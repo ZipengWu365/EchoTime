@@ -1019,6 +1019,9 @@ def project_docs_home_html(*, version: str = PACKAGE_VERSION) -> str:
       Read it in <a href='../articles/time-series-similarity-guide.en.html'>English</a>
       or <a href='../articles/time-series-similarity-guide.zh-CN.html' lang='zh-CN'>中文</a>,
       and follow the <a href='../references/time-series-similarity-literature.html'>primary-source paper index</a>.</p>
+      <p>For a mechanism-level comparison, read <a href='../articles/what-time-series-similarity-measures.en.html'>what time-series similarity measures retain and ignore</a>,
+      then change the shared input pair in the <a href='similarity-lab.html'>interactive similarity lab</a>.
+      Bring questions and examples to <a href='https://github.com/ZipengWu365/EchoTime/discussions'>GitHub Discussions</a>.</p>
     </div>
     <div class='docs-grid-2'>
       <div class='docs-card'>
@@ -1399,6 +1402,9 @@ def project_similarity_methods_html(*, version: str = PACKAGE_VERSION) -> str:
         </div>
         <div class='status-stack'>{status_chips}</div>
         <p><a href='#method-animations'><strong>Explore 137 animated explanations / 查看全部方法动图 →</strong></a></p>
+        <p><a href='similarity-lab.html'>Compare methods on the same curves / 同一组曲线交互对照</a>
+        · <a href='../articles/what-time-series-similarity-measures.en.html'>Read the mechanism tour</a>
+        · <a href='https://github.com/ZipengWu365/EchoTime/discussions'>Discuss</a></p>
       </div>
       <div class='docs-card'>
         {_pill('What EchoTime now exposes', 'blue')}

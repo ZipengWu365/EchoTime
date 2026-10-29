@@ -28,10 +28,13 @@ body { font-size:16px; } th,td { min-width:150px; } }
 <a href="../articles/index.html">Reading guide</a>
 <a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
 <a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
-<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<a href="../articles/what-time-series-similarity-measures.en.html">Mechanism tour</a>
+<a href="../guide/similarity-lab.html">Interactive lab</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a>
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
 <h1 id="time-series-similarity-choosing-between-dtw-matrix-profiles-and-learned-representations">Time-series similarity: choosing between DTW, matrix profiles and learned representations</h1>
 <p><strong>A practical comparison of tasks, assumptions and Python tools.</strong> Reviewed 29 October 2026. <a href="time-series-similarity-guide.zh-CN.html">中文版</a></p>
-<p>For the calculation behind a method, open the <a href="https://zipengwu.me/EchoTime/guide/methods.html#method-animations">animated Methods Atlas</a>: each of its 137 entries has a GIF, a static summary, four explanatory stages, explicit example inputs and interpretation limits. Use the method name to find the corresponding explanation.</p>
+<p>For the calculation behind a method, open the <a href="../guide/methods.html#method-animations">animated Methods Atlas</a>: each of its 137 entries has a GIF, a static summary, four explanatory stages, explicit example inputs and interpretation limits. Use the method name to find the corresponding explanation.</p>
 <p>Two curves can share a shape and differ in energy consumption. Two recordings can contain the same short event while looking different overall. Two datasets can have similar spectra and different underlying mechanisms. A useful similarity method starts with a decision about which of these relationships matters.</p>
 <p>The selection rule used in this guide is simple: <strong>define the object being compared, decide which differences should remain visible, then choose the representation, comparison rule and implementation.</strong> This is a proposed decision framework. The method descriptions below are supported by original papers and official documentation; the guide contains no new runtime or accuracy leaderboard.</p>
 <h2 id="1-first-decide-what-constitutes-a-match">1. First decide what constitutes a match</h2>
@@ -208,5 +211,6 @@ Path(&quot;similarity_report.html&quot;).write_text(
 <hr>
 <p><strong>Scope and provenance.</strong> This is a targeted narrative guide, reviewed against original papers, official software documentation and repository source. It does not claim exhaustive coverage, independent reproduction of cited studies, or measured superiority of EchoTime. <a href="index.html">Evidence ledger and editorial checks</a>.</p>
 <hr><p class="source">Built from <a href="https://github.com/ZipengWu365/EchoTime/blob/main/docs/articles/time-series-similarity-guide.en.md">the versioned Markdown source</a>.
-Corrections and reproducible examples are welcome in the repository.</p>
+Share questions, corrections and reproducible examples in
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">GitHub Discussions</a>.</p>
 </main></body></html>

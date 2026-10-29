@@ -147,6 +147,7 @@ def method_animations_html(*, asset_prefix: str = "../assets/method-animations/"
 
 ANIMATION_CSS = """
 .method-animations { margin: 24px 0; }
+.method-animations, .animation-method { scroll-margin-top:140px; }
 .animation-toolbar { display:flex; flex-wrap:wrap; align-items:end; gap:16px; margin-top:20px; }
 .animation-toolbar label { display:grid; gap:6px; flex:1; min-width:220px; font-weight:600; }
 .animation-toolbar input { width:100%; box-sizing:border-box; padding:12px; font:inherit; color:var(--text-900, #fff); background:var(--surface-strong, #111); border:1px solid var(--border, #ccd4de); border-radius:8px; }
@@ -173,7 +174,7 @@ ANIMATION_CSS = """
 .method-animations[data-enhanced][data-language='en'] [data-animation-lang='zh'],
 .method-animations[data-enhanced][data-language='zh'] [data-animation-lang='en'] { display:none; }
 .method-animations [hidden] { display:none !important; }
-@media (max-width:650px) { .animation-content { padding:0 8px 12px; } .animation-method > summary { padding:12px; } }
+@media (max-width:650px) { .method-animations, .animation-method { scroll-margin-top:220px; } .animation-content { padding:0 8px 12px; } .animation-method > summary { padding:12px; } }
 """
 
 

@@ -1,0 +1,1073 @@
+{
+  "schema_version": "1.0",
+  "title": "Time-series similarity: a verified reading map",
+  "checked_on": "2026-10-29",
+  "record_count": 30,
+  "scope": {
+    "checked_on": "2026-10-29",
+    "review_type": "Targeted narrative evidence collection; not an exhaustive systematic review.",
+    "selection_criteria": [
+      "Original method papers for definitions used by the existing EchoTime atlas.",
+      "Original comparative studies that separate preprocessing, channel assumptions or implementation cost.",
+      "Recent 2023-2026 work directly relevant to alignment, retrieval, representations or distance software.",
+      "Accessible publisher, conference, author-hosted paper or author-institution evidence."
+    ],
+    "search_services": [
+      "Web search using two search engines; targeted title and author queries.",
+      "Direct publisher, conference, arXiv and author-hosted source reads."
+    ],
+    "representative_queries": [
+      "time series similarity distance survey dynamic time warping 2024 2025 benchmark",
+      "time series foundation models similarity retrieval 2025 2026",
+      "The Move-Split-Merge Metric for Time Series Stefan",
+      "On The Marriage of Lp-norms and Edit Distance vldb.org",
+      "Discovering similar multidimensional trajectories",
+      "Robust and Fast Similarity Search for Moving Object Trajectories Chen Ozsu Oria 2005",
+      "Soft-DTW: a Differentiable Loss Function for Time-Series",
+      "Differentiable Divergences Between Time Series",
+      "Matrix Profile I All Pairs Similarity Joins for Time Series",
+      "A Structured Study of Multivariate Time-Series Distance Measures 2025 pdf",
+      "Amercing: An Intuitive, Elegant and Effective Constraint for Dynamic Time Warping",
+      "Fast and Exact Similarity Search in less than a Blink of an Eye",
+      "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling",
+      "MOMENT: A Family of Open Time-series Foundation Models",
+      "tsdistances Azzari",
+      "Time Warp Edit Distance t_0",
+      "Divergence measures based on the Shannon entropy Lin 1991"
+    ],
+    "limits": [
+      "This is a curated source set, not complete coverage of every method, paper or application.",
+      "Per-record verification levels distinguish full-text checks, abstracts and metadata; not all proofs or experiments were re-audited.",
+      "No cross-library benchmark, timing experiment or new model evaluation was performed for this literature collection.",
+      "No exhaustive retraction/correction database audit was performed.",
+      "Some publisher endpoints were blocked or unavailable; successful alternative sources and limits are recorded.",
+      "Publication dates are taken from bibliographic records, not search-engine crawl or relative-time labels."
+    ]
+  },
+  "claim_map": [
+    {
+      "id": "C01",
+      "claim": "Alignment restrictions and local costs define the DTW comparison.",
+      "references": [
+        "sakoe1978dtw",
+        "herrmann2023adtw"
+      ],
+      "role": "Definition"
+    },
+    {
+      "id": "C02",
+      "claim": "Matching tolerances and gap penalties change the meaning of elastic edit scores.",
+      "references": [
+        "vlachos2002lcss",
+        "chen2004erp",
+        "chen2005edr",
+        "stefan2013msm"
+      ],
+      "role": "Definition"
+    },
+    {
+      "id": "C03",
+      "claim": "Timestamp differences and channel coupling are explicit modeling choices.",
+      "references": [
+        "marteau2009twed",
+        "shokoohi2017multidtw",
+        "dhondt2025multivariate"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C04",
+      "claim": "Global shifts and local warps capture different forms of temporal mismatch.",
+      "references": [
+        "paparrizos2015kshape",
+        "zhao2018shapedtw",
+        "sakoe1978dtw"
+      ],
+      "role": "Contrast"
+    },
+    {
+      "id": "C05",
+      "claim": "Raw soft-DTW, corrected divergence, kernel and metric are distinct objects.",
+      "references": [
+        "cuturi2011gak",
+        "cuturi2017softdtw",
+        "blondel2021divergences"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C06",
+      "claim": "A fixed-window subsequence join needs a window and a self-match policy.",
+      "references": [
+        "yeh2016matrixprofile"
+      ],
+      "role": "Definition"
+    },
+    {
+      "id": "C07",
+      "claim": "Exact retrieval indexing preserves a chosen target distance; it does not establish semantic relevance.",
+      "references": [
+        "schaefer2012sfa",
+        "schaefer2025sofa"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C08",
+      "claim": "Learned and pretrained representations require a separate test of the intended similarity task.",
+      "references": [
+        "yue2022ts2vec",
+        "dong2023simmtm",
+        "goswami2024moment"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C09",
+      "claim": "Retrieval-assisted forecast performance does not isolate retrieval quality.",
+      "references": [
+        "ning2025tsrag"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C10",
+      "claim": "Runtime comparisons must specify implementation, workload and hardware.",
+      "references": [
+        "wu2022fastdtw",
+        "azzari2026tsdistances"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C11",
+      "claim": "Method rankings and normalization findings are conditional on evaluation design.",
+      "references": [
+        "ding2008comparison",
+        "dhondt2025multivariate"
+      ],
+      "role": "Boundary"
+    },
+    {
+      "id": "C12",
+      "claim": "Histogram construction and square-root choice matter for Jensen-Shannon comparison.",
+      "references": [
+        "bandt2002permutation",
+        "lin1991js",
+        "endres2003jsmetric"
+      ],
+      "role": "Boundary"
+    }
+  ],
+  "references": [
+    {
+      "id": "sakoe1978dtw",
+      "title": "Dynamic programming algorithm optimization for spoken word recognition",
+      "authors": [
+        "Hiroaki Sakoe",
+        "Seibi Chiba"
+      ],
+      "year": 1978,
+      "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "elastic alignment",
+      "citation_role": "Definition",
+      "supported_claim": "Dynamic programming aligns sequences under temporal consistency and path constraints; the alignment restrictions are part of the method specification.",
+      "evidence_boundary": "A DTW score depends on local cost, step pattern, endpoint policy and path restrictions. The paper does not establish that every implementation or unconstrained alignment is appropriate for every domain.",
+      "verification_level": "Publisher metadata and abstract; original paper text.",
+      "primary_url": "https://ieeexplore.ieee.org/abstract/document/1163055/authors",
+      "verified_source_urls": [
+        "https://ieeexplore.ieee.org/abstract/document/1163055/authors",
+        "https://jeffe.cs.illinois.edu/teaching/compgeom/refs/Sakoe-Chiba-DTW.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "26",
+        "number": "1",
+        "pages": "43--49"
+      },
+      "doi": "10.1109/TASSP.1978.1163055"
+    },
+    {
+      "id": "vlachos2002lcss",
+      "title": "Discovering Similar Multidimensional Trajectories",
+      "authors": [
+        "Michail Vlachos",
+        "Dimitrios Gunopulos",
+        "George Kollios"
+      ],
+      "year": 2002,
+      "venue": "Proceedings of the 18th International Conference on Data Engineering",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "thresholded elastic matching",
+      "citation_role": "Definition",
+      "supported_claim": "LCSS-based trajectory matching rewards temporally ordered matching portions while allowing unmatched observations.",
+      "evidence_boundary": "The spatial matching threshold, temporal tolerance and score normalization determine which observations count as matches. Robustness to noise is conditional on these choices and the evaluated data.",
+      "verification_level": "Original paper text and bibliographic record.",
+      "primary_url": "https://people.cs.aau.dk/~simas/teaching/trajectories/00994784.pdf",
+      "verified_source_urls": [
+        "https://people.cs.aau.dk/~simas/teaching/trajectories/00994784.pdf",
+        "https://dblp.org/rec/conf/icde/VlachosGK02.html"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "673--684"
+      },
+      "doi": "10.1109/ICDE.2002.994784"
+    },
+    {
+      "id": "chen2004erp",
+      "title": "On The Marriage of Lp-norms and Edit Distance",
+      "authors": [
+        "Lei Chen",
+        "Raymond T. Ng"
+      ],
+      "year": 2004,
+      "venue": "Proceedings of the 30th International Conference on Very Large Data Bases",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "edit-based elastic matching",
+      "citation_role": "Definition",
+      "supported_claim": "ERP combines edit operations with numerical penalties and develops lower bounds and pruning strategies for time-series retrieval.",
+      "evidence_boundary": "The gap reference value and local norm must be specified. Metric statements must respect the paper's domain and gap convention; arbitrary normalization, squared costs or additional constraints need separate checks.",
+      "verification_level": "Official VLDB paper; author institution metadata.",
+      "primary_url": "https://www.vldb.org/conf/2004/RS21P2.PDF",
+      "verified_source_urls": [
+        "https://www.vldb.org/conf/2004/RS21P2.PDF",
+        "https://researchportal.hkust.edu.hk/en/publications/on-the-marriage-of-lp-norms-and-edit-distance/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "792--803"
+      },
+      "doi": "10.1016/B978-012088469-8.50070-X"
+    },
+    {
+      "id": "chen2005edr",
+      "title": "Robust and Fast Similarity Search for Moving Object Trajectories",
+      "authors": [
+        "Lei Chen",
+        "M. Tamer Özsu",
+        "Vincent Oria"
+      ],
+      "year": 2005,
+      "venue": "Proceedings of the ACM SIGMOD International Conference on Management of Data",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "thresholded edit distance",
+      "citation_role": "Definition",
+      "supported_claim": "EDR applies edit operations to real-valued sequences using a tolerance-based match decision and develops pruning methods for trajectory retrieval.",
+      "evidence_boundary": "Tolerance depends on units and preprocessing. The original trajectory experiments do not imply that EDR is universally best for arbitrary time-series retrieval or clustering.",
+      "verification_level": "Author-hosted original paper; author institution metadata.",
+      "primary_url": "https://cse.hkust.edu.hk/~leichen/pub/05/sigmod05.pdf",
+      "verified_source_urls": [
+        "https://cse.hkust.edu.hk/~leichen/pub/05/sigmod05.pdf",
+        "https://digitalcommons.njit.edu/fac_pubs/19908/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "491--502"
+      },
+      "doi": "10.1145/1066157.1066213"
+    },
+    {
+      "id": "marteau2009twed",
+      "title": "Time warp edit distance with stiffness adjustment for time series matching",
+      "authors": [
+        "Pierre-François Marteau"
+      ],
+      "year": 2009,
+      "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "timestamp-aware elastic matching",
+      "citation_role": "Definition",
+      "supported_claim": "TWED uses value differences, timestamp differences and edit penalties to control temporal elasticity. The paper defines strictly increasing sample timestamps and distinguishes positive temporal stiffness from its zero boundary.",
+      "evidence_boundary": "The metric statement on value-time sequences requires positive stiffness and the stated cost assumptions. Timestamp units, a shared origin/sentinel and boundary initialization must be documented; a zero-stiffness variant does not retain the same guarantee.",
+      "verification_level": "Author preprint full-text sections III.A, IV.C-D and Figure 2; journal metadata.",
+      "primary_url": "https://arxiv.org/abs/cs/0703033",
+      "verified_source_urls": [
+        "https://arxiv.org/abs/cs/0703033",
+        "https://arxiv.org/pdf/cs/0703033",
+        "https://pubmed.ncbi.nlm.nih.gov/19110495/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "31",
+        "number": "2",
+        "pages": "306--318"
+      },
+      "doi": "10.1109/TPAMI.2008.76",
+      "version_or_access_note": "The arXiv record identifies the 2009 journal version. Figure 2 uses zero-valued, zero-time sentinels; the mathematical definition uses time distances."
+    },
+    {
+      "id": "stefan2013msm",
+      "title": "The Move-Split-Merge Metric for Time Series",
+      "authors": [
+        "Alexandra Stefan",
+        "Vassilis Athitsos",
+        "Gautam Das"
+      ],
+      "year": 2013,
+      "venue": "IEEE Transactions on Knowledge and Data Engineering",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "edit-based elastic matching",
+      "citation_role": "Definition",
+      "supported_claim": "MSM minimizes the cost of move, split and merge operations and supplies a quadratic-time dynamic program for the original formulation.",
+      "evidence_boundary": "The split/merge cost is a modeling parameter. Metric guarantees belong to the specified cost scheme and parameter domain; they do not transfer automatically to multivariate extensions or transformed similarities.",
+      "verification_level": "Author-hosted original preprint; final journal metadata corroborated.",
+      "primary_url": "https://ranger.uta.edu/~alex/publications/stefan_tkde2012_preprint.pdf",
+      "verified_source_urls": [
+        "https://ranger.uta.edu/~alex/publications/stefan_tkde2012_preprint.pdf",
+        "https://www.scienceopen.com/document?vid=849b99f5-8fd5-4d95-ad30-245090ec583f"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "25",
+        "number": "6",
+        "pages": "1425--1438"
+      },
+      "doi": "10.1109/TKDE.2012.88",
+      "version_or_access_note": "The DOI and preprint carry 2012; the journal issue is June 2013. Publisher full text was not accessible in this check."
+    },
+    {
+      "id": "paparrizos2015kshape",
+      "title": "k-Shape: Efficient and Accurate Clustering of Time Series",
+      "authors": [
+        "John Paparrizos",
+        "Luis Gravano"
+      ],
+      "year": 2015,
+      "venue": "Proceedings of the ACM SIGMOD International Conference on Management of Data",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "shift-aware shape comparison",
+      "citation_role": "Definition",
+      "supported_claim": "k-Shape combines a normalized cross-correlation-based shape dissimilarity with a centroid update designed for that comparison.",
+      "evidence_boundary": "Global shifts and local time warps express different assumptions. Normalization, overlap and padding conventions matter; implementing SBD alone does not implement the complete k-Shape clustering procedure.",
+      "verification_level": "Author-hosted original conference paper.",
+      "primary_url": "https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf",
+      "verified_source_urls": [
+        "https://www.cs.columbia.edu/~gravano/Papers/2015/sigmod2015.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {},
+      "doi": "10.1145/2723372.2737793"
+    },
+    {
+      "id": "zhao2018shapedtw",
+      "title": "shapeDTW: Shape Dynamic Time Warping",
+      "authors": [
+        "Jiaping Zhao",
+        "Laurent Itti"
+      ],
+      "year": 2018,
+      "venue": "Pattern Recognition",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "local-descriptor elastic matching",
+      "citation_role": "Definition",
+      "supported_claim": "shapeDTW first describes local neighborhoods around timestamps, then aligns the resulting descriptor sequences with DTW.",
+      "evidence_boundary": "Descriptor design and neighborhood width determine the compared structure. Reported audio-alignment and classification results do not validate a different implementation or establish universal downstream superiority.",
+      "verification_level": "Publisher metadata, abstract and method description.",
+      "primary_url": "https://www.sciencedirect.com/science/article/pii/S0031320317303710",
+      "verified_source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S0031320317303710"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "74",
+        "pages": "171--184"
+      },
+      "doi": "10.1016/j.patcog.2017.09.020",
+      "version_or_access_note": "Online publication was in 2017; the cited journal issue is February 2018."
+    },
+    {
+      "id": "cuturi2011gak",
+      "title": "Fast Global Alignment Kernels",
+      "authors": [
+        "Marco Cuturi"
+      ],
+      "year": 2011,
+      "venue": "Proceedings of the 28th International Conference on Machine Learning",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "alignment kernels",
+      "citation_role": "Definition",
+      "supported_claim": "Global alignment kernels aggregate contributions across alignments and study sufficient conditions for positive definiteness, with faster triangular variants.",
+      "evidence_boundary": "A kernel is not automatically a distance. Exponentiating an arbitrary DTW score does not inherit positive-definiteness guarantees from this paper.",
+      "verification_level": "Official conference paper text.",
+      "primary_url": "https://icml.cc/2011/papers/489_icmlpaper.pdf",
+      "verified_source_urls": [
+        "https://icml.cc/2011/papers/489_icmlpaper.pdf",
+        "https://researchportal.ip-paris.fr/en/publications/fast-global-alignment-kernels/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "929--936"
+      }
+    },
+    {
+      "id": "cuturi2017softdtw",
+      "title": "Soft-DTW: a Differentiable Loss Function for Time-Series",
+      "authors": [
+        "Marco Cuturi",
+        "Mathieu Blondel"
+      ],
+      "year": 2017,
+      "venue": "Proceedings of the 34th International Conference on Machine Learning",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "differentiable alignment loss",
+      "citation_role": "Definition",
+      "supported_claim": "Soft-DTW replaces the hard minimum over alignment costs with a smooth minimum and permits gradient-based optimization of time-series outputs.",
+      "evidence_boundary": "The smoothing parameter changes the objective. Raw soft-DTW values are not a zero-diagonal metric, and the method should not be described as merely a faster exact DTW implementation.",
+      "verification_level": "Official PMLR publication and original paper.",
+      "primary_url": "https://proceedings.mlr.press/v70/cuturi17a.html",
+      "verified_source_urls": [
+        "https://proceedings.mlr.press/v70/cuturi17a.html",
+        "https://proceedings.mlr.press/v70/cuturi17a/cuturi17a.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "70",
+        "pages": "894--903"
+      }
+    },
+    {
+      "id": "blondel2021divergences",
+      "title": "Differentiable Divergences Between Time Series",
+      "authors": [
+        "Mathieu Blondel",
+        "Arthur Mensch",
+        "Jean-Philippe Vert"
+      ],
+      "year": 2021,
+      "venue": "Proceedings of the 24th International Conference on Artificial Intelligence and Statistics",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "corrected differentiable divergence",
+      "citation_role": "Boundary",
+      "supported_claim": "The paper identifies the entropic bias of raw soft-DTW and constructs corrected divergences, with non-negativity and equality properties under stated ground-cost conditions.",
+      "evidence_boundary": "Non-negativity is conditional on the ground cost. A valid divergence need not obey the triangle inequality; the result does not turn every soft-DTW variant into a metric.",
+      "verification_level": "Official PMLR publication; author research page.",
+      "primary_url": "https://proceedings.mlr.press/v130/blondel21a.html",
+      "verified_source_urls": [
+        "https://proceedings.mlr.press/v130/blondel21a.html",
+        "https://research.google/pubs/differentiable-divergences-between-time-series/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "130",
+        "pages": "3853--3861"
+      }
+    },
+    {
+      "id": "leguen2019dilate",
+      "title": "Shape and Time Distortion Loss for Training Deep Time Series Forecasting Models",
+      "authors": [
+        "Vincent Le Guen",
+        "Nicolas Thome"
+      ],
+      "year": 2019,
+      "venue": "Advances in Neural Information Processing Systems",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "shape-and-timing forecasting loss",
+      "citation_role": "Definition",
+      "supported_claim": "DILATE separates shape discrepancy and temporal distortion within a differentiable objective for multi-step forecasting.",
+      "evidence_boundary": "This is a training-objective paper. Its forecasting experiments do not establish a general-purpose retrieval ranking, calibrated similarity probability or causal relation between signals.",
+      "verification_level": "Official NeurIPS publication and abstract.",
+      "primary_url": "https://papers.nips.cc/paper_files/paper/2019/hash/466accbac9a66b805ba50e42ad715740-Abstract.html",
+      "verified_source_urls": [
+        "https://papers.nips.cc/paper_files/paper/2019/hash/466accbac9a66b805ba50e42ad715740-Abstract.html"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "32"
+      }
+    },
+    {
+      "id": "yeh2016matrixprofile",
+      "title": "Matrix Profile I: All Pairs Similarity Joins for Time Series: A Unifying View That Includes Motifs, Discords and Shapelets",
+      "authors": [
+        "Chin-Chia Michael Yeh",
+        "Yan Zhu",
+        "Liudmila Ulanova",
+        "Nurjahan Begum",
+        "Yifei Ding",
+        "Hoang Anh Dau",
+        "Diego Furtado Silva",
+        "Abdullah Mueen",
+        "Eamonn Keogh"
+      ],
+      "year": 2016,
+      "venue": "2016 IEEE 16th International Conference on Data Mining",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "subsequence similarity joins",
+      "citation_role": "Definition",
+      "supported_claim": "A matrix profile records a nearest-neighbor distance for each fixed-length subsequence; the original method builds on z-normalized Euclidean subsequence comparison.",
+      "evidence_boundary": "A profile is an output of a similarity join, not a single whole-series distance. Window length, self-match exclusion, constants and missing values need explicit policies.",
+      "verification_level": "Publisher abstract and original paper text.",
+      "primary_url": "https://ieeexplore.ieee.org/document/7837992/",
+      "verified_source_urls": [
+        "https://ieeexplore.ieee.org/document/7837992/",
+        "https://www.cs.uoi.gr/~pvassil/supervision/diplomatikes/extraMaterial/Timeseries/2016_matrix_profile.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "1317--1322"
+      },
+      "doi": "10.1109/ICDM.2016.0179"
+    },
+    {
+      "id": "schaefer2012sfa",
+      "title": "SFA: A Symbolic Fourier Approximation and Index for Similarity Search in High Dimensional Datasets",
+      "authors": [
+        "Patrick Schäfer",
+        "Mikael Högqvist"
+      ],
+      "year": 2012,
+      "venue": "Proceedings of the 15th International Conference on Extending Database Technology",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "lower-bound representation and indexing",
+      "citation_role": "Definition",
+      "supported_claim": "SFA quantizes Fourier-based representations and combines them with a trie for exact similarity-search candidate filtering and refinement.",
+      "evidence_boundary": "A lower-bound representation accelerates search for a specified target distance. Its symbolic comparison should not be assumed to preserve every semantic relation or arbitrary distance.",
+      "verification_level": "Publisher abstract and author-hosted original paper.",
+      "primary_url": "https://doi.org/10.1145/2247596.2247656",
+      "verified_source_urls": [
+        "https://doi.org/10.1145/2247596.2247656",
+        "https://www2.informatik.hu-berlin.de/~schaefpa/sfa_trie.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "516--527"
+      },
+      "doi": "10.1145/2247596.2247656"
+    },
+    {
+      "id": "batista2011cid",
+      "title": "A Complexity-Invariant Distance Measure for Time Series",
+      "authors": [
+        "Gustavo E. A. P. A. Batista",
+        "Xiaoyue Wang",
+        "Eamonn J. Keogh"
+      ],
+      "year": 2011,
+      "venue": "Proceedings of the 2011 SIAM International Conference on Data Mining",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "complexity-adjusted distance",
+      "citation_role": "Definition",
+      "supported_claim": "CID adjusts a base distance using a relative series-complexity factor, motivated by the effect of differing complexities on nearest-neighbor classification.",
+      "evidence_boundary": "The complexity estimator and its zero-complexity convention matter. The name does not imply exact invariance to every operation that changes complexity.",
+      "verification_level": "Official SIAM publication and abstract; software definition corroborates the formula.",
+      "primary_url": "https://epubs.siam.org/doi/10.1137/1.9781611972818.60",
+      "verified_source_urls": [
+        "https://epubs.siam.org/doi/10.1137/1.9781611972818.60",
+        "https://search.r-project.org/CRAN/refmans/TSclust/html/diss.CID.html"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "pages": "699--710"
+      },
+      "doi": "10.1137/1.9781611972818.60"
+    },
+    {
+      "id": "shokoohi2017multidtw",
+      "title": "Generalizing DTW to the multi-dimensional case requires an adaptive approach",
+      "authors": [
+        "Mohammad Shokoohi-Yekta",
+        "Bing Hu",
+        "Hongxia Jin",
+        "Jun Wang",
+        "Eamonn Keogh"
+      ],
+      "year": 2017,
+      "venue": "Data Mining and Knowledge Discovery",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "multivariate channel coupling",
+      "citation_role": "Boundary",
+      "supported_claim": "Dependent multivariate DTW shares an alignment across channels, whereas independent DTW allows different channel alignments; the paper demonstrates that the choices can yield different classifications.",
+      "evidence_boundary": "The two constructions express different synchronization assumptions. Neither should be called a universally correct multivariate generalization.",
+      "verification_level": "Author manuscript text and journal metadata.",
+      "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5668684/",
+      "verified_source_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5668684/",
+        "https://pubmed.ncbi.nlm.nih.gov/29104448/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "31",
+        "number": "1",
+        "pages": "1--31"
+      },
+      "doi": "10.1007/s10618-016-0455-0",
+      "version_or_access_note": "Online publication was in 2016; journal volume year is 2017. PMC text was searchable but a direct open later returned an access check."
+    },
+    {
+      "id": "ding2008comparison",
+      "title": "Querying and Mining of Time Series Data: Experimental Comparison of Representations and Distance Measures",
+      "authors": [
+        "Hui Ding",
+        "Goce Trajcevski",
+        "Peter Scheuermann",
+        "Xiaoyue Wang",
+        "Eamonn Keogh"
+      ],
+      "year": 2008,
+      "venue": "Proceedings of the VLDB Endowment",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "comparative evaluation",
+      "citation_role": "Contrast",
+      "supported_claim": "This study compares representation and distance choices across multiple datasets rather than relying solely on the evaluations accompanying individual methods.",
+      "evidence_boundary": "It is historical empirical evidence under the study's datasets and protocols. Its rankings cannot establish the best method for a current task or new data distribution.",
+      "verification_level": "Author-hosted original paper and publication metadata.",
+      "primary_url": "https://users.eecs.northwestern.edu/~peters/references/vldb08.pdf",
+      "verified_source_urls": [
+        "https://users.eecs.northwestern.edu/~peters/references/vldb08.pdf",
+        "https://cir.nii.ac.jp/crid/1360292621315687168"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "1",
+        "number": "2",
+        "pages": "1542--1552"
+      },
+      "doi": "10.14778/1454159.1454226"
+    },
+    {
+      "id": "wu2022fastdtw",
+      "title": "FastDTW is Approximate and Generally Slower Than the Algorithm it Approximates",
+      "authors": [
+        "Renjie Wu",
+        "Eamonn J. Keogh"
+      ],
+      "year": 2022,
+      "venue": "IEEE Transactions on Knowledge and Data Engineering",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "implementation and runtime comparison",
+      "citation_role": "Boundary",
+      "supported_claim": "The study shows that an approximate algorithm's name or asymptotic description is insufficient evidence of a runtime advantage over carefully implemented exact constrained DTW.",
+      "evidence_boundary": "Its conclusions depend on implementations, lengths, windows and approximation radii. It does not justify claiming that every exact DTW implementation always beats every approximate implementation.",
+      "verification_level": "Author project page with final journal citation and experiment descriptions.",
+      "primary_url": "https://wu.renjie.im/research/fastdtw-is-slow/",
+      "verified_source_urls": [
+        "https://wu.renjie.im/research/fastdtw-is-slow/"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "34",
+        "number": "8",
+        "pages": "3779--3785"
+      },
+      "doi": "10.1109/TKDE.2020.3033752",
+      "version_or_access_note": "Accepted/online in 2020; final journal citation is 2022. The ICDE 2021 extended abstract is not counted as a second study."
+    },
+    {
+      "id": "yue2022ts2vec",
+      "title": "TS2Vec: Towards Universal Representation of Time Series",
+      "authors": [
+        "Zhihan Yue",
+        "Yujing Wang",
+        "Juanyong Duan",
+        "Tianmeng Yang",
+        "Congrui Huang",
+        "Yunhai Tong",
+        "Bixiong Xu"
+      ],
+      "year": 2022,
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "learned representation",
+      "citation_role": "Tool",
+      "supported_claim": "TS2Vec learns timestamp-level representations through hierarchical contrastive training and aggregates them to represent subsequences.",
+      "evidence_boundary": "Classification, forecasting and anomaly-detection evidence supports representation utility. An embedding distance still requires a target-specific retrieval or clustering evaluation, including pooling and normalization choices.",
+      "verification_level": "Official AAAI publication and abstract.",
+      "primary_url": "https://ojs.aaai.org/index.php/AAAI/article/view/20881",
+      "verified_source_urls": [
+        "https://ojs.aaai.org/index.php/AAAI/article/view/20881"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "36",
+        "number": "8",
+        "pages": "8980--8987"
+      },
+      "doi": "10.1609/aaai.v36i8.20881"
+    },
+    {
+      "id": "herrmann2023adtw",
+      "title": "Amercing: An intuitive and effective constraint for dynamic time warping",
+      "authors": [
+        "Matthieu Herrmann",
+        "Geoffrey I. Webb"
+      ],
+      "year": 2023,
+      "venue": "Pattern Recognition",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "regularized elastic alignment",
+      "citation_role": "Definition",
+      "supported_claim": "Amerced DTW adds a fixed cost to non-diagonal warping steps, providing a tunable alternative to a hard warping window or multiplicative weighting.",
+      "evidence_boundary": "The additive penalty changes which alignments are preferred and needs an explicit tuning protocol. The paper's classification evidence does not prove universal retrieval superiority.",
+      "verification_level": "Publisher metadata and abstract; author preprint cross-check.",
+      "primary_url": "https://www.sciencedirect.com/science/article/pii/S0031320323000341",
+      "verified_source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S0031320323000341",
+        "https://arxiv.org/abs/2111.13314"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "137",
+        "pages": "109333"
+      },
+      "doi": "10.1016/j.patcog.2023.109333",
+      "version_or_access_note": "Cite the 2023 formal article rather than counting the 2021 preprint as another method."
+    },
+    {
+      "id": "dong2023simmtm",
+      "title": "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling",
+      "authors": [
+        "Jiaxiang Dong",
+        "Haixu Wu",
+        "Haoran Zhang",
+        "Li Zhang",
+        "Jianmin Wang",
+        "Mingsheng Long"
+      ],
+      "year": 2023,
+      "venue": "Advances in Neural Information Processing Systems",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "similarity-assisted representation learning",
+      "citation_role": "Tool",
+      "supported_claim": "SimMTM uses learned series-level similarities to aggregate representations from masked examples for reconstruction during pretraining.",
+      "evidence_boundary": "Similarity is part of the learning mechanism. Forecasting and classification evaluations do not by themselves validate a standalone semantic retrieval metric.",
+      "verification_level": "Official NeurIPS publication; official code description.",
+      "primary_url": "https://papers.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
+      "verified_source_urls": [
+        "https://papers.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
+        "https://github.com/thuml/SimMTM"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "36"
+      }
+    },
+    {
+      "id": "goswami2024moment",
+      "title": "MOMENT: A Family of Open Time-series Foundation Models",
+      "authors": [
+        "Mononito Goswami",
+        "Konrad Szafer",
+        "Arjun Choudhry",
+        "Yifu Cai",
+        "Shuo Li",
+        "Artur Dubrawski"
+      ],
+      "year": 2024,
+      "venue": "Proceedings of the 41st International Conference on Machine Learning",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "pretrained representation",
+      "citation_role": "Tool",
+      "supported_claim": "MOMENT provides pretrained time-series models and evaluates them across several tasks and limited-supervision settings.",
+      "evidence_boundary": "The existence of pretrained embeddings does not establish a universal notion of similarity. Retrieval use needs relevant-query labels or another explicit target, training-data overlap checks, pooling, scaling and checkpoint specification.",
+      "verification_level": "Official PMLR publication; official project and implementation documentation.",
+      "primary_url": "https://proceedings.mlr.press/v235/goswami24a.html",
+      "verified_source_urls": [
+        "https://proceedings.mlr.press/v235/goswami24a.html",
+        "https://github.com/moment-timeseries-foundation-model/moment"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "235",
+        "pages": "16115--16152"
+      }
+    },
+    {
+      "id": "paparrizos2024survey",
+      "title": "A Survey on Time-Series Distance Measures",
+      "authors": [
+        "John Paparrizos",
+        "Haojun Li",
+        "Fan Yang",
+        "Kaize Wu",
+        "Jens E. d'Hondt",
+        "Odysseas Papapetrou"
+      ],
+      "year": 2024,
+      "venue": "arXiv",
+      "publication_status": "preprint_survey",
+      "source_type": "survey",
+      "family": "taxonomy and literature discovery",
+      "citation_role": "Definition",
+      "supported_claim": "The survey organizes distance measures into lock-step, sliding, elastic, kernel, feature, model and embedding families, covering both univariate and multivariate formulations.",
+      "evidence_boundary": "This is a survey, not a new head-to-head experiment. Original method papers remain the sources for individual definitions and guarantees; the family taxonomy is not a claim that all methods are implemented in EchoTime.",
+      "verification_level": "Author-uploaded arXiv record; author publication page.",
+      "primary_url": "https://arxiv.org/abs/2412.20574",
+      "verified_source_urls": [
+        "https://arxiv.org/abs/2412.20574",
+        "https://jensdhondt.com/publication/book_chapter_2024"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "misc",
+      "bibtex_fields": {
+        "eprint": "2412.20574",
+        "archivePrefix": "arXiv",
+        "primaryClass": "cs.DB"
+      },
+      "version_or_access_note": "The verified record is arXiv:2412.20574v1 (2024). A formally published successor was not established in this check."
+    },
+    {
+      "id": "dhondt2025multivariate",
+      "title": "A Structured Study of Multivariate Time-Series Distance Measures",
+      "authors": [
+        "Jens E. d'Hondt",
+        "Haojun Li",
+        "Fan Yang",
+        "Odysseas Papapetrou",
+        "John Paparrizos"
+      ],
+      "year": 2025,
+      "venue": "Proceedings of the ACM on Management of Data",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "multivariate comparative evaluation",
+      "citation_role": "Contrast",
+      "supported_claim": "The study jointly examines 30 distance measures, 13 normalizations, two channel-dependency models, 30 datasets and three downstream tasks, including supervised and unsupervised parameter selection.",
+      "evidence_boundary": "Reported rankings and normalization effects are conditional on the study design. This supports testing preprocessing and channel assumptions, not claiming one distance or normalization is universally optimal.",
+      "verification_level": "Publisher metadata and abstract; author institution record.",
+      "primary_url": "https://doi.org/10.1145/3725258",
+      "verified_source_urls": [
+        "https://doi.org/10.1145/3725258",
+        "https://research.tue.nl/en/publications/a-structured-study-of-multivariate-time-series-distance-measures/",
+        "https://jensdhondt.com/publication/sigmod_2025"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "3",
+        "number": "3",
+        "pages": "121:1--121:29"
+      },
+      "doi": "10.1145/3725258"
+    },
+    {
+      "id": "schaefer2025sofa",
+      "title": "Fast and Exact Similarity Search in Less than a Blink of an Eye",
+      "authors": [
+        "Patrick Schäfer",
+        "Jakob Brand",
+        "Ulf Leser",
+        "Botao Peng",
+        "Themis Palpanas"
+      ],
+      "year": 2025,
+      "venue": "Proceedings of the 41st IEEE International Conference on Data Engineering",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "exact Euclidean retrieval indexing",
+      "citation_role": "Tool",
+      "supported_claim": "SOFA combines SFA-based summaries with a tree index and lower-bound filtering for exact Euclidean nearest-neighbor search.",
+      "evidence_boundary": "The target is exact Euclidean retrieval; speed comparisons do not establish superior semantic similarity or transfer automatically to DTW. Index construction, memory, data and implementation must be included in a local comparison.",
+      "verification_level": "Author-hosted original paper and official ICDE 2025 accepted-paper list; preprint cross-check.",
+      "primary_url": "https://helios2.mi.parisdescartes.fr/~themisp/publications/icde25-sofa.pdf",
+      "verified_source_urls": [
+        "https://helios2.mi.parisdescartes.fr/~themisp/publications/icde25-sofa.pdf",
+        "https://ieee-icde.org/2025/research-papers/",
+        "https://arxiv.org/abs/2411.17483"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {},
+      "version_or_access_note": "The 2024 preprint and 2025 conference article are one work. DOI omitted because the publisher endpoint did not resolve in this check."
+    },
+    {
+      "id": "ning2025tsrag",
+      "title": "TS-RAG: Retrieval-Augmented Generation based Time Series Foundation Models are Stronger Zero-Shot Forecaster",
+      "authors": [
+        "Kanghui Ning",
+        "Zijie Pan",
+        "Yu Liu",
+        "Yushan Jiang",
+        "James Zhang",
+        "Kashif Rasul",
+        "Anderson Schneider",
+        "Lintao Ma",
+        "Yuriy Nevmyvaka",
+        "Dongjin Song"
+      ],
+      "year": 2025,
+      "venue": "Advances in Neural Information Processing Systems",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "retrieval-augmented forecasting",
+      "citation_role": "Boundary",
+      "supported_claim": "TS-RAG retrieves segments through pretrained encoders and integrates retrieved patterns with a forecasting model using an adaptive mixer.",
+      "evidence_boundary": "The reported downstream objective is forecasting. Forecast improvement alone does not establish general semantic nearest-neighbor accuracy, reliable causal analogues or superiority of the retrieval distance itself.",
+      "verification_level": "Official NeurIPS publication and abstract.",
+      "primary_url": "https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html",
+      "verified_source_urls": [
+        "https://proceedings.nips.cc/paper_files/paper/2025/hash/eed25c037bc08afcbefab6f7a6b700e0-Abstract-Conference.html"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "inproceedings",
+      "bibtex_fields": {
+        "volume": "38"
+      }
+    },
+    {
+      "id": "azzari2026tsdistances",
+      "title": "Algorithm 1061: tsdistances: A High-Performance Python Library for Time Series Distances with GPU Support",
+      "authors": [
+        "Alberto Azzari",
+        "Andrea Cracco",
+        "Francesco Masillo",
+        "Pietro Sala"
+      ],
+      "year": 2026,
+      "venue": "ACM Transactions on Mathematical Software",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "CPU and GPU distance software",
+      "citation_role": "Tool",
+      "supported_claim": "The software paper describes CPU and GPU implementations of time-series distances, with particular attention to elastic algorithms and parallel computation.",
+      "evidence_boundary": "The publication establishes a relevant implementation source. This literature check did not run its benchmarks or verify interoperability; reported speedups must not be presented as EchoTime measurements.",
+      "verification_level": "Author university publication record and abstract; independent bibliographic corroboration. Publisher full text unavailable.",
+      "primary_url": "https://www.di.univr.it/?ent=pubbdip&id=1192651&lang=en",
+      "verified_source_urls": [
+        "https://www.di.univr.it/?ent=pubbdip&id=1192651&lang=en",
+        "https://dblp.org/pid/351/1189.html"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "52",
+        "number": "1"
+      },
+      "doi": "10.1145/3802579",
+      "version_or_access_note": "ACM returned HTTP 403 during the check. The university record verifies year, authors, journal, volume, issue and DOI; this is not a full-text implementation audit."
+    },
+    {
+      "id": "bandt2002permutation",
+      "title": "Permutation Entropy: A Natural Complexity Measure for Time Series",
+      "authors": [
+        "Christoph Bandt",
+        "Bernd Pompe"
+      ],
+      "year": 2002,
+      "venue": "Physical Review Letters",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "ordinal-pattern representation",
+      "citation_role": "Definition",
+      "supported_claim": "Permutation entropy uses the order patterns of neighboring observations to characterize temporal complexity.",
+      "evidence_boundary": "An ordinal-pattern histogram is a representation, and a distance between such histograms is an additional design choice. Embedding dimension, delay and tie handling affect the representation; the original paper does not validate every histogram distance.",
+      "verification_level": "Official publisher metadata and abstract.",
+      "primary_url": "https://doi.org/10.1103/PhysRevLett.88.174102",
+      "verified_source_urls": [
+        "https://doi.org/10.1103/PhysRevLett.88.174102"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "88",
+        "pages": "174102"
+      },
+      "doi": "10.1103/PhysRevLett.88.174102"
+    },
+    {
+      "id": "lin1991js",
+      "title": "Divergence Measures Based on the Shannon Entropy",
+      "authors": [
+        "Jianhua Lin"
+      ],
+      "year": 1991,
+      "venue": "IEEE Transactions on Information Theory",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "probability-distribution divergence",
+      "citation_role": "Definition",
+      "supported_claim": "Jensen-Shannon divergence compares probability distributions through entropy-based mixture differences and remains finite without the support restrictions of directed KL divergence.",
+      "evidence_boundary": "The logarithm base sets the scale. Probability normalization is required; applying the divergence to a spectrum or ordinal histogram compares those summaries, which can discard time-domain information.",
+      "verification_level": "Publisher metadata and abstract; original paper text.",
+      "primary_url": "https://ieeexplore.ieee.org/abstract/document/61115/authors",
+      "verified_source_urls": [
+        "https://ieeexplore.ieee.org/abstract/document/61115/authors",
+        "https://www.cise.ufl.edu/~anand/sp06/jensen-shannon.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "37",
+        "number": "1",
+        "pages": "145--151"
+      },
+      "doi": "10.1109/18.61115"
+    },
+    {
+      "id": "endres2003jsmetric",
+      "title": "A New Metric for Probability Distributions",
+      "authors": [
+        "Dominik M. Endres",
+        "Johannes E. Schindelin"
+      ],
+      "year": 2003,
+      "venue": "IEEE Transactions on Information Theory",
+      "publication_status": "published",
+      "source_type": "original_research",
+      "family": "probability-distribution metric",
+      "citation_role": "Boundary",
+      "supported_claim": "The paper establishes a metric proportional to the square root of equal-weight Jensen-Shannon divergence.",
+      "evidence_boundary": "The square-root transformation is essential to this metric statement. A metric on probability summaries need not distinguish the underlying raw series when different series produce the same summary.",
+      "verification_level": "Author institution repository metadata and original paper.",
+      "primary_url": "https://research-repository.st-andrews.ac.uk/handle/10023/1591",
+      "verified_source_urls": [
+        "https://research-repository.st-andrews.ac.uk/handle/10023/1591",
+        "https://research-repository.st-andrews.ac.uk/bitstream/10023/1591/1/Endres2003-IEEETransInfTheory49-NewMetric.pdf"
+      ],
+      "checked_on": "2026-10-29",
+      "bibtex_type": "article",
+      "bibtex_fields": {
+        "volume": "49",
+        "number": "7",
+        "pages": "1858--1860"
+      },
+      "doi": "10.1109/TIT.2003.813506"
+    }
+  ]
+}

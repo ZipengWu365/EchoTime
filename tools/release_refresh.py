@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import shutil
 import sys
@@ -61,6 +62,8 @@ from tools.generate_preview_assets import generate_preview_assets  # noqa: E402
 from tools.build_knowledge_pages import build_knowledge_pages  # noqa: E402
 from tools.sync_runtime_assets import sync_runtime_assets  # noqa: E402
 from tools.build_method_animations import build_method_animations, BUNDLE as ANIMATION_BUNDLE  # noqa: E402
+from tools.build_method_animations import check_bundle as check_method_animation_bundle  # noqa: E402
+from echotime.sitebundle import _knowledge_pages, _similarity_lab_pages  # noqa: E402
 
 
 def _write(path: Path, content: str) -> None:
@@ -126,8 +129,17 @@ The old `tsontology` package name remains callable in this release as a compatib
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Refresh the existing root and docs release surfaces.")
+    parser.add_argument(
+        "--reuse-method-animations", action="store_true",
+        help="Validate and reuse the 137 prebuilt method animations; never render them.",
+    )
+    args = parser.parse_args()
     build_knowledge_pages()
-    build_method_animations()
+    if args.reuse_method_animations:
+        check_method_animation_bundle()
+    else:
+        build_method_animations()
     shutil.copytree(ANIMATION_BUNDLE, ROOT / "assets/method-animations", dirs_exist_ok=True)
     generate_preview_assets(ROOT)
     sync_runtime_assets()
@@ -135,12 +147,21 @@ def main() -> None:
     _write(ROOT / "README.generated.md", github_readme())
     _write(ROOT / "README.md", github_readme())
     _write(ROOT / "PYPI_LONG_DESCRIPTION.md", pypi_long_description())
-    _write(ROOT / "homepage.html", project_homepage_html())
+    homepage = project_homepage_html()
+    _write(ROOT / "homepage.html", homepage)
+    _write(ROOT / "index.html", homepage)
     _write(ROOT / "playground.html", project_playground_html())
     _write(ROOT / "start-here.html", project_launchpad_html())
     _write(ROOT / "local_demo.html", demo_server_html())
     for rel, content in project_docs_pages().items():
         _write(ROOT / rel, content)
+    for rel, content in {**_knowledge_pages(), **_similarity_lab_pages()}.items():
+        target = ROOT / rel
+        if isinstance(content, bytes):
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+        else:
+            _write(target, content)
 
     _write(ROOT / "START_HERE.md", start_here_guide())
     _write(ROOT / "INTRODUCTION.md", about())

@@ -47,6 +47,8 @@ jobs:
         run: python tools/sync_runtime_assets.py --check
       - name: Check complete method-animation coverage and asset hashes
         run: python tools/build_method_animations.py --check
+      - name: Check shared-input similarity-lab states and asset hashes
+        run: python tools/build_similarity_lab.py --check
       - name: Build wheel and source distribution
         run: python -m build
       - name: Validate package metadata
@@ -56,4 +58,19 @@ jobs:
           python -m venv /tmp/echotime-wheel-test
           /tmp/echotime-wheel-test/bin/python -m pip install dist/*.whl
           cd /tmp
-          /tmp/echotime-wheel-test/bin/python -c "import echotime, tsontology; from echotime.sitebundle import project_pages_bundle; from echotime.method_animations import animation_catalog; p = project_pages_bundle(); assert 'articles/time-series-similarity-guide.en.html' in p; assert 'references/time-series-similarity-literature.json' in p; assert len(animation_catalog()['methods']) == 137; assert 'assets/method-animations/media/dtw.gif' in p; assert 'animation-twed' in p['guide/methods.html']; print('Wheel imports, reading pages and complete animation assets verified')"
+          /tmp/echotime-wheel-test/bin/python - <<'PY'
+          import echotime, tsontology
+          from echotime.sitebundle import project_pages_bundle
+          from echotime.method_animations import animation_catalog
+          pages = project_pages_bundle()
+          assert "articles/time-series-similarity-guide.en.html" in pages
+          assert "articles/what-time-series-similarity-measures.en.html" in pages
+          assert "references/time-series-similarity-literature.json" in pages
+          assert len(animation_catalog()["methods"]) == 137
+          assert "assets/method-animations/media/dtw.gif" in pages
+          assert "animation-twed" in pages["guide/methods.html"]
+          assert "guide/similarity-lab.html" in pages
+          assert "assets/similarity-lab/states.json" in pages
+          assert pages["assets/similarity-lab/mechanism-comparison.gif"].startswith(b"GIF89a")
+          print("Wheel imports, reading pages, animation assets and shared-input lab verified")
+          PY

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Similarity mechanism lab · EchoTime</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101e2b;--panel:#172a3b;--line:#30495e;--text:#f1f5f8;--muted:#acbdcc;--a:#5ad6d5;--b:#ff9d86;--gold:#ffd16d}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--a);text-underline-offset:.2em}a:hover{color:#a3ffef}button,select,input{font:inherit}button,select{color:var(--text);background:#20384b;border:1px solid #53718a;border-radius:8px;padding:.5rem .7rem}button{cursor:pointer}button:hover{background:#2a465c}button:disabled{opacity:.45;cursor:wait}:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.skip{position:absolute;top:-60px;left:12px;background:var(--gold);color:var(--bg);padding:8px;z-index:20}.skip:focus{top:8px}.nav{border-bottom:1px solid var(--line);background:#0c1823}.nav-inner{max-width:1260px;margin:auto;padding:15px 24px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}.brand{font-size:20px;font-weight:800;color:var(--text);text-decoration:none;margin-right:auto}.nav a:not(.brand){font-size:14px;color:var(--muted)}main{max-width:1260px;margin:auto;padding:32px 24px 60px}.eyebrow{color:var(--gold);text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:.15em}h1{font-size:clamp(2.1rem,4.6vw,3.55rem);line-height:1.08;letter-spacing:-.04em;max-width:970px;margin:10px 0 18px}h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1rem;margin:0 0 8px}.lead{font-size:1.1rem;color:var(--muted);max-width:940px;margin-bottom:22px}.lead strong{color:var(--text)}.note{border-left:3px solid var(--gold);padding:8px 15px;background:#283440;border-radius:0 8px 8px 0;color:#e5dbbd;font-size:14px;margin:20px 0}.controls{display:grid;grid-template-columns:minmax(220px,1fr) minmax(260px,1.5fr) auto;gap:20px;align-items:end;margin-top:26px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}label{display:block;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:7px}select{width:100%;min-width:0}.range-row{display:flex;gap:12px;align-items:center}input[type=range]{accent-color:var(--a);width:100%;min-width:80px}output{min-width:48px;font-variant-numeric:tabular-nums;color:var(--text);font-size:14px}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.status{font-size:14px;color:var(--muted)}.raw-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:18px 0;padding:20px}.raw-head{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap}.legend{font-size:13px;display:flex;gap:20px}.a-key{color:var(--a)}.b-key{color:var(--b)}.gold-key{color:var(--gold)}.transform-note{font-size:14px;color:var(--muted);margin:0 0 10px}.insight{font-size:15px;margin:6px 0 0;color:#e9ddb9}.inspect{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:12px}.inspect label{margin:0}.inspect input{max-width:280px}.inspect output{font-size:13px;flex:1;min-width:220px}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}.method-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}.selector-label{color:var(--a);letter-spacing:.06em;text-transform:uppercase;font-size:11px}.score-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:18px 0 7px}.score{font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.unit{font-size:12px;color:var(--muted)}.value-label{font-size:13px;color:var(--muted)}.preprocessing{font-size:13px;border:1px solid #3c576d;border-radius:7px;padding:7px 9px;min-height:57px;margin:10px 0;color:#d4e5ef}.keeps{font-size:15px;min-height:46px;margin:13px 0 4px}.allows{font-size:14px;color:var(--muted);min-height:44px;margin:0 0 12px}.plot-title{font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 4px}.plot-wrap{background:#102332;border-radius:8px;border:1px solid #2b4357;overflow:hidden}.plot{display:block;width:100%;height:auto}.detail{font-size:12px;color:var(--gold);min-height:20px;margin:6px 0 0}.caution{font-size:13px;color:#d3dce2;min-height:70px;margin:13px 0}.math{font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;white-space:normal;color:#c9e3ed;margin:0}.parameters{font-size:12px;color:var(--muted);margin:8px 0}.sources{font-size:12px;display:flex;gap:10px;flex-wrap:wrap}details{border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-top:18px}summary{cursor:pointer;font-weight:700}.table-wrap{overflow-x:auto;margin-top:15px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}th{color:var(--muted)}td:last-child{font-variant-numeric:tabular-nums}caption{text-align:left;color:var(--muted);font-size:13px;margin-bottom:10px}.reading{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}.reading p,.reading li{font-size:14px;color:var(--muted)}.reading ol{padding-left:20px}.reading li{margin-bottom:9px}.preview{margin-top:26px;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:16px}.preview img{width:100%;height:auto;border-radius:10px;display:block;margin:12px 0}.preview p{font-size:14px;color:var(--muted)}footer{margin-top:30px;color:var(--muted);font-size:12px;line-height:1.8}.error{padding:20px;border:1px solid var(--b);border-radius:10px;color:var(--b)}.hidden{display:none!important}
+    @media(max-width:850px){.comparison,.reading{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.toolbar{grid-column:1/-1}.keeps,.allows,.caution,.preprocessing{min-height:0}}@media(max-width:540px){main{padding:24px 12px 40px}.nav-inner{padding:12px;gap:12px}.controls{grid-template-columns:1fr;padding:15px}.method-card,.raw-card{padding:14px}.score{font-size:28px}.nav a:not(.brand){font-size:12px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#lab">Skip to interactive comparison</a>
+  <nav class="nav" aria-label="Main navigation"><div class="nav-inner">
+    <a class="brand" href="../index.html">EchoTime</a>
+    <a href="index.html">Guide</a><a href="methods.html">Methods</a>
+    <a href="methods.html#method-animations">Method animations</a>
+    <a href="../articles/what-time-series-similarity-measures.en.html">Comparison article</a>
+    <a href="https://github.com/ZipengWu365/EchoTime/discussions">Discussions</a>
+    <a href="https://github.com/ZipengWu365/EchoTime">GitHub</a>
+  </div></nav>
+  <main id="lab">
+    <div class="eyebrow">An interactive mechanism lab</div>
+    <h1>Same series. Different definitions of similarity.</h1>
+    <p class="lead">Change one shared pair of time series. Then inspect what two methods actually compare: <strong>timestamps, aligned points, local changes, frequencies or coarse features.</strong> Each plot uses its own coordinates and units.</p>
+    <div class="note"><strong>Compare the mechanisms in the plots.</strong> Each score retains its own units and preprocessing. Both cards use the same input pair and show the rule behind the value.</div>
+    <p id="loading" class="status" role="status">Loading 147 precomputed input states…</p>
+    <div id="interface" class="hidden">
+      <section class="controls" aria-label="Shared input controls">
+        <div><label for="perturbation">Change B while keeping A fixed</label><select id="perturbation"></select></div>
+        <div><label for="strength" id="strength-label">Strength</label><div class="range-row"><input id="strength" type="range" min="0" max="20" value="12" step="1"><output id="strength-output" for="strength">12/20</output></div></div>
+        <div class="toolbar"><button id="play" type="button">Play levels</button><button id="reset" type="button">Identity</button></div>
+      </section>
+      <section class="raw-card" aria-labelledby="raw-title">
+        <div class="raw-head"><h2 id="raw-title">The shared input pair</h2><div class="legend"><span class="a-key">● A · fixed reference</span><span class="b-key">● B · transformed</span></div></div>
+        <p id="transform-description" class="transform-note"></p>
+        <div id="raw-plot" class="plot-wrap"></div>
+        <div class="inspect"><label for="inspect">Inspect A index</label><input id="inspect" type="range" min="0" max="63" value="32"><output id="inspect-output" for="inspect"></output></div>
+        <p id="insight" class="insight"></p>
+      </section>
+      <section class="comparison" aria-label="Independent method views">
+        <article class="method-card" id="left-card"><label class="selector-label" for="left-method">Left method</label><select id="left-method"></select><div class="method-body"></div></article>
+        <article class="method-card" id="right-card"><label class="selector-label" for="right-method">Right method</label><select id="right-method"></select><div class="method-body"></div></article>
+      </section>
+      <p class="status">Gold marks the inspected position, interval or block. For spectral and ACF views, each feature combines many original samples; a single timestamp has no one-to-one feature counterpart. Alignment lines show actual matched indices.</p>
+      <details><summary>All values for this exact input pair</summary><div class="table-wrap"><table><caption>Values retain each method's units and normalization.</caption><thead><tr><th>Method</th><th>Value</th><th>Unit</th><th>Closer under this rule</th></tr></thead><tbody id="values-table"></tbody></table></div><p><button id="download" type="button">Download this state as JSON</button></p></details>
+    </div>
+    <noscript><p class="error">The interactive controls need JavaScript. The static comparison below and the downloadable JSON remain available.</p></noscript>
+    <section class="reading" aria-label="How to interpret the comparison">
+      <div><h2>Three useful comparisons</h2><ol>
+        <li><strong>Offset → raw RMSE vs z-RMSE.</strong> Raw differences retain the offset. Separate centering and scaling can remove it completely.</li>
+        <li><strong>Local warp → raw RMSE vs DTW.</strong> Inspect the correspondence lines. DTW can repeat matches while respecting the band and chronology.</li>
+        <li><strong>Phase change → raw RMSE vs Fourier magnitude.</strong> Timing can change while every magnitude stays fixed. Identical features do not establish identical waveforms.</li>
+      </ol></div>
+      <div><h2>What is controlled</h2><p>One synthetic 64-sample reference, seven transformations, 21 discrete levels each, and eleven explicit reference definitions. A and B are the same in both cards. Method parameters stay fixed while you move the slider.</p><p>The base signal contains oscillation, a broad positive peak, a short negative event and a small trend. Controlled transformations connect each formula to the information shown in its plots.</p><p>A circular shift wraps samples; SBD searches zero-padded linear shifts. The phase transformation changes only interior complex FFT coefficients. DC and Nyquist stay real and unchanged. The reversal slider mixes A with its reversal; only its final endpoint is an exact reversal.</p></div>
+    </section>
+    <section class="preview" aria-labelledby="preview-title">
+      <div class="raw-head"><h2 id="preview-title">A shareable six-transformation walkthrough</h2><button id="gif-toggle" type="button">Play GIF</button></div>
+      <p>Four fixed panels: the shared raw inputs, raw RMSE, constrained DTW, and Fourier magnitudes. All frames come from the same saved calculations used above.</p>
+      <img id="comparison-image" src="../assets/similarity-lab/mechanism-comparison.png" width="1200" height="690" alt="Same A and B compared using raw RMSE, monotone DTW matches, and DFT magnitudes; the static frame shows a phase change with identical magnitude features.">
+      <p><a href="../assets/similarity-lab/mechanism-comparison.gif" download>Download GIF</a> · <a href="../assets/similarity-lab/mechanism-comparison.png" download>Static PNG</a> · <a href="../assets/similarity-lab/states.json" download>All numerical states</a></p>
+    </section>
+    <footer>Definitions and primary sources appear within each method card. Every transformation, feature, alignment and contribution is computed in <a href="https://github.com/ZipengWu365/EchoTime/blob/main/tools/build_similarity_lab.py">the reproducible Python generator</a>. Saved values use ten decimal places; display rounding can show a tiny floating-point residual as zero.<br>EchoTime · <a href="../index.html">Project home</a> · <a href="index.html">Guide</a></footer>
+  </main>
+  <script src="../assets/similarity-lab/lab.js" defer></script>
+</body>
+</html>

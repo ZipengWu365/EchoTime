@@ -41,6 +41,8 @@ changes you are prepared to ignore.
 | Which papers support a method, and what did they actually evaluate? | [Verified reading list](docs/references/time-series-similarity-literature.md) · [BibTeX](docs/references/time-series-similarity-literature.bib) · [JSON](docs/references/time-series-similarity-literature.json) |
 | Which methods are implemented in this package? | [Implementation atlas](SIMILARITY_METHOD_ATLAS.md) |
 | How does each method work, step by step? | [137 animated explanations · 动图详解](docs/method-animations/README.md) |
+| What information does each comparison retain or ignore? | [Mechanism-level tour of distances, alignments and representations](docs/articles/what-time-series-similarity-measures.en.md) |
+| How do methods respond to the same changed curve? | [Interactive similarity lab](https://zipengwu.me/EchoTime/guide/similarity-lab.html) |
 
 The [web reading guide](https://zipengwu.me/EchoTime/articles/) includes both languages.
 EchoTime's aggregate score is a weighted diagnostic summary. It is not a calibrated
@@ -57,6 +59,21 @@ Each entry in the [animated method guide](docs/method-animations/README.md) incl
 its inputs, mathematical convention, four stages, limitations and definition
 sources, with English and Chinese explanations. The [existing Methods Atlas](https://zipengwu.me/EchoTime/guide/methods.html#method-animations)
 offers static previews, click-to-play GIFs and method search.
+
+</details>
+
+<details>
+<summary>Compare mechanisms on the same input pair / 同一组曲线的方法对照</summary>
+
+[![Shared input curves, DTW correspondences and Fourier magnitudes](src/echotime/data/similarity_lab/mechanism-comparison.png)](https://zipengwu.me/EchoTime/guide/similarity-lab.html)
+
+The [interactive lab](https://zipengwu.me/EchoTime/guide/similarity-lab.html) lets you
+change offset, gain, timing, local events, phase and order while comparing eleven
+explicit method definitions. Inspect the actual alignments, features and numeric
+contributions, or [open the overview GIF](src/echotime/data/similarity_lab/mechanism-comparison.gif).
+The [mechanism tour](docs/articles/what-time-series-similarity-measures.en.md)
+connects these experiments to the original papers.
+[Discuss the methods and suggest examples](https://github.com/ZipengWu365/EchoTime/discussions).
 
 </details>
 

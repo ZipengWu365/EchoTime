@@ -146,6 +146,8 @@ def project_demo_manifest(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
             "homepage": "index.html",
             "start_here": "start-here.html",
             "playground": "playground.html",
+            "similarity_lab": "guide/similarity-lab.html",
+            "mechanism_tour": "articles/what-time-series-similarity-measures.en.html",
             "reports": {
                 "weekly_website_traffic": "reports/weekly_website_traffic_report.html",
                 "irregular_patient_vitals": "reports/irregular_patient_vitals_report.html",
@@ -199,6 +201,7 @@ def project_pages_bundle(*, version: str = PACKAGE_VERSION) -> dict[str, Any]:
     return enrich_pages_bundle({
         **_knowledge_pages(),
         **animation_assets(),
+        **_similarity_lab_pages(),
         "index.html": project_homepage_html(version=version),
         "start-here.html": project_launchpad_html(version=version),
         "playground.html": project_playground_html(version=version),
@@ -343,6 +346,30 @@ def _knowledge_pages() -> dict[str, str]:
         )
     return {file.relative_to(root).as_posix(): file.read_text(encoding="utf-8")
             for file in sorted(root.rglob("*")) if file.is_file()}
+
+
+def _similarity_lab_pages() -> dict[str, str | bytes]:
+    """Export the prebuilt mechanism lab without importing its build dependencies."""
+    root = Path(__file__).with_name("data") / "similarity_lab"
+    names = (
+        "similarity-lab.html", "lab.js", "states.json", "manifest.json",
+        "mechanism-comparison.gif", "mechanism-comparison.png",
+    )
+    missing = [name for name in names if not (root / name).is_file()]
+    if missing:
+        raise FileNotFoundError(
+            "Missing similarity-lab assets: " + ", ".join(missing)
+            + ". In a source checkout run python tools/build_similarity_lab.py; "
+            "otherwise reinstall EchoTime."
+        )
+    pages: dict[str, str | bytes] = {}
+    for name in names:
+        path = root / name
+        destination = ("guide/similarity-lab.html" if name.endswith(".html")
+                       else "assets/similarity-lab/" + name)
+        pages[destination] = (path.read_bytes() if path.suffix in {".gif", ".png"}
+                              else path.read_text(encoding="utf-8"))
+    return pages
 
 
 def write_pages_bundle(path: str | Path, *, version: str = PACKAGE_VERSION) -> Path:

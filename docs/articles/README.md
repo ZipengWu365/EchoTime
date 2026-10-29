@@ -6,6 +6,19 @@ These articles compare tasks, mathematical assumptions and software interfaces. 
 |---|---|---|
 | [Time-series similarity: choosing between DTW, matrix profiles and learned representations](time-series-similarity-guide.en.md) | English | 2026-10-29 |
 | [时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选](time-series-similarity-guide.zh-CN.md) | 简体中文 | 2026-10-29 |
+| [What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations](what-time-series-similarity-measures.en.md) | English | 2026-10-29 |
+
+## Compare mechanisms on the same curves
+
+The [interactive similarity lab](https://zipengwu.me/EchoTime/guide/similarity-lab.html)
+holds one reference curve fixed while changing offset, gain, global timing, local
+warping, a local event, Fourier phase or sample order. Compare eleven explicit
+method definitions through their actual alignments, features and contributions.
+The new mechanism tour connects those observations to the original papers and
+includes three reproducible numerical examples.
+
+[Open the overview GIF](https://zipengwu.me/EchoTime/assets/similarity-lab/mechanism-comparison.gif)
+or [discuss assumptions and suggest examples](https://github.com/ZipengWu365/EchoTime/discussions).
 
 ## Evidence ledger
 

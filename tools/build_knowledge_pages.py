@@ -23,6 +23,7 @@ from markdown.treeprocessors import Treeprocessor
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE = ROOT / "src" / "echotime" / "data" / "knowledge"
 REPOSITORY = "https://github.com/ZipengWu365/EchoTime/blob/main/"
+SITE_PREFIX = "/EchoTime/"
 PAGES = {
     "docs/articles/README.md": ("articles/index.html", "en"),
     "docs/articles/time-series-similarity-guide.en.md": (
@@ -30,6 +31,9 @@ PAGES = {
     ),
     "docs/articles/time-series-similarity-guide.zh-CN.md": (
         "articles/time-series-similarity-guide.zh-CN.html", "zh-CN"
+    ),
+    "docs/articles/what-time-series-similarity-measures.en.md": (
+        "articles/what-time-series-similarity-measures.en.html", "en"
     ),
     "docs/references/time-series-similarity-literature.md": (
         "references/time-series-similarity-literature.html", "en"
@@ -70,6 +74,14 @@ def _output_path(source: str) -> str:
 
 def _rewrite_link(value: str, source: str, destination: str) -> str:
     parsed = urlsplit(value)
+    if (parsed.netloc == "zipengwu.me" and parsed.scheme in {"http", "https"}
+            and parsed.path.startswith(SITE_PREFIX)):
+        # Keep versioned site links and images inside a locally exported bundle.
+        target = parsed.path.removeprefix(SITE_PREFIX)
+        if not target or target.endswith("/"):
+            target += "index.html"
+        path = posixpath.relpath(target, posixpath.dirname(destination))
+        return urlunsplit(("", "", path, parsed.query, parsed.fragment))
     if parsed.scheme or parsed.netloc or not parsed.path:
         return value
     resolved = (ROOT / source).parent.joinpath(parsed.path).resolve()
@@ -129,10 +141,14 @@ def _render(source: str, destination: str, language: str) -> str:
 <a href="../articles/index.html">Reading guide</a>
 <a href="../articles/time-series-similarity-guide.en.html" lang="en">English</a>
 <a href="../articles/time-series-similarity-guide.zh-CN.html" lang="zh-CN">中文</a>
-<a href="../references/time-series-similarity-literature.html">Paper index</a></nav>
+<a href="../articles/what-time-series-similarity-measures.en.html">Mechanism tour</a>
+<a href="../guide/similarity-lab.html">Interactive lab</a>
+<a href="../references/time-series-similarity-literature.html">Paper index</a>
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
 {body}
 <hr><p class="source">Built from <a href="{REPOSITORY}{source}">the versioned Markdown source</a>.
-Corrections and reproducible examples are welcome in the repository.</p>
+Share questions, corrections and reproducible examples in
+<a href="https://github.com/ZipengWu365/EchoTime/discussions">GitHub Discussions</a>.</p>
 </main></body></html>
 """
 
