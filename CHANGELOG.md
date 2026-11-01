@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.18.0.dev0 — 2026-11-01 CPU performance
+
+Numerics are unchanged: every accelerated path is tested against the
+pure-Python reference (bit-identical for elastic distances, shift-based
+correlation, sample/permutation entropy and ordinal counts; within rounding,
+<= 1e-12, for embedding distances and the vectorised correlation summary).
+See docs/performance.md and benchmarks/perf_2026-11.csv.
+
+### Native kernels (optional C++ extension)
+
+- Add `echotime._echotime_native` (C++17, pybind11, std::thread): LCSS, EDR,
+  ERP, TWED and DTW dynamic programmes and sample-entropy template counts. The
+  GIL is released and pairs run in parallel; univariate pairs of equal length
+  run 8 at a time in SIMD lanes (GCC/Clang vector extensions), and banded rows
+  cost O(band) instead of O(m). Built with -O3, no fast-math and
+  -ffp-contract=off so results equal the Python reference bit for bit.
+- The extension is optional (`setup.py` marks it optional): without a C++
+  compiler the install succeeds and the pure-Python reference runs.
+  `ECHOTIME_BACKEND=python|native|auto`, `set_similarity_backend()` and
+  `similarity_backend_info()` select and report the backend;
+  `ECHOTIME_NUM_THREADS` sets the default thread count.
+- `lcss_similarity`, `lcss_distance`, `edr_distance`, `erp_distance`,
+  `twed_distance`, `compare_series` (its DTW) and `sample_entropy` (and hence
+  `profile_series`/`profile_dataset`) use the kernels automatically.
+
+### Batch APIs (new, additive)
+
+- `pairwise_distance_matrix`, `cross_distance_matrix`, `one_vs_many` and
+  `paired_distances` evaluate any of 16 metrics over many pairs, preparing each
+  series once. Shift-based correlation uses one FFT per series and one inverse
+  FFT per pair, then recomputes the leading lags with the dot products
+  `np.correlate` uses, so values and lags are identical to the single-pair
+  functions.
+- New `dtw_distance(x, y, window=None, normalize=False)`: classic DTW with an
+  optional Sakoe-Chiba band; equals NeuroTime's `dtw_distance` for
+  equal-length univariate input.
+
+### Faster pure-Python paths (also used as fallback)
+
+- Ordinal-pattern counts (`ordinal_pattern_js_distance`, `permutation_entropy`)
+  are vectorised with the same stable sort per window.
+- `lz_complexity` computes the median once instead of once per sample.
+- `compute_multivariate_metrics` computes all pairwise correlations with one
+  centred cross-product (native backend only; the loop remains the reference).
+
+### Version
+
+- Package version 0.18.0.dev0 in pyproject, `__version__`, `PACKAGE_VERSION`
+  and the demo manifests. Generated pages and marketing text are not
+  regenerated for this development version.
+
 ## Unreleased — 2026-10-29 maintenance
 
 These changes describe the repository source. The package version remains 0.17.1

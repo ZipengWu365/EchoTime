@@ -10,6 +10,7 @@ import numpy as np
 from scipy.signal import savgol_filter
 from scipy.stats import kendalltau, spearmanr
 
+from . import _native
 from .metrics import EPS, _js_divergence, _normalized_spectrum
 from .profile import DatasetProfile, SeriesProfile, profile_dataset
 
@@ -448,6 +449,15 @@ def _dtw_distance(x: np.ndarray, y: np.ndarray, window: int | None = None) -> fl
     if window is None:
         window = max(abs(n - m), max(5, min(n, m) // 8))
     window = max(window, abs(n - m))
+    if _native.use_native():
+        offsets_x = np.array([0, n], dtype=np.int64)
+        offsets_y = np.array([0, m], dtype=np.int64)
+        one = np.zeros(1, dtype=np.int64)
+        raw = _native.ext().dtw_pairs(x.reshape(-1, 1), offsets_x, y.reshape(-1, 1), offsets_y, one, one, int(window), 1)
+        final = float(raw[0])
+        if not np.isfinite(final):
+            return float("nan")
+        return final / (n + m)
     cost = np.full((n + 1, m + 1), np.inf, dtype=float)
     cost[0, 0] = 0.0
     for i in range(1, n + 1):

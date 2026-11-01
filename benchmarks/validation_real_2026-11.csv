@@ -1,0 +1,42 @@
+dataset,metric,params,n_pairs,bit_identical,max_abs_diff,required,pass,reference_seconds
+aomic_id1000,sbd,{},820,True,0.0,bit-identical,True,0.08
+aomic_id1000,max_ncc,{},820,True,0.0,bit-identical,True,0.08
+aomic_id1000,best_shift,{},820,True,0.0,bit-identical,True,0.08
+aomic_id1000,lcss,{},820,True,0.0,bit-identical,True,19.45
+aomic_id1000,edr,{},820,True,0.0,bit-identical,True,40.91
+aomic_id1000,erp,{},820,True,0.0,bit-identical,True,50.2
+aomic_id1000,twed,{},820,True,0.0,bit-identical,True,65.62
+aomic_id1000,dtw,{'window': 10},820,True,0.0,bit-identical,True,3.14
+aomic_id1000,acf,{},820,False,2.220446049250313e-16,<=1e-12,True,0.08
+aomic_id1000,periodogram,{},820,False,1.1102230246251565e-16,<=1e-12,True,0.05
+aomic_id1000,trend,{},820,True,0.0,<=1e-12,True,0.17
+aomic_id1000,ordinal_js,{},820,True,0.0,<=1e-12,True,0.11
+aomic_id1000,linear_trend_model,{},820,True,0.0,<=1e-12,True,0.14
+nndb,sbd,{},465,True,0.0,bit-identical,True,2.91
+nndb,max_ncc,{},465,True,0.0,bit-identical,True,2.95
+nndb,best_shift,{},465,True,0.0,bit-identical,True,2.95
+nndb,acf,{},465,False,2.220446049250313e-16,<=1e-12,True,0.11
+nndb,periodogram,{},465,False,3.3881317890172014e-21,<=1e-12,True,0.46
+nndb,trend,{},465,True,0.0,<=1e-12,True,0.38
+nndb,ordinal_js,{},465,True,0.0,<=1e-12,True,0.37
+nndb,linear_trend_model,{},465,True,0.0,<=1e-12,True,0.39
+nndb,lcss,"{'window': 20, 'epsilon': 0.5}",55,True,0.0,bit-identical,True,5.37
+nndb,edr,{'window': 20},55,True,0.0,bit-identical,True,9.05
+nndb,erp,{'window': 20},55,True,0.0,bit-identical,True,10.56
+nndb,twed,{'window': 20},55,True,0.0,bit-identical,True,14.26
+nndb,dtw,{'window': 20},55,True,0.0,bit-identical,True,7.41
+nndb_full_dp,erp,{},2,True,0.0,bit-identical,True,45.04
+nndb_full_dp,twed,{},2,True,0.0,bit-identical,True,55.61
+nndb_full_dp,dtw,{},2,True,0.0,bit-identical,True,32.29
+aomic_id1000_profile,profile_series_axes,{'roi': 0},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 1},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 2},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 3},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 4},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 5},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 6},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 7},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 8},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_profile,profile_series_axes,{'roi': 9},12,True,0.0,<=1e-12,True,0.0
+aomic_id1000_vs_neurotime,dtw_vs_neurotime_dtw_distance,{'window': None},10,True,0.0,<=1e-12,True,0.0
+aomic_id1000_vs_neurotime,dtw_vs_neurotime_dtw_distance,{'window': 5},10,True,0.0,<=1e-12,True,0.0

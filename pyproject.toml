@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=77.0.3", "wheel"]
+requires = ["setuptools>=77.0.3", "wheel", "pybind11>=2.12"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "echotime"
-version = "0.17.1"
+version = "0.18.0.dev0"
 description = "Explainable structural similarity for time series and time-series datasets."
 readme = { file = "PYPI_LONG_DESCRIPTION.md", content-type = "text/markdown" }
 requires-python = ">=3.10"

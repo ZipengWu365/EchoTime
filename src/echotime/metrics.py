@@ -9,6 +9,8 @@ from typing import Sequence
 import numpy as np
 from scipy.signal import lombscargle, periodogram, savgol_filter
 
+from . import _native
+
 EPS = 1e-12
 
 
@@ -325,17 +327,27 @@ def _entropy_subsample(x: np.ndarray, max_points: int = 600) -> np.ndarray:
     return x[::stride]
 
 
+def _ordinal_counts_first_seen(x: np.ndarray, order: int, delay: int) -> np.ndarray:
+    """Ordinal-pattern counts in order of first appearance.
+
+    Vectorised equivalent of counting ``tuple(np.argsort(window, kind="mergesort"))``
+    in a dict: the same stable sort per window and the same insertion order, so
+    the counts (and anything summed over them) are identical.
+    """
+    n_windows = len(x) - delay * (order - 1)
+    starts = np.arange(n_windows)[:, None] + delay * np.arange(order)[None, :]
+    ranks = np.argsort(x[starts], axis=1, kind="mergesort")
+    codes = ranks @ (order ** np.arange(order - 1, -1, -1, dtype=np.int64))
+    _, first, counts = np.unique(codes, return_index=True, return_counts=True)
+    return counts[np.argsort(first, kind="stable")].astype(float)
+
+
 def permutation_entropy(x: np.ndarray, order: int = 3, delay: int = 1) -> float:
     x = _entropy_subsample(np.asarray(x, dtype=float))
     n = len(x)
     if n < order * delay + 2:
         return float("nan")
-    patterns: dict[tuple[int, ...], int] = {}
-    for idx in range(n - delay * (order - 1)):
-        window = x[idx : idx + delay * order : delay]
-        pattern = tuple(np.argsort(window, kind="mergesort"))
-        patterns[pattern] = patterns.get(pattern, 0) + 1
-    counts = np.asarray(list(patterns.values()), dtype=float)
+    counts = _ordinal_counts_first_seen(x, order, delay)
     probs = counts / counts.sum()
     entropy = -np.sum(probs * np.log(probs + EPS)) / math.log(math.factorial(order))
     return float(np.clip(entropy, 0.0, 1.0))
@@ -365,8 +377,16 @@ def sample_entropy(x: np.ndarray, m: int = 2, r_ratio: float = 0.2) -> float:
             return 0.0
         return count / templates
 
-    phi_m = _phi(m)
-    phi_m1 = _phi(m + 1)
+    if _native.use_native():
+        ext = _native.ext()
+        xc = np.ascontiguousarray(x, dtype=float)
+        count_m, templates_m = ext.sample_entropy_counts(xc, m, r)
+        count_m1, templates_m1 = ext.sample_entropy_counts(xc, m + 1, r)
+        phi_m = count_m / templates_m if templates_m > 0 else 0.0
+        phi_m1 = count_m1 / templates_m1 if templates_m1 > 0 else 0.0
+    else:
+        phi_m = _phi(m)
+        phi_m1 = _phi(m + 1)
     if phi_m <= EPS or phi_m1 <= EPS:
         return float("nan")
     return float(max(0.0, -np.log(phi_m1 / phi_m)))
@@ -375,7 +395,8 @@ def sample_entropy(x: np.ndarray, m: int = 2, r_ratio: float = 0.2) -> float:
 def lz_complexity(x: np.ndarray) -> float:
     if len(x) < 8:
         return float("nan")
-    binary = "".join("1" if value >= np.median(x) else "0" for value in x)
+    median = np.median(x)
+    binary = "".join("1" if value >= median else "0" for value in x)
     phrases: set[str] = set()
     i = 0
     increment = 1
@@ -710,34 +731,64 @@ def compute_series_metrics(x: np.ndarray, timestamps: np.ndarray | None = None, 
     return SeriesSummary(metrics=metrics, clean_values=clean, clean_timestamps=clean_ts)
 
 
+def _abs_pairwise_corr_loop(arr: np.ndarray) -> list[float]:
+    """Reference: |_safe_corr| over column pairs (i < j), nonfinite results dropped."""
+
+    values: list[float] = []
+    for i in range(arr.shape[1]):
+        for j in range(i + 1, arr.shape[1]):
+            corr = abs(_safe_corr(arr[:, i], arr[:, j]))
+            if np.isfinite(corr):
+                values.append(corr)
+    return values
+
+
+def _abs_pairwise_corr(arr: np.ndarray) -> np.ndarray | list[float]:
+    """All-pairs ``abs(_safe_corr)`` in the same (i < j) order as the loop.
+
+    With finite input this is one centred cross-product instead of R(R-1)/2
+    ``np.corrcoef`` calls; values agree with the loop to rounding (about 1e-16),
+    because numpy's corrcoef uses the same centring, (N-1) scaling, the two
+    successive stddev divisions and clipping. Columns with population SD below
+    EPS give 0.0, as ``_safe_corr`` does. Nonfinite input uses the loop.
+    """
+
+    if (not _native.use_native()) or arr.shape[0] < 3 or not np.all(np.isfinite(arr)):
+        return _abs_pairwise_corr_loop(arr)
+    n_obs = arr.shape[0]
+    pop_sd = np.std(arr, axis=0)
+    centred = arr - np.mean(arr, axis=0)
+    cov = (centred.T @ centred) / (n_obs - 1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        sd = np.sqrt(np.diag(cov))
+        corr = cov / sd[:, None]
+        corr = corr / sd[None, :]
+    corr = np.clip(corr, -1.0, 1.0)
+    rows, cols = np.triu_indices(arr.shape[1], k=1)
+    values = np.abs(corr[rows, cols])
+    flat = pop_sd < EPS
+    values[flat[rows] | flat[cols]] = 0.0
+    return values
+
+
 def compute_multivariate_metrics(matrix: np.ndarray) -> MultivariateMetrics:
     arr = np.asarray(matrix, dtype=float)
     if arr.ndim != 2 or arr.shape[1] < 2 or arr.shape[0] < 8:
         return MultivariateMetrics(mean_abs_correlation=float("nan"), dynamic_correlation_instability=float("nan"))
 
-    corr_values: list[float] = []
-    for i in range(arr.shape[1]):
-        for j in range(i + 1, arr.shape[1]):
-            corr = abs(_safe_corr(arr[:, i], arr[:, j]))
-            if np.isfinite(corr):
-                corr_values.append(corr)
-    mean_abs = float(np.mean(corr_values)) if corr_values else float("nan")
+    corr_values = _abs_pairwise_corr(arr)
+    mean_abs = float(np.mean(corr_values)) if len(corr_values) else float("nan")
 
     window = _window_length(arr.shape[0], fraction=0.15, minimum=12, maximum=96)
-    if arr.shape[0] < window + 2 or not corr_values:
+    if arr.shape[0] < window + 2 or not len(corr_values):
         return MultivariateMetrics(mean_abs_correlation=mean_abs, dynamic_correlation_instability=float("nan"))
 
     stride = max(1, window // 2)
     window_means: list[float] = []
     for start in range(0, arr.shape[0] - window + 1, stride):
         segment = arr[start : start + window]
-        segment_values = []
-        for i in range(segment.shape[1]):
-            for j in range(i + 1, segment.shape[1]):
-                corr = abs(_safe_corr(segment[:, i], segment[:, j]))
-                if np.isfinite(corr):
-                    segment_values.append(corr)
-        if segment_values:
+        segment_values = _abs_pairwise_corr(segment)
+        if len(segment_values):
             window_means.append(float(np.mean(segment_values)))
     instability = float(np.std(window_means)) if len(window_means) >= 2 else float("nan")
     return MultivariateMetrics(mean_abs_correlation=mean_abs, dynamic_correlation_instability=instability)

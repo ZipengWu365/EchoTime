@@ -8,6 +8,7 @@ from typing import Any, Literal
 
 import numpy as np
 
+from . import _native
 from .metrics import EPS
 
 _FAST_MODE_MAX_POINTS = 512
@@ -345,14 +346,19 @@ def _ordinal_pattern_distribution(x: Any, *, order: int = 3, delay: int = 1) -> 
         raise ValueError("order must be >= 2 and delay must be >= 1.")
     n_vectors = len(values) - (order - 1) * delay
     patterns = list(permutations(range(order)))
-    index = {pattern: idx for idx, pattern in enumerate(patterns)}
     counts = np.zeros(len(patterns), dtype=float)
     if n_vectors <= 0:
         return counts
-    for idx in range(n_vectors):
-        window = values[idx : idx + order * delay : delay]
-        pattern = tuple(np.argsort(window, kind="mergesort"))
-        counts[index[pattern]] += 1.0
+    # Vectorised form of counting tuple(np.argsort(window, kind="mergesort"))
+    # per window: the same stable sort per row, mapped to the index of that
+    # permutation in itertools.permutations order (which is ascending in the
+    # base-``order`` code), so the counts are identical.
+    starts = np.arange(n_vectors)[:, None] + delay * np.arange(order)[None, :]
+    ranks = np.argsort(values[starts], axis=1, kind="mergesort")
+    weights = order ** np.arange(order - 1, -1, -1, dtype=np.int64)
+    pattern_codes = np.asarray(patterns, dtype=np.int64) @ weights
+    positions = np.searchsorted(pattern_codes, ranks.astype(np.int64) @ weights)
+    counts += np.bincount(positions, minlength=len(patterns)).astype(float)
     if float(np.sum(counts)) > EPS:
         counts = counts / float(np.sum(counts))
     return counts
@@ -405,6 +411,64 @@ def _match(a: np.ndarray, b: np.ndarray, epsilon: float) -> bool:
     return _local_l2(a, b) <= epsilon
 
 
+# ---------------------------------------------------------------------------
+# Elastic distances. Each public function prepares the pair exactly as before,
+# then runs the dynamic programme either in the compiled kernel or in the
+# pure-Python reference loop below (``_*_dp_python``), which defines the
+# numbers. The native kernels reproduce the reference bit for bit.
+# ---------------------------------------------------------------------------
+
+
+def _bank(arrays: list[np.ndarray], d: int) -> tuple[np.ndarray, np.ndarray]:
+    offsets = np.zeros(len(arrays) + 1, dtype=np.int64)
+    if arrays:
+        offsets[1:] = np.cumsum([len(a) for a in arrays])
+    if offsets[-1]:
+        values = np.concatenate([np.asarray(a, dtype=float).reshape(-1, d) for a in arrays], axis=0)
+    else:
+        values = np.zeros((0, d), dtype=float)
+    return np.ascontiguousarray(values, dtype=float), offsets
+
+
+def _rows(arrays: list[np.ndarray]) -> np.ndarray:
+    if not arrays:
+        return np.zeros(0, dtype=float)
+    return np.ascontiguousarray(np.concatenate([np.asarray(a, dtype=float).reshape(-1) for a in arrays]), dtype=float)
+
+
+def _native_window(window: int | None) -> int:
+    return -1 if window is None else int(window)
+
+
+_ONE = np.zeros(1, dtype=np.int64)
+
+
+def _lcss_dp_python(left: np.ndarray, right: np.ndarray, epsilon: float, resolved_window: int | None) -> float:
+    n, m = len(left), len(right)
+    prev = np.zeros(m + 1, dtype=float)
+    curr = np.zeros(m + 1, dtype=float)
+    for i in range(1, n + 1):
+        curr.fill(0.0)
+        j_start, j_end = _window_bounds(i, m, resolved_window)
+        matches = _row_match_mask(left[i - 1], right[j_start - 1 : j_end - 1], epsilon)
+        for j in range(j_start, j_end):
+            if matches[j - j_start]:
+                curr[j] = prev[j - 1] + 1.0
+            else:
+                curr[j] = max(prev[j], curr[j - 1])
+        prev, curr = curr, prev
+    return float(prev[m] / max(1, min(n, m)))
+
+
+def _lcss_dp(left: np.ndarray, right: np.ndarray, epsilon: float, resolved_window: int | None) -> float:
+    if _native.use_native():
+        va, oa = _bank([left], left.shape[1])
+        vb, ob = _bank([right], right.shape[1])
+        out = _native.ext().lcss_pairs(va, oa, vb, ob, _ONE, _ONE, float(epsilon), _native_window(resolved_window), False, 1)
+        return float(out[0])
+    return _lcss_dp_python(left, right, epsilon, resolved_window)
+
+
 def lcss_similarity(
     x: Any,
     y: Any,
@@ -419,19 +483,7 @@ def lcss_similarity(
     if n == 0 or m == 0:
         return float("nan")
     resolved_window = _resolved_window(n, m, window, resolved_mode)
-    prev = np.zeros(m + 1, dtype=float)
-    curr = np.zeros(m + 1, dtype=float)
-    for i in range(1, n + 1):
-        curr.fill(0.0)
-        j_start, j_end = _window_bounds(i, m, resolved_window)
-        matches = _row_match_mask(left[i - 1], right[j_start - 1 : j_end - 1], epsilon)
-        for j in range(j_start, j_end):
-            if matches[j - j_start]:
-                curr[j] = prev[j - 1] + 1.0
-            else:
-                curr[j] = max(prev[j], curr[j - 1])
-        prev, curr = curr, prev
-    return float(prev[m] / max(1, min(n, m)))
+    return _lcss_dp(left, right, epsilon, resolved_window)
 
 
 def lcss_distance(
@@ -448,21 +500,8 @@ def lcss_distance(
     return float(1.0 - similarity)
 
 
-def edr_distance(
-    x: Any,
-    y: Any,
-    *,
-    epsilon: float = 1.0,
-    normalized: bool = True,
-    window: int | None = None,
-    mode: Literal["exact", "fast"] = "exact",
-) -> float:
-    epsilon = _nonnegative_parameter("epsilon", epsilon)
-    left, right, _, _, resolved_mode = _prepare_elastic_pair(x, y, mode=mode)
+def _edr_dp_python(left: np.ndarray, right: np.ndarray, epsilon: float, normalized: bool, resolved_window: int | None) -> float:
     n, m = len(left), len(right)
-    if n == 0 or m == 0:
-        return float("nan")
-    resolved_window = _resolved_window(n, m, window, resolved_mode)
     prev = np.arange(m + 1, dtype=float)
     curr = np.full(m + 1, np.inf, dtype=float)
     for i in range(1, n + 1):
@@ -480,28 +519,52 @@ def edr_distance(
     return value
 
 
-def erp_distance(
+def _edr_dp(left: np.ndarray, right: np.ndarray, epsilon: float, normalized: bool, resolved_window: int | None) -> float:
+    if _native.use_native():
+        va, oa = _bank([left], left.shape[1])
+        vb, ob = _bank([right], right.shape[1])
+        out = _native.ext().edr_pairs(va, oa, vb, ob, _ONE, _ONE, float(epsilon), bool(normalized), _native_window(resolved_window), False, 1)
+        return float(out[0])
+    return _edr_dp_python(left, right, epsilon, normalized, resolved_window)
+
+
+def edr_distance(
     x: Any,
     y: Any,
     *,
-    gap_value: float | np.ndarray = 0.0,
+    epsilon: float = 1.0,
+    normalized: bool = True,
     window: int | None = None,
     mode: Literal["exact", "fast"] = "exact",
 ) -> float:
+    epsilon = _nonnegative_parameter("epsilon", epsilon)
     left, right, _, _, resolved_mode = _prepare_elastic_pair(x, y, mode=mode)
     n, m = len(left), len(right)
     if n == 0 or m == 0:
         return float("nan")
     resolved_window = _resolved_window(n, m, window, resolved_mode)
+    return _edr_dp(left, right, epsilon, normalized, resolved_window)
+
+
+def _erp_gap(gap_value: float | np.ndarray, d: int) -> np.ndarray:
     gap = np.asarray(gap_value, dtype=float)
     if gap.ndim == 0:
-        gap = np.full(left.shape[1], float(gap))
-    if gap.shape != (left.shape[1],):
-        raise ValueError(f"gap_value must broadcast to shape {(left.shape[1],)}.")
+        gap = np.full(d, float(gap))
+    if gap.shape != (d,):
+        raise ValueError(f"gap_value must broadcast to shape {(d,)}.")
     if not np.all(np.isfinite(gap)):
         raise ValueError("gap_value must be finite.")
-    left_gap_costs = _pointwise_l2_to_reference(left, gap)
-    right_gap_costs = _pointwise_l2_to_reference(right, gap)
+    return gap
+
+
+def _erp_dp_python(
+    left: np.ndarray,
+    right: np.ndarray,
+    left_gap_costs: np.ndarray,
+    right_gap_costs: np.ndarray,
+    resolved_window: int | None,
+) -> float:
+    n, m = len(left), len(right)
     prev = np.full(m + 1, np.inf, dtype=float)
     curr = np.full(m + 1, np.inf, dtype=float)
     prev[0] = 0.0
@@ -520,6 +583,101 @@ def erp_distance(
             )
         prev, curr = curr, prev
     return float(prev[m])
+
+
+def _erp_dp(
+    left: np.ndarray,
+    right: np.ndarray,
+    left_gap_costs: np.ndarray,
+    right_gap_costs: np.ndarray,
+    resolved_window: int | None,
+) -> float:
+    if _native.use_native():
+        va, oa = _bank([left], left.shape[1])
+        vb, ob = _bank([right], right.shape[1])
+        out = _native.ext().erp_pairs(
+            va, oa, _rows([left_gap_costs]), vb, ob, _rows([right_gap_costs]), _ONE, _ONE, _native_window(resolved_window), False, 1
+        )
+        return float(out[0])
+    return _erp_dp_python(left, right, left_gap_costs, right_gap_costs, resolved_window)
+
+
+def erp_distance(
+    x: Any,
+    y: Any,
+    *,
+    gap_value: float | np.ndarray = 0.0,
+    window: int | None = None,
+    mode: Literal["exact", "fast"] = "exact",
+) -> float:
+    left, right, _, _, resolved_mode = _prepare_elastic_pair(x, y, mode=mode)
+    n, m = len(left), len(right)
+    if n == 0 or m == 0:
+        return float("nan")
+    resolved_window = _resolved_window(n, m, window, resolved_mode)
+    gap = _erp_gap(gap_value, left.shape[1])
+    left_gap_costs = _pointwise_l2_to_reference(left, gap)
+    right_gap_costs = _pointwise_l2_to_reference(right, gap)
+    return _erp_dp(left, right, left_gap_costs, right_gap_costs, resolved_window)
+
+
+def _twed_side(values: np.ndarray, timestamps: np.ndarray | None, *, lambda_: float, nu: float) -> tuple[np.ndarray, ...]:
+    """Per-series TWED terms: (values, previous rows, t, previous t, delete costs)."""
+
+    n = len(values)
+    t = np.arange(1, n + 1, dtype=float) if timestamps is None else np.asarray(timestamps, dtype=float).reshape(-1)
+    if t.size != n:
+        raise ValueError("Timestamp arrays must match the cleaned series lengths.")
+    prev_rows = _previous_rows(values)
+    prev_t = np.concatenate([[0.0], t[:-1]])
+    delete_costs = _consecutive_l2_costs(values, prev_rows) + nu * np.abs(t - prev_t) + lambda_
+    return values, prev_rows, t, prev_t, delete_costs
+
+
+def _twed_dp_python(left_side: tuple[np.ndarray, ...], right_side: tuple[np.ndarray, ...], nu: float, resolved_window: int | None) -> float:
+    left, left_prev, tx, left_prev_ts, left_delete_costs = left_side
+    right, right_prev, ty, right_prev_ts, right_delete_costs = right_side
+    n, m = len(left), len(right)
+    prev = np.full(m + 1, np.inf, dtype=float)
+    curr = np.full(m + 1, np.inf, dtype=float)
+    prev[0] = 0.0
+    for i in range(1, n + 1):
+        curr.fill(np.inf)
+        xi = left[i - 1]
+        xim1 = left_prev[i - 1]
+        ti = tx[i - 1]
+        tim1 = left_prev_ts[i - 1]
+        j_start, j_end = _window_bounds(i, m, resolved_window)
+        pair_costs = _row_l2_distances(xi, right[j_start - 1 : j_end - 1])
+        pair_prev_costs = _row_l2_distances(xim1, right_prev[j_start - 1 : j_end - 1])
+        time_costs = nu * (
+            np.abs(ti - ty[j_start - 1 : j_end - 1])
+            + np.abs(tim1 - right_prev_ts[j_start - 1 : j_end - 1])
+        )
+        for j in range(j_start, j_end):
+            curr[j] = min(
+                prev[j] + left_delete_costs[i - 1],
+                curr[j - 1] + right_delete_costs[j - 1],
+                prev[j - 1] + pair_costs[j - j_start] + pair_prev_costs[j - j_start] + time_costs[j - j_start],
+            )
+        prev, curr = curr, prev
+    return float(prev[m])
+
+
+def _twed_dp(left_side: tuple[np.ndarray, ...], right_side: tuple[np.ndarray, ...], nu: float, resolved_window: int | None) -> float:
+    if _native.use_native():
+        d = left_side[0].shape[1]
+        va, oa = _bank([left_side[0]], d)
+        pva, _ = _bank([left_side[1]], d)
+        vb, ob = _bank([right_side[0]], d)
+        pvb, _ = _bank([right_side[1]], d)
+        out = _native.ext().twed_pairs(
+            va, pva, oa, _rows([left_side[2]]), _rows([left_side[3]]), _rows([left_side[4]]),
+            vb, pvb, ob, _rows([right_side[2]]), _rows([right_side[3]]), _rows([right_side[4]]),
+            _ONE, _ONE, float(nu), _native_window(resolved_window), False, 1,
+        )
+        return float(out[0])
+    return _twed_dp_python(left_side, right_side, nu, resolved_window)
 
 
 def twed_distance(
@@ -559,40 +717,64 @@ def twed_distance(
     if n == 0 or m == 0:
         return float("nan")
     resolved_window = _resolved_window(n, m, window, resolved_mode)
-    tx = np.arange(1, n + 1, dtype=float) if left_ts is None else np.asarray(left_ts, dtype=float).reshape(-1)
-    ty = np.arange(1, m + 1, dtype=float) if right_ts is None else np.asarray(right_ts, dtype=float).reshape(-1)
-    if tx.size != n or ty.size != m:
-        raise ValueError("Timestamp arrays must match the cleaned series lengths.")
-    left_prev = _previous_rows(left)
-    right_prev = _previous_rows(right)
-    left_prev_ts = np.concatenate([[0.0], tx[:-1]])
-    right_prev_ts = np.concatenate([[0.0], ty[:-1]])
-    left_delete_costs = _consecutive_l2_costs(left, left_prev) + nu * np.abs(tx - left_prev_ts) + lambda_
-    right_delete_costs = _consecutive_l2_costs(right, right_prev) + nu * np.abs(ty - right_prev_ts) + lambda_
+    left_side = _twed_side(left, left_ts, lambda_=lambda_, nu=nu)
+    right_side = _twed_side(right, right_ts, lambda_=lambda_, nu=nu)
+    return _twed_dp(left_side, right_side, nu, resolved_window)
+
+
+def _dtw_dp_python(left: np.ndarray, right: np.ndarray, resolved_window: int | None) -> float:
+    n, m = len(left), len(right)
     prev = np.full(m + 1, np.inf, dtype=float)
     curr = np.full(m + 1, np.inf, dtype=float)
     prev[0] = 0.0
     for i in range(1, n + 1):
         curr.fill(np.inf)
-        xi = left[i - 1]
-        xim1 = left_prev[i - 1]
-        ti = tx[i - 1]
-        tim1 = left_prev_ts[i - 1]
         j_start, j_end = _window_bounds(i, m, resolved_window)
-        pair_costs = _row_l2_distances(xi, right[j_start - 1 : j_end - 1])
-        pair_prev_costs = _row_l2_distances(xim1, right_prev[j_start - 1 : j_end - 1])
-        time_costs = nu * (
-            np.abs(ti - ty[j_start - 1 : j_end - 1])
-            + np.abs(tim1 - right_prev_ts[j_start - 1 : j_end - 1])
-        )
+        costs = _row_l2_distances(left[i - 1], right[j_start - 1 : j_end - 1])
         for j in range(j_start, j_end):
-            curr[j] = min(
-                prev[j] + left_delete_costs[i - 1],
-                curr[j - 1] + right_delete_costs[j - 1],
-                prev[j - 1] + pair_costs[j - j_start] + pair_prev_costs[j - j_start] + time_costs[j - j_start],
-            )
+            curr[j] = costs[j - j_start] + min(prev[j], curr[j - 1], prev[j - 1])
         prev, curr = curr, prev
     return float(prev[m])
+
+
+def _dtw_dp(left: np.ndarray, right: np.ndarray, resolved_window: int | None) -> float:
+    if _native.use_native():
+        va, oa = _bank([left], left.shape[1])
+        vb, ob = _bank([right], right.shape[1])
+        out = _native.ext().dtw_pairs(va, oa, vb, ob, _ONE, _ONE, _native_window(resolved_window), 1)
+        return float(out[0])
+    return _dtw_dp_python(left, right, resolved_window)
+
+
+def dtw_distance(
+    x: Any,
+    y: Any,
+    *,
+    window: int | None = None,
+    normalize: bool = False,
+) -> float:
+    """Classic dynamic time warping with an optional Sakoe-Chiba band.
+
+    Local cost is ``|x_i - y_j|`` for univariate inputs and the Euclidean
+    distance between rows for multichannel inputs. ``D[i, j] = cost(i, j) +
+    min(D[i-1, j], D[i, j-1], D[i-1, j-1])`` with no slope constraint. A
+    ``window`` restricts the path to ``|i - j| <= max(window, |n - m|)`` (the
+    widening guarantees a path for unequal lengths, as in the other elastic
+    distances). ``normalize=True`` divides by ``n + m``. Nonfinite rows are
+    dropped. For equal-length univariate inputs this equals NeuroTime's
+    ``dtw_distance`` with the same ``window``.
+    """
+    left, right, _, _ = _pair_series(x, y)
+    n, m = len(left), len(right)
+    if n == 0 or m == 0:
+        return float("nan")
+    resolved_window = _resolved_window(n, m, window, "exact")
+    value = _dtw_dp(left, right, resolved_window)
+    if normalize:
+        value /= n + m
+    return float(value)
+
+
 
 
 __all__ = [
@@ -612,4 +794,5 @@ __all__ = [
     "edr_distance",
     "erp_distance",
     "twed_distance",
+    "dtw_distance",
 ]

@@ -28,7 +28,9 @@ from .product import explain_dataset, explain_similarity, report_dataset, report
 from .agent_tools import TOOL_SCHEMA_VERSION, mcp_tool_descriptors, openai_function_schemas, tool_schemas, ts_compare, ts_profile, ts_route
 from .repo_docs import agent_schema_guide, case_studies_guide, doctor_guide, github_readme, installation_guide, integration_templates_guide, live_demo_guide, pages_deploy_guide, pypi_long_description, quickstart_guide, routing_contract_guide, starter_datasets_guide, start_here_guide, trust_guide, utility_benchmark_guide, zero_install_guide
 from .similarity import SimilarityReport, compare_profiles, compare_series, rolling_similarity
-from .similarity_methods import acf_distance, best_shift, edr_distance, erp_distance, independent_max_ncc, independent_sbd, lcss_distance, lcss_similarity, linear_trend_model_distance, max_ncc, ncc_sequence, ordinal_pattern_js_distance, periodogram_distance, sbd, trend_distance, twed_distance
+from .similarity_methods import acf_distance, best_shift, dtw_distance, edr_distance, erp_distance, independent_max_ncc, independent_sbd, lcss_distance, lcss_similarity, linear_trend_model_distance, max_ncc, ncc_sequence, ordinal_pattern_js_distance, periodogram_distance, sbd, trend_distance, twed_distance
+from .batch import cross_distance_matrix, one_vs_many, paired_distances, pairwise_distance_matrix
+from ._native import native_available, set_similarity_backend, similarity_backend_info
 from .guide import about, api_reference, docs_index, environment_matrix, scenario_guide, user_guide, workflow_recommendation
 from .positioning import agent_manifest, coverage_matrix, ecosystem_positioning, tooling_router
 from .registry import clear_custom_extensions, get_registry, register_adaptor, register_plugin
@@ -63,7 +65,8 @@ __all__ = [
     'case_studies_guide', 'trust_guide', 'starter_datasets_guide', 'agent_schema_guide', 'routing_contract_guide', 'utility_benchmark_guide',
     'start_here_guide', 'doctor_guide', 'github_readme',
     'SimilarityReport', 'compare_series', 'compare_profiles', 'rolling_similarity',
-    'ncc_sequence', 'max_ncc', 'best_shift', 'sbd', 'independent_max_ncc', 'independent_sbd', 'acf_distance', 'periodogram_distance', 'trend_distance', 'ordinal_pattern_js_distance', 'linear_trend_model_distance', 'lcss_similarity', 'lcss_distance', 'edr_distance', 'erp_distance', 'twed_distance',
+    'ncc_sequence', 'max_ncc', 'best_shift', 'sbd', 'independent_max_ncc', 'independent_sbd', 'acf_distance', 'periodogram_distance', 'trend_distance', 'ordinal_pattern_js_distance', 'linear_trend_model_distance', 'lcss_similarity', 'lcss_distance', 'edr_distance', 'erp_distance', 'twed_distance', 'dtw_distance',
+    'pairwise_distance_matrix', 'cross_distance_matrix', 'one_vs_many', 'paired_distances', 'native_available', 'set_similarity_backend', 'similarity_backend_info',
     'about', 'api_reference', 'scenario_guide', 'environment_matrix', 'workflow_recommendation', 'ecosystem_positioning', 'coverage_matrix',
     'native_similarity_methods', 'extracted_similarity_methods', 'similarity_method_atlas_dict', 'similarity_method_atlas_guide',
     'agent_manifest', 'tooling_router', 'user_guide', 'docs_index',
@@ -85,4 +88,4 @@ def __getattr__(name: str):
 def __dir__():
     return sorted(set(globals()) | set(__all__))
 
-__version__ = '0.17.1'
+__version__ = '0.18.0.dev0'

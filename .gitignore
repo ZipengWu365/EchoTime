@@ -11,3 +11,6 @@ venv/
 PKG-INFO
 audit_pages_out/
 echotime_v*_pages_bundle.zip
+.venv-*/
+*.so
+benchmarks/logs/

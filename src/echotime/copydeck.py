@@ -9,7 +9,7 @@ from __future__ import annotations
 
 DISPLAY_NAME = "EchoTime"
 PACKAGE_NAME = "echotime"
-PACKAGE_VERSION = "0.17.1"
+PACKAGE_VERSION = "0.18.0.dev0"
 PACKAGE_STAGE = "Beta"
 AUTHOR_NAME = "Zipeng Wu"
 AUTHOR_EMAIL = "zxw365@student.bham.ac.uk"
