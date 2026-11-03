@@ -197,15 +197,23 @@ def _doc_shell(
       <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
     
-    <nav class='nav'>
+    <nav class='nav' aria-label='EchoTime navigation'>
       <a href='../index.html'>Home</a>
       <a href='index.html'>Docs</a>
+      <a href='../articles/index.html'>Articles</a>
       <a href='tutorials.html'>Tutorials</a>
       <a href='api.html'>API</a>
       <a href='../playground.html'>Playground</a>
       <a href='{escape(PROJECT_REPOSITORY_URL)}'>GitHub</a>
     </nav>
   </div>
+  <nav class='shell nav' aria-label='Zipeng Wu projects' style='gap: 10px 20px; padding-bottom: 14px; font-size: 0.82rem;'>
+    <a href='https://zipengwu.me/'>Zipeng Wu</a>
+    <a href='https://zipengwu.me/software.html'>Projects</a>
+    <a href='https://zipengwu.me/articles/'>All articles</a>
+    <a href='https://zipengwu.me/detime/'>DeTime</a>
+    <a href='https://zipengwu.me/tomc/'>TOMC Memory</a>
+  </nav>
 </header>
 <main class='shell docs-wrap'>
   <aside class='docs-sidebar'>

@@ -145,6 +145,12 @@ def _render(source: str, destination: str, language: str) -> str:
 <a href="../guide/similarity-lab.html">Interactive lab</a>
 <a href="../references/time-series-similarity-literature.html">Paper index</a>
 <a href="https://github.com/ZipengWu365/EchoTime/discussions">Discuss the methods</a></nav>
+<nav aria-label="Zipeng Wu projects" style="padding:12px 0;font-size:13px;gap:8px 20px;">
+<a href="https://zipengwu.me/">Zipeng Wu</a>
+<a href="https://zipengwu.me/software.html">Projects</a>
+<a href="https://zipengwu.me/articles/">All articles</a>
+<a href="https://zipengwu.me/detime/">DeTime</a>
+<a href="https://zipengwu.me/tomc/">TOMC Memory</a></nav>
 {body}
 <hr><p class="source">Built from <a href="{REPOSITORY}{source}">the versioned Markdown source</a>.
 Share questions, corrections and reproducible examples in

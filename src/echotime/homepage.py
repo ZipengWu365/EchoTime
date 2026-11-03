@@ -159,8 +159,9 @@ def project_homepage_html(*, version: str = PACKAGE_VERSION) -> str:
       <span style='color: var(--text-600); font-size: 0.95rem; font-weight: 500;'>Explainable time-series similarity for humans and agents.</span>
     </div>
     
-    <nav class='nav'>
+    <nav class='nav' aria-label='EchoTime navigation'>
       <a href='guide/index.html'>Docs</a>
+      <a href='articles/index.html'>Articles</a>
       <a href='guide/getting-started.html'>Getting started</a>
       <a href='guide/tutorials.html'>Tutorials</a>
       <a href='guide/api.html'>API</a>
@@ -168,6 +169,13 @@ def project_homepage_html(*, version: str = PACKAGE_VERSION) -> str:
       <a href='{escape(PROJECT_REPOSITORY_URL)}'>GitHub</a>
     </nav>
   </div>
+  <nav class='shell nav' aria-label='Zipeng Wu projects' style='gap: 10px 20px; padding-bottom: 14px; font-size: 0.82rem;'>
+    <a href='https://zipengwu.me/'>Zipeng Wu</a>
+    <a href='https://zipengwu.me/software.html'>Projects</a>
+    <a href='https://zipengwu.me/articles/'>All articles</a>
+    <a href='https://zipengwu.me/detime/'>DeTime</a>
+    <a href='https://zipengwu.me/tomc/'>TOMC Memory</a>
+  </nav>
 </header>
 <main class='shell'>
   <section class='hero'>
