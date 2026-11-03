@@ -1,12 +1,35 @@
 {
   "description": "Generated reading pages; edit the Markdown/JSON/BibTeX sources.",
   "sources": {
-    "docs/articles/README.md": "88f93032e88c048c924d6833d40750081b5bee3d2bbe19fcaa777f2a967cb62d",
+    "docs/articles/README.md": "7eb491c38e37e3550377730b46a0df22030c816fb342cb8f6b7014cd71f59299",
+    "docs/references/time-series-similarity-literature.md": "f1e20bb6ccda422c6420e903ec0c26bd8e2fdbd98b1feed61342916a72c27da3",
     "docs/articles/time-series-similarity-guide.en.md": "2f8689861b94aab1809853da01d826b3ff21e6bfa6e1720ddc6555b6cb6fba11",
     "docs/articles/time-series-similarity-guide.zh-CN.md": "9ee2a239356555c72b01dbf15413cc4ca18812e97e47aeb516e569d3438a9fe5",
     "docs/articles/what-time-series-similarity-measures.en.md": "5d528aefd85e40b78cf83e8499d48e849014b49352285fe77020d9b5f7217264",
-    "docs/references/time-series-similarity-literature.md": "f1e20bb6ccda422c6420e903ec0c26bd8e2fdbd98b1feed61342916a72c27da3",
     "docs/references/time-series-similarity-literature.json": "342b231374917e429908190a6d9953cef2b7a8ff40ed18b851c04d402be967d2",
     "docs/references/time-series-similarity-literature.bib": "3e00d29f9bda0cbe28539915ef6272509f6d2db9dad6a2024c40584d88685165"
-  }
+  },
+  "articles": [
+    {
+      "source": "docs/articles/time-series-similarity-guide.en.md",
+      "path": "articles/time-series-similarity-guide.en.html",
+      "title": "Time-series similarity: choosing between DTW, matrix profiles and learned representations",
+      "language": "en",
+      "description": "A practical comparison of tasks, assumptions and Python tools. Reviewed 29 October 2026. \u4e2d\u6587\u7248"
+    },
+    {
+      "source": "docs/articles/time-series-similarity-guide.zh-CN.md",
+      "path": "articles/time-series-similarity-guide.zh-CN.html",
+      "title": "\u65f6\u5e8f\u76f8\u4f3c\u6027\u65b9\u6cd5\u76d8\u70b9\uff1aDTW\u3001\u77e9\u9635\u8f6e\u5ed3\u4e0e\u5b66\u4e60\u8868\u793a\u8be5\u600e\u4e48\u9009",
+      "language": "zh-CN",
+      "description": "\u4ece\u6bd4\u8f83\u5bf9\u8c61\u3001\u6570\u5b66\u5047\u8bbe\u5230 Python \u5de5\u5177\u3002 \u6838\u67e5\u65e5\u671f\uff1a2026 \u5e74 10 \u6708 29 \u65e5\u3002English"
+    },
+    {
+      "source": "docs/articles/what-time-series-similarity-measures.en.md",
+      "path": "articles/what-time-series-similarity-measures.en.html",
+      "title": "What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations",
+      "language": "en",
+      "description": "Two curves can share a rhythm while their peaks occur at different times. They can trace the same rise and fall at different amplitudes. They can contain one identical event and otherwise behave differently. Each resemblance supports a\u2026"
+    }
+  ]
 }

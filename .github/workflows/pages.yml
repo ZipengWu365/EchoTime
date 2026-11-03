@@ -18,15 +18,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Build article bundle from current Markdown
+        run: |
+          python -m pip install Markdown==3.9
+          python tools/build_knowledge_pages.py
       - name: Install EchoTime
         run: |
           python -m pip install --upgrade pip
           python -m pip install . pytest
       - name: Validate search metadata and sitemap
-        run: python -m pytest tests/test_site_seo.py tests/test_basic.py::test_homepage_mentions_ecosystem_and_coverage -q
+        run: python -m pytest tests/test_site_seo.py tests/test_knowledge_pages.py tests/test_basic.py::test_homepage_mentions_ecosystem_and_coverage -q
       - name: Regenerate docs bundle
         run: |
           echotime --export-pages docs
+      - name: Record the published source revision
+        env:
+          SOURCE_REVISION: ${{ github.sha }}
+          SOURCE_REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          Path("docs/publication-source.json").write_text(json.dumps({
+              "source_revision": os.environ["SOURCE_REVISION"],
+              "repository": os.environ["SOURCE_REPOSITORY"],
+              "catalog_sha256": hashlib.sha256(Path("docs/articles/catalog.json").read_bytes()).hexdigest(),
+              "sitemap_sha256": hashlib.sha256(Path("docs/sitemap.xml").read_bytes()).hexdigest(),
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
       - name: Audit demo/doc versions
         run: |
           python -m echotime.cli --guide asset-audit --guide-format markdown

@@ -2,11 +2,7 @@
 
 These articles compare tasks, mathematical assumptions and software interfaces. They do not report a new cross-library benchmark.
 
-| Article | Language | Reviewed |
-|---|---|---|
-| [Time-series similarity: choosing between DTW, matrix profiles and learned representations](time-series-similarity-guide.en.md) | English | 2026-10-29 |
-| [时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选](time-series-similarity-guide.zh-CN.md) | 简体中文 | 2026-10-29 |
-| [What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations](what-time-series-similarity-measures.en.md) | English | 2026-10-29 |
+<!-- echotime:article-index -->
 
 ## Compare mechanisms on the same curves
 

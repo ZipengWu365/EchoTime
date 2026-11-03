@@ -11,8 +11,9 @@ import argparse
 import hashlib
 import json
 import posixpath
+import re
 import shutil
-from html import escape
+from html import escape, unescape
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
@@ -24,21 +25,67 @@ ROOT = Path(__file__).resolve().parents[1]
 BUNDLE = ROOT / "src" / "echotime" / "data" / "knowledge"
 REPOSITORY = "https://github.com/ZipengWu365/EchoTime/blob/main/"
 SITE_PREFIX = "/EchoTime/"
-PAGES = {
+FIXED_PAGES = {
     "docs/articles/README.md": ("articles/index.html", "en"),
-    "docs/articles/time-series-similarity-guide.en.md": (
-        "articles/time-series-similarity-guide.en.html", "en"
-    ),
-    "docs/articles/time-series-similarity-guide.zh-CN.md": (
-        "articles/time-series-similarity-guide.zh-CN.html", "zh-CN"
-    ),
-    "docs/articles/what-time-series-similarity-measures.en.md": (
-        "articles/what-time-series-similarity-measures.en.html", "en"
-    ),
     "docs/references/time-series-similarity-literature.md": (
         "references/time-series-similarity-literature.html", "en"
     ),
 }
+ARTICLE_INDEX_MARKER = "<!-- echotime:article-index -->"
+
+
+def _metadata_value(metadata: dict[str, list[str]], name: str) -> str:
+    value = " ".join(metadata.get(name, [])).strip()
+    # Markdown's metadata extension retains YAML-style surrounding quotes.
+    if len(value) > 1 and value[0] == value[-1] and value[0] in {"\"", "'"}:
+        value = value[1:-1]
+    return value
+
+
+def article_details(source: str) -> dict[str, str]:
+    text = (ROOT / source).read_text(encoding="utf-8")
+    reader = markdown.Markdown(extensions=["meta"])
+    body = reader.convert(text)
+    heading = re.search(r"^# (.+)$", text, re.M)
+    if not heading:
+        raise ValueError(f"Missing article heading: {source}")
+    title = _metadata_value(reader.Meta, "title") or heading[1].strip()
+    language = _metadata_value(reader.Meta, "lang") or _metadata_value(reader.Meta, "language")
+    if not language:
+        stem = Path(source).stem.lower()
+        if stem.endswith((".zh-cn", ".zh", "_zh")):
+            language = "zh-CN"
+        elif stem.endswith(".en"):
+            language = "en"
+        else:
+            cjk = len(re.findall(r"[\u3400-\u9fff]", heading[1]))
+            latin = len(re.findall(r"[A-Za-z]", heading[1]))
+            language = "zh-CN" if cjk > latin else "en"
+    if not re.fullmatch(r"[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*", language):
+        raise ValueError(f"Invalid article language in {source}: {language}")
+    summary = _metadata_value(reader.Meta, "description")
+    if not summary:
+        first_paragraph = re.search(r"<p>(.*?)</p>", body, re.S)
+        summary = unescape(re.sub(r"<[^>]+>", "", first_paragraph[1])) if first_paragraph else title
+        summary = " ".join(summary.split())
+        if len(summary) > 240:
+            summary = summary[:237].rsplit(" ", 1)[0] + "…"
+    return {"title": title, "language": language, "description": summary}
+
+
+def discover_pages() -> dict[str, tuple[str, str]]:
+    """Publish article Markdown automatically, retaining its filename in the URL."""
+    pages = dict(FIXED_PAGES)
+    for path in sorted((ROOT / "docs" / "articles").glob("*.md")):
+        name = path.name.lower()
+        if (name in {"readme.md", "index.md"} or name.startswith(("_", ".", "draft", "internal"))
+                or ".draft." in name):
+            continue
+        source = path.relative_to(ROOT).as_posix()
+        details = article_details(source)
+        pages[source] = ("articles/" + path.with_suffix(".html").name, details["language"])
+    return pages
+
 DOWNLOADS = (
     "docs/references/time-series-similarity-literature.json",
     "docs/references/time-series-similarity-literature.bib",
@@ -68,11 +115,13 @@ body { font-size:16px; } th,td { min-width:150px; } }
 """
 
 
-def _output_path(source: str) -> str:
-    return PAGES[source][0] if source in PAGES else source.removeprefix("docs/")
+def _output_path(source: str, pages: dict[str, tuple[str, str]] | None = None) -> str:
+    pages = pages if pages is not None else discover_pages()
+    return pages[source][0] if source in pages else source.removeprefix("docs/")
 
 
-def _rewrite_link(value: str, source: str, destination: str) -> str:
+def _rewrite_link(value: str, source: str, destination: str, *, image: bool = False,
+                  pages: dict[str, tuple[str, str]] | None = None) -> str:
     parsed = urlsplit(value)
     if (parsed.netloc == "zipengwu.me" and parsed.scheme in {"http", "https"}
             and parsed.path.startswith(SITE_PREFIX)):
@@ -91,51 +140,67 @@ def _rewrite_link(value: str, source: str, destination: str) -> str:
         raise ValueError(f"Link leaves repository in {source}: {value}") from exc
     if not resolved.exists():
         raise ValueError(f"Missing local link target in {source}: {value}")
-    if target in PAGES or target in DOWNLOADS:
-        path = posixpath.relpath(_output_path(target), posixpath.dirname(destination))
+    pages = pages if pages is not None else discover_pages()
+    if target in pages or target in DOWNLOADS:
+        path = posixpath.relpath(_output_path(target, pages), posixpath.dirname(destination))
     else:
-        path = REPOSITORY + target
+        path = ("https://raw.githubusercontent.com/ZipengWu365/EchoTime/main/" if image else REPOSITORY) + target
     return urlunsplit(("", "", path, parsed.query, parsed.fragment))
 
 
 class _Links(Treeprocessor):
-    def __init__(self, md: markdown.Markdown, source: str, destination: str) -> None:
+    def __init__(self, md: markdown.Markdown, source: str, destination: str,
+                 pages: dict[str, tuple[str, str]]) -> None:
         super().__init__(md)
         self.source = source
         self.destination = destination
+        self.pages = pages
 
     def run(self, root):
         for element in root.iter():
             for attribute in ("href", "src"):
                 if attribute in element.attrib:
                     element.set(attribute, _rewrite_link(
-                        element.attrib[attribute], self.source, self.destination
+                        element.attrib[attribute], self.source, self.destination, image=attribute == "src",
+                        pages=self.pages
                     ))
         return root
 
 
 class _LinkExtension(Extension):
-    def __init__(self, source: str, destination: str) -> None:
+    def __init__(self, source: str, destination: str, pages: dict[str, tuple[str, str]]) -> None:
         self.source = source
         self.destination = destination
+        self.pages = pages
         super().__init__()
 
     def extendMarkdown(self, md: markdown.Markdown) -> None:
-        md.treeprocessors.register(_Links(md, self.source, self.destination), "repo_links", 1)
+        md.treeprocessors.register(_Links(md, self.source, self.destination, self.pages), "repo_links", 1)
 
 
-def _render(source: str, destination: str, language: str) -> str:
+def _render(source: str, destination: str, language: str,
+            pages: dict[str, tuple[str, str]] | None = None) -> str:
+    pages = pages if pages is not None else discover_pages()
     text = (ROOT / source).read_text(encoding="utf-8")
-    title = next((line[2:].strip() for line in text.splitlines() if line.startswith("# ")), "")
-    if not title:
-        raise ValueError(f"Missing article heading: {source}")
+    details = article_details(source)
+    title = details["title"]
+    if source == "docs/articles/README.md":
+        rows = []
+        for article, (target, article_language) in pages.items():
+            if not article.startswith("docs/articles/") or article.endswith("/README.md"):
+                continue
+            article_title = article_details(article)["title"]
+            rows.append(f"- [{article_title}]({Path(article).name}) · {article_language}")
+        if ARTICLE_INDEX_MARKER not in text:
+            raise ValueError("Article index needs its automatic catalog marker")
+        text = text.replace(ARTICLE_INDEX_MARKER, "\n".join(rows))
     body = markdown.markdown(text, extensions=[
-        "tables", "fenced_code", "toc", "footnotes", _LinkExtension(source, destination)
+        "meta", "tables", "fenced_code", "toc", "footnotes", _LinkExtension(source, destination, pages)
     ], output_format="html")
     return f"""<!doctype html>
 <html lang="{language}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{escape(title)} | EchoTime</title><style>{STYLE}</style></head>
+<title>{escape(title)} | EchoTime</title><meta name="description" content="{escape(details['description'], quote=True)}"><style>{STYLE}</style></head>
 <body><main>
 <nav aria-label="Reading navigation"><a href="../index.html">EchoTime</a>
 <a href="../articles/index.html">Reading guide</a>
@@ -161,17 +226,24 @@ Share questions, corrections and reproducible examples in
 
 def expected_bundle() -> dict[str, bytes]:
     files: dict[str, bytes] = {}
-    for source, (destination, language) in PAGES.items():
-        files[destination] = _render(source, destination, language).encode("utf-8")
+    pages = discover_pages()
+    for source, (destination, language) in pages.items():
+        files[destination] = _render(source, destination, language, pages).encode("utf-8")
     for source in DOWNLOADS:
-        files[_output_path(source)] = (ROOT / source).read_bytes()
-    sources = list(PAGES) + list(DOWNLOADS)
+        files[_output_path(source, pages)] = (ROOT / source).read_bytes()
+    sources = list(pages) + list(DOWNLOADS)
     manifest = {
         "description": "Generated reading pages; edit the Markdown/JSON/BibTeX sources.",
         "sources": {source: hashlib.sha256((ROOT / source).read_bytes()).hexdigest()
                     for source in sources},
+        "articles": [{"source": source, "path": destination, **article_details(source)}
+                     for source, (destination, _) in pages.items()
+                     if source.startswith("docs/articles/") and not source.endswith("/README.md")],
     }
     files["manifest/knowledge_sources.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
+    catalog = {"articles": [{key: value for key, value in item.items() if key != "source"}
+                            for item in manifest["articles"]]}
+    files["articles/catalog.json"] = (json.dumps(catalog, indent=2, ensure_ascii=False) + "\n").encode()
     return files
 
 

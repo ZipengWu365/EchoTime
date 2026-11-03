@@ -26,6 +26,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      - name: Build article bundle from current Markdown
+        run: |
+          python -m pip install Markdown==3.9
+          python tools/build_knowledge_pages.py
       - name: Install package and test dependencies
         run: python -m pip install -e '.[dev]'
       - name: Run complete test suite
@@ -41,8 +45,10 @@ jobs:
           cache: pip
       - name: Install build dependencies
         run: python -m pip install -e '.[dev,docs]' build twine
-      - name: Check generated articles
-        run: python tools/build_knowledge_pages.py --check
+      - name: Build and check current articles
+        run: |
+          python tools/build_knowledge_pages.py
+          python tools/build_knowledge_pages.py --check
       - name: Check bundled runtime resources
         run: python tools/sync_runtime_assets.py --check
       - name: Check complete method-animation coverage and asset hashes
@@ -65,6 +71,7 @@ jobs:
           pages = project_pages_bundle()
           assert "articles/time-series-similarity-guide.en.html" in pages
           assert "articles/what-time-series-similarity-measures.en.html" in pages
+          assert "articles/catalog.json" in pages
           assert "references/time-series-similarity-literature.json" in pages
           assert len(animation_catalog()["methods"]) == 137
           assert "assets/method-animations/media/dtw.gif" in pages

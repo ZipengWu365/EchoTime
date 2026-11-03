@@ -43,7 +43,12 @@ def test_every_published_page_has_unique_metadata_and_valid_schema(bundle: dict)
             continue
         head = Head(html)
         assert head.links["canonical"] == [canonical_url(path)], path
-        assert head.metadata["description"] == [DESCRIPTIONS[path]], path
+        assert len(head.metadata["description"]) == 1, path
+        if path in DESCRIPTIONS:
+            assert head.metadata["description"] == [DESCRIPTIONS[path]], path
+        else:
+            assert path.startswith(("articles/", "blog/")), path
+            assert head.metadata["description"][0].strip(), path
         assert head.metadata["og:url"] == head.links["canonical"], path
         assert head.metadata["og:image"] == [SITE_URL + "social/echotime_title_card.png"], path
         assert head.metadata["robots"] == ["index, follow, max-image-preview:large"], path
@@ -54,14 +59,16 @@ def test_every_published_page_has_unique_metadata_and_valid_schema(bundle: dict)
         assert payload["@context"] == "https://schema.org"
         assert any(node["@type"] == "WebPage" and node["url"] == canonical_url(path) for node in payload["@graph"])
         descriptions.append(head.metadata["description"][0])
-    assert len(descriptions) == len(DESCRIPTIONS) == len(set(descriptions))
+    expected_pages = {path for path in bundle if path.endswith(".html") and path != "404.html"}
+    assert set(DESCRIPTIONS).issubset(expected_pages)
+    assert len(descriptions) == len(expected_pages) == len(set(descriptions))
 
 
 def test_sitemap_contains_exactly_the_indexable_canonical_pages(bundle: dict) -> None:
     root = ElementTree.fromstring(bundle["sitemap.xml"])
     urls = [item.text for item in root.findall("{*}url/{*}loc")]
     expected = {canonical_url(path) for path in bundle if path.endswith(".html") and path != "404.html"}
-    assert len(urls) == len(set(urls)) == len(DESCRIPTIONS)
+    assert len(urls) == len(set(urls)) == len(expected)
     assert set(urls) == expected
     assert all(url.startswith("https://zipengwu.me/EchoTime/") for url in urls)
     assert not any("index.html" in url or "404.html" in url for url in urls)

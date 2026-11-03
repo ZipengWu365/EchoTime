@@ -65,6 +65,7 @@ class _TitleParser(HTMLParser):
         self.in_title = False
         self.parts: list[str] = []
         self.language = "en"
+        self.description = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag == "html":
@@ -73,6 +74,10 @@ class _TitleParser(HTMLParser):
             self.in_head = True
         elif tag == "title" and self.in_head:
             self.in_title = True
+        elif tag == "meta" and self.in_head:
+            attributes = dict(attrs)
+            if attributes.get("name", "").lower() == "description":
+                self.description = attributes.get("content") or ""
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
@@ -95,17 +100,29 @@ def canonical_url(path: str) -> str:
 
 def search_metadata(html: str, path: str, *, version: str = PACKAGE_VERSION) -> str:
     """Attach one idempotent metadata block to a published HTML page."""
+    original_html = html
     html = re.sub(re.escape(_START) + r".*?" + re.escape(_END) + r"\n?", "", html, flags=re.S)
     if path == "404.html":
         block = f'{_START}\n<meta name="robots" content="noindex, follow">\n{_END}'
     else:
         parser = _TitleParser()
-        parser.feed(html)
+        parser.feed(original_html)
         title = " ".join("".join(parser.parts).split())
         if not title:
             raise ValueError(f"Missing document title: {path}")
-        # New pages should get an intentional summary, not a duplicated default.
-        description = DESCRIPTIONS[path]
+        # Generated articles carry their own source-derived summary. Other
+        # documentation pages retain the intentional central summaries.
+        if path in DESCRIPTIONS:
+            description = DESCRIPTIONS[path]
+        elif path.startswith(("articles/", "blog/")) and parser.description:
+            description = parser.description
+        else:
+            raise KeyError(path)
+        # Consume author-provided metadata rather than injecting duplicates.
+        def clean_head(match: re.Match[str]) -> str:
+            return re.sub(r'<meta\b(?=[^>]*\bname=[\"\']description[\"\'])[^>]*>\s*',
+                          "", match[0], flags=re.I)
+        html = re.sub(r"<head\b[^>]*>.*?</head>", clean_head, html, count=1, flags=re.S | re.I)
         url = canonical_url(path)
         page: dict[str, Any] = {
             "@type": "WebPage", "@id": url + "#webpage", "url": url,

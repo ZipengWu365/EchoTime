@@ -1,0 +1,22 @@
+{
+  "articles": [
+    {
+      "path": "articles/time-series-similarity-guide.en.html",
+      "title": "Time-series similarity: choosing between DTW, matrix profiles and learned representations",
+      "language": "en",
+      "description": "A practical comparison of tasks, assumptions and Python tools. Reviewed 29 October 2026. 中文版"
+    },
+    {
+      "path": "articles/time-series-similarity-guide.zh-CN.html",
+      "title": "时序相似性方法盘点：DTW、矩阵轮廓与学习表示该怎么选",
+      "language": "zh-CN",
+      "description": "从比较对象、数学假设到 Python 工具。 核查日期：2026 年 10 月 29 日。English"
+    },
+    {
+      "path": "articles/what-time-series-similarity-measures.en.html",
+      "title": "What Does Similar Mean for a Time Series? A Mechanism-Level Tour of Distances, Alignments and Representations",
+      "language": "en",
+      "description": "Two curves can share a rhythm while their peaks occur at different times. They can trace the same rise and fall at different amplitudes. They can contain one identical event and otherwise behave differently. Each resemblance supports a…"
+    }
+  ]
+}
