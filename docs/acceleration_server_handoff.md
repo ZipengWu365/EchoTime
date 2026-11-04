@@ -66,7 +66,6 @@ nvidia-smi > benchmark-results/server/nvidia-smi.txt
 ## 3. 先做正确性验收
 
 ```bash
-python -m pytest -q
 python -m pytest tests/test_acceleration_golden.py tests/test_native_equivalence.py -q
 ```
 
@@ -85,6 +84,28 @@ python -m pytest tests/test_native_equivalence.py -q
 portable 模式放宽快照数值为 `rtol=atol=1e-12`，结构与文本继续严格检查。
 **portable 通过不能替代 A 类逐位等价门槛。** 应比较 Python、NumPy、SciPy、BLAS、
 编译器和 CPU，再判断变化来自平台还是代码。不要自动改容差、隐藏失败或重写 golden。
+
+新服务器应另外执行下列**原始源码的同环境对照**，保留历史 strict 失败记录和下面的
+`drift_summary`。该步骤在当前环境重新执行原始提交，输入和 case 定义仍来自不可变
+fixture，输出保存为独立 sidecar。它不会用加速后实现生成期望值。
+
+```bash
+git fetch --no-tags origin 08f7df742b364175105e957d39f9f81fe6211bb3
+git worktree add --detach ../EchoTime-reference 08f7df742b364175105e957d39f9f81fe6211bb3
+python tools/verify_reference_environment.py \
+  --reference-source ../EchoTime-reference \
+  --out benchmark-results/server/environment-reference.json
+ECHOTIME_REFERENCE_SNAPSHOT=benchmark-results/server/environment-reference.json \
+  python -m pytest -q
+```
+
+工具校验完整 commit、源文件清洁状态、原始源码 SHA256 和实际导入路径，并在隔离子进程
+中禁用原生扩展和旧 bytecode。sidecar 的数值环境、输入、case 和合同会再次检查。
+CPU 型号/特征、NumPy build、`OPENBLAS_CORETYPE`、相关线程环境也会记录和核对；
+切换 BLAS 路径或线程环境后应重新生成独立 sidecar。
+**这个完整测试仍要求 A 类逐位一致。** 不允许同时设置 `ECHOTIME_GOLDEN_PORTABLE=1`。
+同环境结果用于判断本次代码是否改变原实现；历史 fixture 的差异用于记录跨环境漂移。
+两种结果必须分别报告。输出路径已存在时换一个新名称，工具不会覆盖旧证据。
 
 ## 4. 基准 profile 与成本边界
 
@@ -334,8 +355,10 @@ docs/acceleration_server_handoff.md、tests/golden/README.md、当前 API 代码
    如果服务器已有匹配CUDA的PyTorch，运行：
    python benchmarks/gpu_probe.py --out benchmark-results/server/gpu-probe.json --require-gpu
    缺少环境则报告阻碍。区分FP32/FP64、GPU驻留与上传/计算/回传，不把GFLOPS当DTW倍数。
-2. 运行完整 pytest、严格 golden、当前 Python/native equivalence。保留完整日志。
-   有失败先定位。允许用显式 portable 模式诊断平台浮点差异，但不能据此宣布 A 类通过。
+2. 运行历史严格 golden、当前 Python/native equivalence，保留完整日志。
+   按文档第3节创建原始08f提交的同环境sidecar，再设置ECHOTIME_REFERENCE_SNAPSHOT
+   运行完整pytest；A仍逐位检查。保留sidecar的历史漂移报告。允许用显式portable模式
+   诊断平台差异，但不能据此宣布A类通过，也不能修改冻结输入或期望值。
 3. 创建原始08f7df742b364175105e957d39f9f81fe6211bb3独立worktree并编译扩展。
    用同一个harness的 --source-tree 测旧版和新版，核对实际导入路径及SHA256。
 4. 先smoke/quick，再server。按文档做1线程与一个合理多线程配置，同机同数据同参数。

@@ -1,0 +1,24 @@
+........................................................................ [  9%]
+........................................................................ [ 18%]
+........................................................................ [ 28%]
+........................................................................ [ 37%]
+........................................................................ [ 46%]
+........................................................................ [ 56%]
+........................................................................ [ 65%]
+........................................................................ [ 75%]
+........................................................................ [ 84%]
+........................................................................ [ 93%]
+...............................................                          [100%]
+=============================== warnings summary ===============================
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:316: RuntimeWarning: Mean of empty slice
+    mu = float(np.nanmean(x))
+
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+  /workspace/scratch/875f2180653d/echotime-ci-numeric-env/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+    var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+767 passed, 4 warnings in 2.60s

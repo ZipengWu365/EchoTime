@@ -13,6 +13,11 @@ concurrency:
   group: tests-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  ECHOTIME_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '2'
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -32,8 +37,75 @@ jobs:
           python tools/build_knowledge_pages.py
       - name: Install package and test dependencies
         run: python -m pip install -e '.[dev]'
-      - name: Run complete test suite
+      - name: Recompute original-source expectations in this numerical environment
+        run: |
+          git fetch --no-tags origin 08f7df742b364175105e957d39f9f81fe6211bb3
+          git worktree add --detach "$RUNNER_TEMP/echotime-reference" 08f7df742b364175105e957d39f9f81fe6211bb3
+          python tools/verify_reference_environment.py --reference-source "$RUNNER_TEMP/echotime-reference" --out benchmark-results/ci-reference.json
+      - name: Run complete suite with strict same-environment original reference
+        env:
+          ECHOTIME_REFERENCE_SNAPSHOT: benchmark-results/ci-reference.json
         run: python -m pytest -q
+      - name: Check immutable historical fixture portability separately
+        env:
+          ECHOTIME_GOLDEN_PORTABLE: '1'
+        run: python -m pytest tests/test_acceleration_golden.py -q
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-reference-${{ matrix.python-version }}
+          path: benchmark-results/ci-reference.json
+
+  frozen-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+          cache: pip
+      - name: Install the frozen numerical dependency versions
+        run: python -m pip install -e '.[dev]' numpy==2.3.5 scipy==1.17.0 pandas==2.2.3
+      - name: Recompute original-source expectations on this runner CPU
+        run: |
+          git fetch --no-tags origin 08f7df742b364175105e957d39f9f81fe6211bb3
+          git worktree add --detach "$RUNNER_TEMP/echotime-reference" 08f7df742b364175105e957d39f9f81fe6211bb3
+          python tools/verify_reference_environment.py --reference-source "$RUNNER_TEMP/echotime-reference" --out benchmark-results/ci-reference.json
+      - name: Require strict equivalence to the original on this runner
+        env:
+          ECHOTIME_REFERENCE_SNAPSHOT: benchmark-results/ci-reference.json
+        run: python -m pytest tests/test_acceleration_golden.py -q
+      - name: Record immutable historical bitwise status and original-source drift
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          result = subprocess.run([sys.executable, '-m', 'pytest', 'tests/test_acceleration_golden.py', '-q'], capture_output=True, text=True)
+          Path('benchmark-results/ci-historical-strict.log').write_text(result.stdout + result.stderr)
+          reference = json.loads(Path('benchmark-results/ci-reference.json').read_text())
+          drift = reference['drift_summary']['by_contract']
+          original_failures = sum(group['contract_failures'] for group in drift.values())
+          status = {'historical_pytest_exit': result.returncode, 'original_changed_cases': original_failures,
+                    'historical_bitwise_pass': result.returncode == 0,
+                    'interpretation': 'Historical drift is separate from the mandatory strict same-runner code-equivalence gate.'}
+          Path('benchmark-results/ci-historical-status.json').write_text(json.dumps(status, indent=2) + '\n')
+          print(json.dumps(status, indent=2))
+          expected_exit = 1 if original_failures else 0
+          if result.returncode != expected_exit:
+              print(result.stdout + result.stderr)
+              raise SystemExit('Historical test status is not explained by the independently evaluated original source')
+          PY
+      - name: Require historical numerical and structural compatibility
+        env:
+          ECHOTIME_GOLDEN_PORTABLE: '1'
+        run: python -m pytest tests/test_acceleration_golden.py -q
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-reference-status
+          path: |
+            benchmark-results/ci-reference.json
+            benchmark-results/ci-historical-*
 
   acceleration-search:
     runs-on: ubuntu-latest
@@ -58,7 +130,14 @@ jobs:
           assert ext() is not None
           assert ext().CUTOFF_ABI_VERSION == 1
           PY
-      - name: Check strict golden and optional candidate engines
+      - name: Recompute original-source expectations in this numerical environment
+        run: |
+          git fetch --no-tags origin 08f7df742b364175105e957d39f9f81fe6211bb3
+          git worktree add --detach "$RUNNER_TEMP/echotime-reference" 08f7df742b364175105e957d39f9f81fe6211bb3
+          python tools/verify_reference_environment.py --reference-source "$RUNNER_TEMP/echotime-reference" --out benchmark-results/ci-reference.json
+      - name: Check strict original reference and optional candidate engines
+        env:
+          ECHOTIME_REFERENCE_SNAPSHOT: benchmark-results/ci-reference.json
         run: python -m pytest -q tests/test_acceleration_golden.py tests/test_cutoff.py tests/test_search_candidates.py tests/test_search_approximate.py tests/test_search.py
       - name: Run public retrieval example
         run: python examples/search_index.py
@@ -68,7 +147,9 @@ jobs:
         if: always()
         with:
           name: acceleration-smoke
-          path: benchmark-results/ci-smoke.*
+          path: |
+            benchmark-results/ci-smoke.*
+            benchmark-results/ci-reference.json
 
   package-and-docs:
     runs-on: ubuntu-latest

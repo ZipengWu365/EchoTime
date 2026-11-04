@@ -8,6 +8,15 @@ not lose bits in a decimal JSON round trip.
 from __future__ import annotations
 
 import math
+import contextlib
+import hashlib
+import importlib.metadata
+import io
+import json
+import os
+import platform
+from pathlib import Path
+import sys
 from typing import Any
 
 import numpy as np
@@ -15,6 +24,102 @@ import numpy as np
 
 FORMAT_VERSION = 1
 EMBEDDING_METRICS = {"acf", "periodogram", "trend", "ordinal_js", "linear_trend_model"}
+FROZEN_SHA256 = "6865f8f90be4708454e7d61b0b8c97100ee430111c889fcb966faa72d9cc923a"
+
+
+def numeric_dispatch() -> dict[str, Any]:
+    """Describe the local numerical build and dispatch, not just version labels."""
+    config = io.StringIO()
+    with contextlib.redirect_stdout(config):
+        np.show_config()
+    core = sys.modules.get("numpy._core._multiarray_umath", sys.modules.get("numpy.core._multiarray_umath"))
+    features = getattr(core, "__cpu_features__", {})
+    cpu_model = platform.processor()
+    cpuinfo = Path("/proc/cpuinfo")
+    if cpuinfo.is_file():
+        for line in cpuinfo.read_text(encoding="utf-8", errors="replace").splitlines():
+            if line.startswith("model name"):
+                cpu_model = line.partition(":")[2].strip()
+                break
+    variables = (
+        "OPENBLAS_CORETYPE", "OPENBLAS_NUM_THREADS", "NPY_DISABLE_CPU_FEATURES",
+        "OMP_NUM_THREADS", "MKL_NUM_THREADS", "MKL_CBWR", "MKL_ENABLE_INSTRUCTIONS",
+        "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS",
+    )
+    return {
+        "environment": {name: os.environ.get(name) for name in variables},
+        "numpy_build": config.getvalue(), "cpu_model": cpu_model,
+        "numpy_cpu_features": {name: bool(value) for name, value in sorted(features.items())},
+    }
+
+
+def load_snapshot(frozen_path: Path, reference_path: Path | None = None) -> dict[str, Any]:
+    """Load the immutable fixture or an explicitly verified same-environment sidecar.
+
+    This function never calculates expected values. A sidecar must be produced
+    separately by verify_reference_environment.py from the pristine original
+    implementation, using the exact committed input arrays and case definitions.
+    """
+    frozen_bytes = frozen_path.read_bytes()
+    if hashlib.sha256(frozen_bytes).hexdigest() != FROZEN_SHA256:
+        raise ValueError("The immutable original golden fixture has changed")
+    frozen = json.loads(frozen_bytes)
+    if reference_path is None:
+        return decode(frozen)
+    if reference_path.resolve() == frozen_path.resolve():
+        raise ValueError("Reference sidecar must be separate from the frozen fixture")
+    reference = json.loads(reference_path.read_text(encoding="utf-8"))
+    provenance = reference.get("provenance", {})
+    original = frozen["provenance"]
+    required = {
+        "kind": "environment_reference",
+        "reference_commit": original["reference_commit"],
+        "source_fixture_sha256": FROZEN_SHA256,
+        "source_sha256": original["source_sha256"],
+        "backend": "python",
+        "isolated_subprocess": True,
+        "native_extension_disabled": True,
+        "source_only_imports": True,
+    }
+    for key, value in required.items():
+        if provenance.get(key) != value:
+            raise ValueError(f"Invalid environment reference provenance: {key}")
+    import scipy
+
+    try:
+        pandas_version = importlib.metadata.version("pandas")
+    except importlib.metadata.PackageNotFoundError:
+        pandas_version = None
+    environment = {
+        "python": platform.python_version(), "numpy": np.__version__,
+        "scipy": scipy.__version__, "pandas": pandas_version,
+        "machine": platform.machine(), "platform": platform.platform(),
+    }
+    for key, value in environment.items():
+        if provenance.get(key) != value:
+            raise ValueError(f"Reference sidecar belongs to a different environment: {key}")
+    if provenance.get("numeric_dispatch") != numeric_dispatch():
+        raise ValueError("Reference sidecar belongs to a different numerical build or CPU/BLAS dispatch")
+    source = Path(provenance.get("reference_source", ""))
+    package = Path(provenance.get("imported_package_path", ""))
+    if not source.is_absolute() or package != source / "src/echotime/__init__.py":
+        raise ValueError("Reference sidecar has an invalid original import path")
+    for key in ("format_version", "contracts", "inputs"):
+        if reference.get(key) != frozen[key]:
+            raise ValueError(f"Reference sidecar changed frozen {key}")
+    cases = reference.get("cases", [])
+    if len(cases) != len(frozen["cases"]):
+        raise ValueError("Reference sidecar changed the case count")
+    for case, original_case in zip(cases, frozen["cases"]):
+        spec = {k: v for k, v in case.items() if k not in {"expected", "expected_exception"}}
+        original_spec = {k: v for k, v in original_case.items() if k not in {"expected", "expected_exception"}}
+        if spec != original_spec:
+            raise ValueError("Reference sidecar changed a frozen case definition")
+        if ("expected" in case) == ("expected_exception" in case):
+            raise ValueError("Reference sidecar must contain exactly one expected outcome per case")
+    if not isinstance(reference.get("drift_summary"), dict):
+        raise ValueError("Reference sidecar is missing the frozen-baseline drift report")
+    return decode(reference)
 
 
 def encode(value: Any) -> Any:

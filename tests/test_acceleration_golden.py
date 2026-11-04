@@ -1,7 +1,6 @@
 """Regression against the original, independently frozen Python implementation."""
 
 import importlib.util
-import json
 import os
 from pathlib import Path
 
@@ -14,7 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("acceleration_golden", ROOT / "tools/acceleration_golden.py")
 golden = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(golden)
-SNAPSHOT = golden.decode(json.loads((ROOT / "tests/golden/acceleration_reference.json").read_text(encoding="utf-8")))
+REFERENCE_PATH = os.environ.get("ECHOTIME_REFERENCE_SNAPSHOT")
+PORTABLE = os.environ.get("ECHOTIME_GOLDEN_PORTABLE") == "1"
+if REFERENCE_PATH and PORTABLE:
+    raise ValueError("A same-environment reference must be checked strictly; unset ECHOTIME_GOLDEN_PORTABLE")
+SNAPSHOT = golden.load_snapshot(
+    ROOT / "tests/golden/acceleration_reference.json",
+    Path(REFERENCE_PATH) if REFERENCE_PATH else None,
+)
 CASES = SNAPSHOT["cases"]
 
 
@@ -41,6 +47,5 @@ def test_acceleration_reference(case, backend):
         assert str(caught.value) == exception["message"]
         return
     actual = golden.run_case(case, SNAPSHOT["inputs"], backend)
-    portable = os.environ.get("ECHOTIME_GOLDEN_PORTABLE") == "1"
-    golden.assert_matches(actual, case["expected"], exact=case["contract"] == "A" and not portable,
+    golden.assert_matches(actual, case["expected"], exact=case["contract"] == "A" and not PORTABLE,
                           path=case["id"])

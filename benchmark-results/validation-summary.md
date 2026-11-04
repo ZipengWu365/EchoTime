@@ -9,6 +9,8 @@ must be reported separately.
 | Check | Actual local result | Evidence |
 |---|---|---|
 | Complete repository suite, with native extension, FAISS and Markdown installed | **1,592 passed**, no skips, 83.75 s | [Final pytest log](local-pytest-final.log) |
+| Complete suite after original-reference isolation and validation tests were added | **1,625 passed**, no skips, 85.36 s | [CI-hardening full log](local-pytest-ci-hardening.log) |
+| Final sidecar dispatch validation, golden, and isolation checks | **801 passed in each of three environments**: original numerical stack, matching CI software versions, and controlled Haswell BLAS dispatch | [Original stack](local-dispatch-provenance-tests.log), [new stack](latest-dispatch-provenance-tests.log), [Haswell](haswell-dispatch-provenance-tests.log) |
 | Original frozen golden contract | 383 fixtures / 767 parametrized checks included in the full pass | `tests/golden/acceleration_reference.json` |
 | Same-harness smoke | 39/39 passed | [JSON](current-smoke.json) |
 | Same-harness quick | 45/45 passed | [JSON](current-quick.json) |
@@ -28,6 +30,33 @@ paths and existing numerical warnings; they were not suppressed to fabricate a
 cleaner result. The earlier run's two documentation skips were resolved by
 installing the repository's specified Markdown 3.9 dependency before the final
 complete run.
+
+### Numerical-platform issue found by CI
+
+The [first GitHub run](https://github.com/ZipengWu365/EchoTime/actions/runs/41884843447)
+passed Python 3.11 and package/docs jobs. Python 3.10, 3.13 and the optional-search
+job each failed 144 historical NCC fixture checks; no other test file failed.
+Installing the same Python 3.12.15 / NumPy 2.5.4 / SciPy 1.18.1 / pandas 3.1.1
+versions locally did **not** reproduce those A failures with default dispatch.
+
+A controlled process using `OPENBLAS_CORETYPE=Haswell` did reproduce 144 failures,
+with maximum absolute historical difference `2.220446049250313e-16`. The
+**original commit produced those same differences**. All 242 original/current
+NCC evaluations matched bit for bit under the same dispatch. A full original
+source sidecar then passed all 767 current Python/native fixture checks under
+Haswell. The historical failures remain in [their log](haswell-frozen-pytest.log);
+they were not converted into passing historical A results. The first runner's
+actual BLAS architecture was not recorded, so this establishes a reproducible
+mechanism without claiming that runner used Haswell.
+
+The resulting gate keeps the immutable fixture, verifies original source hashes
+and imports, and compares A results strictly in the same environment. Historical
+drift and portable compatibility are reported separately. Final provenance also
+checks numerical build, CPU features and dispatch/thread variables; the new
+dispatch-mismatch rejection adds one test after the 1,625-test complete run.
+The three 801-test follow-ups include that guard. See
+[the machine-readable evidence](numerical-portability.json) and
+[the fixture protocol](../tests/golden/README.md).
 
 The animation source fingerprints needed refreshing because two numerical
 source files changed. Before refreshing them, all 137 examples were regenerated

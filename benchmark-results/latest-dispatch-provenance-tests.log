@@ -1,0 +1,30 @@
+........................................................................ [  8%]
+........................................................................ [ 17%]
+........................................................................ [ 26%]
+........................................................................ [ 35%]
+........................................................................ [ 44%]
+........................................................................ [ 53%]
+........................................................................ [ 62%]
+........................................................................ [ 71%]
+........................................................................ [ 80%]
+........................................................................ [ 89%]
+........................................................................ [ 98%]
+.........                                                                [100%]
+=============================== warnings summary ===============================
+../echotime-ci-numeric-env/lib/python3.12/site-packages/numpy/__config__.py:155: 1 warning
+tests/test_acceleration_snapshot.py: 19 warnings
+  /workspace/scratch/875f2180653d/echotime-ci-numeric-env/lib/python3.12/site-packages/numpy/__config__.py:155: UserWarning: Install `pyyaml` for better output
+    warnings.warn("Install `pyyaml` for better output", stacklevel=1)
+
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:316: RuntimeWarning: Mean of empty slice
+    mu = float(np.nanmean(x))
+
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+  /workspace/scratch/875f2180653d/echotime-ci-numeric-env/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+    var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+801 passed, 24 warnings in 5.53s

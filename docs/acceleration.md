@@ -402,6 +402,10 @@ unmodified original Python implementation. It checks all 16 batch metrics and
 complete high-level outputs. The benchmark defaults to small inputs, records
 actual package/source identity, separates preparation and validation costs, and
 reports optional APIs as unavailable rather than inventing results.
+On a different numerical environment, use the documented original-source
+sidecar protocol to distinguish environment drift from a code regression. It
+retains strict A equality and the historical fixture separately; a portable
+comparison by itself does not establish exact equivalence.
 
 Read search `stats` with the timing: candidate count, explicit bounds, exclusions,
 exact evaluations, cutoff abandonments, DP cells, preparation/bound/exact time,

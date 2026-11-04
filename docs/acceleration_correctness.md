@@ -30,6 +30,12 @@ implementation at `08f7df742b364175105e957d39f9f81fe6211bb3`. Its A contracts us
 float-hex equality; B contracts use declared tolerance. No regression expected
 values are regenerated from the accelerated implementation. The portable golden
 option is a diagnostic for another numerical platform, not an A-class pass.
+For a new environment, `tools/verify_reference_environment.py` executes the
+hash-verified original source in an isolated Python-only subprocess against the
+same frozen inputs. `ECHOTIME_REFERENCE_SNAPSHOT` selects that separate sidecar
+explicitly. It leaves A float-hex equality unchanged, rejects altered cases or
+environment metadata, and preserves an independent report of drift from the
+immutable historical fixture. See [the fixture protocol](../tests/golden/README.md).
 
 ## 2. Coverage and ties
 

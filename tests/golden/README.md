@@ -46,6 +46,51 @@ and text checks. **It does not establish contract A equivalence.** Run
 Python and native implementations directly. Do not silently switch a failed
 strict CI job to portable mode or regenerate expected values from changed code.
 
+### Strict comparison with the original source in a new environment
+
+For another Python, NumPy/SciPy build or CPU, also run the **original source**
+under that exact environment. The sidecar generator below reads the committed
+input arrays and case definitions; it never calls `fixture_cases()` or imports
+the accelerated implementation to calculate expected values.
+
+```bash
+git fetch --no-tags origin 08f7df742b364175105e957d39f9f81fe6211bb3
+git worktree add --detach ../EchoTime-reference 08f7df742b364175105e957d39f9f81fe6211bb3
+python tools/verify_reference_environment.py \
+  --reference-source ../EchoTime-reference \
+  --out benchmark-results/environment-reference.json
+ECHOTIME_REFERENCE_SNAPSHOT=benchmark-results/environment-reference.json \
+  python -m pytest tests/test_acceleration_golden.py -q
+```
+
+The tool verifies the full original commit, a clean tracked source tree, every
+original Python source SHA256 and the actual import path. An isolated subprocess
+loads only verified original source, bypasses stale bytecode and blocks the
+native extension. The committed fixture SHA256, numerical environment and
+case-by-case drift from the historical results remain in the sidecar. Existing
+output files and the immutable fixture cannot be overwritten.
+
+The test loader rejects sidecars with changed inputs, case definitions,
+contracts, source hashes, environment versions or missing provenance. A sidecar
+also records and checks the NumPy build configuration, CPU model/features,
+BLAS dispatch overrides and relevant numerical thread variables. It must be
+regenerated when these change; copying a SkylakeX result into a Haswell run is
+not a same-environment comparison. A sidecar
+cannot be combined with `ECHOTIME_GOLDEN_PORTABLE=1`: A checks remain exact
+float-hex checks, and B retains its declared tolerance. A same-environment pass
+establishes equivalence to original EchoTime on that environment; it does not
+claim that a numerical library produces identical bits on every platform.
+
+CI keeps three distinct checks: strict original-source sidecars across the
+Python matrix; an explicitly labeled historical portability comparison; and a
+recorded historical bitwise status with the capture's Python/NumPy/SciPy versions.
+The last job also requires strict same-runner original equivalence: pinning
+dependency versions does not pin a hosted runner's CPU or BLAS kernel. Its
+historical status must agree with the independently measured original-source
+drift. A historical bitwise mismatch remains a mismatch in that artifact and is
+never relabeled as an A pass. Sidecars and the historical logs are retained as
+CI artifacts; numerical/structural compatibility remains a separate required gate.
+
 ## Running and reproducing
 
 ```bash
