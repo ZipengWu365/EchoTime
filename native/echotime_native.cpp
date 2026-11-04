@@ -429,6 +429,291 @@ double dtw_one(const Bank& A, int64_t sa, const Bank& B, int64_t sb, int64_t win
   return prev[static_cast<size_t>(m)];
 }
 
+// -------------------------------------------------------- cutoff kernels ----
+// These are additive entry points: legacy recurrences and entry points above
+// remain unchanged.  A certificate never exposes a partial DP value as a
+// distance.  Both a completed distance above the threshold and an early exit
+// return {NaN, true, cells}; empty/undefined results return {NaN, false, cells}.
+struct CutoffValue {
+  double value;
+  bool exceeded;
+  int64_t cells;
+};
+
+inline CutoffValue cutoff_completed(double value, double cutoff, int64_t cells) {
+  return value > cutoff ? CutoffValue{kNaN, true, cells} : CutoffValue{value, false, cells};
+}
+
+int64_t cutoff_window(int64_t n, int64_t m, int64_t window, bool fast) {
+  const int64_t resolved = resolve_window(n, m, window, fast);
+  // A wider band already covers every cell.  Clamping also prevents i+window
+  // overflow for valid, very large user windows before window_bounds is used.
+  return resolved < 0 ? resolved : std::min(resolved, std::max(n, m));
+}
+
+int64_t full_cell_count(int64_t n, int64_t m, int64_t w) {
+  if (w < 0) return n * m;
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    cells += std::max<int64_t>(0, hi - lo + 1);
+  }
+  return cells;
+}
+
+bool finite_series(const Bank& bank, int64_t s) {
+  const double* data = bank.row(s, 0);
+  const int64_t count = bank.len(s) * bank.d;
+  for (int64_t k = 0; k < count; ++k)
+    if (!std::isfinite(data[k])) return false;
+  return true;
+}
+
+bool nonnegative_costs(const double* values, int64_t n) {
+  for (int64_t i = 0; i < n; ++i)
+    if (!(values[i] >= 0.0)) return false;  // also rejects NaN, permits +inf
+  return true;
+}
+
+bool safe_twed_side(const TwedSide& side, int64_t s) {
+  if (!finite_series(side.values, s) || !finite_series(side.prev_values, s)) return false;
+  const int64_t n = side.values.len(s);
+  if (!nonnegative_costs(side.del.at(s), n)) return false;
+  const double* t = side.t.at(s);
+  const double* tp = side.tprev.at(s);
+  // With this bound, the sum of the two absolute time differences cannot
+  // overflow before multiplication by nu.  In particular, nu=0 cannot create
+  // 0*infinity=NaN later in a row that an earlier certificate would hide.
+  constexpr double limit = std::numeric_limits<double>::max() / 4.0;
+  for (int64_t i = 0; i < n; ++i)
+    if (!(std::fabs(t[i]) <= limit) || !(std::fabs(tp[i]) <= limit)) return false;
+  return true;
+}
+
+// For nonnegative costs, floating-point addition is monotone.  Every complete
+// path crosses every row; its final value is therefore >= that row's minimum.
+// The column-zero boundary is part of the frontier for ERP and EDR.  Applying
+// the reference's positive normalization division to the minimum preserves
+// this ordering, without a rounded cutoff multiplication or empirical margin.
+template <bool UNI>
+CutoffValue dtw_cutoff_one(const Bank& A, int64_t sa, const Bank& B, int64_t sb,
+                          double cutoff, int64_t window, bool normalize,
+                          std::vector<double>& prev, std::vector<double>& curr, std::vector<double>& buf) {
+  const int64_t n = A.len(sa), m = B.len(sb), d = UNI ? 1 : A.d;
+  if (n == 0 || m == 0) return {kNaN, false, 0};
+  const int64_t w = cutoff_window(n, m, window, false);
+  const double divisor = normalize ? static_cast<double>(n + m) : 1.0;
+  if (cutoff == kInf) {
+    const double value = dtw_one<UNI>(A, sa, B, sb, w, prev, curr, buf) / divisor;
+    return {value, false, full_cell_count(n, m, w)};
+  }
+  const bool can_prune = finite_series(A, sa) && finite_series(B, sb);
+  const double* xa = A.row(sa, 0);
+  const double* yb = B.row(sb, 0);
+  prev.assign(static_cast<size_t>(m + 1), kInf);
+  curr.assign(static_cast<size_t>(m + 1), kInf);
+  buf.resize(static_cast<size_t>(d));
+  prev[0] = 0.0;
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    double* c = curr.data();
+    const double* p = prev.data();
+    c[0] = kInf;
+    if (w >= 0) reset_outside(curr, i, lo, hi, m, kInf);
+    const double* a = xa + (i - 1) * d;
+    double row_min = kInf;
+    for (int64_t j = lo; j <= hi; ++j) {
+      const double cost = cost_l2<UNI>(a, yb + (j - 1) * d, d, buf.data());
+      c[j] = cost + min3(p[j], c[j - 1], p[j - 1]);
+      if (c[j] < row_min) row_min = c[j];
+      ++cells;
+    }
+    if (can_prune && row_min / divisor > cutoff) return {kNaN, true, cells};
+    std::swap(prev, curr);
+  }
+  return cutoff_completed(prev[static_cast<size_t>(m)] / divisor, cutoff, cells);
+}
+
+template <bool UNI>
+CutoffValue edr_cutoff_one(const Bank& A, int64_t sa, const Bank& B, int64_t sb,
+                          double cutoff, double eps, bool normalized, int64_t window, bool fast,
+                          std::vector<double>& prev, std::vector<double>& curr, std::vector<double>& buf) {
+  const int64_t n = A.len(sa), m = B.len(sb), d = UNI ? 1 : A.d;
+  if (n == 0 || m == 0) return {kNaN, false, 0};
+  const int64_t w = cutoff_window(n, m, window, fast);
+  if (cutoff == kInf)
+    return {edr_one<UNI>(A, sa, B, sb, eps, normalized, w, false, prev, curr, buf), false, full_cell_count(n, m, w)};
+  const double divisor = normalized ? static_cast<double>(std::max(n, m)) : 1.0;
+  const double eps2 = eps * eps;
+  const double* xa = A.row(sa, 0);
+  const double* yb = B.row(sb, 0);
+  prev.resize(static_cast<size_t>(m + 1));
+  curr.assign(static_cast<size_t>(m + 1), kInf);
+  for (int64_t j = 0; j <= m; ++j) prev[j] = static_cast<double>(j);
+  buf.resize(static_cast<size_t>(d));
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    double* c = curr.data();
+    const double* p = prev.data();
+    c[0] = static_cast<double>(i);
+    if (w >= 0) reset_outside(curr, i, lo, hi, m, kInf);
+    const double* a = xa + (i - 1) * d;
+    double row_min = c[0];
+    for (int64_t j = lo; j <= hi; ++j) {
+      const double sub = cost_match<UNI>(a, yb + (j - 1) * d, d, eps, eps2, buf.data()) ? 0.0 : 1.0;
+      c[j] = min3(p[j] + 1.0, c[j - 1] + 1.0, p[j - 1] + sub);
+      if (c[j] < row_min) row_min = c[j];
+      ++cells;
+    }
+    if (row_min / divisor > cutoff) return {kNaN, true, cells};
+    std::swap(prev, curr);
+  }
+  return cutoff_completed(prev[static_cast<size_t>(m)] / divisor, cutoff, cells);
+}
+
+template <bool UNI>
+CutoffValue erp_cutoff_one(const Bank& A, int64_t sa, const RowScalars& gapA,
+                          const Bank& B, int64_t sb, const RowScalars& gapB,
+                          double cutoff, int64_t window, bool fast,
+                          std::vector<double>& prev, std::vector<double>& curr, std::vector<double>& buf) {
+  const int64_t n = A.len(sa), m = B.len(sb), d = UNI ? 1 : A.d;
+  if (n == 0 || m == 0) return {kNaN, false, 0};
+  const int64_t w = cutoff_window(n, m, window, fast);
+  if (cutoff == kInf)
+    return {erp_one<UNI>(A, sa, gapA, B, sb, gapB, w, false, prev, curr, buf), false, full_cell_count(n, m, w)};
+  const double* lg = gapA.at(sa);
+  const double* rg = gapB.at(sb);
+  const bool can_prune = finite_series(A, sa) && finite_series(B, sb) && nonnegative_costs(lg, n) && nonnegative_costs(rg, m);
+  const double* xa = A.row(sa, 0);
+  const double* yb = B.row(sb, 0);
+  prev.assign(static_cast<size_t>(m + 1), kInf);
+  curr.assign(static_cast<size_t>(m + 1), kInf);
+  buf.resize(static_cast<size_t>(d));
+  prev[0] = 0.0;
+  for (int64_t j = 1; j <= m; ++j) prev[j] = prev[j - 1] + rg[j - 1];
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    double* c = curr.data();
+    const double* p = prev.data();
+    const double lgi = lg[i - 1];
+    c[0] = p[0] + lgi;
+    if (w >= 0) reset_outside(curr, i, lo, hi, m, kInf);
+    const double* a = xa + (i - 1) * d;
+    double row_min = c[0];
+    for (int64_t j = lo; j <= hi; ++j) {
+      const double pair = cost_l2<UNI>(a, yb + (j - 1) * d, d, buf.data());
+      c[j] = min3(p[j - 1] + pair, p[j] + lgi, c[j - 1] + rg[j - 1]);
+      if (c[j] < row_min) row_min = c[j];
+      ++cells;
+    }
+    if (can_prune && row_min > cutoff) return {kNaN, true, cells};
+    std::swap(prev, curr);
+  }
+  return cutoff_completed(prev[static_cast<size_t>(m)], cutoff, cells);
+}
+
+template <bool UNI>
+CutoffValue twed_cutoff_one(const TwedSide& L, int64_t sa, const TwedSide& R, int64_t sb,
+                           double cutoff, double nu, int64_t window, bool fast,
+                           std::vector<double>& prev, std::vector<double>& curr, std::vector<double>& buf) {
+  const int64_t n = L.values.len(sa), m = R.values.len(sb), d = UNI ? 1 : L.values.d;
+  if (n == 0 || m == 0) return {kNaN, false, 0};
+  const int64_t w = cutoff_window(n, m, window, fast);
+  if (cutoff == kInf)
+    return {twed_one<UNI>(L, sa, R, sb, nu, w, false, prev, curr, buf), false, full_cell_count(n, m, w)};
+  const bool can_prune = safe_twed_side(L, sa) && safe_twed_side(R, sb);
+  const double* tx = L.t.at(sa);
+  const double* txp = L.tprev.at(sa);
+  const double* ldel = L.del.at(sa);
+  const double* ty = R.t.at(sb);
+  const double* typ = R.tprev.at(sb);
+  const double* rdel = R.del.at(sb);
+  const double* xa = L.values.row(sa, 0);
+  const double* xpa = L.prev_values.row(sa, 0);
+  const double* yb = R.values.row(sb, 0);
+  const double* ypb = R.prev_values.row(sb, 0);
+  prev.assign(static_cast<size_t>(m + 1), kInf);
+  curr.assign(static_cast<size_t>(m + 1), kInf);
+  buf.resize(static_cast<size_t>(d));
+  prev[0] = 0.0;
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    double* c = curr.data();
+    const double* p = prev.data();
+    c[0] = kInf;
+    if (w >= 0) reset_outside(curr, i, lo, hi, m, kInf);
+    const double* xi = xa + (i - 1) * d;
+    const double* xim1 = xpa + (i - 1) * d;
+    const double ti = tx[i - 1];
+    const double tim1 = txp[i - 1];
+    const double ldi = ldel[i - 1];
+    double row_min = kInf;
+    for (int64_t j = lo; j <= hi; ++j) {
+      const double pair = cost_l2<UNI>(xi, yb + (j - 1) * d, d, buf.data());
+      const double pair_prev = cost_l2<UNI>(xim1, ypb + (j - 1) * d, d, buf.data());
+      const double time_cost = nu * (std::fabs(ti - ty[j - 1]) + std::fabs(tim1 - typ[j - 1]));
+      c[j] = min3(p[j] + ldi, c[j - 1] + rdel[j - 1], p[j - 1] + pair + pair_prev + time_cost);
+      if (c[j] < row_min) row_min = c[j];
+      ++cells;
+    }
+    if (can_prune && row_min > cutoff) return {kNaN, true, cells};
+    std::swap(prev, curr);
+  }
+  return cutoff_completed(prev[static_cast<size_t>(m)], cutoff, cells);
+}
+
+template <bool UNI>
+CutoffValue lcss_cutoff_one(const Bank& A, int64_t sa, const Bank& B, int64_t sb,
+                           double cutoff, double eps, int64_t window, bool fast,
+                           std::vector<double>& prev, std::vector<double>& curr, std::vector<double>& buf) {
+  const int64_t n = A.len(sa), m = B.len(sb), d = UNI ? 1 : A.d;
+  if (n == 0 || m == 0) return {kNaN, false, 0};
+  const int64_t w = cutoff_window(n, m, window, fast);
+  if (cutoff == kInf)
+    return {1.0 - lcss_one<UNI>(A, sa, B, sb, eps, w, false, prev, curr, buf), false, full_cell_count(n, m, w)};
+  const double divisor = static_cast<double>(std::min(n, m));
+  const double eps2 = eps * eps;
+  const double* xa = A.row(sa, 0);
+  const double* yb = B.row(sb, 0);
+  prev.assign(static_cast<size_t>(m + 1), 0.0);
+  curr.assign(static_cast<size_t>(m + 1), 0.0);
+  buf.resize(static_cast<size_t>(d));
+  int64_t cells = 0;
+  for (int64_t i = 1; i <= n; ++i) {
+    int64_t lo, hi;
+    window_bounds(i, m, w, lo, hi);
+    double* c = curr.data();
+    const double* p = prev.data();
+    c[0] = 0.0;
+    if (w >= 0) reset_outside(curr, i, lo, hi, m, 0.0);
+    const double* a = xa + (i - 1) * d;
+    double row_max = 0.0;
+    for (int64_t j = lo; j <= hi; ++j) {
+      if (cost_match<UNI>(a, yb + (j - 1) * d, d, eps, eps2, buf.data()))
+        c[j] = p[j - 1] + 1.0;
+      else
+        c[j] = (c[j - 1] > p[j]) ? c[j - 1] : p[j];
+      if (c[j] > row_max) row_max = c[j];
+      ++cells;
+    }
+    // Each remaining row can add at most one match.  Outside-band cells are
+    // semantically zero, so cannot increase this upper bound on final matches.
+    const double max_matches = std::min(divisor, row_max + static_cast<double>(n - i));
+    if (1.0 - max_matches / divisor > cutoff) return {kNaN, true, cells};
+    std::swap(prev, curr);
+  }
+  return cutoff_completed(1.0 - prev[static_cast<size_t>(m)] / divisor, cutoff, cells);
+}
+
 // ------------------------------------------------------- lane kernels ----
 // For univariate series, pairs with equal lengths (n, m) are evaluated kLanes
 // at a time: lane l of every array holds pair l, and the inner loop over
@@ -922,6 +1207,119 @@ py::array_t<double> dtw_pairs(const arr_d& va, const arr_i& oa, const arr_d& vb,
       });
 }
 
+void check_cutoff_parameters(const arr_d& cutoffs, int64_t pairs, int64_t window) {
+  if (cutoffs.ndim() != 1 || cutoffs.shape(0) != pairs)
+    throw std::invalid_argument("cutoffs must be 1-D with one value per pair");
+  for (int64_t k = 0; k < pairs; ++k)
+    if (std::isnan(cutoffs.data()[k])) throw std::invalid_argument("cutoffs must not contain NaN");
+  if (window < -1) throw std::invalid_argument("window must be -1 (unbounded) or nonnegative");
+}
+
+void check_nonnegative_parameter(double value, const char* name) {
+  if (!std::isfinite(value) || value < 0.0)
+    throw std::invalid_argument(std::string(name) + " must be finite and nonnegative");
+}
+
+// Independent pairs share each worker's scratch capacity for the duration of
+// the batch.  Cutoff kernels currently use scalar pairs: different stop rows
+// would require active-lane bookkeeping to use the legacy SIMD packing.
+template <class OneFn>
+py::tuple run_cutoff_pairs(const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                           int n_threads, OneFn&& one) {
+  const int64_t K = I.shape(0);
+  py::array_t<double> values(K);
+  py::array_t<bool> exceeded(K);
+  py::array_t<int64_t> cells(K);
+  double* pv = values.mutable_data();
+  bool* pe = exceeded.mutable_data();
+  int64_t* pc = cells.mutable_data();
+  const int64_t* pi = I.data();
+  const int64_t* pj = J.data();
+  const double* thresholds = cutoffs.data();
+  {
+    py::gil_scoped_release release;
+    const int t = resolve_threads(n_threads, K);
+    std::vector<Scratch> scratch(static_cast<size_t>(std::max(t, 1)));
+    parallel_for(K, t, [&](int64_t k, int tid) {
+      Scratch& s = scratch[static_cast<size_t>(tid)];
+      const CutoffValue result = one(pi[k], pj[k], thresholds[k], s.prev, s.curr, s.buf);
+      pv[k] = result.value;
+      pe[k] = result.exceeded;
+      pc[k] = result.cells;
+    });
+  }
+  return py::make_tuple(values, exceeded, cells);
+}
+
+py::tuple dtw_pairs_cutoff(const arr_d& va, const arr_i& oa, const arr_d& vb, const arr_i& ob,
+                           const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                           int64_t window, bool normalize, int n_threads) {
+  const Bank A = make_bank(va, oa), B = make_bank(vb, ob);
+  check_pairs(I, J, A, B);
+  check_cutoff_parameters(cutoffs, I.shape(0), window);
+  return run_cutoff_pairs(I, J, cutoffs, n_threads, [&](int64_t a, int64_t b, double cutoff, auto& p, auto& c, auto& buf) {
+    return A.d == 1 ? dtw_cutoff_one<true>(A, a, B, b, cutoff, window, normalize, p, c, buf)
+                    : dtw_cutoff_one<false>(A, a, B, b, cutoff, window, normalize, p, c, buf);
+  });
+}
+
+py::tuple edr_pairs_cutoff(const arr_d& va, const arr_i& oa, const arr_d& vb, const arr_i& ob,
+                           const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                           double eps, bool normalized, int64_t window, bool fast, int n_threads) {
+  const Bank A = make_bank(va, oa), B = make_bank(vb, ob);
+  check_pairs(I, J, A, B);
+  check_cutoff_parameters(cutoffs, I.shape(0), window);
+  check_nonnegative_parameter(eps, "epsilon");
+  return run_cutoff_pairs(I, J, cutoffs, n_threads, [&](int64_t a, int64_t b, double cutoff, auto& p, auto& c, auto& buf) {
+    return A.d == 1 ? edr_cutoff_one<true>(A, a, B, b, cutoff, eps, normalized, window, fast, p, c, buf)
+                    : edr_cutoff_one<false>(A, a, B, b, cutoff, eps, normalized, window, fast, p, c, buf);
+  });
+}
+
+py::tuple lcss_pairs_cutoff(const arr_d& va, const arr_i& oa, const arr_d& vb, const arr_i& ob,
+                            const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                            double eps, int64_t window, bool fast, int n_threads) {
+  const Bank A = make_bank(va, oa), B = make_bank(vb, ob);
+  check_pairs(I, J, A, B);
+  check_cutoff_parameters(cutoffs, I.shape(0), window);
+  check_nonnegative_parameter(eps, "epsilon");
+  return run_cutoff_pairs(I, J, cutoffs, n_threads, [&](int64_t a, int64_t b, double cutoff, auto& p, auto& c, auto& buf) {
+    return A.d == 1 ? lcss_cutoff_one<true>(A, a, B, b, cutoff, eps, window, fast, p, c, buf)
+                    : lcss_cutoff_one<false>(A, a, B, b, cutoff, eps, window, fast, p, c, buf);
+  });
+}
+
+py::tuple erp_pairs_cutoff(const arr_d& va, const arr_i& oa, const arr_d& ga,
+                           const arr_d& vb, const arr_i& ob, const arr_d& gb,
+                           const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                           int64_t window, bool fast, int n_threads) {
+  const Bank A = make_bank(va, oa), B = make_bank(vb, ob);
+  check_pairs(I, J, A, B);
+  check_cutoff_parameters(cutoffs, I.shape(0), window);
+  const RowScalars GA = make_rows(ga, A, "gap costs A"), GB = make_rows(gb, B, "gap costs B");
+  return run_cutoff_pairs(I, J, cutoffs, n_threads, [&](int64_t a, int64_t b, double cutoff, auto& p, auto& c, auto& buf) {
+    return A.d == 1 ? erp_cutoff_one<true>(A, a, GA, B, b, GB, cutoff, window, fast, p, c, buf)
+                    : erp_cutoff_one<false>(A, a, GA, B, b, GB, cutoff, window, fast, p, c, buf);
+  });
+}
+
+py::tuple twed_pairs_cutoff(const arr_d& va, const arr_d& pva, const arr_i& oa,
+                            const arr_d& ta, const arr_d& tpa, const arr_d& dela,
+                            const arr_d& vb, const arr_d& pvb, const arr_i& ob,
+                            const arr_d& tb, const arr_d& tpb, const arr_d& delb,
+                            const arr_i& I, const arr_i& J, const arr_d& cutoffs,
+                            double nu, int64_t window, bool fast, int n_threads) {
+  const TwedSide L = make_twed_side(va, pva, oa, ta, tpa, dela);
+  const TwedSide R = make_twed_side(vb, pvb, ob, tb, tpb, delb);
+  check_pairs(I, J, L.values, R.values);
+  check_cutoff_parameters(cutoffs, I.shape(0), window);
+  check_nonnegative_parameter(nu, "nu");
+  return run_cutoff_pairs(I, J, cutoffs, n_threads, [&](int64_t a, int64_t b, double cutoff, auto& p, auto& c, auto& buf) {
+    return L.values.d == 1 ? twed_cutoff_one<true>(L, a, R, b, cutoff, nu, window, fast, p, c, buf)
+                           : twed_cutoff_one<false>(L, a, R, b, cutoff, nu, window, fast, p, c, buf);
+  });
+}
+
 // ------------------------------------------------------ sample entropy ----
 // metrics.sample_entropy._phi counts: for i in [0, n-order), j in (i, n-order],
 // count += max|x[i+k] - x[j+k]| <= r. NaN differences never match, as with
@@ -988,6 +1386,7 @@ py::array_t<int64_t> sample_entropy_counts_bank(const arr_d& v, const arr_i& o, 
 PYBIND11_MODULE(_echotime_native, m) {
   m.doc() = "EchoTime native kernels (bit-identical to the pure-Python reference).";
   m.attr("ABI_VERSION") = 1;
+  m.attr("CUTOFF_ABI_VERSION") = 1;
   m.def("hardware_concurrency", []() { return static_cast<int>(std::thread::hardware_concurrency()); });
   m.def("lcss_pairs", &lcss_pairs, py::arg("values_a"), py::arg("offsets_a"), py::arg("values_b"),
         py::arg("offsets_b"), py::arg("I"), py::arg("J"), py::arg("epsilon"), py::arg("window"), py::arg("fast"),
@@ -1004,6 +1403,22 @@ PYBIND11_MODULE(_echotime_native, m) {
         py::arg("nu"), py::arg("window"), py::arg("fast"), py::arg("n_threads"));
   m.def("dtw_pairs", &dtw_pairs, py::arg("values_a"), py::arg("offsets_a"), py::arg("values_b"),
         py::arg("offsets_b"), py::arg("I"), py::arg("J"), py::arg("window"), py::arg("n_threads"));
+  m.def("dtw_pairs_cutoff", &dtw_pairs_cutoff, py::arg("values_a"), py::arg("offsets_a"), py::arg("values_b"),
+        py::arg("offsets_b"), py::arg("I"), py::arg("J"), py::arg("cutoffs"), py::arg("window"),
+        py::arg("normalize"), py::arg("n_threads"));
+  m.def("edr_pairs_cutoff", &edr_pairs_cutoff, py::arg("values_a"), py::arg("offsets_a"), py::arg("values_b"),
+        py::arg("offsets_b"), py::arg("I"), py::arg("J"), py::arg("cutoffs"), py::arg("epsilon"),
+        py::arg("normalized"), py::arg("window"), py::arg("fast"), py::arg("n_threads"));
+  m.def("lcss_pairs_cutoff", &lcss_pairs_cutoff, py::arg("values_a"), py::arg("offsets_a"), py::arg("values_b"),
+        py::arg("offsets_b"), py::arg("I"), py::arg("J"), py::arg("cutoffs"), py::arg("epsilon"),
+        py::arg("window"), py::arg("fast"), py::arg("n_threads"));
+  m.def("erp_pairs_cutoff", &erp_pairs_cutoff, py::arg("values_a"), py::arg("offsets_a"), py::arg("gap_costs_a"),
+        py::arg("values_b"), py::arg("offsets_b"), py::arg("gap_costs_b"), py::arg("I"), py::arg("J"),
+        py::arg("cutoffs"), py::arg("window"), py::arg("fast"), py::arg("n_threads"));
+  m.def("twed_pairs_cutoff", &twed_pairs_cutoff, py::arg("values_a"), py::arg("prev_values_a"), py::arg("offsets_a"),
+        py::arg("t_a"), py::arg("t_prev_a"), py::arg("delete_a"), py::arg("values_b"), py::arg("prev_values_b"),
+        py::arg("offsets_b"), py::arg("t_b"), py::arg("t_prev_b"), py::arg("delete_b"), py::arg("I"), py::arg("J"),
+        py::arg("cutoffs"), py::arg("nu"), py::arg("window"), py::arg("fast"), py::arg("n_threads"));
   m.def("sample_entropy_counts", &sample_entropy_counts, py::arg("x"), py::arg("order"), py::arg("r"));
   m.def("sample_entropy_counts_bank", &sample_entropy_counts_bank, py::arg("values"), py::arg("offsets"),
         py::arg("r"), py::arg("order"), py::arg("n_threads"));
