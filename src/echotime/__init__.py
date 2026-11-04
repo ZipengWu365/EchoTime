@@ -27,7 +27,9 @@ from .datasets import list_starter_datasets, starter_dataset, write_starter_data
 from .product import explain_dataset, explain_similarity, report_dataset, report_similarity
 from .agent_tools import TOOL_SCHEMA_VERSION, mcp_tool_descriptors, openai_function_schemas, tool_schemas, ts_compare, ts_profile, ts_route
 from .repo_docs import agent_schema_guide, case_studies_guide, doctor_guide, github_readme, installation_guide, integration_templates_guide, live_demo_guide, pages_deploy_guide, pypi_long_description, quickstart_guide, routing_contract_guide, starter_datasets_guide, start_here_guide, trust_guide, utility_benchmark_guide, zero_install_guide
-from .similarity import SimilarityReport, compare_profiles, compare_series, rolling_similarity
+from .similarity import SimilarityReport, SimilarityScore, compare_profiles, compare_series, rolling_similarity
+from .prepared import PreparedSeries
+from .search import PreparedCollection, SearchIndex, SearchResult
 from .similarity_methods import acf_distance, best_shift, dtw_distance, edr_distance, erp_distance, independent_max_ncc, independent_sbd, lcss_distance, lcss_similarity, linear_trend_model_distance, max_ncc, ncc_sequence, ordinal_pattern_js_distance, periodogram_distance, sbd, trend_distance, twed_distance
 from .batch import cross_distance_matrix, one_vs_many, paired_distances, pairwise_distance_matrix
 from ._native import native_available, set_similarity_backend, similarity_backend_info
@@ -64,7 +66,7 @@ __all__ = [
     'quickstart_guide', 'installation_guide', 'zero_install_guide', 'pages_deploy_guide', 'live_demo_guide', 'integration_templates_guide', 'pypi_long_description',
     'case_studies_guide', 'trust_guide', 'starter_datasets_guide', 'agent_schema_guide', 'routing_contract_guide', 'utility_benchmark_guide',
     'start_here_guide', 'doctor_guide', 'github_readme',
-    'SimilarityReport', 'compare_series', 'compare_profiles', 'rolling_similarity',
+    'SimilarityReport', 'SimilarityScore', 'PreparedSeries', 'PreparedCollection', 'SearchIndex', 'SearchResult', 'compare_series', 'compare_profiles', 'rolling_similarity',
     'ncc_sequence', 'max_ncc', 'best_shift', 'sbd', 'independent_max_ncc', 'independent_sbd', 'acf_distance', 'periodogram_distance', 'trend_distance', 'ordinal_pattern_js_distance', 'linear_trend_model_distance', 'lcss_similarity', 'lcss_distance', 'edr_distance', 'erp_distance', 'twed_distance', 'dtw_distance',
     'pairwise_distance_matrix', 'cross_distance_matrix', 'one_vs_many', 'paired_distances', 'native_available', 'set_similarity_backend', 'similarity_backend_info',
     'about', 'api_reference', 'scenario_guide', 'environment_matrix', 'workflow_recommendation', 'ecosystem_positioning', 'coverage_matrix',

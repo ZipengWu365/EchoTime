@@ -1,0 +1,2038 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-04T17:37:56.255919+00:00",
+  "run": {
+    "profile": "smoke",
+    "backend": "native",
+    "n_jobs": 1,
+    "seed": 20261104,
+    "repeats": 5,
+    "warmups": 1,
+    "strategy": "multiview",
+    "bounds": "auto",
+    "filters": {
+      "cases": [],
+      "groups": []
+    },
+    "import_seconds": 0.7145940369991877,
+    "harness_sha256": "f073c9c3acbe1ec8d59b37867a37c067b482d9e9fbf7bd1105f486dda98d9c16",
+    "argv": [
+      "--source-tree",
+      "/workspace/scratch/875f2180653d/echotime-baseline/src",
+      "--profile",
+      "smoke",
+      "--backend",
+      "native",
+      "--repeats",
+      "5",
+      "--out",
+      "benchmark-results/baseline-smoke.json"
+    ],
+    "total_seconds": 0.6788570579992665
+  },
+  "environment": {
+    "python": "3.12.14",
+    "python_executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "package_version": "0.18.0.dev0",
+    "package_path": "/workspace/scratch/875f2180653d/echotime-baseline/src/echotime/__init__.py",
+    "source_commit": "08f7df742b364175105e957d39f9f81fe6211bb3",
+    "source_dirty": false,
+    "source_sha256": {
+      "__init__.py": "6e42733ac5517cd5891d870e0d629e4a681fac3438ff043685f1712b76de5f75",
+      "_native.py": "653135f67a366e4ca2573e2f676f1cc7b9689b65fba77d21cf6eb8458fb1c0d9",
+      "adapters.py": "a7656547241f8c2cc1695b9b68197b5c416ebdb630180545ed1c5474ad923d24",
+      "agent.py": "d754eb8f3143935283f2a7a50cfb4e1d561204ce6c8fdd28907c2cd8c9926663",
+      "agent_tools.py": "71e5ce95124c46d1401c663dccbc87d5c906a673dbb8d9ef08ffadd40b7a8f6b",
+      "archetypes.py": "bc6b71652997df273bb229a1aae3d94c69088a1e7defaaedbcc7df50ef586cf5",
+      "axes.py": "8b44dc4d8b827a41f531cd2948cf5aa44d66755cd2b7c51dd259dc319c23c003",
+      "batch.py": "e9fbc99b2079f5d4bf89c8634c3689f0010964be51f5a34c3f0f6a42f2896591",
+      "cli.py": "c0ca46bb6b1df64ae6cdc65149d9f920607b3c84b6fb4c9514922bff0d2af3e1",
+      "communication.py": "cb4594e5b6475b7856f6818a7c3f5cc0c006a8b0a33c6dbf783209540768bbdf",
+      "compat.py": "1e7a84a15943cf5106228e4da59b8c43cda4cb1bb7f5c9150efdcee9b986288e",
+      "consistency.py": "bea4a7d01393af9579843d60f85a242a7b82c786fbe52f4aba748bf1133bcd61",
+      "context.py": "587301c8e8703d6f9393abe402cc0c4e315f077840432c26610ec8183fbc19b6",
+      "copydeck.py": "df2f673e4ce35cb3029738fc8dcbd07b3efc6d2dfe5fdb17b6be84a1a3c5015a",
+      "data/runtime/examples/gallery/plot_btc_gold_under_shocks.py": "4e791b1f55daaaea5cc87797a2ac68c1084648a9c085619c9e7b749a67c66703",
+      "data/runtime/examples/gallery/plot_github_breakout_analogs.py": "04553b770651199d36cd98a8543369843628b651e06db6eb64914b7e8f6ccca8",
+      "data/runtime/examples/gallery/plot_heatwave_grid_load.py": "be4ff3f1fa7432a5d95e9184d861cbf211ec6ce160678cf2f4128440c1c1a635",
+      "data/runtime/examples/gallery/plot_irregular_patient_similarity.py": "40ca3afd0961f38d3dd01029aeaf1528e2cae7852ed09c033a7ab4656761f686",
+      "data/runtime/examples/gallery/plot_two_curves_similarity.py": "bffdd710d73682398646e5027e18f032d588b544fe2843c48f7c1560934b791b",
+      "data/runtime/examples/gallery/plot_weekly_traffic_similarity.py": "b84356fbad0671d49f31c2d66c73ca178e2c2d6224dbed9febbd4474dbacc542",
+      "datasets.py": "a2e98601cf1f713dbe199e9fff151418ea3babbe9c60dda8660d3a8c2ad86fad",
+      "demo_server.py": "275e2dbd0552d1e750021c3bb78f089168940a4bdf29d1cec51135a32debfb40",
+      "design_system.py": "2909fdc0082d6be622183d88ba4d8d58c65710fdd5b9be670b07f04178074e70",
+      "docs_site.py": "0052cc8f20a6c195c11c55fedd2156e9f66b9736e098493f2f4d13b2c8399b27",
+      "doctor.py": "3458b6bc7b8a98f7dd5cb5f04e56370cb3d756ef28e8f4e4c41bc9d24c400924",
+      "gallery.py": "7fe79fafa153393f710c1541c22417bcd375d102f4055c69a15e3225b4b42307",
+      "guide.py": "1b9bb147ca8fc2e748a275207a532e4bbe308da4b725c539b097d76909f9f1a8",
+      "homepage.py": "ceb38699918cd4111328ef6b3e8643e16ef8b0b871828aeeb3db1c7d106ac30e",
+      "hotcases.py": "eac3d4fd02333b1d5d0fa9dff3123cc33725cbb588c5a3e992103c8f9ad34e65",
+      "launchpad.py": "36c8df80d1e0a20b6880e7063ce9602c8edeb43438f9b3c07b5eb742cd108a2c",
+      "longitudinal.py": "fdd8ae6a4ba7da3647d3e88f2608b36d177ba695e4444ca36c4911b269e5df77",
+      "method_animations.py": "6ee29ff1a4f97bec701bf4a972aed94f5844a6262d39be719771558e8aee47df",
+      "metrics.py": "886c7a2fd1bed40c8f28b1711a81a89359013debda27dd7d4677029e2425b7ac",
+      "network.py": "9055fe028611c49515537340fbaf54c68a2dfd0c50652d19afa2275e8af70456",
+      "playground.py": "bc9f855d56a04fb80da92e0966d2ff1bf4b875fd5b0c88b8b4015ad48fe30300",
+      "plugins.py": "b3dcdd72f875688295e4f334d030092de187299707dec53dab13adb0f457f27b",
+      "positioning.py": "5772830518f4bfe89650ec5f8966f65b568412068dbe20c44fa8e36ab23f2af5",
+      "product.py": "1b38ee61a3bc7c43679cba41b1d8c00ae95a238e668830c780f45b39a7faffeb",
+      "profile.py": "fc0e443d72e90355b992c45e3f4b7b4531989b0534160e28f2108812426af04b",
+      "real_tutorial_data.py": "74b9e73dda2d9536256a2760b67f46adb596bba5b36521c4ff971800ed108ef2",
+      "registry.py": "96d1bea1bf1e60a7c53b8134a91ac6d16601707d94cad92c3d0f9510ce3bda4a",
+      "reliability.py": "86eb256c46296c80f6bd1468192116c4ad4dbd60fa4b20bb9bd9377a7a1e7187",
+      "repo_docs.py": "beba9e159d96f7627db30c86c91ff5395b7589d55f9c24b3414f8deb9d9cec5a",
+      "report.py": "c5ad70e8a825fb27d6cc5ef34ccfa96cad0ae0479ea658f85e9791fd2a565d5a",
+      "runtime_paths.py": "7f06da7cfad8d20e9b3007e190069ce6522c9476514e50b387b1affb772c2aa4",
+      "schema.py": "85fc8ff6896494aeaaa3e96c4e1abdd8a00f20885c3ee60e59a05c6a84ff3e4c",
+      "seo.py": "eb1f8544126fde30086911ed45553b4932a4e807312752454754879286aecfa5",
+      "similarity.py": "e1057390dd717a5f0bca838d8006565ea311de1962774697d74cb38d78a9cd5d",
+      "similarity_method_atlas.py": "2d10e5f6ca7ab20a83510ea7a40db407b9163ed5b4fe34d8287afb4fc26ebe3b",
+      "similarity_methods.py": "ff6205745296712aaf9c1289020e0b7c7fd9ac34ac0991d8a579c7278d2af6ab",
+      "sitebundle.py": "204c21582552388fbea47531dcec9a8762f5282033d448f7c36ca3dfadcd3e96",
+      "tabular.py": "98a02f52b25ab474e59743ab8891ccf5f50e58d6b176f0bad9a5ea50b7851fd8",
+      "visuals.py": "77df3deaf5ed86a0fac5e91a2b25e3c325c013fad4602d399c6f07c2108da3ab"
+    },
+    "extension_sha256": {
+      "_echotime_native.cpython-312-x86_64-linux-gnu.so": "bffd080e0266b0e4d846cdb5602e9ff75b679641157139186f702ac886af8c43"
+    },
+    "build_source_sha256": {
+      "native/echotime_native.cpp": "e5b875ee17f49b8aebcd6364fc83906961a5912b7793d3f89ce07c92aa44e405",
+      "setup.py": "e8f85f09e20f71829a55e8972278529b78f355be2d97b6f2ff82ac3f50457237",
+      "pyproject.toml": "47d8ff77d3694dd3894f83a0fd812c7162d3d66a969d79edd99e747ea4c5584f"
+    },
+    "python_compiler": "Clang 22.1.3 ",
+    "observed_build_environment": {
+      "CC": null,
+      "CXX": null,
+      "CFLAGS": null,
+      "CXXFLAGS": null,
+      "ECHOTIME_NATIVE_MARCH": null
+    },
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "processor": "AMD EPYC 9V74 80-Core Processor",
+    "cpu_count": 9,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "backend": {
+      "native_available": true,
+      "native_import_error": null,
+      "native_abi_version": 1,
+      "requested": "native",
+      "effective": "native",
+      "default_threads": 1,
+      "env": {
+        "ECHOTIME_BACKEND": null,
+        "ECHOTIME_NUM_THREADS": "1"
+      }
+    },
+    "thread_environment": {
+      "ECHOTIME_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null
+    },
+    "gpu": {
+      "execution_status": "not_implemented_in_this_suite",
+      "devices": null,
+      "note": "Device inventory is not a GPU kernel benchmark or a GPU speedup claim."
+    }
+  },
+  "cases": [
+    {
+      "id": "compare/t48",
+      "configuration": {
+        "id": "compare/t48",
+        "group": "report",
+        "api": "compare",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 64,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 90595328,
+      "preparation": {
+        "data_generation_seconds": 0.00023815000167815015
+      },
+      "first_call_seconds": 0.005734485999710159,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0038380500009225216,
+        0.004046674999699462,
+        0.003933243999199476,
+        0.004136671999731334,
+        0.0037236579992168117
+      ],
+      "timing": {
+        "p50_seconds": 0.003933243999199476,
+        "p95_seconds": 0.004118672599724959,
+        "p99_seconds": 0.004133072119730059,
+        "minimum_seconds": 0.0037236579992168117,
+        "work_units_per_second": 254.2430625212999,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "cbe8ed0ca897d3d8cffd63a5da6c9edcff4a50287b46dcd0129590007b14637f",
+        "similarity_score": 0.09667702820583193
+      },
+      "total_benchmark_seconds": 0.02995428900248953,
+      "rss_after_bytes": 91525120,
+      "process_peak_rss_bytes": 91250688
+    },
+    {
+      "id": "score/t48",
+      "configuration": {
+        "id": "score/t48",
+        "group": "report",
+        "api": "score",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 64,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 91537408,
+      "reason": "compare_series(output='score') is unavailable in this revision",
+      "total_benchmark_seconds": 0.00015660599819966592,
+      "rss_after_bytes": 91537408,
+      "process_peak_rss_bytes": 91250688
+    },
+    {
+      "id": "compare_prepared/t48",
+      "configuration": {
+        "id": "compare_prepared/t48",
+        "group": "report",
+        "api": "compare_prepared",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 64,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 91541504,
+      "reason": "echotime.prepared.PreparedSeries is unavailable in this revision",
+      "total_benchmark_seconds": 0.00014123299843049608,
+      "rss_after_bytes": 91541504,
+      "process_peak_rss_bytes": 91250688
+    },
+    {
+      "id": "score_prepared/t48",
+      "configuration": {
+        "id": "score_prepared/t48",
+        "group": "report",
+        "api": "score_prepared",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 64,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 91545600,
+      "reason": "compare_series(output='score') is unavailable in this revision",
+      "total_benchmark_seconds": 0.00013833900084136985,
+      "rss_after_bytes": 91545600,
+      "process_peak_rss_bytes": 91250688
+    },
+    {
+      "id": "rolling/t48/w12",
+      "configuration": {
+        "id": "rolling/t48/w12",
+        "group": "rolling",
+        "api": "rolling",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": 12,
+        "step": 7,
+        "n_resample": 32,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 91549696,
+      "preparation": {
+        "data_generation_seconds": 0.00012767299995175563
+      },
+      "first_call_seconds": 0.02186985200023628,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.023158740001235856,
+        0.025193914996634703,
+        0.02524139800152625,
+        0.025295067000115523,
+        0.024200743999244878
+      ],
+      "timing": {
+        "p50_seconds": 0.025193914996634703,
+        "p95_seconds": 0.02528433320039767,
+        "p99_seconds": 0.025292920240171952,
+        "minimum_seconds": 0.023158740001235856,
+        "work_units_per_second": 238.15274445442301,
+        "work_units": "windows"
+      },
+      "result": {
+        "type": "list",
+        "sha256": "8001151b9cdb097b9c492b1728ded215feab7f69127f921a76fe8453735bd149",
+        "rows": 6
+      },
+      "total_benchmark_seconds": 0.167553642000712,
+      "rss_after_bytes": 91721728,
+      "process_peak_rss_bytes": 91381760
+    },
+    {
+      "id": "rolling_fast/t48/w12",
+      "configuration": {
+        "id": "rolling_fast/t48/w12",
+        "group": "rolling",
+        "api": "rolling_fast",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 1,
+        "metric": null,
+        "window": 12,
+        "step": 7,
+        "n_resample": 32,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 91746304,
+      "reason": "rolling_similarity(mode='fast') is unavailable in this revision",
+      "total_benchmark_seconds": 0.00018234500021208078,
+      "rss_after_bytes": 91746304,
+      "process_peak_rss_bytes": 91381760
+    },
+    {
+      "id": "profile/t48/c3",
+      "configuration": {
+        "id": "profile/t48/c3",
+        "group": "profile",
+        "api": "profile",
+        "n_series": 1,
+        "n_points": 48,
+        "channels": 3,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 91746304,
+      "preparation": {
+        "data_generation_seconds": 0.00010137299977941439
+      },
+      "first_call_seconds": 0.14679614000124275,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.02236245600215625,
+        0.022125077000964666,
+        0.024986091997561743,
+        0.022025826998287812,
+        0.02240690399776213
+      ],
+      "timing": {
+        "p50_seconds": 0.02236245600215625,
+        "p95_seconds": 0.02447025439760182,
+        "p99_seconds": 0.02488292447756976,
+        "minimum_seconds": 0.022025826998287812,
+        "work_units_per_second": 44.717807377846924,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "1d79b2cd25a2e5b456d8cb8ed545458e7685139b2c61b7be857b9417382abbdf"
+      },
+      "total_benchmark_seconds": 0.28448977600055514,
+      "rss_after_bytes": 119402496,
+      "process_peak_rss_bytes": 119132160
+    },
+    {
+      "id": "batch/acf/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/acf/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "acf",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119418880,
+      "preparation": {
+        "data_generation_seconds": 0.00014401699809241109
+      },
+      "first_call_seconds": 0.0005811589981021825,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00041586799852666445,
+        0.000338021000061417,
+        0.000359412999387132,
+        0.00032918799843173474,
+        0.00032754499989096075
+      ],
+      "timing": {
+        "p50_seconds": 0.000338021000061417,
+        "p95_seconds": 0.00040457699869875794,
+        "p99_seconds": 0.00041360979856108315,
+        "minimum_seconds": 0.00032754499989096075,
+        "work_units_per_second": 23667.168603567334,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.5386596775400188,
+        "maximum": 1.8147038651201601,
+        "sha256": "9e229f28758cc96ff2ab9a7a019593a2f2cf7aa15927ba01cf6cb339df87cc22"
+      },
+      "total_benchmark_seconds": 0.003170992000377737,
+      "rss_after_bytes": 119422976,
+      "process_peak_rss_bytes": 119132160
+    },
+    {
+      "id": "batch/best_shift/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/best_shift/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "best_shift",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119435264,
+      "preparation": {
+        "data_generation_seconds": 9.223899905919097e-05
+      },
+      "first_call_seconds": 0.0008345419992110692,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00047106199781410396,
+        0.0004811569997400511,
+        0.0004481670002860483,
+        0.00046099599785520695,
+        0.0005586239967669826
+      ],
+      "timing": {
+        "p50_seconds": 0.00047106199781410396,
+        "p95_seconds": 0.0005431305973615962,
+        "p99_seconds": 0.0005555253168859053,
+        "minimum_seconds": 0.0004481670002860483,
+        "work_units_per_second": 16982.902541752166,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "int64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": -19.0,
+        "maximum": 15.0,
+        "sha256": "90e6e72316c18b8f1484b77c3ca9b492f4f64b4acc5e96608e6b9427d0199395"
+      },
+      "total_benchmark_seconds": 0.004105764997802908,
+      "rss_after_bytes": 119476224,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/dtw/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/dtw/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119480320,
+      "preparation": {
+        "data_generation_seconds": 9.659599891165271e-05
+      },
+      "first_call_seconds": 0.00024318700161529705,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        8.351599899469875e-05,
+        7.547399945906363e-05,
+        7.410200123558752e-05,
+        7.253000148921274e-05,
+        7.283000013558194e-05
+      ],
+      "timing": {
+        "p50_seconds": 7.410200123558752e-05,
+        "p95_seconds": 8.190759908757172e-05,
+        "p99_seconds": 8.319431901327335e-05,
+        "minimum_seconds": 7.253000148921274e-05,
+        "work_units_per_second": 107959.29754401823,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 20.764989007093643,
+        "maximum": 359.1991450496982,
+        "sha256": "1f0696a5dbc2f03f2d12f494ffa992ebfcc0253d0b31105c276d749e62f299e8"
+      },
+      "total_benchmark_seconds": 0.000993281999399187,
+      "rss_after_bytes": 119480320,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/edr/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/edr/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "edr",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119492608,
+      "preparation": {
+        "data_generation_seconds": 7.01060016581323e-05
+      },
+      "first_call_seconds": 0.00019849000091198832,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        8.021100074984133e-05,
+        0.00014636199921369553,
+        9.277999924961478e-05,
+        7.725699833827093e-05,
+        7.543399988207966e-05
+      ],
+      "timing": {
+        "p50_seconds": 8.021100074984133e-05,
+        "p95_seconds": 0.00013564559922087937,
+        "p99_seconds": 0.0001442187192151323,
+        "minimum_seconds": 7.543399988207966e-05,
+        "work_units_per_second": 99736.9428783224,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.625,
+        "maximum": 1.0,
+        "sha256": "c7089cbe8202ead4a990577cbe9369c1e330e1eed6757772844840fb8aa2752a"
+      },
+      "total_benchmark_seconds": 0.0011152350016345736,
+      "rss_after_bytes": 119492608,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/erp/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/erp/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "erp",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119500800,
+      "preparation": {
+        "data_generation_seconds": 0.00011361200085957535
+      },
+      "first_call_seconds": 0.0002454409986967221,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00029295300191733986,
+        0.0001239280027220957,
+        0.00010354600090067834,
+        9.753700214787386e-05,
+        9.612599751562811e-05
+      ],
+      "timing": {
+        "p50_seconds": 0.00010354600090067834,
+        "p95_seconds": 0.000259148002078291,
+        "p99_seconds": 0.0002861920019495301,
+        "minimum_seconds": 9.612599751562811e-05,
+        "work_units_per_second": 77260.3473858312,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 43.173781422683774,
+        "maximum": 359.19914504969796,
+        "sha256": "5b6d1c0636e17bb34a91629292c0247b73f7ab8e45050d2c2dfd451ff62d7c43"
+      },
+      "total_benchmark_seconds": 0.0013722639996558428,
+      "rss_after_bytes": 119504896,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/independent_max_ncc/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/independent_max_ncc/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "independent_max_ncc",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119541760,
+      "preparation": {
+        "data_generation_seconds": 0.00010792299872264266
+      },
+      "first_call_seconds": 0.0007170739991124719,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0005771630021627061,
+        0.0005828809989907313,
+        0.0005030499996792059,
+        0.0005141670008015353,
+        0.00048689599861972965
+      ],
+      "timing": {
+        "p50_seconds": 0.0005141670008015353,
+        "p95_seconds": 0.0005817373996251263,
+        "p99_seconds": 0.0005826522791176103,
+        "minimum_seconds": 0.00048689599861972965,
+        "work_units_per_second": 15559.147101095157,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.2508448020870663,
+        "maximum": 0.7493606653566652,
+        "sha256": "161bbddbf06d26357dba9d3a4c0d0fdd457e8837bfe65887f4c5bd2b09e586a1"
+      },
+      "total_benchmark_seconds": 0.004230562997690868,
+      "rss_after_bytes": 119541760,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/independent_sbd/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/independent_sbd/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "independent_sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119562240,
+      "preparation": {
+        "data_generation_seconds": 0.00016750299982959405
+      },
+      "first_call_seconds": 0.0006863179987703916,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0004997050018573646,
+        0.0005250530011835508,
+        0.00048040600086096674,
+        0.0005057739981566556,
+        0.0004743669996969402
+      ],
+      "timing": {
+        "p50_seconds": 0.0004997050018573646,
+        "p95_seconds": 0.0005211972005781717,
+        "p99_seconds": 0.000524281841062475,
+        "minimum_seconds": 0.0004743669996969402,
+        "work_units_per_second": 16009.445513382143,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.25063933464333477,
+        "maximum": 0.7491551979129337,
+        "sha256": "93cd716b71fd17863ae8c349213a0b56f78a39ec68e3064d230ae2e3a4d5cf80"
+      },
+      "total_benchmark_seconds": 0.004148299001826672,
+      "rss_after_bytes": 119562240,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/lcss/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/lcss/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "lcss",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119595008,
+      "preparation": {
+        "data_generation_seconds": 0.00011261100007686764
+      },
+      "first_call_seconds": 0.0001628660029382445,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        8.334599988302216e-05,
+        0.0001550150009279605,
+        0.00012029199933749624,
+        9.270000009564683e-05,
+        7.713699960731901e-05
+      ],
+      "timing": {
+        "p50_seconds": 9.270000009564683e-05,
+        "p95_seconds": 0.00014807040060986764,
+        "p99_seconds": 0.00015362608086434194,
+        "minimum_seconds": 7.713699960731901e-05,
+        "work_units_per_second": 86299.89203609158,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.41666666666666663,
+        "maximum": 1.0,
+        "sha256": "8830797c540e8b1390f2a3efcab892d30bfb7fb88e984a9306bfb6598823aeca"
+      },
+      "total_benchmark_seconds": 0.0011163970011693891,
+      "rss_after_bytes": 119595008,
+      "process_peak_rss_bytes": 119263232
+    },
+    {
+      "id": "batch/lcss_similarity/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/lcss_similarity/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "lcss_similarity",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119615488,
+      "preparation": {
+        "data_generation_seconds": 7.022600038908422e-05
+      },
+      "first_call_seconds": 0.0001310379993810784,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        7.936999827506952e-05,
+        7.496399848605506e-05,
+        7.341099990298972e-05,
+        7.154799823183566e-05,
+        7.049600026221015e-05
+      ],
+      "timing": {
+        "p50_seconds": 7.341099990298972e-05,
+        "p95_seconds": 7.848879831726663e-05,
+        "p99_seconds": 7.919375828350894e-05,
+        "minimum_seconds": 7.049600026221015e-05,
+        "work_units_per_second": 108975.49427976385,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 0.5833333333333334,
+        "sha256": "660e1e9a2d2c66a9f15cff71d7a1b5de4fbf7030155f9122e6543073488e9b11"
+      },
+      "total_benchmark_seconds": 0.0008865290001267567,
+      "rss_after_bytes": 119615488,
+      "process_peak_rss_bytes": 119394304
+    },
+    {
+      "id": "batch/linear_trend_model/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/linear_trend_model/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "linear_trend_model",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119627776,
+      "preparation": {
+        "data_generation_seconds": 6.354599827318452e-05
+      },
+      "first_call_seconds": 0.0008623729991086293,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0005477380000229459,
+        0.000459774997580098,
+        0.0004906710018985905,
+        0.000482529001601506,
+        0.0005188840004848316
+      ],
+      "timing": {
+        "p50_seconds": 0.0004906710018985905,
+        "p95_seconds": 0.000541967200115323,
+        "p99_seconds": 0.0005465838400414213,
+        "minimum_seconds": 0.000459774997580098,
+        "work_units_per_second": 16304.203772069257,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 2.031066716084843,
+        "maximum": 6.937935215426894,
+        "sha256": "83b89a237b178ce5e6d4977a64b179d2ac847d2f40290bc2fbd0eba345703f74"
+      },
+      "total_benchmark_seconds": 0.004123101000004681,
+      "rss_after_bytes": 119631872,
+      "process_peak_rss_bytes": 119394304
+    },
+    {
+      "id": "batch/max_ncc/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/max_ncc/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "max_ncc",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119685120,
+      "preparation": {
+        "data_generation_seconds": 9.6085001132451e-05
+      },
+      "first_call_seconds": 0.0006196369977260474,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0004715730028692633,
+        0.00044735600022249855,
+        0.0004767110003740527,
+        0.000472924999485258,
+        0.0004288480013201479
+      ],
+      "timing": {
+        "p50_seconds": 0.0004715730028692633,
+        "p95_seconds": 0.00047595380019629376,
+        "p99_seconds": 0.0004765595603385009,
+        "minimum_seconds": 0.0004288480013201479,
+        "work_units_per_second": 16964.499560671167,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.2508448020870663,
+        "maximum": 0.7493606653566652,
+        "sha256": "161bbddbf06d26357dba9d3a4c0d0fdd457e8837bfe65887f4c5bd2b09e586a1"
+      },
+      "total_benchmark_seconds": 0.0036840569991909433,
+      "rss_after_bytes": 119685120,
+      "process_peak_rss_bytes": 119394304
+    },
+    {
+      "id": "batch/ordinal_js/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/ordinal_js/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "ordinal_js",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119701504,
+      "preparation": {
+        "data_generation_seconds": 6.798300091759302e-05
+      },
+      "first_call_seconds": 0.0005082780007796828,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0003387019969522953,
+        0.00043385599929024465,
+        0.00038679499994032085,
+        0.00031363399830297567,
+        0.00031141100043896586
+      ],
+      "timing": {
+        "p50_seconds": 0.0003387019969522953,
+        "p95_seconds": 0.0004244437994202599,
+        "p99_seconds": 0.0004319735593162477,
+        "minimum_seconds": 0.00031141100043896586,
+        "work_units_per_second": 23619.58320879568,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.10788769122233252,
+        "maximum": 0.3213537668705775,
+        "sha256": "ce58fc06c7d6e85812b1af6d2e5144d9d8418d769d7e2749aeb027008805c1c3"
+      },
+      "total_benchmark_seconds": 0.0029437289995257743,
+      "rss_after_bytes": 119709696,
+      "process_peak_rss_bytes": 119394304
+    },
+    {
+      "id": "batch/periodogram/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/periodogram/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "periodogram",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119730176,
+      "preparation": {
+        "data_generation_seconds": 0.00011348200132488273
+      },
+      "first_call_seconds": 0.0003481959975033533,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00024887600011425093,
+        0.00020763399879797362,
+        0.0001849590007623192,
+        0.00028552100047818385,
+        0.00019684800281538628
+      ],
+      "timing": {
+        "p50_seconds": 0.00020763399879797362,
+        "p95_seconds": 0.00027819200040539726,
+        "p99_seconds": 0.0002840552004636265,
+        "minimum_seconds": 0.0001849590007623192,
+        "work_units_per_second": 38529.33549569568,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.03527487088626205,
+        "maximum": 0.6545271102701424,
+        "sha256": "15866f8a6650a91757689b94e77fe29ec58364b75e6ceb448d2c93113dc992ef"
+      },
+      "total_benchmark_seconds": 0.0020007740022265352,
+      "rss_after_bytes": 119791616,
+      "process_peak_rss_bytes": 119394304
+    },
+    {
+      "id": "batch/sbd/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/sbd/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119808000,
+      "preparation": {
+        "data_generation_seconds": 0.00011669600280583836
+      },
+      "first_call_seconds": 0.0006254259969864506,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00045751099969493225,
+        0.0008231650026573334,
+        0.0006320349966699723,
+        0.00045633999980054796,
+        0.0004922840016661212
+      ],
+      "timing": {
+        "p50_seconds": 0.0004922840016661212,
+        "p95_seconds": 0.0007849390014598611,
+        "p99_seconds": 0.0008155198024178389,
+        "minimum_seconds": 0.00045633999980054796,
+        "work_units_per_second": 16250.782013886756,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 0.25063933464333477,
+        "maximum": 0.7491551979129337,
+        "sha256": "93cd716b71fd17863ae8c349213a0b56f78a39ec68e3064d230ae2e3a4d5cf80"
+      },
+      "total_benchmark_seconds": 0.004279657998267794,
+      "rss_after_bytes": 119808000,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "batch/trend/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/trend/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "trend",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119848960,
+      "preparation": {
+        "data_generation_seconds": 0.00014290599938249215
+      },
+      "first_call_seconds": 0.0007881820019974839,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00047348499720101245,
+        0.0005077669993625022,
+        0.0004686379979830235,
+        0.0006173029978526756,
+        0.00046336000013980083
+      ],
+      "timing": {
+        "p50_seconds": 0.00047348499720101245,
+        "p95_seconds": 0.0005953957981546409,
+        "p99_seconds": 0.0006129215579130687,
+        "minimum_seconds": 0.00046336000013980083,
+        "work_units_per_second": 16895.994693161723,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 2.031066716084843,
+        "maximum": 6.937935215426894,
+        "sha256": "83b89a237b178ce5e6d4977a64b179d2ac847d2f40290bc2fbd0eba345703f74"
+      },
+      "total_benchmark_seconds": 0.004267849999450846,
+      "rss_after_bytes": 119848960,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "batch/twed/n8/t24/unrestricted",
+      "configuration": {
+        "id": "batch/twed/n8/t24/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "twed",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119861248,
+      "preparation": {
+        "data_generation_seconds": 0.00012055199840688147
+      },
+      "first_call_seconds": 0.00032618300247122534,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00020288599989726208,
+        0.00019001699911314063,
+        0.00018598099995870143,
+        0.00020335800218163058,
+        0.0002002420005737804
+      ],
+      "timing": {
+        "p50_seconds": 0.0002002420005737804,
+        "p95_seconds": 0.00020326360172475688,
+        "p99_seconds": 0.00020333912209025585,
+        "minimum_seconds": 0.00018598099995870143,
+        "work_units_per_second": 39951.65837874433,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 44.705934572387896,
+        "maximum": 101.1353651124638,
+        "sha256": "27e554be956093d8094f6040ad1f23af4581d21b069d5a14024d424aa4011f75"
+      },
+      "total_benchmark_seconds": 0.0018909579994215164,
+      "rss_after_bytes": 119865344,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "batch/dtw/n8/t24/w4",
+      "configuration": {
+        "id": "batch/dtw/n8/t24/w4",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119869440,
+      "preparation": {
+        "data_generation_seconds": 8.773199806455523e-05
+      },
+      "first_call_seconds": 0.00023096899894881062,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        8.324599912157282e-05,
+        7.50740000512451e-05,
+        7.399199967039749e-05,
+        7.140800153138116e-05,
+        6.95750022714492e-05
+      ],
+      "timing": {
+        "p50_seconds": 7.399199967039749e-05,
+        "p95_seconds": 8.161159930750728e-05,
+        "p99_seconds": 8.291911915875972e-05,
+        "minimum_seconds": 6.95750022714492e-05,
+        "work_units_per_second": 108119.7972164093,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 26.067036907241686,
+        "maximum": 359.1991450496982,
+        "sha256": "5e86581327cc903bb20368f8039a4401a92f3d28e38c71dfcb8058907e7f2ed4"
+      },
+      "total_benchmark_seconds": 0.0009715380001580343,
+      "rss_after_bytes": 119869440,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "batch/erp/n8/t24/w4",
+      "configuration": {
+        "id": "batch/erp/n8/t24/w4",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "erp",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119881728,
+      "preparation": {
+        "data_generation_seconds": 0.00010260499766445719
+      },
+      "first_call_seconds": 0.00016771399896242656,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00010792299872264266,
+        9.931000022334047e-05,
+        9.868900087894872e-05,
+        9.84090002020821e-05,
+        0.00014887500219629146
+      ],
+      "timing": {
+        "p50_seconds": 9.931000022334047e-05,
+        "p95_seconds": 0.0001406846015015617,
+        "p99_seconds": 0.0001472369220573455,
+        "minimum_seconds": 9.84090002020821e-05,
+        "work_units_per_second": 80555.83508215308,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 43.173781422683774,
+        "maximum": 359.19914504969796,
+        "sha256": "21338e317283a20f52d244872a9c7b4f30c17e39da5afeb06191c5ccc05ced4a"
+      },
+      "total_benchmark_seconds": 0.0011126609970233403,
+      "rss_after_bytes": 119881728,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "batch/twed/n8/t24/w4",
+      "configuration": {
+        "id": "batch/twed/n8/t24/w4",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 8,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "twed",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119894016,
+      "preparation": {
+        "data_generation_seconds": 0.00010291600119671784
+      },
+      "first_call_seconds": 0.00032810600168886594,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00019625599816208705,
+        0.0001905979988805484,
+        0.0001849489999585785,
+        0.00020875500194961205,
+        0.00019283200163044967
+      ],
+      "timing": {
+        "p50_seconds": 0.00019283200163044967,
+        "p95_seconds": 0.00020625520119210705,
+        "p99_seconds": 0.00020825504179811105,
+        "minimum_seconds": 0.0001849489999585785,
+        "work_units_per_second": 41486.88979193139,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          8
+        ],
+        "dtype": "float64",
+        "finite_count": 8,
+        "nan_count": 0,
+        "minimum": 47.64147292887458,
+        "maximum": 101.13536511246383,
+        "sha256": "2b150d7204963f97bdd0ad23b19348212bb51003e71279000518307436c8e4ed"
+      },
+      "total_benchmark_seconds": 0.001792138999007875,
+      "rss_after_bytes": 119894016,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "pairwise/dtw/n6/t24/w4",
+      "configuration": {
+        "id": "pairwise/dtw/n6/t24/w4",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 6,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119902208,
+      "preparation": {
+        "data_generation_seconds": 0.00013029700130573474
+      },
+      "first_call_seconds": 0.00026285700005246326,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        9.401200077263638e-05,
+        8.558999979868531e-05,
+        8.089199764071964e-05,
+        7.967099736561067e-05,
+        7.690600250498392e-05
+      ],
+      "timing": {
+        "p50_seconds": 8.089199764071964e-05,
+        "p95_seconds": 9.232760057784616e-05,
+        "p99_seconds": 9.367512073367834e-05,
+        "minimum_seconds": 7.690600250498392e-05,
+        "work_units_per_second": 259605.40736391657,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          6,
+          6
+        ],
+        "dtype": "float64",
+        "finite_count": 36,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 257.82269389452694,
+        "sha256": "6c5ed86e24c76ac37e450855939aaff6cfc66a2288e6685c9228916e23dc8782"
+      },
+      "total_benchmark_seconds": 0.0011208539981453214,
+      "rss_after_bytes": 119902208,
+      "process_peak_rss_bytes": 119525376
+    },
+    {
+      "id": "pairwise/sbd/n6/t24/wNone",
+      "configuration": {
+        "id": "pairwise/sbd/n6/t24/wNone",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 6,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119926784,
+      "preparation": {
+        "data_generation_seconds": 0.00010726199980126694
+      },
+      "first_call_seconds": 0.0009322089972556569,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0006426619984267745,
+        0.00065579100191826,
+        0.000645996999082854,
+        0.000610802999290172,
+        0.0006396370008587837
+      ],
+      "timing": {
+        "p50_seconds": 0.0006426619984267745,
+        "p95_seconds": 0.0006538322013511788,
+        "p99_seconds": 0.0006553992418048438,
+        "minimum_seconds": 0.000610802999290172,
+        "work_units_per_second": 32676.585905822405,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          6,
+          6
+        ],
+        "dtype": "float64",
+        "finite_count": 36,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 0.6683598152258845,
+        "sha256": "9188b04ba6672d50bb1d7086fa68e207d178e8c0b3c0e419fb19c38c8fd1e555"
+      },
+      "total_benchmark_seconds": 0.0052403989975573495,
+      "rss_after_bytes": 119934976,
+      "process_peak_rss_bytes": 119656448
+    },
+    {
+      "id": "pairwise/erp/n6/t24/w4",
+      "configuration": {
+        "id": "pairwise/erp/n6/t24/w4",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 6,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "erp",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119951360,
+      "preparation": {
+        "data_generation_seconds": 0.00011828900096588768
+      },
+      "first_call_seconds": 0.00019194999913452193,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00011595600153668784,
+        0.00010877399836317636,
+        0.00015533400073763914,
+        0.00012022100054309703,
+        0.00010242500138701871
+      ],
+      "timing": {
+        "p50_seconds": 0.00011595600153668784,
+        "p95_seconds": 0.00014831140069873072,
+        "p99_seconds": 0.00015392948072985745,
+        "minimum_seconds": 0.00010242500138701871,
+        "work_units_per_second": 181103.17466712336,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          6,
+          6
+        ],
+        "dtype": "float64",
+        "finite_count": 36,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 257.82269389452676,
+        "sha256": "53fd9609bd01a23faba255b54cd15e8bb9b1e28190606ad08a6f09eccef0302a"
+      },
+      "total_benchmark_seconds": 0.0012117010010115337,
+      "rss_after_bytes": 119951360,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/dtw/brute/n32/t24/w4",
+      "configuration": {
+        "id": "search/dtw/brute/n32/t24/w4",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": "brute",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119955456,
+      "preparation": {
+        "data_generation_seconds": 8.64610010467004e-05
+      },
+      "first_call_seconds": 0.0003286359969933983,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00021023799854447134,
+        0.0002554460006649606,
+        0.00023919099839986302,
+        0.00020195599790895358,
+        0.0002004429989028722
+      ],
+      "timing": {
+        "p50_seconds": 0.00021023799854447134,
+        "p95_seconds": 0.00025219500021194107,
+        "p99_seconds": 0.0002547958005743567,
+        "minimum_seconds": 0.0002004429989028722,
+        "work_units_per_second": 152208.4505253273,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          3,
+          30,
+          24,
+          5,
+          19,
+          20,
+          18,
+          1,
+          0,
+          17
+        ],
+        "values": [
+          29.996702086218807,
+          37.36823573175151,
+          38.36880302630277,
+          44.26251954621854,
+          52.492427543490074,
+          64.41121353728819,
+          65.81637359908669,
+          68.7055166988205,
+          80.69135318180507,
+          87.94117799710085
+        ],
+        "stats": {
+          "exact_evaluations": 32,
+          "coverage_complete": true
+        }
+      },
+      "total_benchmark_seconds": 0.0019141129996569362,
+      "rss_after_bytes": 119963648,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/dtw/certified/n32/t24/w4",
+      "configuration": {
+        "id": "search/dtw/certified/n32/t24/w4",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 119975936,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.000232932001381414,
+      "rss_after_bytes": 119975936,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/dtw/approximate/n32/t24/w4",
+      "configuration": {
+        "id": "search/dtw/approximate/n32/t24/w4",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 4,
+        "step": null,
+        "n_resample": null,
+        "mode": "approximate",
+        "candidates": 16,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 119984128,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.0001531710004201159,
+      "rss_after_bytes": 119984128,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/sbd/brute/n32/t24/wNone",
+      "configuration": {
+        "id": "search/sbd/brute/n32/t24/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "brute",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 119996416,
+      "preparation": {
+        "data_generation_seconds": 0.00010889400073210709
+      },
+      "first_call_seconds": 0.0017644369982008357,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0016331279985024594,
+        0.0014981339991209097,
+        0.0016954720013018232,
+        0.002010703999985708,
+        0.001531404002889758
+      ],
+      "timing": {
+        "p50_seconds": 0.0016331279985024594,
+        "p95_seconds": 0.0019476576002489308,
+        "p99_seconds": 0.0019980947200383525,
+        "minimum_seconds": 0.0014981339991209097,
+        "work_units_per_second": 19594.30003609225,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          18,
+          24,
+          0,
+          30,
+          3,
+          6,
+          5,
+          9,
+          7,
+          10
+        ],
+        "values": [
+          0.17212492833591586,
+          0.17885584140585598,
+          0.20572627252470976,
+          0.20911727249710654,
+          0.20939681725987247,
+          0.29370223684429697,
+          0.32705673128236423,
+          0.3665821015416889,
+          0.36678016181804485,
+          0.41659423626666736
+        ],
+        "stats": {
+          "exact_evaluations": 32,
+          "coverage_complete": true
+        }
+      },
+      "total_benchmark_seconds": 0.011990465998678701,
+      "rss_after_bytes": 120000512,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/sbd/certified/n32/t24/wNone",
+      "configuration": {
+        "id": "search/sbd/certified/n32/t24/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 120016896,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.00022829499721410684,
+      "rss_after_bytes": 120016896,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "search/sbd/approximate/n32/t24/wNone",
+      "configuration": {
+        "id": "search/sbd/approximate/n32/t24/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 32,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "approximate",
+        "candidates": 16,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 120020992,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.0002150449981854763,
+      "rss_after_bytes": 120020992,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "adversarial/dtw/ties/n24/t24",
+      "configuration": {
+        "id": "adversarial/dtw/ties/n24/t24",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 24,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "ties",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 120025088,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.00012590100232046098,
+      "rss_after_bytes": 120025088,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "adversarial/dtw/near_duplicates/n24/t24",
+      "configuration": {
+        "id": "adversarial/dtw/near_duplicates/n24/t24",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 24,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "near_duplicates",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 120033280,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.00021609599934890866,
+      "rss_after_bytes": 120033280,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "adversarial/dtw/similar_bank/n24/t24",
+      "configuration": {
+        "id": "adversarial/dtw/similar_bank/n24/t24",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 24,
+        "n_points": 24,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "similar_bank",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "unavailable",
+      "rss_before_bytes": 120037376,
+      "reason": "echotime.search is unavailable in this revision",
+      "total_benchmark_seconds": 0.00023898099971120246,
+      "rss_after_bytes": 120037376,
+      "process_peak_rss_bytes": 119787520
+    },
+    {
+      "id": "real/real_python_javascript_pageviews_2024",
+      "configuration": {
+        "id": "real/real_python_javascript_pageviews_2024",
+        "group": "real",
+        "api": "real",
+        "n_series": 1,
+        "n_points": 24,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": "real_python_javascript_pageviews_2024.csv",
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120053760,
+      "preparation": {
+        "data_generation_seconds": 8.852400060277432e-05,
+        "data_loading_seconds": 0.0008903150010155514,
+        "dataset_sha256": "bc3ba72378352ace22fbd635215f6fda0b32e3f6de9397c1283240e24dfdfc93",
+        "selected_columns": [
+          "python_views",
+          "javascript_views"
+        ],
+        "dataset_rows": 366
+      },
+      "first_call_seconds": 0.010747612999693956,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.01028087699887692,
+        0.010546228997554863,
+        0.010283441999490606,
+        0.009058579998963978,
+        0.009344922000309452
+      ],
+      "timing": {
+        "p50_seconds": 0.01028087699887692,
+        "p95_seconds": 0.010493671597942011,
+        "p99_seconds": 0.010535717517632293,
+        "minimum_seconds": 0.009058579998963978,
+        "work_units_per_second": 97.26796654694338,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "e7ba9f3f128f310b8b604eca51d1eeaeaa8b00e0a6b2264993093cf053752001",
+        "similarity_score": 0.7374549193208952
+      },
+      "total_benchmark_seconds": 0.07241622099900269,
+      "rss_after_bytes": 120164352,
+      "process_peak_rss_bytes": 119787520
+    }
+  ],
+  "summary": {
+    "ok": 28,
+    "unavailable": 11,
+    "error": 0
+  }
+}

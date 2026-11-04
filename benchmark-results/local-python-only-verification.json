@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "package": "/workspace/scratch/875f2180653d/echotime-python-check/echotime/__init__.py",
+  "version": "0.18.0.dev0",
+  "backend": {
+    "native_available": false,
+    "native_import_error": "ImportError: cannot import name '_echotime_native' from partially initialized module 'echotime' (most likely due to a circular import) (/workspace/scratch/875f2180653d/echotime-python-check/echotime/__init__.py)",
+    "native_abi_version": null,
+    "cutoff_abi_version": null,
+    "cutoff_available": false,
+    "requested": "auto",
+    "effective": "python",
+    "default_threads": 2,
+    "env": {
+      "ECHOTIME_BACKEND": null,
+      "ECHOTIME_NUM_THREADS": "2"
+    }
+  },
+  "exact_metrics": [
+    "acf",
+    "dtw",
+    "edr",
+    "erp",
+    "independent_max_ncc",
+    "independent_sbd",
+    "lcss",
+    "lcss_similarity",
+    "linear_trend_model",
+    "max_ncc",
+    "ordinal_js",
+    "periodogram",
+    "sbd",
+    "trend",
+    "twed"
+  ],
+  "approximate_strategies": [
+    "multiview",
+    "pyramid",
+    "binary",
+    "faiss",
+    "faiss_hnsw"
+  ],
+  "prepared_score_matches_report": true,
+  "persistence": "passed",
+  "animation_count": 137,
+  "site_bundle_pages": 469
+}

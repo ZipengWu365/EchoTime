@@ -108,6 +108,8 @@ def similarity_backend_info() -> dict[str, Any]:
         "native_available": _ext is not None,
         "native_import_error": _IMPORT_ERROR,
         "native_abi_version": None if _ext is None else int(getattr(_ext, "ABI_VERSION", 0)),
+        "cutoff_abi_version": None if _ext is None else int(getattr(_ext, "CUTOFF_ABI_VERSION", 0)),
+        "cutoff_available": _ext is not None and all(hasattr(_ext, f"{metric}_pairs_cutoff") for metric in ("dtw", "erp", "twed", "edr", "lcss")),
         "requested": _requested(),
         "effective": resolve_backend(None),
         "default_threads": default_threads(None),

@@ -191,6 +191,10 @@ def _js_divergence(p: np.ndarray, q: np.ndarray) -> float:
 
 def spectral_entropy(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     _, power = _normalized_spectrum(x, timestamps=timestamps)
+    return _spectral_entropy_from_power(power)
+
+
+def _spectral_entropy_from_power(power: np.ndarray) -> float:
     if power.size < 2:
         return float("nan")
     entropy = -np.sum(power * np.log(power + EPS)) / math.log(power.size)
@@ -199,6 +203,10 @@ def spectral_entropy(x: np.ndarray, timestamps: np.ndarray | None = None) -> flo
 
 def forecastability(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     entropy = spectral_entropy(x, timestamps=timestamps)
+    return _forecastability_from_entropy(entropy)
+
+
+def _forecastability_from_entropy(entropy: float) -> float:
     if not np.isfinite(entropy):
         return float("nan")
     return float(1.0 - entropy)
@@ -283,6 +291,10 @@ def slope_strength(x: np.ndarray) -> float:
 
 def low_freq_power_ratio(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     freqs, power = _normalized_spectrum(x, timestamps=timestamps)
+    return _low_freq_ratio_from_spectrum(freqs, power)
+
+
+def _low_freq_ratio_from_spectrum(freqs: np.ndarray, power: np.ndarray) -> float:
     if power.size < 2:
         return float("nan")
     cutoff = np.quantile(freqs, 0.25)
@@ -291,6 +303,10 @@ def low_freq_power_ratio(x: np.ndarray, timestamps: np.ndarray | None = None) ->
 
 def spectral_peak_ratio(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     _, power = _normalized_spectrum(x, timestamps=timestamps)
+    return _spectral_peak_from_power(power)
+
+
+def _spectral_peak_from_power(power: np.ndarray) -> float:
     if power.size < 2:
         return float("nan")
     return float(np.max(power))
@@ -298,6 +314,10 @@ def spectral_peak_ratio(x: np.ndarray, timestamps: np.ndarray | None = None) -> 
 
 def spectral_flatness(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     _, power = _normalized_spectrum(x, timestamps=timestamps)
+    return _spectral_flatness_from_power(power)
+
+
+def _spectral_flatness_from_power(power: np.ndarray) -> float:
     if power.size < 2:
         return float("nan")
     power = np.clip(power, EPS, None)
@@ -448,6 +468,10 @@ def hurst_exponent_rs(x: np.ndarray) -> float:
 
 def hurst_complexity_proxy(x: np.ndarray) -> float:
     hurst = hurst_exponent_rs(x)
+    return _hurst_complexity_from_exponent(hurst)
+
+
+def _hurst_complexity_from_exponent(hurst: float) -> float:
     if not np.isfinite(hurst):
         return float("nan")
     return float(np.clip(abs(hurst - 0.5) * 2.0, 0.0, 1.0))
@@ -524,6 +548,10 @@ def noise_residual_ratio(x: np.ndarray) -> float:
 
 def high_freq_power_ratio(x: np.ndarray, timestamps: np.ndarray | None = None) -> float:
     freqs, power = _normalized_spectrum(x, timestamps=timestamps)
+    return _high_freq_ratio_from_spectrum(freqs, power)
+
+
+def _high_freq_ratio_from_spectrum(freqs: np.ndarray, power: np.ndarray) -> float:
     if power.size < 2:
         return float("nan")
     threshold = np.quantile(freqs, 0.75)
@@ -695,14 +723,19 @@ def compute_series_metrics(x: np.ndarray, timestamps: np.ndarray | None = None, 
 
     rate, burstiness, concentration = event_rate_and_burstiness(clean)
     irregular_spectral = _uses_irregular_spectrum(clean_ts)
+    # These metrics use the same full-series spectrum.  Spectral drift still
+    # computes two independent half-series spectra with their own time support.
+    freqs, power = _normalized_spectrum(clean, timestamps=clean_ts)
+    entropy = _spectral_entropy_from_power(power)
+    hurst = hurst_exponent_rs(clean)
     metrics = {
         "n_points": float(clean.size),
         "missing_fraction": float(missing_fraction),
         "delta_t_cv": float(timestamp_irregularity(clean_ts)),
         "gap_fraction": float(gap_fraction(clean_ts)),
         "irregular_spectral_support": 1.0 if irregular_spectral else 0.0,
-        "spectral_entropy": float(spectral_entropy(clean, timestamps=clean_ts)),
-        "forecastability": float(forecastability(clean, timestamps=clean_ts)),
+        "spectral_entropy": float(entropy),
+        "forecastability": float(_forecastability_from_entropy(entropy)),
         "ar1_r2": float(ar1_r2(clean)),
         "max_abs_acf": float(max_abs_acf(clean)),
         "mean_drift_ratio": float(rolling_mean_drift(clean)),
@@ -710,22 +743,22 @@ def compute_series_metrics(x: np.ndarray, timestamps: np.ndarray | None = None, 
         "spectral_drift_js": float(spectral_drift(clean, timestamps=clean_ts)),
         "trend_r2": float(linear_trend_r2(clean)),
         "slope_strength": float(slope_strength(clean)),
-        "low_freq_power_ratio": float(low_freq_power_ratio(clean, timestamps=clean_ts)),
-        "spectral_peak_ratio": float(spectral_peak_ratio(clean, timestamps=clean_ts)),
-        "spectral_flatness": float(spectral_flatness(clean, timestamps=clean_ts)),
+        "low_freq_power_ratio": float(_low_freq_ratio_from_spectrum(freqs, power)),
+        "spectral_peak_ratio": float(_spectral_peak_from_power(power)),
+        "spectral_flatness": float(_spectral_flatness_from_power(power)),
         "acf_periodic_peak": float(acf_periodic_peak(clean)),
         "permutation_entropy": float(permutation_entropy(clean)),
         "sample_entropy": float(sample_entropy(clean)),
         "lz_complexity": float(lz_complexity(clean)),
-        "hurst_exponent": float(hurst_exponent_rs(clean)),
-        "hurst_complexity_proxy": float(hurst_complexity_proxy(clean)),
+        "hurst_exponent": float(hurst),
+        "hurst_complexity_proxy": float(_hurst_complexity_from_exponent(hurst)),
         "nonlinearity_gap": float(nonlinearity_gap(clean)),
         "time_reversal_asymmetry": float(time_reversal_asymmetry(clean)),
         "event_rate": float(rate),
         "burstiness": float(burstiness),
         "event_energy_concentration": float(concentration),
         "noise_residual_ratio": float(noise_residual_ratio(clean)),
-        "high_freq_power_ratio": float(high_freq_power_ratio(clean, timestamps=clean_ts)),
+        "high_freq_power_ratio": float(_high_freq_ratio_from_spectrum(freqs, power)),
         "change_point_density": float(change_point_density(clean)),
     }
     return SeriesSummary(metrics=metrics, clean_values=clean, clean_timestamps=clean_ts)

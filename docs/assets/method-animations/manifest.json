@@ -7,8 +7,8 @@
     "tools/method_animation_data/feature_model_embedding.py": "7cb2142a9a4ce45044834de47bf2b820babfd04e17dc6d2e229048080c07f347",
     "tools/method_animation_data/pointwise_sliding.py": "4a9cb23db0804add9c11a973649cb5ff71f2a2e22cd9c193f53a72b4a4267709",
     "src/echotime/similarity_method_atlas.py": "2d10e5f6ca7ab20a83510ea7a40db407b9163ed5b4fe34d8287afb4fc26ebe3b",
-    "src/echotime/similarity_methods.py": "1abe904e05db73d0e8633f7b7136fba0e7b5e78ba23434d1663a5c1acc1963a5",
-    "src/echotime/similarity.py": "6a7e5651f84c4d224fc436b7c794806382af44c14bdca2eab6c2f57d371023df",
+    "src/echotime/similarity_methods.py": "2468d49691ae00c9c120de7a32582c79b4c130d57ad534342199e3c7f7da4a42",
+    "src/echotime/similarity.py": "979a8006bed47a8355bb03f11f91c85c388c38d3665463e92cacb12dbe7ea1a0",
     "src/echotime/data/ts_similarity_package_v2_registry.csv": "0473c7525be6e26c513c53c25cac48ee4c917641b0a2f1d6aa9a90985bd96e79"
   },
   "files_sha256": {

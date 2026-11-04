@@ -1,0 +1,11 @@
+{
+  "methods": 137,
+  "assets": 412,
+  "markdown_pages": 9,
+  "gif_bytes": 16233103,
+  "trace_equality": "137 regenerated traces bitwise identical; renderer and assets unchanged",
+  "source_hashes_refreshed": [
+    "src/echotime/similarity.py",
+    "src/echotime/similarity_methods.py"
+  ]
+}

@@ -1,0 +1,85 @@
+........................................................................ [  4%]
+........................................................................ [  9%]
+........................................................................ [ 13%]
+........................................................................ [ 18%]
+........................................................................ [ 22%]
+........................................................................ [ 27%]
+........................................................................ [ 31%]
+........................................................................ [ 36%]
+........................................................................ [ 40%]
+........................................................................ [ 45%]
+........................................................................ [ 49%]
+........................................................................ [ 54%]
+........................................................................ [ 58%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 72%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 90%]
+........................................................................ [ 94%]
+........................................................................ [ 99%]
+........                                                                 [100%]
+=============================== warnings summary ===============================
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+tests/test_prepared_similarity.py::test_prepared_does_not_claim_invalid_inputs_become_valid_after_resampling
+tests/test_search.py::test_highlevel_invalid_input_keeps_reference_exception
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:316: RuntimeWarning: Mean of empty slice
+    mu = float(np.nanmean(x))
+
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-python]
+tests/test_acceleration_golden.py::test_acceleration_reference[compare/missing-native]
+tests/test_prepared_similarity.py::test_prepared_does_not_claim_invalid_inputs_become_valid_after_resampling
+tests/test_search.py::test_highlevel_invalid_input_keeps_reference_exception
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:2015: RuntimeWarning: Degrees of freedom <= 0 for slice.
+    var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+
+tests/test_prepared_similarity.py: 10 warnings
+tests/test_search.py: 2 warnings
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:802: RuntimeWarning: Mean of empty slice
+    components={key: float(np.nanmean(values)) for key, values in component_values.items()},
+
+tests/test_prepared_similarity.py: 10 warnings
+tests/test_search.py: 2 warnings
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:803: RuntimeWarning: Mean of empty slice
+    reference_metrics={key: float(np.nanmean(values)) for key, values in reference_values.items()},
+
+tests/test_prepared_similarity.py::test_score_prepared_and_deferred_dtw_equal_full_report[single-4]
+tests/test_prepared_similarity.py::test_score_prepared_and_deferred_dtw_equal_full_report[paired-4]
+tests/test_prepared_similarity.py::test_score_prepared_and_deferred_dtw_equal_full_report[aggregate-4]
+tests/test_prepared_similarity.py::test_score_prepared_and_deferred_dtw_equal_full_report[missing-4]
+tests/test_prepared_similarity.py::test_score_prepared_and_deferred_dtw_equal_full_report[constant-4]
+tests/test_search.py::test_highlevel_full_report_reference[4-similarity_score]
+tests/test_search.py::test_highlevel_full_report_reference[4-component_mean]
+  /workspace/scratch/875f2180653d/echotime-development/src/echotime/similarity.py:829: RuntimeWarning: Mean of empty slice
+    return float(np.nanmean([_prepared_channel_dtw(x, y, backend=backend) for x, y in pairs]))
+
+tests/test_search.py: 4 warnings
+tests/test_search_ncc.py: 50 warnings
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+    return _methods._mean(a, axis=axis, dtype=dtype,
+
+tests/test_search.py: 4 warnings
+tests/test_search_ncc.py: 50 warnings
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:136: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_search.py: 4 warnings
+tests/test_search_ncc.py: 50 warnings
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:222: RuntimeWarning: Degrees of freedom <= 0 for slice
+    ret = _var(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+
+tests/test_search.py: 4 warnings
+tests/test_search_ncc.py: 50 warnings
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:180: RuntimeWarning: invalid value encountered in divide
+    arrmean = um.true_divide(arrmean, div, out=arrmean,
+
+tests/test_search.py: 4 warnings
+tests/test_search_ncc.py: 50 warnings
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:211: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1592 passed, 309 warnings in 83.75s (0:01:23)
