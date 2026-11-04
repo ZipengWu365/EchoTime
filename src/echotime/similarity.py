@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import operator
 from dataclasses import dataclass, field
 from typing import Any, Mapping
 
@@ -12,6 +13,7 @@ from scipy.stats import kendalltau, spearmanr
 
 from . import _native
 from .metrics import EPS, _js_divergence, _normalized_spectrum
+from .prepared import PreparedChannel, PreparedSeries
 from .profile import DatasetProfile, SeriesProfile, profile_dataset
 
 
@@ -222,6 +224,26 @@ class SimilarityReport:
         return agent_context(self, budget=budget, format="markdown")  # type: ignore[return-value]
 
 
+@dataclass(slots=True)
+class SimilarityScore:
+    """The exact five-component score, without diagnostics or report text."""
+
+    similarity_score: float
+    component_scores: dict[str, float]
+
+    @property
+    def component_mean(self) -> float:
+        values = [float(value) for value in self.component_scores.values() if np.isfinite(value)]
+        return float(np.mean(values)) if values else float("nan")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "similarity_score": float(self.similarity_score),
+            "component_scores": dict(self.component_scores),
+            "component_mean": float(self.component_mean),
+        }
+
+
 def _as_matrix(data: Any) -> np.ndarray:
     arr = np.asarray(data, dtype=float)
     if arr.ndim == 0:
@@ -411,6 +433,10 @@ def _normalized_mutual_information(x: np.ndarray, y: np.ndarray) -> float:
         return 0.0
     bins = int(np.clip(round(np.sqrt(len(x2) / 4.0)), 4, 20))
     hist, _, _ = np.histogram2d(x2, y2, bins=bins)
+    return _nmi_from_histogram(hist)
+
+
+def _nmi_from_histogram(hist: np.ndarray) -> float:
     total = float(np.sum(hist))
     if total <= EPS:
         return float("nan")
@@ -439,7 +465,9 @@ def _smooth_trend(x: np.ndarray) -> np.ndarray:
     return savgol_filter(x, window_length=window, polyorder=min(3, window - 2), mode="interp")
 
 
-def _dtw_distance(x: np.ndarray, y: np.ndarray, window: int | None = None) -> float:
+def _dtw_distance(
+    x: np.ndarray, y: np.ndarray, window: int | None = None, *, backend: str | None = None,
+) -> float:
     x = np.asarray(x, dtype=float).reshape(-1)
     y = np.asarray(y, dtype=float).reshape(-1)
     n = x.size
@@ -449,7 +477,7 @@ def _dtw_distance(x: np.ndarray, y: np.ndarray, window: int | None = None) -> fl
     if window is None:
         window = max(abs(n - m), max(5, min(n, m) // 8))
     window = max(window, abs(n - m))
-    if _native.use_native():
+    if _native.use_native(backend):
         offsets_x = np.array([0, n], dtype=np.int64)
         offsets_y = np.array([0, m], dtype=np.int64)
         one = np.zeros(1, dtype=np.int64)
@@ -478,19 +506,26 @@ def _distance_to_similarity(distance: float, scale: float = 1.0) -> float:
     return float(np.exp(-max(0.0, distance) / max(scale, EPS)))
 
 
-def _strict_dtw_similarity(x: np.ndarray, y: np.ndarray) -> float:
+def _strict_dtw_similarity(
+    x: np.ndarray,
+    y: np.ndarray,
+    *,
+    backend: str | None = None,
+    _left_difference: np.ndarray | None = None,
+    _right_difference: np.ndarray | None = None,
+) -> float:
     x = np.asarray(x, dtype=float).reshape(-1)
     y = np.asarray(y, dtype=float).reshape(-1)
     if min(x.size, y.size) < 6:
         return float("nan")
     level_window = max(3, min(18, min(x.size, y.size) // 20))
-    level_score = _distance_to_similarity(_dtw_distance(x, y, window=level_window), scale=0.45)
-    dx = _difference_view(x)
-    dy = _difference_view(y)
+    level_score = _distance_to_similarity(_dtw_distance(x, y, window=level_window, backend=backend), scale=0.45)
+    dx = _difference_view(x) if _left_difference is None else _left_difference
+    dy = _difference_view(y) if _right_difference is None else _right_difference
     if min(dx.size, dy.size) < 6:
         return level_score
     diff_window = max(3, min(16, min(dx.size, dy.size) // 20))
-    diff_score = _distance_to_similarity(_dtw_distance(dx, dy, window=diff_window), scale=0.35)
+    diff_score = _distance_to_similarity(_dtw_distance(dx, dy, window=diff_window, backend=backend), scale=0.35)
     return _geometric_similarity(level_score, diff_score)
 
 
@@ -499,6 +534,10 @@ def _spectral_similarity(x: np.ndarray, y: np.ndarray) -> float:
     y = np.asarray(y, dtype=float).reshape(-1)
     _, px = _normalized_spectrum(x)
     _, py = _normalized_spectrum(y)
+    return _spectral_similarity_from_power(px, py)
+
+
+def _spectral_similarity_from_power(px: np.ndarray, py: np.ndarray) -> float:
     m = min(px.size, py.size)
     if m < 4:
         return float("nan")
@@ -577,6 +616,219 @@ def _profile_from_input(obj: Any, *, name: str | None = None) -> tuple[DatasetPr
     return profile, name or "dataset"
 
 
+_COMPONENT_WEIGHTS = {
+    "shape_similarity": 0.20,
+    "dtw_similarity": 0.20,
+    "trend_similarity": 0.20,
+    "derivative_similarity": 0.25,
+    "spectral_similarity": 0.15,
+}
+_REFERENCE_METRICS = (
+    "pearson_r",
+    "spearman_rho",
+    "kendall_tau",
+    "best_lag_pearson_r",
+    "normalized_mutual_information",
+    "first_difference_r",
+)
+_ROLLING_REFERENCE_METRICS = (
+    "pearson_r", "spearman_rho", "normalized_mutual_information", "first_difference_r",
+)
+
+
+def aggregate_component_scores(components: Mapping[str, float]) -> float:
+    """Apply the existing weights and finite-component renormalization.
+
+    Accumulation always follows the legacy five-component order, independently
+    of the insertion order of ``components``.  This matters when a search first
+    computes four cheap components and subsequently adds DTW.
+    """
+    unknown = set(components).difference(_COMPONENT_WEIGHTS)
+    if unknown:
+        raise ValueError(f"Unknown similarity components: {sorted(unknown)}")
+    valid = [
+        (key, components[key])
+        for key in _COMPONENT_WEIGHTS
+        if key in components and np.isfinite(components[key])
+    ]
+    if not valid:
+        overall = 0.0
+    else:
+        weight_sum = sum(_COMPONENT_WEIGHTS[key] for key, _ in valid)
+        overall = float(sum(_COMPONENT_WEIGHTS[key] * value for key, value in valid) / max(weight_sum, EPS))
+    return overall
+
+
+def score_from_components(components: Mapping[str, float]) -> SimilarityScore:
+    """Build a numeric score with canonical aggregation and component order.
+
+    Canonical order is also required for the ``np.mean`` reduction used by
+    ``component_mean``.  Search callers can append deferred DTW in any order.
+    """
+    overall = aggregate_component_scores(components)
+    ordered = {key: components[key] for key in _COMPONENT_WEIGHTS if key in components}
+    return SimilarityScore(similarity_score=overall, component_scores=ordered)
+
+
+def _prepare_pair(
+    left: Any,
+    right: Any,
+    *,
+    left_timestamps: Any | None = None,
+    right_timestamps: Any | None = None,
+    n_points: int | None = None,
+) -> tuple[PreparedSeries, PreparedSeries]:
+    prepared = [item for item in (left, right) if isinstance(item, PreparedSeries)]
+    points = operator.index(n_points) if n_points is not None else (prepared[0].n_points if prepared else 256)
+    for item in prepared:
+        if item.n_points != points:
+            raise ValueError("PreparedSeries inputs must use the same n_points as the comparison")
+
+    def prepare(data: Any, timestamps: Any | None) -> PreparedSeries:
+        if isinstance(data, PreparedSeries):
+            if timestamps is not None:
+                raise ValueError("Timestamps are already fixed in a PreparedSeries; construct a new snapshot to change them")
+            return data
+        return PreparedSeries(data, timestamps=timestamps, n_points=points)
+
+    return prepare(left, left_timestamps), prepare(right, right_timestamps)
+
+
+def _paired_prepared_channels(
+    left: PreparedSeries, right: PreparedSeries,
+) -> tuple[list[tuple[PreparedChannel, PreparedChannel]], str]:
+    if not isinstance(left, PreparedSeries) or not isinstance(right, PreparedSeries):
+        raise TypeError("This operation requires two PreparedSeries inputs")
+    if left.n_points != right.n_points:
+        raise ValueError("PreparedSeries inputs must use the same n_points")
+    if left.n_channels == right.n_channels:
+        return [(left.channel(i), right.channel(i)) for i in range(left.n_channels)], "paired_channels"
+    return [(left.channel(aggregate=True), right.channel(aggregate=True))], "aggregate_channels"
+
+
+def _prepared_spearman(left: PreparedChannel, right: PreparedChannel) -> float:
+    if not left.all_finite or not right.all_finite:
+        return _safe_spearman_corr(left.values, right.values)
+    if left.values.size < 3:
+        return float("nan")
+    if left.std <= EPS or right.std <= EPS:
+        return 0.0
+    # scipy.stats.spearmanr returns [1, 0] of the ranked correlation matrix.
+    return float(np.corrcoef(left.ranks, right.ranks)[1, 0])
+
+
+def _prepared_nmi(left: PreparedChannel, right: PreparedChannel) -> float:
+    if not left.all_finite or not right.all_finite:
+        return _normalized_mutual_information(left.values, right.values)
+    if left.values.size < 12:
+        return float("nan")
+    if left.std <= EPS or right.std <= EPS:
+        return 0.0
+    bins = int(np.clip(round(np.sqrt(left.values.size / 4.0)), 4, 20))
+    codes = bins * left.bin_codes(bins) + right.bin_codes(bins)
+    histogram = np.bincount(codes, minlength=bins * bins).reshape(bins, bins).astype(float)
+    return _nmi_from_histogram(histogram)
+
+
+def _prepared_channel_dtw(
+    left: PreparedChannel, right: PreparedChannel, *, backend: str | None = None,
+) -> float:
+    return _strict_dtw_similarity(
+        left.values, right.values,
+        backend=backend,
+        _left_difference=left.difference, _right_difference=right.difference,
+    )
+
+
+@dataclass(slots=True)
+class _ComparisonNumbers:
+    components: dict[str, float]
+    reference_metrics: dict[str, float]
+    channel_mode: str
+    monotonic_pairs: list[float]
+
+
+def _compare_prepared_numeric(
+    left: PreparedSeries,
+    right: PreparedSeries,
+    *,
+    reference_metrics: tuple[str, ...] = (),
+    include_dtw: bool = True,
+    include_monotonic: bool = False,
+) -> _ComparisonNumbers:
+    pairs, channel_mode = _paired_prepared_channels(left, right)
+    component_values: dict[str, list[float]] = {
+        key: [] for key in _COMPONENT_WEIGHTS if include_dtw or key != "dtw_similarity"
+    }
+    reference_values: dict[str, list[float]] = {
+        key: [] for key in _REFERENCE_METRICS if key in reference_metrics
+    }
+    monotonic_pairs: list[float] = []
+    for left_channel, right_channel in pairs:
+        xl, xr = left_channel.values, right_channel.values
+        pearson = _safe_corr(xl, xr)
+        if "pearson_r" in reference_values:
+            reference_values["pearson_r"].append(pearson)
+        if "spearman_rho" in reference_values:
+            reference_values["spearman_rho"].append(_prepared_spearman(left_channel, right_channel))
+        if "kendall_tau" in reference_values:
+            reference_values["kendall_tau"].append(_safe_kendall_tau(xl, xr))
+        if "best_lag_pearson_r" in reference_values:
+            reference_values["best_lag_pearson_r"].append(_best_lag_corr(xl, xr))
+        if "normalized_mutual_information" in reference_values:
+            reference_values["normalized_mutual_information"].append(_prepared_nmi(left_channel, right_channel))
+
+        trend_corr = _safe_corr(left_channel.trend, right_channel.trend)
+        trend_change_corr = _safe_corr(left_channel.trend_difference, right_channel.trend_difference)
+        component_values["trend_similarity"].append(
+            _geometric_similarity(_corr_to_similarity(trend_corr), _corr_to_similarity(trend_change_corr))
+        )
+        derivative_corr = _safe_corr(left_channel.difference, right_channel.difference)
+        if "first_difference_r" in reference_values:
+            reference_values["first_difference_r"].append(derivative_corr)
+        component_values["derivative_similarity"].append(_corr_to_similarity(derivative_corr))
+        component_values["shape_similarity"].append(
+            _geometric_similarity(_corr_to_similarity(pearson), _corr_to_similarity(derivative_corr))
+        )
+        if include_dtw:
+            component_values["dtw_similarity"].append(_prepared_channel_dtw(left_channel, right_channel))
+        component_values["spectral_similarity"].append(
+            _spectral_similarity_from_power(left_channel.spectrum[1], right_channel.spectrum[1])
+        )
+        if include_monotonic:
+            monotonic_pairs.append(min(left_channel.monotonic_fraction, right_channel.monotonic_fraction))
+
+    return _ComparisonNumbers(
+        components={key: float(np.nanmean(values)) for key, values in component_values.items()},
+        reference_metrics={key: float(np.nanmean(values)) for key, values in reference_values.items()},
+        channel_mode=channel_mode,
+        monotonic_pairs=monotonic_pairs,
+    )
+
+
+def compare_prepared_components(
+    left: PreparedSeries,
+    right: PreparedSeries,
+    *,
+    include_dtw: bool = False,
+) -> dict[str, float]:
+    """Compute exact components, optionally deferring DTW for a search bound.
+
+    The default returns shape, trend, derivative and spectral similarity in
+    their legacy order.  ``include_dtw=True`` returns all five components.
+    No reference statistics or text are generated.
+    """
+    return _compare_prepared_numeric(left, right, include_dtw=include_dtw).components
+
+
+def prepared_dtw_similarity(
+    left: PreparedSeries, right: PreparedSeries, *, backend: str | None = None,
+) -> float:
+    """Compute only strict DTW, with an optional call-level backend override."""
+    pairs, _ = _paired_prepared_channels(left, right)
+    return float(np.nanmean([_prepared_channel_dtw(x, y, backend=backend) for x, y in pairs]))
+
+
 def compare_series(
     left: Any,
     right: Any,
@@ -585,88 +837,44 @@ def compare_series(
     right_timestamps: Any | None = None,
     left_name: str = "left",
     right_name: str = "right",
-    n_points: int = 256,
-) -> SimilarityReport:
+    n_points: int | None = None,
+    output: str = "report",
+) -> SimilarityReport | SimilarityScore:
     """Compare two raw time-series inputs and return a shape-aware similarity report.
 
     The comparison mixes pointwise agreement, dynamic-time-warping, trend similarity,
     derivative similarity, and spectral similarity. Inputs may be univariate or
     multichannel. When channel counts differ, the function falls back to aggregate
     trajectories instead of forcing an arbitrary channel pairing.
+
+    ``output="score"`` computes the same five components and aggregate score
+    without reference statistics, interpretations, notes, or suggestions.
+    Inputs can be :class:`PreparedSeries` snapshots to reuse per-series work.
+    ``n_points=None`` retains 256 points for raw inputs; when either input is
+    prepared it inherits that snapshot's resolution.  Explicit resolutions and
+    both prepared inputs must agree.  A prepared input already owns timestamps.
     """
 
-    left_rs = _resampled_multichannel(left, timestamps=left_timestamps, n_points=n_points)
-    right_rs = _resampled_multichannel(right, timestamps=right_timestamps, n_points=n_points)
-    left_cmp, right_cmp, channel_mode = _pair_multichannel(left_rs, right_rs)
-
-    correlations = []
-    pearson_corrs = []
-    spearman_corrs = []
-    kendall_corrs = []
-    best_lag_corrs = []
-    nmi_scores = []
-    dtw_scores = []
-    trend_scores = []
-    derivative_scores = []
-    derivative_corrs = []
-    monotonic_pairs = []
-    spectral_scores = []
-    for idx in range(left_cmp.shape[1]):
-        xl = left_cmp[:, idx]
-        xr = right_cmp[:, idx]
-        pearson = _safe_corr(xl, xr)
-        pearson_corrs.append(pearson)
-        spearman_corrs.append(_safe_spearman_corr(xl, xr))
-        kendall_corrs.append(_safe_kendall_tau(xl, xr))
-        best_lag_corrs.append(_best_lag_corr(xl, xr))
-        nmi_scores.append(_normalized_mutual_information(xl, xr))
-
-        diff_l = _difference_view(xl)
-        diff_r = _difference_view(xr)
-        trend_l = _smooth_trend(xl)
-        trend_r = _smooth_trend(xr)
-        trend_corr = _safe_corr(trend_l, trend_r)
-        trend_change_corr = _safe_corr(_difference_view(trend_l), _difference_view(trend_r))
-        trend_scores.append(_geometric_similarity(_corr_to_similarity(trend_corr), _corr_to_similarity(trend_change_corr)))
-
-        derivative_corr = _safe_corr(diff_l, diff_r)
-        derivative_corrs.append(derivative_corr)
-        derivative_scores.append(_corr_to_similarity(derivative_corr))
-
-        correlations.append(_geometric_similarity(_corr_to_similarity(pearson), _corr_to_similarity(derivative_corr)))
-        dtw_scores.append(_strict_dtw_similarity(xl, xr))
-        spectral_scores.append(_spectral_similarity(diff_l, diff_r))
-        monotonic_pairs.append(min(_monotonic_fraction(xl), _monotonic_fraction(xr)))
-
-    components = {
-        "shape_similarity": float(np.nanmean(correlations)),
-        "dtw_similarity": float(np.nanmean(dtw_scores)),
-        "trend_similarity": float(np.nanmean(trend_scores)),
-        "derivative_similarity": float(np.nanmean(derivative_scores)),
-        "spectral_similarity": float(np.nanmean(spectral_scores)),
-    }
-    reference_metrics = {
-        "pearson_r": float(np.nanmean(pearson_corrs)),
-        "spearman_rho": float(np.nanmean(spearman_corrs)),
-        "kendall_tau": float(np.nanmean(kendall_corrs)),
-        "best_lag_pearson_r": float(np.nanmean(best_lag_corrs)),
-        "normalized_mutual_information": float(np.nanmean(nmi_scores)),
-        "first_difference_r": float(np.nanmean(derivative_corrs)),
-    }
-
-    weights = {
-        "shape_similarity": 0.20,
-        "dtw_similarity": 0.20,
-        "trend_similarity": 0.20,
-        "derivative_similarity": 0.25,
-        "spectral_similarity": 0.15,
-    }
-    valid = [(key, value) for key, value in components.items() if np.isfinite(value)]
-    if valid:
-        weight_sum = sum(weights[key] for key, _ in valid)
-        overall = float(sum(weights[key] * value for key, value in valid) / max(weight_sum, EPS))
-    else:
-        overall = 0.0
+    if output not in {"report", "score"}:
+        raise ValueError("output must be 'report' or 'score'")
+    left_prepared, right_prepared = _prepare_pair(
+        left, right,
+        left_timestamps=left_timestamps, right_timestamps=right_timestamps,
+        n_points=n_points,
+    )
+    numeric = _compare_prepared_numeric(
+        left_prepared, right_prepared,
+        reference_metrics=_REFERENCE_METRICS if output == "report" else (),
+        include_monotonic=output == "report",
+    )
+    components = numeric.components
+    score = score_from_components(components)
+    overall = score.similarity_score
+    if output == "score":
+        return score
+    reference_metrics = numeric.reference_metrics
+    channel_mode = numeric.channel_mode
+    monotonic_pairs = numeric.monotonic_pairs
     component_mean = float(np.nanmean(list(components.values()))) if components else float("nan")
 
     notes: list[str] = []
@@ -715,9 +923,9 @@ def compare_series(
             "strictness_profile": "local_change_aware",
             "monotonic_like_inputs": monotone_like,
             "channel_mode": channel_mode,
-            "resample_points": int(n_points),
-            "left_channels": int(left_rs.shape[1]),
-            "right_channels": int(right_rs.shape[1]),
+            "resample_points": int(left_prepared.n_points),
+            "left_channels": int(left_prepared.n_channels),
+            "right_channels": int(right_prepared.n_channels),
         },
     )
 
@@ -797,6 +1005,93 @@ def compare_profiles(
     )
 
 
+class _RollingPairMoments:
+    """Float64 paired moments with periodic recentering and guarded fallback."""
+
+    def __init__(self, left: np.ndarray, right: np.ndarray, width: int) -> None:
+        self.left = left
+        self.right = right
+        self.width = width
+        self.start: int | None = None
+        self.updates = 0
+
+    def _segment_moments(self, start: int, stop: int) -> np.ndarray:
+        left, right = self.left[start:stop], self.right[start:stop]
+        valid = np.isfinite(left) & np.isfinite(right)
+        with np.errstate(invalid="ignore", over="ignore"):
+            x = np.where(valid, left - self.origin_left, 0.0)
+            y = np.where(valid, right - self.origin_right, 0.0)
+            return np.stack([
+                np.sum(valid, axis=0, dtype=float),
+                np.sum(x, axis=0), np.sum(y, axis=0),
+                np.sum(x * x, axis=0), np.sum(y * y, axis=0),
+                np.sum(x * y, axis=0),
+            ])
+
+    def correlations(self, start: int) -> np.ndarray:
+        stop = start + self.width
+        if self.start is None or start - self.start >= self.width or self.updates >= 128:
+            left, right = self.left[start:stop], self.right[start:stop]
+            valid = np.isfinite(left) & np.isfinite(right)
+            first = np.argmax(valid, axis=0)
+            channels = np.arange(left.shape[1])
+            has_value = np.any(valid, axis=0)
+            self.origin_left = np.where(has_value, left[first, channels], 0.0)
+            self.origin_right = np.where(has_value, right[first, channels], 0.0)
+            self.moments = self._segment_moments(start, stop)
+            self.updates = 0
+        else:
+            previous_stop = self.start + self.width
+            self.moments -= self._segment_moments(self.start, start)
+            self.moments += self._segment_moments(previous_stop, stop)
+            self.updates += 1
+        self.start = start
+        count, sx, sy, sxx, syy, sxy = self.moments
+        divisor = np.maximum(count, 1.0)
+        with np.errstate(invalid="ignore", divide="ignore", over="ignore"):
+            vx = sxx - sx * sx / divisor
+            vy = syy - sy * sy / divisor
+            covariance = sxy - sx * sy / divisor
+            std_x = np.sqrt(np.maximum(vx, 0.0) / divisor)
+            std_y = np.sqrt(np.maximum(vy, 0.0) / divisor)
+            result = covariance / np.sqrt(vx) / np.sqrt(vy)
+        result = np.clip(result, -1.0, 1.0)
+        result[(std_x <= EPS) | (std_y <= EPS)] = 0.0
+        result[count < 3] = np.nan
+
+        # A small residual after subtracting large moment terms is unreliable.
+        # Very large source offsets can also make direct NumPy centering differ
+        # measurably from translated moments.  Retain the established guarded
+        # correlation for these windows instead of reporting unstable values.
+        error_scale = 64.0 * np.finfo(float).eps * (self.updates + 1)
+        uncertain = (vx <= error_scale * np.maximum(np.abs(sxx), np.abs(sx * sx / divisor)))
+        uncertain |= vy <= error_scale * np.maximum(np.abs(syy), np.abs(sy * sy / divisor))
+        uncertain |= ~np.isfinite(result)
+        uncertain |= np.spacing(np.abs(self.origin_left)) > 1e-6 * std_x
+        uncertain |= np.spacing(np.abs(self.origin_right)) > 1e-6 * std_y
+        for channel in np.flatnonzero(uncertain & (count >= 3)):
+            result[channel] = _safe_corr(self.left[start:stop, channel], self.right[start:stop, channel])
+        return result
+
+
+def _fast_rolling_similarity(
+    left: np.ndarray, right: np.ndarray, *, window: int, step: int,
+) -> list[dict[str, float]]:
+    min_len = min(left.shape[0], right.shape[0])
+    left, right, _ = _pair_multichannel(left[:min_len], right[:min_len])
+    levels = _RollingPairMoments(left, right, window)
+    differences = _RollingPairMoments(np.diff(left, axis=0), np.diff(right, axis=0), window - 1)
+    return [
+        {
+            "start": float(start),
+            "stop": float(start + window),
+            "pearson_r": float(np.nanmean(levels.correlations(start))),
+            "first_difference_r": float(np.nanmean(differences.correlations(start))),
+        }
+        for start in range(0, min_len - window + 1, step)
+    ]
+
+
 def rolling_similarity(
     left: Any,
     right: Any,
@@ -806,43 +1101,60 @@ def rolling_similarity(
     left_timestamps: Any | None = None,
     right_timestamps: Any | None = None,
     n_points: int = 128,
+    mode: str = "full",
 ) -> list[dict[str, float]]:
     """Compute raw-series similarity over aligned rolling windows.
 
-    This is designed for quick exploratory work such as 'when did BTC and gold start
-    moving more alike?' or 'which launch week looks most like the current one?'.
+    ``mode="full"`` preserves the existing eleven columns and per-window
+    resampling, while computing only the diagnostics used by those columns.
+
+    ``mode="fast"`` is a separate exploratory definition: it compares the raw
+    positionally aligned windows, without resampling or normalization, and
+    returns only ``start``, ``stop``, ``pearson_r`` and ``first_difference_r``.
+    Channel-wise correlations are averaged; differing channel counts use each
+    raw input's aggregate trajectory.  Nonfinite observations use pairwise
+    deletion.  Float64 moving moments are recentered every 128 updates, with
+    direct recomputation for numerically uncertain windows.  It does not
+    estimate the full similarity score.  ``n_points`` applies only to full mode;
+    fast mode rejects timestamps because it does not implement time alignment.
     """
 
+    if mode not in {"full", "fast"}:
+        raise ValueError("mode must be 'full' or 'fast'")
+    window, step = operator.index(window), operator.index(step)
+    if step <= 0:
+        raise ValueError("step must be a positive integer")
+    if mode == "fast" and (left_timestamps is not None or right_timestamps is not None):
+        raise ValueError("mode='fast' uses raw positional windows and does not accept timestamps")
     left_arr = _normalize_channel_layout(_as_matrix(left))
     right_arr = _normalize_channel_layout(_as_matrix(right))
     min_len = min(left_arr.shape[0], right_arr.shape[0])
     if min_len < window or window < 4:
         return []
+    if mode == "fast":
+        return _fast_rolling_similarity(left_arr, right_arr, window=window, step=step)
     out: list[dict[str, float]] = []
     for start in range(0, min_len - window + 1, step):
         stop = start + window
         lt = None if left_timestamps is None else np.asarray(left_timestamps)[start:stop]
         rt = None if right_timestamps is None else np.asarray(right_timestamps)[start:stop]
-        report = compare_series(
-            left_arr[start:stop],
-            right_arr[start:stop],
-            left_timestamps=lt,
-            right_timestamps=rt,
-            left_name="left_window",
-            right_name="right_window",
-            n_points=n_points,
+        numeric = _compare_prepared_numeric(
+            PreparedSeries(left_arr[start:stop], timestamps=lt, n_points=n_points),
+            PreparedSeries(right_arr[start:stop], timestamps=rt, n_points=n_points),
+            reference_metrics=_ROLLING_REFERENCE_METRICS,
         )
+        score = score_from_components(numeric.components)
         out.append({
             "start": float(start),
             "stop": float(stop),
-            "similarity_score": float(report.similarity_score),
-            "component_mean": float(report.component_mean),
-            "pearson_r": float(report.reference_metrics.get("pearson_r", float("nan"))),
-            "spearman_rho": float(report.reference_metrics.get("spearman_rho", float("nan"))),
-            "normalized_mutual_information": float(report.reference_metrics.get("normalized_mutual_information", float("nan"))),
-            "first_difference_r": float(report.reference_metrics.get("first_difference_r", float("nan"))),
-            "shape_similarity": float(report.component_scores.get("shape_similarity", float("nan"))),
-            "trend_similarity": float(report.component_scores.get("trend_similarity", float("nan"))),
-            "spectral_similarity": float(report.component_scores.get("spectral_similarity", float("nan"))),
+            "similarity_score": float(score.similarity_score),
+            "component_mean": float(score.component_mean),
+            "pearson_r": float(numeric.reference_metrics.get("pearson_r", float("nan"))),
+            "spearman_rho": float(numeric.reference_metrics.get("spearman_rho", float("nan"))),
+            "normalized_mutual_information": float(numeric.reference_metrics.get("normalized_mutual_information", float("nan"))),
+            "first_difference_r": float(numeric.reference_metrics.get("first_difference_r", float("nan"))),
+            "shape_similarity": float(numeric.components.get("shape_similarity", float("nan"))),
+            "trend_similarity": float(numeric.components.get("trend_similarity", float("nan"))),
+            "spectral_similarity": float(numeric.components.get("spectral_similarity", float("nan"))),
         })
     return out

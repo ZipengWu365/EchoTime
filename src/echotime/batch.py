@@ -67,6 +67,8 @@ METRICS = tuple(sorted(_ELASTIC | _NCC | _EMBED))
 _MIN_FFT_LENGTH = 16
 # Inverse-FFT block budget (bytes of float64 work per block).
 _FFT_BLOCK_BYTES = 256 * 1024 * 1024
+# Bound temporary embedding arrays independently of the number of pairs.
+_EMBED_BLOCK_BYTES = 16 * 1024 * 1024
 # Lags whose FFT estimate is within this of the block maximum are recomputed
 # exactly. FFT error is ~1e-16 relative to |x||y|, so 1e-9 is a wide margin.
 _NCC_REFINE_TOL = 1e-9
@@ -291,7 +293,8 @@ def _ncc(left, right, same, I, J, name, params, resolved, threads) -> np.ndarray
     clean_right = clean_left if same else {int(k): sm._clean_series(sm._to_time_series(right[k]))[0] for k in np.unique(J)}
     if same:
         for k in np.unique(J):
-            clean_left.setdefault(int(k), sm._clean_series(sm._to_time_series(left[k]))[0])
+            if int(k) not in clean_left:
+                clean_left[int(k)] = sm._clean_series(sm._to_time_series(left[k]))[0]
     independent = name.startswith("independent")
 
     # Channels become univariate "units"; joint metrics sum their correlations.
@@ -340,13 +343,18 @@ def _ncc(left, right, same, I, J, name, params, resolved, threads) -> np.ndarray
     return results
 
 
-def _ncc_group(members, n, m, d, I, J, U_left, U_right, independent, name, results, threads) -> None:
+def _ncc_group(
+    members, n, m, d, I, J, U_left, U_right, independent, name, results, threads,
+    *, spectra_left=None, spectra_right=None,
+) -> None:
     L = sp_fft.next_fast_len(n + m - 1, real=True)
     lags = np.arange(-(m - 1), n, dtype=int)
     keys_left = sorted({int(I[p]) for p in members})
     keys_right = sorted({int(J[p]) for p in members})
-    spectra_left = {k: [sp_fft.rfft(col, L, workers=threads) for col in U_left[k]] for k in keys_left}
-    spectra_right = {k: [np.conj(sp_fft.rfft(col, L, workers=threads)) for col in U_right[k]] for k in keys_right}
+    if spectra_left is None:
+        spectra_left = {k: [sp_fft.rfft(col, L, workers=threads) for col in U_left[k]] for k in keys_left}
+    if spectra_right is None:
+        spectra_right = {k: [np.conj(sp_fft.rfft(col, L, workers=threads)) for col in U_right[k]] for k in keys_right}
     norms_left = {k: float(np.linalg.norm(np.column_stack(U_left[k]))) for k in keys_left} if not independent else None
     norms_right = {k: float(np.linalg.norm(np.column_stack(U_right[k]))) for k in keys_right} if not independent else None
     # independent: one univariate problem per channel, combined by np.mean over finite values.
@@ -479,7 +487,8 @@ def _embedding(left, right, same, I, J, name, params, resolved) -> np.ndarray:
     E_right = E_left if same else {int(k): embed(right[k]) for k in keys_right}
     if same:
         for k in keys_right:
-            E_left.setdefault(int(k), embed(left[k]))
+            if int(k) not in E_left:
+                E_left[int(k)] = embed(left[k])
     out = np.empty(I.size, dtype=float)
     missing = [p for p, (i, j) in enumerate(zip(I.tolist(), J.tolist())) if E_left[i] is None or E_right[j] is None]
     if missing:
@@ -487,15 +496,19 @@ def _embedding(left, right, same, I, J, name, params, resolved) -> np.ndarray:
     valid = np.setdiff1d(np.arange(I.size), np.asarray(missing, dtype=int))
     if valid.size == 0:
         return out
-    A = np.stack([E_left[int(I[p])] for p in valid])
-    B = np.stack([E_right[int(J[p])] for p in valid])
-    if name == "acf":
-        # mean over channels of the Euclidean norm of the ACF difference
-        out[valid] = np.mean(np.sqrt(np.sum((A - B) ** 2, axis=-1)), axis=-1)
-    elif name == "ordinal_js":
-        out[valid] = _js_rows(A, B)
-    else:
-        out[valid] = np.sqrt(np.sum((A - B) ** 2, axis=-1))
+    width = max(1, np.asarray(E_left[int(I[valid[0]])]).size)
+    block_size = max(1, _EMBED_BLOCK_BYTES // (8 * width * 8))
+    for start in range(0, valid.size, block_size):
+        chunk = valid[start : start + block_size]
+        A = np.stack([E_left[int(I[p])] for p in chunk])
+        B = np.stack([E_right[int(J[p])] for p in chunk])
+        if name == "acf":
+            # Preserve the original per-row reduction order; only bound memory.
+            out[chunk] = np.mean(np.sqrt(np.sum((A - B) ** 2, axis=-1)), axis=-1)
+        elif name == "ordinal_js":
+            out[chunk] = _js_rows(A, B)
+        else:
+            out[chunk] = np.sqrt(np.sum((A - B) ** 2, axis=-1))
     return out
 
 

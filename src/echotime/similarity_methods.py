@@ -629,7 +629,10 @@ def _twed_side(values: np.ndarray, timestamps: np.ndarray | None, *, lambda_: fl
     if t.size != n:
         raise ValueError("Timestamp arrays must match the cleaned series lengths.")
     prev_rows = _previous_rows(values)
-    prev_t = np.concatenate([[0.0], t[:-1]])
+    # An empty side has no sentinel *row*. Keeping an extra timestamp here
+    # makes a native batch bank inconsistent, even though the scalar/Python
+    # contract for empty series is NaN.
+    prev_t = np.concatenate([[0.0], t[:-1]]) if n else np.empty(0, dtype=float)
     delete_costs = _consecutive_l2_costs(values, prev_rows) + nu * np.abs(t - prev_t) + lambda_
     return values, prev_rows, t, prev_t, delete_costs
 
