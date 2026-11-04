@@ -1,0 +1,3464 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-04T17:47:53.427552+00:00",
+  "run": {
+    "profile": "quick",
+    "backend": "native",
+    "n_jobs": 1,
+    "seed": 20261104,
+    "repeats": 5,
+    "warmups": 1,
+    "strategy": "multiview",
+    "bounds": "auto",
+    "filters": {
+      "cases": [],
+      "groups": []
+    },
+    "import_seconds": 0.7271560590015724,
+    "harness_sha256": "813703e98ebceec801f4c7e8d7ad2a1b9e8fd5a90fa1f5587df6ea94496c2d82",
+    "argv": [
+      "--source-tree",
+      "src",
+      "--profile",
+      "quick",
+      "--backend",
+      "native",
+      "--repeats",
+      "5",
+      "--baseline",
+      "benchmark-results/baseline-quick.json",
+      "--out",
+      "benchmark-results/current-quick.json"
+    ],
+    "total_seconds": 2.9726991959978477
+  },
+  "environment": {
+    "python": "3.12.14",
+    "python_executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "package_version": "0.18.0.dev0",
+    "package_path": "/workspace/scratch/875f2180653d/echotime-development/src/echotime/__init__.py",
+    "source_commit": "c7fd3986af2ea750d9146ca204bedb8a050b55d7",
+    "source_dirty": true,
+    "source_sha256": {
+      "__init__.py": "56f2c2cfef7b7f5145fa2b2415cecf0892d12e88571e86abf3b9d54e6cb92ef1",
+      "_cutoff.py": "3e88d8f7216f6ee88e2479b97ce1ca48520a5e313b7c1a5b400f5234c07ae6be",
+      "_native.py": "6c8edf0087c92fac65ae09b86731d8b906eeaaf650cfe83c26ff473534690214",
+      "_search_bounds.py": "4abc8d61f7db59d571b60a44bb0e6a4b740bde54d9664eabb95f0ad64c66d701",
+      "_search_candidates.py": "1d3450a5b29b279f92acab9e6de99c8034b49918cadf3b83c0894b534865c566",
+      "_search_elastic.py": "e92bff29fa96fa135b57af6472974b7ad5b1d43dd6c9191f2606d2e67717998b",
+      "_search_ncc.py": "50b8e33184d074c007925573882382b689ed24fd8df1efbf198422ff37099550",
+      "_search_vectors.py": "b72a6c3f2e5ca6f104c259315ff57c7b6b8a52e1cba6705a5ed25f7a995ba732",
+      "adapters.py": "a7656547241f8c2cc1695b9b68197b5c416ebdb630180545ed1c5474ad923d24",
+      "agent.py": "d754eb8f3143935283f2a7a50cfb4e1d561204ce6c8fdd28907c2cd8c9926663",
+      "agent_tools.py": "71e5ce95124c46d1401c663dccbc87d5c906a673dbb8d9ef08ffadd40b7a8f6b",
+      "archetypes.py": "bc6b71652997df273bb229a1aae3d94c69088a1e7defaaedbcc7df50ef586cf5",
+      "axes.py": "8b44dc4d8b827a41f531cd2948cf5aa44d66755cd2b7c51dd259dc319c23c003",
+      "batch.py": "94c64b91b4a378564810b92606200a0d4bc96234128a81c7987bd27fd6a17ab9",
+      "cli.py": "c0ca46bb6b1df64ae6cdc65149d9f920607b3c84b6fb4c9514922bff0d2af3e1",
+      "communication.py": "cb4594e5b6475b7856f6818a7c3f5cc0c006a8b0a33c6dbf783209540768bbdf",
+      "compat.py": "1e7a84a15943cf5106228e4da59b8c43cda4cb1bb7f5c9150efdcee9b986288e",
+      "consistency.py": "bea4a7d01393af9579843d60f85a242a7b82c786fbe52f4aba748bf1133bcd61",
+      "context.py": "587301c8e8703d6f9393abe402cc0c4e315f077840432c26610ec8183fbc19b6",
+      "copydeck.py": "df2f673e4ce35cb3029738fc8dcbd07b3efc6d2dfe5fdb17b6be84a1a3c5015a",
+      "data/runtime/examples/gallery/plot_btc_gold_under_shocks.py": "4e791b1f55daaaea5cc87797a2ac68c1084648a9c085619c9e7b749a67c66703",
+      "data/runtime/examples/gallery/plot_github_breakout_analogs.py": "04553b770651199d36cd98a8543369843628b651e06db6eb64914b7e8f6ccca8",
+      "data/runtime/examples/gallery/plot_heatwave_grid_load.py": "be4ff3f1fa7432a5d95e9184d861cbf211ec6ce160678cf2f4128440c1c1a635",
+      "data/runtime/examples/gallery/plot_irregular_patient_similarity.py": "40ca3afd0961f38d3dd01029aeaf1528e2cae7852ed09c033a7ab4656761f686",
+      "data/runtime/examples/gallery/plot_two_curves_similarity.py": "bffdd710d73682398646e5027e18f032d588b544fe2843c48f7c1560934b791b",
+      "data/runtime/examples/gallery/plot_weekly_traffic_similarity.py": "b84356fbad0671d49f31c2d66c73ca178e2c2d6224dbed9febbd4474dbacc542",
+      "datasets.py": "a2e98601cf1f713dbe199e9fff151418ea3babbe9c60dda8660d3a8c2ad86fad",
+      "demo_server.py": "275e2dbd0552d1e750021c3bb78f089168940a4bdf29d1cec51135a32debfb40",
+      "design_system.py": "2909fdc0082d6be622183d88ba4d8d58c65710fdd5b9be670b07f04178074e70",
+      "docs_site.py": "0052cc8f20a6c195c11c55fedd2156e9f66b9736e098493f2f4d13b2c8399b27",
+      "doctor.py": "3458b6bc7b8a98f7dd5cb5f04e56370cb3d756ef28e8f4e4c41bc9d24c400924",
+      "gallery.py": "7fe79fafa153393f710c1541c22417bcd375d102f4055c69a15e3225b4b42307",
+      "guide.py": "1b9bb147ca8fc2e748a275207a532e4bbe308da4b725c539b097d76909f9f1a8",
+      "homepage.py": "ceb38699918cd4111328ef6b3e8643e16ef8b0b871828aeeb3db1c7d106ac30e",
+      "hotcases.py": "eac3d4fd02333b1d5d0fa9dff3123cc33725cbb588c5a3e992103c8f9ad34e65",
+      "launchpad.py": "36c8df80d1e0a20b6880e7063ce9602c8edeb43438f9b3c07b5eb742cd108a2c",
+      "longitudinal.py": "fdd8ae6a4ba7da3647d3e88f2608b36d177ba695e4444ca36c4911b269e5df77",
+      "method_animations.py": "6ee29ff1a4f97bec701bf4a972aed94f5844a6262d39be719771558e8aee47df",
+      "metrics.py": "afb33124e512c1a4aaac9c41332eb6383a1a017030d6962f4035b45100554d2d",
+      "network.py": "9055fe028611c49515537340fbaf54c68a2dfd0c50652d19afa2275e8af70456",
+      "playground.py": "bc9f855d56a04fb80da92e0966d2ff1bf4b875fd5b0c88b8b4015ad48fe30300",
+      "plugins.py": "b3dcdd72f875688295e4f334d030092de187299707dec53dab13adb0f457f27b",
+      "positioning.py": "5772830518f4bfe89650ec5f8966f65b568412068dbe20c44fa8e36ab23f2af5",
+      "prepared.py": "fc4d066ef5035018f179d26882d238035006aa3cdece070c155ca636ee599750",
+      "product.py": "1b38ee61a3bc7c43679cba41b1d8c00ae95a238e668830c780f45b39a7faffeb",
+      "profile.py": "fc0e443d72e90355b992c45e3f4b7b4531989b0534160e28f2108812426af04b",
+      "real_tutorial_data.py": "74b9e73dda2d9536256a2760b67f46adb596bba5b36521c4ff971800ed108ef2",
+      "registry.py": "96d1bea1bf1e60a7c53b8134a91ac6d16601707d94cad92c3d0f9510ce3bda4a",
+      "reliability.py": "86eb256c46296c80f6bd1468192116c4ad4dbd60fa4b20bb9bd9377a7a1e7187",
+      "repo_docs.py": "beba9e159d96f7627db30c86c91ff5395b7589d55f9c24b3414f8deb9d9cec5a",
+      "report.py": "c5ad70e8a825fb27d6cc5ef34ccfa96cad0ae0479ea658f85e9791fd2a565d5a",
+      "runtime_paths.py": "7f06da7cfad8d20e9b3007e190069ce6522c9476514e50b387b1affb772c2aa4",
+      "schema.py": "85fc8ff6896494aeaaa3e96c4e1abdd8a00f20885c3ee60e59a05c6a84ff3e4c",
+      "search.py": "c6f3cf96771459299082390ff01951c9edd6c8e86297279f164621ce0cbe6166",
+      "seo.py": "eb1f8544126fde30086911ed45553b4932a4e807312752454754879286aecfa5",
+      "similarity.py": "979a8006bed47a8355bb03f11f91c85c388c38d3665463e92cacb12dbe7ea1a0",
+      "similarity_method_atlas.py": "2d10e5f6ca7ab20a83510ea7a40db407b9163ed5b4fe34d8287afb4fc26ebe3b",
+      "similarity_methods.py": "2468d49691ae00c9c120de7a32582c79b4c130d57ad534342199e3c7f7da4a42",
+      "sitebundle.py": "204c21582552388fbea47531dcec9a8762f5282033d448f7c36ca3dfadcd3e96",
+      "tabular.py": "98a02f52b25ab474e59743ab8891ccf5f50e58d6b176f0bad9a5ea50b7851fd8",
+      "visuals.py": "77df3deaf5ed86a0fac5e91a2b25e3c325c013fad4602d399c6f07c2108da3ab"
+    },
+    "extension_sha256": {
+      "_echotime_native.cpython-312-x86_64-linux-gnu.so": "c235caec808281904edf97de1a5c12dea2d82d794bf0d64e0c1cae2d9813d60b"
+    },
+    "build_source_sha256": {
+      "native/echotime_native.cpp": "77edf9acbe8362ee3b0c91446299ceb768a31e65bebb404200173fc2725ada87",
+      "setup.py": "e8f85f09e20f71829a55e8972278529b78f355be2d97b6f2ff82ac3f50457237",
+      "pyproject.toml": "2bce0e7a271e3917a4f352f464e9f6a07e6805f21738e5316f095d134dc1fc33"
+    },
+    "optional_dependencies": {
+      "faiss-cpu": "1.15.1",
+      "torch": null,
+      "cupy": null
+    },
+    "python_compiler": "Clang 22.1.3 ",
+    "observed_build_environment": {
+      "CC": null,
+      "CXX": null,
+      "CFLAGS": null,
+      "CXXFLAGS": null,
+      "ECHOTIME_NATIVE_MARCH": null
+    },
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "processor": "AMD EPYC 9V74 80-Core Processor",
+    "cpu_count": 9,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "backend": {
+      "native_available": true,
+      "native_import_error": null,
+      "native_abi_version": 1,
+      "cutoff_abi_version": 1,
+      "cutoff_available": true,
+      "requested": "native",
+      "effective": "native",
+      "default_threads": 1,
+      "env": {
+        "ECHOTIME_BACKEND": null,
+        "ECHOTIME_NUM_THREADS": "1"
+      }
+    },
+    "thread_environment": {
+      "ECHOTIME_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null
+    },
+    "gpu": {
+      "execution_status": "not_implemented_in_this_suite",
+      "devices": null,
+      "note": "Device inventory is not a GPU kernel benchmark or a GPU speedup claim."
+    }
+  },
+  "cases": [
+    {
+      "id": "compare/t290",
+      "configuration": {
+        "id": "compare/t290",
+        "group": "report",
+        "api": "compare",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 91299840,
+      "preparation": {
+        "data_generation_seconds": 0.000245550003455719
+      },
+      "first_call_seconds": 0.008478984997054795,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.008878600001480663,
+        0.007735834999039071,
+        0.006470334003097378,
+        0.00694319799731602,
+        0.007554600997536909
+      ],
+      "timing": {
+        "p50_seconds": 0.007554600997536909,
+        "p95_seconds": 0.008650047000992344,
+        "p99_seconds": 0.008832889401383,
+        "minimum_seconds": 0.006470334003097378,
+        "work_units_per_second": 132.36966456945092,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "da4005ad61aa79da54923ef05775fa35595647bf43b842a2a025050585ebbf01",
+        "similarity_score": 0.09908824248841155
+      },
+      "total_benchmark_seconds": 0.053906941997411195,
+      "rss_after_bytes": 92225536,
+      "process_peak_rss_bytes": 91971584,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.007411582002532668,
+        "p50_speedup": 0.9810686236042288
+      }
+    },
+    {
+      "id": "compare/t1024",
+      "configuration": {
+        "id": "compare/t1024",
+        "group": "report",
+        "api": "compare",
+        "n_series": 1,
+        "n_points": 1024,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92233728,
+      "preparation": {
+        "data_generation_seconds": 0.00014267499864217825
+      },
+      "first_call_seconds": 0.007091933002811857,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.006291124002018478,
+        0.006451576999097597,
+        0.00637051399826305,
+        0.006314349000604125,
+        0.006195729998580646
+      ],
+      "timing": {
+        "p50_seconds": 0.006314349000604125,
+        "p95_seconds": 0.006435364398930688,
+        "p99_seconds": 0.006448334479064215,
+        "minimum_seconds": 0.006195729998580646,
+        "work_units_per_second": 158.36945343127616,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "58823c26709929d7320ef1fffdc5a0ac2a41788846ec985af96a6da4a8142963",
+        "similarity_score": 0.08818238748632246
+      },
+      "total_benchmark_seconds": 0.04558231000191881,
+      "rss_after_bytes": 92262400,
+      "process_peak_rss_bytes": 91971584,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.008146011001372244,
+        "p50_speedup": 1.2900793099324848
+      }
+    },
+    {
+      "id": "score/t290",
+      "configuration": {
+        "id": "score/t290",
+        "group": "report",
+        "api": "score",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92282880,
+      "preparation": {
+        "data_generation_seconds": 0.00011880999954883009
+      },
+      "first_call_seconds": 0.0025267729979532305,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0030796579994785134,
+        0.0023646090012334753,
+        0.00256975800220971,
+        0.0026884370017796755,
+        0.003132207002636278
+      ],
+      "timing": {
+        "p50_seconds": 0.0026884370017796755,
+        "p95_seconds": 0.003121697202004725,
+        "p99_seconds": 0.0031301050425099675,
+        "minimum_seconds": 0.0023646090012334753,
+        "work_units_per_second": 371.96333755934245,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "2fa3347a45e7e784d8993c79c3e5add4f962f94647b395880fb5bb8c2fe545ce",
+        "similarity_score": 0.09908824248841155
+      },
+      "total_benchmark_seconds": 0.019643433999590343,
+      "rss_after_bytes": 92291072,
+      "process_peak_rss_bytes": 92102656
+    },
+    {
+      "id": "score/t1024",
+      "configuration": {
+        "id": "score/t1024",
+        "group": "report",
+        "api": "score",
+        "n_series": 1,
+        "n_points": 1024,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92319744,
+      "preparation": {
+        "data_generation_seconds": 0.00014027200086275116
+      },
+      "first_call_seconds": 0.003459640996879898,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0026836399993044324,
+        0.002289394000399625,
+        0.002385550000326475,
+        0.0028862860017397907,
+        0.0023454900001524948
+      ],
+      "timing": {
+        "p50_seconds": 0.002385550000326475,
+        "p95_seconds": 0.002845756801252719,
+        "p99_seconds": 0.0028781801616423763,
+        "minimum_seconds": 0.002289394000399625,
+        "work_units_per_second": 419.1905430039801,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "6ed8aa2bf4eadc2f1c8fa8a21ad0a1f85b0017087f3277dcbc23d9a1211ef9b1",
+        "similarity_score": 0.08818238748632246
+      },
+      "total_benchmark_seconds": 0.018992563000210794,
+      "rss_after_bytes": 92323840,
+      "process_peak_rss_bytes": 92102656
+    },
+    {
+      "id": "compare_prepared/t290",
+      "configuration": {
+        "id": "compare_prepared/t290",
+        "group": "report",
+        "api": "compare_prepared",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92344320,
+      "preparation": {
+        "data_generation_seconds": 0.00011825800174847245,
+        "series_prepare_seconds": 1.719599822536111e-05
+      },
+      "first_call_seconds": 0.006897389001096599,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0040390750000369735,
+        0.004543696999462554,
+        0.003945333999581635,
+        0.003940827002224978,
+        0.003603967998060398
+      ],
+      "timing": {
+        "p50_seconds": 0.003945333999581635,
+        "p95_seconds": 0.004442772599577438,
+        "p99_seconds": 0.004523512119485531,
+        "minimum_seconds": 0.003603967998060398,
+        "work_units_per_second": 253.46396530839732,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "da4005ad61aa79da54923ef05775fa35595647bf43b842a2a025050585ebbf01",
+        "similarity_score": 0.09908824248841155
+      },
+      "total_benchmark_seconds": 0.03180085100029828,
+      "rss_after_bytes": 92352512,
+      "process_peak_rss_bytes": 92102656
+    },
+    {
+      "id": "compare_prepared/t1024",
+      "configuration": {
+        "id": "compare_prepared/t1024",
+        "group": "report",
+        "api": "compare_prepared",
+        "n_series": 1,
+        "n_points": 1024,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92381184,
+      "preparation": {
+        "data_generation_seconds": 0.0001446490023226943,
+        "series_prepare_seconds": 2.1761999960290268e-05
+      },
+      "first_call_seconds": 0.006097531997511396,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.00414460500178393,
+        0.004006735998700606,
+        0.00408443400010583,
+        0.0035970690005342476,
+        0.003402293998078676
+      ],
+      "timing": {
+        "p50_seconds": 0.004006735998700606,
+        "p95_seconds": 0.00413257080144831,
+        "p99_seconds": 0.0041421981617168055,
+        "minimum_seconds": 0.003402293998078676,
+        "work_units_per_second": 249.57970785305108,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "58823c26709929d7320ef1fffdc5a0ac2a41788846ec985af96a6da4a8142963",
+        "similarity_score": 0.08818238748632246
+      },
+      "total_benchmark_seconds": 0.02950472700104001,
+      "rss_after_bytes": 92381184,
+      "process_peak_rss_bytes": 92102656
+    },
+    {
+      "id": "score_prepared/t290",
+      "configuration": {
+        "id": "score_prepared/t290",
+        "group": "report",
+        "api": "score_prepared",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92401664,
+      "preparation": {
+        "data_generation_seconds": 0.00012411700299708173,
+        "series_prepare_seconds": 2.07009979931172e-05
+      },
+      "first_call_seconds": 0.0030425110016949475,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0004556380008580163,
+        0.0004740859985759016,
+        0.000544952999916859,
+        0.0005179519976081792,
+        0.00043701899994630367
+      ],
+      "timing": {
+        "p50_seconds": 0.0004740859985759016,
+        "p95_seconds": 0.000539552799455123,
+        "p99_seconds": 0.0005438729598245118,
+        "minimum_seconds": 0.00043701899994630367,
+        "work_units_per_second": 2109.321943706167,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "2fa3347a45e7e784d8993c79c3e5add4f962f94647b395880fb5bb8c2fe545ce",
+        "similarity_score": 0.09908824248841155
+      },
+      "total_benchmark_seconds": 0.006590084998606471,
+      "rss_after_bytes": 92401664,
+      "process_peak_rss_bytes": 92233728
+    },
+    {
+      "id": "score_prepared/t1024",
+      "configuration": {
+        "id": "score_prepared/t1024",
+        "group": "report",
+        "api": "score_prepared",
+        "n_series": 1,
+        "n_points": 1024,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": 256,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92405760,
+      "preparation": {
+        "data_generation_seconds": 0.00013772799866274,
+        "series_prepare_seconds": 4.8482997954124585e-05
+      },
+      "first_call_seconds": 0.002663639999809675,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0005087380013719667,
+        0.00048364999747718684,
+        0.00042555300024105236,
+        0.0008753410002100281,
+        0.0006635110003117006
+      ],
+      "timing": {
+        "p50_seconds": 0.0005087380013719667,
+        "p95_seconds": 0.0008329750002303626,
+        "p99_seconds": 0.0008668678002140951,
+        "minimum_seconds": 0.00042555300024105236,
+        "work_units_per_second": 1965.6483244876458,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "6ed8aa2bf4eadc2f1c8fa8a21ad0a1f85b0017087f3277dcbc23d9a1211ef9b1",
+        "similarity_score": 0.08818238748632246
+      },
+      "total_benchmark_seconds": 0.00670192400139058,
+      "rss_after_bytes": 92405760,
+      "process_peak_rss_bytes": 92233728
+    },
+    {
+      "id": "rolling/t290/w60",
+      "configuration": {
+        "id": "rolling/t290/w60",
+        "group": "rolling",
+        "api": "rolling",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": 60,
+        "step": 5,
+        "n_resample": 128,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92413952,
+      "preparation": {
+        "data_generation_seconds": 0.00012610100020538084
+      },
+      "first_call_seconds": 0.17823779200261924,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.1684659759994247,
+        0.13449372900140588,
+        0.13205053999990923,
+        0.13525112000206718,
+        0.13444984200032195
+      ],
+      "timing": {
+        "p50_seconds": 0.13449372900140588,
+        "p95_seconds": 0.16182300479995318,
+        "p99_seconds": 0.16713738175953038,
+        "minimum_seconds": 0.13205053999990923,
+        "work_units_per_second": 349.45867252672207,
+        "work_units": "windows"
+      },
+      "result": {
+        "type": "list",
+        "sha256": "7edb35687eaa24e7bc61644e5190b1cb4951d7add34caded9d4775b3fc1a0660",
+        "rows": 47
+      },
+      "total_benchmark_seconds": 1.0390725290017144,
+      "rss_after_bytes": 92549120,
+      "process_peak_rss_bytes": 92364800,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.2770519410005363,
+        "p50_speedup": 2.059961777085088
+      }
+    },
+    {
+      "id": "rolling_fast/t290/w60",
+      "configuration": {
+        "id": "rolling_fast/t290/w60",
+        "group": "rolling",
+        "api": "rolling_fast",
+        "n_series": 1,
+        "n_points": 290,
+        "channels": 1,
+        "metric": null,
+        "window": 60,
+        "step": 5,
+        "n_resample": 128,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92581888,
+      "preparation": {
+        "data_generation_seconds": 0.00012113300181226805
+      },
+      "first_call_seconds": 0.00876703100220766,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.008434068000497064,
+        0.008129318001010688,
+        0.011305332998745143,
+        0.009768941999936942,
+        0.009812557997065596
+      ],
+      "timing": {
+        "p50_seconds": 0.009768941999936942,
+        "p95_seconds": 0.011006777998409234,
+        "p99_seconds": 0.011245621998677962,
+        "minimum_seconds": 0.008129318001010688,
+        "work_units_per_second": 4811.1658355944155,
+        "work_units": "windows"
+      },
+      "result": {
+        "type": "list",
+        "sha256": "a05a49941266add0b7b6c7fde127325180a8f3fcc988dab63cfb2db3c9076046",
+        "rows": 47
+      },
+      "total_benchmark_seconds": 0.0654178229997342,
+      "rss_after_bytes": 92602368,
+      "process_peak_rss_bytes": 92364800
+    },
+    {
+      "id": "profile/t96/c8",
+      "configuration": {
+        "id": "profile/t96/c8",
+        "group": "profile",
+        "api": "profile",
+        "n_series": 1,
+        "n_points": 96,
+        "channels": 8,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 92610560,
+      "preparation": {
+        "data_generation_seconds": 0.0001982100002351217
+      },
+      "first_call_seconds": 0.19086241500190226,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.057086581000476144,
+        0.05363008399945102,
+        0.054968173997622216,
+        0.053780640999320894,
+        0.05574972300018999
+      ],
+      "timing": {
+        "p50_seconds": 0.054968173997622216,
+        "p95_seconds": 0.056819209400418916,
+        "p99_seconds": 0.0570331066804647,
+        "minimum_seconds": 0.05363008399945102,
+        "work_units_per_second": 18.192345265885265,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "5b399ba65efa3ba10bf048ae86db3688042638f2654f329836adf9d1b6a68a0d"
+      },
+      "total_benchmark_seconds": 0.5236725559989281,
+      "rss_after_bytes": 120066048,
+      "process_peak_rss_bytes": 119816192,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.10921399099970586,
+        "p50_speedup": 1.9868586321319346
+      }
+    },
+    {
+      "id": "batch/acf/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/acf/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "acf",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120160256,
+      "preparation": {
+        "data_generation_seconds": 0.0002629970003908966
+      },
+      "first_call_seconds": 0.002732073000515811,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.002232880000519799,
+        0.002235504001873778,
+        0.002542337002523709,
+        0.0021960740014037583,
+        0.0022230739996302873
+      ],
+      "timing": {
+        "p50_seconds": 0.002232880000519799,
+        "p95_seconds": 0.002480970402393723,
+        "p99_seconds": 0.002530063682497712,
+        "minimum_seconds": 0.0021960740014037583,
+        "work_units_per_second": 28662.53447793936,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.02567562295070942,
+        "maximum": 0.8453047982347679,
+        "sha256": "b92a4a31725a3c1adc93a4ebb9bdb180a566ec28c287b3f4c417d8c4f64ab185"
+      },
+      "total_benchmark_seconds": 0.017094288999942364,
+      "rss_after_bytes": 120233984,
+      "process_peak_rss_bytes": 119947264,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0030362860015884507,
+        "p50_speedup": 1.3598070657095878
+      }
+    },
+    {
+      "id": "batch/best_shift/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/best_shift/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "best_shift",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120242176,
+      "preparation": {
+        "data_generation_seconds": 0.0002418549993308261
+      },
+      "first_call_seconds": 0.003618751998146763,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0031662080000387505,
+        0.00297900599980494,
+        0.0029771230001642834,
+        0.0030071690016484354,
+        0.0029680789994017687
+      ],
+      "timing": {
+        "p50_seconds": 0.00297900599980494,
+        "p95_seconds": 0.0031344002003606875,
+        "p99_seconds": 0.003159846440103138,
+        "minimum_seconds": 0.0029680789994017687,
+        "work_units_per_second": 21483.676100078552,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "int64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": -105.0,
+        "maximum": 114.0,
+        "sha256": "5f0369cd20e80daad21a63cfc6ced63715d1ee46471504ffabe95d7d61a72b1c"
+      },
+      "total_benchmark_seconds": 0.02247477600030834,
+      "rss_after_bytes": 120889344,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.00512435199925676,
+        "p50_speedup": 1.7201549777315968
+      }
+    },
+    {
+      "id": "batch/dtw/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/dtw/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120909824,
+      "preparation": {
+        "data_generation_seconds": 0.00026273700132151134
+      },
+      "first_call_seconds": 0.000978066000243416,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0008947800015448593,
+        0.000875841000379296,
+        0.000882401000126265,
+        0.000942071001190925,
+        0.0011334900009387638
+      ],
+      "timing": {
+        "p50_seconds": 0.0008947800015448593,
+        "p95_seconds": 0.001095206200989196,
+        "p99_seconds": 0.0011258332409488502,
+        "minimum_seconds": 0.000875841000379296,
+        "work_units_per_second": 71525.96156541548,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 111.87609282076731,
+        "maximum": 3328.02899311564,
+        "sha256": "021b14f1da19ee880b437e1cab6f6d4c5f3a6d93f85a5c1dd622cf7b731da84f"
+      },
+      "total_benchmark_seconds": 0.007132713999453699,
+      "rss_after_bytes": 120909824,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0008181839984899852,
+        "p50_speedup": 0.914396831709885
+      }
+    },
+    {
+      "id": "batch/edr/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/edr/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "edr",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120922112,
+      "preparation": {
+        "data_generation_seconds": 0.0003613049993873574
+      },
+      "first_call_seconds": 0.0010012809980253223,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0010132900024473201,
+        0.0011096849993919022,
+        0.0010755830007838085,
+        0.0009728680015541613,
+        0.0010394490018370561
+      ],
+      "timing": {
+        "p50_seconds": 0.0010394490018370561,
+        "p95_seconds": 0.0011028645996702835,
+        "p99_seconds": 0.0011083209194475785,
+        "minimum_seconds": 0.0009728680015541613,
+        "work_units_per_second": 61571.082262708864,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.5390625,
+        "maximum": 0.984375,
+        "sha256": "836ed49e98689e4261af65f7ee60c2969c99b1e92a7ec546b7b7b03f0ad460c8"
+      },
+      "total_benchmark_seconds": 0.008340336000401294,
+      "rss_after_bytes": 120922112,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0008480600008624606,
+        "p50_speedup": 0.8158745637002424
+      }
+    },
+    {
+      "id": "batch/erp/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/erp/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "erp",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120942592,
+      "preparation": {
+        "data_generation_seconds": 0.00023460399825125933
+      },
+      "first_call_seconds": 0.0010785280028358102,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0010292930019204505,
+        0.0009350510008516721,
+        0.0010393679986009374,
+        0.0009152309976343531,
+        0.0008885610004654154
+      ],
+      "timing": {
+        "p50_seconds": 0.0009350510008516721,
+        "p95_seconds": 0.00103735299926484,
+        "p99_seconds": 0.001038964998733718,
+        "minimum_seconds": 0.0008885610004654154,
+        "work_units_per_second": 68445.46440964921,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 234.48544994908335,
+        "maximum": 3432.6617608521897,
+        "sha256": "260f7eff40ec27cb5efd9f303f8ca6175592bcedc6132986c5a6a588193f48f1"
+      },
+      "total_benchmark_seconds": 0.007346508002228802,
+      "rss_after_bytes": 120942592,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0009757119987625629,
+        "p50_speedup": 1.043485326333917
+      }
+    },
+    {
+      "id": "batch/independent_max_ncc/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/independent_max_ncc/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "independent_max_ncc",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120958976,
+      "preparation": {
+        "data_generation_seconds": 0.00024791400210233405
+      },
+      "first_call_seconds": 0.0035567580016504508,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.003329455001221504,
+        0.003670409001642838,
+        0.003321711999888066,
+        0.003838111999357352,
+        0.003416896997805452
+      ],
+      "timing": {
+        "p50_seconds": 0.003416896997805452,
+        "p95_seconds": 0.0038045713998144494,
+        "p99_seconds": 0.0038314038794487713,
+        "minimum_seconds": 0.003321711999888066,
+        "work_units_per_second": 18730.444623032203,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.30156194916528495,
+        "maximum": 0.858132519101913,
+        "sha256": "742b2c6c9b25cc3d5c0efe8ecf9ab6ba2ad437ff2b7d7f4971c88467a3be9675"
+      },
+      "total_benchmark_seconds": 0.025027397998201195,
+      "rss_after_bytes": 120958976,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.004971971000486519,
+        "p50_speedup": 1.4551129295614806
+      }
+    },
+    {
+      "id": "batch/independent_sbd/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/independent_sbd/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "independent_sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120971264,
+      "preparation": {
+        "data_generation_seconds": 0.00024035199749050662
+      },
+      "first_call_seconds": 0.003689437999128131,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0035679149987117853,
+        0.003574935002689017,
+        0.0038721739983884618,
+        0.003526583001075778,
+        0.003731392000190681
+      ],
+      "timing": {
+        "p50_seconds": 0.003574935002689017,
+        "p95_seconds": 0.0038440175987489054,
+        "p99_seconds": 0.0038665427184605503,
+        "minimum_seconds": 0.003526583001075778,
+        "work_units_per_second": 17902.423387239232,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.14186748089808698,
+        "maximum": 0.698438050834715,
+        "sha256": "658222354cff7cca141660de9855285bc5f47841bc9d156bd81871849d023d86"
+      },
+      "total_benchmark_seconds": 0.026967506997607416,
+      "rss_after_bytes": 120975360,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.004514972002652939,
+        "p50_speedup": 1.262952193328505
+      }
+    },
+    {
+      "id": "batch/lcss/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/lcss/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "lcss",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120979456,
+      "preparation": {
+        "data_generation_seconds": 0.00028455899882828817
+      },
+      "first_call_seconds": 0.0009390670020366088,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0006907330025569536,
+        0.000681949000863824,
+        0.000662469999952009,
+        0.0006754990026820451,
+        0.0008201269993151072
+      ],
+      "timing": {
+        "p50_seconds": 0.000681949000863824,
+        "p95_seconds": 0.0007942481999634764,
+        "p99_seconds": 0.0008149512394447811,
+        "minimum_seconds": 0.000662469999952009,
+        "work_units_per_second": 93848.66011817785,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.3515625,
+        "maximum": 0.953125,
+        "sha256": "ccc6e864b7d53f89a31dadc0686425f6c55516387eeb0cb28e4eff99589e4695"
+      },
+      "total_benchmark_seconds": 0.005685920998075744,
+      "rss_after_bytes": 120979456,
+      "process_peak_rss_bytes": 120602624,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0009888320018944796,
+        "p50_speedup": 1.450008725933944
+      }
+    },
+    {
+      "id": "batch/lcss_similarity/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/lcss_similarity/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "lcss_similarity",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 120995840,
+      "preparation": {
+        "data_generation_seconds": 0.0003929029990104027
+      },
+      "first_call_seconds": 0.0007512839983974118,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0007361210009548813,
+        0.0006787050006096251,
+        0.0006577329986612312,
+        0.0006701910024276003,
+        0.0008371629992325325
+      ],
+      "timing": {
+        "p50_seconds": 0.0006787050006096251,
+        "p95_seconds": 0.0008169545995770022,
+        "p99_seconds": 0.0008331213193014264,
+        "minimum_seconds": 0.0006577329986612312,
+        "work_units_per_second": 94297.22772414236,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.046875,
+        "maximum": 0.6484375,
+        "sha256": "f3ab28b72783b4038f98b4df473375b542a6266b621c60b090734f080b7fce4a"
+      },
+      "total_benchmark_seconds": 0.005761765001807362,
+      "rss_after_bytes": 120995840,
+      "process_peak_rss_bytes": 120733696,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.000789861998782726,
+        "p50_speedup": 1.1637780745290776
+      }
+    },
+    {
+      "id": "batch/linear_trend_model/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/linear_trend_model/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "linear_trend_model",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121012224,
+      "preparation": {
+        "data_generation_seconds": 0.00022299700140138157
+      },
+      "first_call_seconds": 0.0036721420001413208,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.003365068001585314,
+        0.0036096669973630924,
+        0.004168340001342585,
+        0.003947186000004876,
+        0.003555796000000555
+      ],
+      "timing": {
+        "p50_seconds": 0.0036096669973630924,
+        "p95_seconds": 0.004124109201075044,
+        "p99_seconds": 0.004159493841289077,
+        "minimum_seconds": 0.003365068001585314,
+        "work_units_per_second": 17730.16736633956,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.24213473022271656,
+        "maximum": 11.00894662904434,
+        "sha256": "0d2d1b3cb1c9be90084ce14f1486b4ab99c09391ef338edbefa0ca2105459d4e"
+      },
+      "total_benchmark_seconds": 0.026424376999784727,
+      "rss_after_bytes": 121012224,
+      "process_peak_rss_bytes": 120733696,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.005948725000052946,
+        "p50_speedup": 1.6479982791760472
+      }
+    },
+    {
+      "id": "batch/max_ncc/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/max_ncc/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "max_ncc",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121016320,
+      "preparation": {
+        "data_generation_seconds": 0.0002758470000117086
+      },
+      "first_call_seconds": 0.003351237999595469,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.002977944001031574,
+        0.0029866580007364973,
+        0.003171346997987712,
+        0.0029941979992145207,
+        0.003364157000760315
+      ],
+      "timing": {
+        "p50_seconds": 0.0029941979992145207,
+        "p95_seconds": 0.0033255950002057943,
+        "p99_seconds": 0.003356444600649411,
+        "minimum_seconds": 0.002977944001031574,
+        "work_units_per_second": 21374.67195448977,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.30156194916528495,
+        "maximum": 0.858132519101913,
+        "sha256": "742b2c6c9b25cc3d5c0efe8ecf9ab6ba2ad437ff2b7d7f4971c88467a3be9675"
+      },
+      "total_benchmark_seconds": 0.022520406997500686,
+      "rss_after_bytes": 121020416,
+      "process_peak_rss_bytes": 120733696,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.004120376997889252,
+        "p50_speedup": 1.376120416542315
+      }
+    },
+    {
+      "id": "batch/ordinal_js/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/ordinal_js/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "ordinal_js",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121040896,
+      "preparation": {
+        "data_generation_seconds": 0.0002572880002844613
+      },
+      "first_call_seconds": 0.002848258001904469,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.002497738998499699,
+        0.0026268540023011155,
+        0.0024024249978538137,
+        0.0023948339985508937,
+        0.0022965349999140017
+      ],
+      "timing": {
+        "p50_seconds": 0.0024024249978538137,
+        "p95_seconds": 0.0026010310015408323,
+        "p99_seconds": 0.002621689402149059,
+        "minimum_seconds": 0.0022965349999140017,
+        "work_units_per_second": 26639.74944365542,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.04676859117702859,
+        "maximum": 0.16353186117201093,
+        "sha256": "dae1d8d97ff8cabe91863a8b61d6b1e424075c80136cc4a002e2213e86a537ff"
+      },
+      "total_benchmark_seconds": 0.018121377001079964,
+      "rss_after_bytes": 121044992,
+      "process_peak_rss_bytes": 120733696,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0031878699992375914,
+        "p50_speedup": 1.3269384068536785
+      }
+    },
+    {
+      "id": "batch/periodogram/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/periodogram/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "periodogram",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121077760,
+      "preparation": {
+        "data_generation_seconds": 0.00025484499929007143
+      },
+      "first_call_seconds": 0.001743902001180686,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0012087739996786695,
+        0.001555087001179345,
+        0.0013255699996079784,
+        0.0012238470008014701,
+        0.0013263020009617321
+      ],
+      "timing": {
+        "p50_seconds": 0.0013255699996079784,
+        "p95_seconds": 0.0015093300011358223,
+        "p99_seconds": 0.0015459356011706404,
+        "minimum_seconds": 0.0012087739996786695,
+        "work_units_per_second": 48281.116816861606,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.0306584431305781,
+        "maximum": 1.1144071759068364,
+        "sha256": "1fb1e2eb5c08d102136624292c57a79cf89b94c04ce1068c94f5339d549db721"
+      },
+      "total_benchmark_seconds": 0.010157317999983206,
+      "rss_after_bytes": 121139200,
+      "process_peak_rss_bytes": 120864768,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0019600070008891635,
+        "p50_speedup": 1.4786144839343167
+      }
+    },
+    {
+      "id": "batch/sbd/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/sbd/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121151488,
+      "preparation": {
+        "data_generation_seconds": 0.0002629470000101719
+      },
+      "first_call_seconds": 0.003410827997868182,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0029946690010547172,
+        0.0032160439986910205,
+        0.003090123998845229,
+        0.0030025420019228477,
+        0.0056486100002075545
+      ],
+      "timing": {
+        "p50_seconds": 0.003090123998845229,
+        "p95_seconds": 0.005162096799904248,
+        "p99_seconds": 0.005551307360146893,
+        "minimum_seconds": 0.0029946690010547172,
+        "work_units_per_second": 20711.142990998622,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.14186748089808698,
+        "maximum": 0.698438050834715,
+        "sha256": "658222354cff7cca141660de9855285bc5f47841bc9d156bd81871849d023d86"
+      },
+      "total_benchmark_seconds": 0.02519525900061126,
+      "rss_after_bytes": 121151488,
+      "process_peak_rss_bytes": 120864768,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.003863930000079563,
+        "p50_speedup": 1.250412605294643
+      }
+    },
+    {
+      "id": "batch/trend/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/trend/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "trend",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121163776,
+      "preparation": {
+        "data_generation_seconds": 0.000468466998427175
+      },
+      "first_call_seconds": 0.00633382800151594,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.005821285001729848,
+        0.005935216999205295,
+        0.005822306000482058,
+        0.005868445998203242,
+        0.005825060998176923
+      ],
+      "timing": {
+        "p50_seconds": 0.005825060998176923,
+        "p95_seconds": 0.005921862799004885,
+        "p99_seconds": 0.005932546159165213,
+        "minimum_seconds": 0.005821285001729848,
+        "work_units_per_second": 10987.009409863718,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 0.24213473022271656,
+        "maximum": 11.00894662904434,
+        "sha256": "0d2d1b3cb1c9be90084ce14f1486b4ab99c09391ef338edbefa0ca2105459d4e"
+      },
+      "total_benchmark_seconds": 0.04257264699845109,
+      "rss_after_bytes": 121163776,
+      "process_peak_rss_bytes": 120864768,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.004374419997475343,
+        "p50_speedup": 0.7509655261712128
+      }
+    },
+    {
+      "id": "batch/twed/n64/t128/unrestricted",
+      "configuration": {
+        "id": "batch/twed/n64/t128/unrestricted",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "twed",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121163776,
+      "preparation": {
+        "data_generation_seconds": 0.0003500380007608328
+      },
+      "first_call_seconds": 0.0032706359997973777,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.002919566999480594,
+        0.0029101220025040675,
+        0.0029267569989315234,
+        0.002954789000796154,
+        0.002668967001227429
+      ],
+      "timing": {
+        "p50_seconds": 0.002919566999480594,
+        "p95_seconds": 0.002949182600423228,
+        "p99_seconds": 0.002953667720721569,
+        "minimum_seconds": 0.002668967001227429,
+        "work_units_per_second": 21921.05884584458,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 222.60182191588174,
+        "maximum": 444.4007258636389,
+        "sha256": "8ce37fdc7ef52411b16e09295d5bcb5f5500301011701ae17bd3d89ad228d3ce"
+      },
+      "total_benchmark_seconds": 0.02132706599877565,
+      "rss_after_bytes": 121323520,
+      "process_peak_rss_bytes": 121126912,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.002383907001785701,
+        "p50_speedup": 0.8165275885807075
+      }
+    },
+    {
+      "id": "batch/dtw/n64/t128/w16",
+      "configuration": {
+        "id": "batch/dtw/n64/t128/w16",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121323520,
+      "preparation": {
+        "data_generation_seconds": 0.00035738999940804206
+      },
+      "first_call_seconds": 0.0008806389996607322,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0007405879987345543,
+        0.0007623009987582918,
+        0.0006972119990678038,
+        0.0007224610017146915,
+        0.0007220099978439976
+      ],
+      "timing": {
+        "p50_seconds": 0.0007224610017146915,
+        "p95_seconds": 0.0007579583987535443,
+        "p99_seconds": 0.0007614324787573423,
+        "minimum_seconds": 0.0006972119990678038,
+        "work_units_per_second": 88586.09647870566,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 114.55425326989202,
+        "maximum": 3411.073925785512,
+        "sha256": "7b63b4b7d25e26cbe6abe8f4838bf6f058359704db351479467ee1b3c1d66aed"
+      },
+      "total_benchmark_seconds": 0.005894336001802003,
+      "rss_after_bytes": 121323520,
+      "process_peak_rss_bytes": 121126912,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0006831210012023803,
+        "p50_speedup": 0.945547233111626
+      }
+    },
+    {
+      "id": "batch/erp/n64/t128/w16",
+      "configuration": {
+        "id": "batch/erp/n64/t128/w16",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "erp",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121323520,
+      "preparation": {
+        "data_generation_seconds": 0.0003680949994304683
+      },
+      "first_call_seconds": 0.0007265360000019427,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0009227529990312178,
+        0.0006811580024077557,
+        0.0006353089993353933,
+        0.0009312959991802927,
+        0.0008391559968004003
+      ],
+      "timing": {
+        "p50_seconds": 0.0008391559968004003,
+        "p95_seconds": 0.0009295873991504777,
+        "p99_seconds": 0.0009309542791743297,
+        "minimum_seconds": 0.0006353089993353933,
+        "work_units_per_second": 76267.10676444453,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 234.48544994908335,
+        "maximum": 3432.66176085219,
+        "sha256": "b9137b0c0c8c5d6b87394a34db4cdbf41aa06d5566b864ae923b0675a41ba5ac"
+      },
+      "total_benchmark_seconds": 0.006366588000673801,
+      "rss_after_bytes": 121323520,
+      "process_peak_rss_bytes": 121126912,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0009446949989069253,
+        "p50_speedup": 1.1257680365854887
+      }
+    },
+    {
+      "id": "batch/twed/n64/t128/w16",
+      "configuration": {
+        "id": "batch/twed/n64/t128/w16",
+        "group": "batch",
+        "api": "one_vs_many",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "twed",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121323520,
+      "preparation": {
+        "data_generation_seconds": 0.00020708299780380912
+      },
+      "first_call_seconds": 0.0018742079992080107,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.001850251999712782,
+        0.0016427789996669162,
+        0.001702649999060668,
+        0.0018003570003202185,
+        0.0019182149990228936
+      ],
+      "timing": {
+        "p50_seconds": 0.0018003570003202185,
+        "p95_seconds": 0.0019046223991608714,
+        "p99_seconds": 0.0019154964790504892,
+        "minimum_seconds": 0.0016427789996669162,
+        "work_units_per_second": 35548.50509572085,
+        "work_units": "evaluated_candidate_series"
+      },
+      "result": {
+        "shape": [
+          64
+        ],
+        "dtype": "float64",
+        "finite_count": 64,
+        "nan_count": 0,
+        "minimum": 222.60182191588174,
+        "maximum": 450.03497412166314,
+        "sha256": "4ffcd1b68d44e095730e01b5f9d1ea167592e28fed883f9aca18aea6fec96bce"
+      },
+      "total_benchmark_seconds": 0.013125707999279257,
+      "rss_after_bytes": 121323520,
+      "process_peak_rss_bytes": 121126912,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0016871160005393904,
+        "p50_speedup": 0.9371008084726048
+      }
+    },
+    {
+      "id": "pairwise/dtw/n32/t128/w16",
+      "configuration": {
+        "id": "pairwise/dtw/n32/t128/w16",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 32,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121323520,
+      "preparation": {
+        "data_generation_seconds": 0.00018094299957738258
+      },
+      "first_call_seconds": 0.001315515000896994,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0017080780016840436,
+        0.0027129650006827433,
+        0.0018357710032432806,
+        0.0014617669985454995,
+        0.0017979129988816567
+      ],
+      "timing": {
+        "p50_seconds": 0.0017979129988816567,
+        "p95_seconds": 0.0025375262011948507,
+        "p99_seconds": 0.0026778772407851648,
+        "minimum_seconds": 0.0014617669985454995,
+        "work_units_per_second": 293673.8320087947,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          32,
+          32
+        ],
+        "dtype": "float64",
+        "finite_count": 1024,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 3410.908916411667,
+        "sha256": "8ab1e9d000001224396b2c04a31f5920c5585ce7cd325c5241a9de1681386bd2"
+      },
+      "total_benchmark_seconds": 0.013127281999913976,
+      "rss_after_bytes": 121323520,
+      "process_peak_rss_bytes": 121126912,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0015408599974762183,
+        "p50_speedup": 0.8570270076664825
+      }
+    },
+    {
+      "id": "pairwise/sbd/n32/t128/wNone",
+      "configuration": {
+        "id": "pairwise/sbd/n32/t128/wNone",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 32,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 121323520,
+      "preparation": {
+        "data_generation_seconds": 0.0009406400022271555
+      },
+      "first_call_seconds": 0.013837485999829369,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.015735782999399817,
+        0.012556028999824775,
+        0.012072579000232508,
+        0.013052807997155469,
+        0.011059570002544206
+      ],
+      "timing": {
+        "p50_seconds": 0.012556028999824775,
+        "p95_seconds": 0.015199187998950946,
+        "p99_seconds": 0.015628463999310043,
+        "minimum_seconds": 0.011059570002544206,
+        "work_units_per_second": 42051.51166880615,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          32,
+          32
+        ],
+        "dtype": "float64",
+        "finite_count": 1024,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 0.7782055900336823,
+        "sha256": "e66adfa08cd18c37ebcceb2738abd3993199dc001f0f051ec664ecc64b0f51fa"
+      },
+      "total_benchmark_seconds": 0.09281381699838676,
+      "rss_after_bytes": 123052032,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.012394861001666868,
+        "p50_speedup": 0.9871640947818648
+      }
+    },
+    {
+      "id": "pairwise/erp/n32/t128/w16",
+      "configuration": {
+        "id": "pairwise/erp/n32/t128/w16",
+        "group": "pairwise",
+        "api": "pairwise",
+        "n_series": 32,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "erp",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123056128,
+      "preparation": {
+        "data_generation_seconds": 0.0005021620017942041
+      },
+      "first_call_seconds": 0.002055953002127353,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0018405470000288915,
+        0.0017949690009118058,
+        0.0021608720016956795,
+        0.002842349000275135,
+        0.00171088200295344
+      ],
+      "timing": {
+        "p50_seconds": 0.0018405470000288915,
+        "p95_seconds": 0.0027060536005592438,
+        "p99_seconds": 0.0028150899203319567,
+        "minimum_seconds": 0.00171088200295344,
+        "work_units_per_second": 286871.2399040676,
+        "work_units": "upper_triangle_pairs_including_diagonal"
+      },
+      "result": {
+        "shape": [
+          32,
+          32
+        ],
+        "dtype": "float64",
+        "finite_count": 1024,
+        "nan_count": 0,
+        "minimum": 0.0,
+        "maximum": 3401.365801778757,
+        "sha256": "482cfc2d8e1cf3e895461cf36eb795b8cf5abb56984878da9aa0886d7ed4c9ec"
+      },
+      "total_benchmark_seconds": 0.01515696899878094,
+      "rss_after_bytes": 123056128,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0016010760009521618,
+        "p50_speedup": 0.869891396920062
+      }
+    },
+    {
+      "id": "search/dtw/brute/n128/t128/w16",
+      "configuration": {
+        "id": "search/dtw/brute/n128/t128/w16",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": "brute",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123060224,
+      "preparation": {
+        "data_generation_seconds": 0.002269835997140035
+      },
+      "first_call_seconds": 0.0012140519975218922,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0010810419989866205,
+        0.0031059369975992013,
+        0.003129281998553779,
+        0.0011332699978083838,
+        0.0030633429996669292
+      ],
+      "timing": {
+        "p50_seconds": 0.0030633429996669292,
+        "p95_seconds": 0.0031246129983628634,
+        "p99_seconds": 0.003128348198515596,
+        "minimum_seconds": 0.0010810419989866205,
+        "work_units_per_second": 41784.41657167257,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          52,
+          80,
+          3,
+          38,
+          83,
+          84,
+          0,
+          127,
+          15,
+          95
+        ],
+        "values": [
+          133.9414641183767,
+          141.1676512866873,
+          172.24406066810792,
+          173.90842922347636,
+          176.6361443709767,
+          183.05074778879955,
+          213.51224925141872,
+          213.68592366128382,
+          214.57853287769493,
+          217.9393427862366
+        ],
+        "stats": {
+          "exact_evaluations": 128,
+          "coverage_complete": true
+        }
+      },
+      "total_benchmark_seconds": 0.020716143000754528,
+      "rss_after_bytes": 123068416,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0012669919997279067,
+        "p50_speedup": 0.41359782429380715
+      }
+    },
+    {
+      "id": "search/dtw/certified/n128/t128/w16",
+      "configuration": {
+        "id": "search/dtw/certified/n128/t128/w16",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123072512,
+      "preparation": {
+        "data_generation_seconds": 0.00038790500184404664,
+        "index_build_seconds": 0.0024630070001876447,
+        "validation_reference_seconds": 0.0012748939989251085
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": true,
+        "recall_at_k": 1.0,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          52,
+          80,
+          3,
+          38,
+          83,
+          84,
+          0,
+          127,
+          15,
+          95
+        ],
+        "returned_ids": [
+          52,
+          80,
+          3,
+          38,
+          83,
+          84,
+          0,
+          127,
+          15,
+          95
+        ]
+      },
+      "first_call_seconds": 0.008126844000798883,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0005071260020486079,
+        0.0025920120024238713,
+        0.0005283969985612202,
+        0.0005358980015444104,
+        0.0004978309989382979
+      ],
+      "timing": {
+        "p50_seconds": 0.0005283969985612202,
+        "p95_seconds": 0.0021807892022479786,
+        "p99_seconds": 0.002509767442388693,
+        "minimum_seconds": 0.0004978309989382979,
+        "work_units_per_second": 242242.10271544507,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          52,
+          80,
+          3,
+          38,
+          83,
+          84,
+          0,
+          127,
+          15,
+          95
+        ],
+        "values": [
+          133.9414641183767,
+          141.1676512866873,
+          172.24406066810792,
+          173.90842922347636,
+          176.6361443709767,
+          183.05074778879955,
+          213.51224925141872,
+          213.68592366128382,
+          214.57853287769493,
+          217.9393427862366
+        ],
+        "stats": {
+          "total_candidates": 128,
+          "candidates": 128,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 128,
+          "cutoff_abandoned": 0,
+          "cells_visited": 505856,
+          "prepare_seconds": 3.54430012521334e-05,
+          "bound_seconds": 1.1738000466721132e-05,
+          "exact_seconds": 0.0002746440004557371,
+          "candidate_seconds": 0.0,
+          "backend": "native",
+          "target": "dtw",
+          "mode": "certified",
+          "bounds_policy": "auto",
+          "coverage_complete": true,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "n_jobs_effective": 1,
+          "max_pair_work_estimate": 4224,
+          "evaluation_policy": "cached_native_scan",
+          "cutoff_backend": "native",
+          "fallback_reason": "auto: short/narrow DP is cheaper than Python bound overhead on measured CPU workloads",
+          "search_seconds": 0.00048749599955044687,
+          "elapsed_seconds": 0.00048765600149636157,
+          "prune_fraction": 0.0,
+          "covered_candidates": 128
+        }
+      },
+      "total_benchmark_seconds": 0.02004022300025099,
+      "rss_after_bytes": 123080704,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "search/dtw/approximate/n128/t128/w16",
+      "configuration": {
+        "id": "search/dtw/approximate/n128/t128/w16",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": 16,
+        "step": null,
+        "n_resample": null,
+        "mode": "approximate",
+        "candidates": 22,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123117568,
+      "preparation": {
+        "data_generation_seconds": 0.00046886700147297233,
+        "index_build_seconds": 0.0003017449998878874,
+        "validation_reference_seconds": 0.005336253001587465
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": false,
+        "recall_at_k": 0.7,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          52,
+          80,
+          3,
+          38,
+          83,
+          84,
+          0,
+          127,
+          15,
+          95
+        ],
+        "returned_ids": [
+          80,
+          3,
+          83,
+          84,
+          0,
+          127,
+          95,
+          113,
+          94,
+          7
+        ]
+      },
+      "first_call_seconds": 0.0675724659995467,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.001049222999427002,
+        0.0011999210000794847,
+        0.0009358320021419786,
+        0.0010989590009558015,
+        0.0009844259984674864
+      ],
+      "timing": {
+        "p50_seconds": 0.001049222999427002,
+        "p95_seconds": 0.001179728600254748,
+        "p99_seconds": 0.0011958825201145373,
+        "minimum_seconds": 0.0009358320021419786,
+        "work_units_per_second": 121995.03829967788,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          80,
+          3,
+          83,
+          84,
+          0,
+          127,
+          95,
+          113,
+          94,
+          7
+        ],
+        "values": [
+          141.1676512866873,
+          172.24406066810792,
+          176.6361443709767,
+          183.05074778879955,
+          213.51224925141872,
+          213.68592366128382,
+          217.9393427862366,
+          235.7588174195689,
+          250.1160890068221,
+          263.5503172853552
+        ],
+        "stats": {
+          "total_candidates": 128,
+          "candidates": 22,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 22,
+          "cutoff_abandoned": 0,
+          "cells_visited": 86944,
+          "prepare_seconds": 3.698600266943686e-05,
+          "bound_seconds": 3.7959980545565486e-06,
+          "exact_seconds": 0.00021917000049143098,
+          "candidate_seconds": 0.0006342170017887838,
+          "backend": "native",
+          "target": "dtw",
+          "mode": "approximate",
+          "bounds_policy": "auto",
+          "coverage_complete": false,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "candidate_selection": {
+            "strategy": "multiview",
+            "candidate_count": 22,
+            "corpus_size": 128,
+            "candidate_prep_seconds": 0.0004310809999878984,
+            "candidate_ranking_seconds": 0.0001763559994287789,
+            "approximation_layers": [
+              "full_span_index_time_resampling",
+              "corpus_feature_standardization_and_clipping",
+              "candidate_budget",
+              "derivative_spectrum_without_phase",
+              "multiview_quota_union"
+            ],
+            "feature_channels": 1,
+            "invalid_series": 0,
+            "feature_cache_hits": 5,
+            "feature_cache_misses": 0,
+            "view_quotas": {
+              "level": 5,
+              "events": 5,
+              "diff": 4,
+              "spectrum": 4,
+              "trend": 4
+            }
+          },
+          "n_jobs_effective": 1,
+          "max_pair_work_estimate": 4224,
+          "evaluation_policy": "cached_native_scan",
+          "cutoff_backend": "native",
+          "fallback_reason": "auto: short/narrow DP is cheaper than Python bound overhead on measured CPU workloads",
+          "search_seconds": 0.0009667790000094101,
+          "elapsed_seconds": 0.000967048999882536,
+          "prune_fraction": 0.0,
+          "covered_candidates": 22
+        }
+      },
+      "total_benchmark_seconds": 0.0805664239996986,
+      "rss_after_bytes": 123125760,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "search/sbd/brute/n128/t128/wNone",
+      "configuration": {
+        "id": "search/sbd/brute/n128/t128/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "brute",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123154432,
+      "preparation": {
+        "data_generation_seconds": 0.0006386639979609754
+      },
+      "first_call_seconds": 0.007767431998217944,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.007819550002750475,
+        0.009239873998012627,
+        0.00812575399686466,
+        0.012917664000269724,
+        0.009801436997804558
+      ],
+      "timing": {
+        "p50_seconds": 0.009239873998012627,
+        "p95_seconds": 0.01229441859977669,
+        "p99_seconds": 0.012793014920171117,
+        "minimum_seconds": 0.007819550002750475,
+        "work_units_per_second": 13853.002760376505,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          54,
+          50,
+          22,
+          110,
+          80,
+          118,
+          108,
+          49,
+          42,
+          35
+        ],
+        "values": [
+          0.09995359059366682,
+          0.12150964938629305,
+          0.12490533626894829,
+          0.13834369698558657,
+          0.14425640079645063,
+          0.14676169484867407,
+          0.1571747631838959,
+          0.16551749184876452,
+          0.16793574310615023,
+          0.17075498072059037
+        ],
+        "stats": {
+          "exact_evaluations": 128,
+          "coverage_complete": true
+        }
+      },
+      "total_benchmark_seconds": 0.06385074400168378,
+      "rss_after_bytes": 123158528,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.007598013999086106,
+        "p50_speedup": 0.8223071008024934
+      }
+    },
+    {
+      "id": "search/sbd/certified/n128/t128/wNone",
+      "configuration": {
+        "id": "search/sbd/certified/n128/t128/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123179008,
+      "preparation": {
+        "data_generation_seconds": 0.0005389030011428986,
+        "index_build_seconds": 0.00044105500273872167,
+        "validation_reference_seconds": 0.010277820001647342
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": true,
+        "recall_at_k": 1.0,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          54,
+          50,
+          22,
+          110,
+          80,
+          118,
+          108,
+          49,
+          42,
+          35
+        ],
+        "returned_ids": [
+          54,
+          50,
+          22,
+          110,
+          80,
+          118,
+          108,
+          49,
+          42,
+          35
+        ]
+      },
+      "first_call_seconds": 0.013671853001142154,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.004003591999207856,
+        0.004175991998636164,
+        0.004142431000218494,
+        0.004111804999411106,
+        0.004155870999966282
+      ],
+      "timing": {
+        "p50_seconds": 0.004142431000218494,
+        "p95_seconds": 0.004171967798902188,
+        "p99_seconds": 0.004175187158689368,
+        "minimum_seconds": 0.004003591999207856,
+        "work_units_per_second": 30899.730132680204,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          54,
+          50,
+          22,
+          110,
+          80,
+          118,
+          108,
+          49,
+          42,
+          35
+        ],
+        "values": [
+          0.09995359059366682,
+          0.12150964938629305,
+          0.12490533626894829,
+          0.13834369698558657,
+          0.14425640079645063,
+          0.14676169484867407,
+          0.1571747631838959,
+          0.16551749184876452,
+          0.16793574310615023,
+          0.17075498072059037
+        ],
+        "stats": {
+          "total_candidates": 128,
+          "candidates": 128,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 128,
+          "cutoff_abandoned": 0,
+          "cells_visited": 0,
+          "prepare_seconds": 0.00010020099944085814,
+          "bound_seconds": 0.0,
+          "exact_seconds": 0.0037666850003006402,
+          "candidate_seconds": 0.0,
+          "backend": "native",
+          "target": "sbd",
+          "mode": "certified",
+          "bounds_policy": "auto",
+          "coverage_complete": true,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "n_jobs_effective": 1,
+          "fallback_reason": "FFT rounding bound is not certified; complete blocked exact scan",
+          "search_seconds": 0.004132326001126785,
+          "elapsed_seconds": 0.004132697002205532,
+          "prune_fraction": 0.0,
+          "covered_candidates": 128
+        }
+      },
+      "total_benchmark_seconds": 0.05032230299912044,
+      "rss_after_bytes": 123195392,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "search/sbd/approximate/n128/t128/wNone",
+      "configuration": {
+        "id": "search/sbd/approximate/n128/t128/wNone",
+        "group": "search",
+        "api": "search",
+        "n_series": 128,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "sbd",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "approximate",
+        "candidates": 22,
+        "scenario": "random_walk",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123285504,
+      "preparation": {
+        "data_generation_seconds": 0.0005212959986238275,
+        "index_build_seconds": 0.00042521200157352723,
+        "validation_reference_seconds": 0.011082024000643287
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": false,
+        "recall_at_k": 0.5,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          54,
+          50,
+          22,
+          110,
+          80,
+          118,
+          108,
+          49,
+          42,
+          35
+        ],
+        "returned_ids": [
+          50,
+          110,
+          80,
+          108,
+          42,
+          32,
+          0,
+          127,
+          95,
+          83
+        ]
+      },
+      "first_call_seconds": 0.05919033499958459,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0015761880022182595,
+        0.002090584999677958,
+        0.0022145619986986276,
+        0.001419953001459362,
+        0.0013996829984534997
+      ],
+      "timing": {
+        "p50_seconds": 0.0015761880022182595,
+        "p95_seconds": 0.0021897665988944936,
+        "p99_seconds": 0.002209602918737801,
+        "minimum_seconds": 0.0013996829984534997,
+        "work_units_per_second": 81208.58667865653,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          50,
+          110,
+          80,
+          108,
+          42,
+          32,
+          0,
+          127,
+          95,
+          83
+        ],
+        "values": [
+          0.12150964938629305,
+          0.13834369698558657,
+          0.14425640079645063,
+          0.1571747631838959,
+          0.16793574310615023,
+          0.18482777886498059,
+          0.19284152563146761,
+          0.20196036853214694,
+          0.21104359806077477,
+          0.21498685083371694
+        ],
+        "stats": {
+          "total_candidates": 128,
+          "candidates": 22,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 22,
+          "cutoff_abandoned": 0,
+          "cells_visited": 0,
+          "prepare_seconds": 5.7526998716639355e-05,
+          "bound_seconds": 0.0,
+          "exact_seconds": 0.0004961289996572305,
+          "candidate_seconds": 0.0007824509993952233,
+          "backend": "native",
+          "target": "sbd",
+          "mode": "approximate",
+          "bounds_policy": "auto",
+          "coverage_complete": false,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "candidate_selection": {
+            "strategy": "multiview",
+            "candidate_count": 22,
+            "corpus_size": 128,
+            "candidate_prep_seconds": 0.0005718430002161767,
+            "candidate_ranking_seconds": 0.00018294600158696994,
+            "approximation_layers": [
+              "full_span_index_time_resampling",
+              "corpus_feature_standardization_and_clipping",
+              "candidate_budget",
+              "derivative_spectrum_without_phase",
+              "multiview_quota_union"
+            ],
+            "feature_channels": 1,
+            "invalid_series": 0,
+            "feature_cache_hits": 5,
+            "feature_cache_misses": 0,
+            "view_quotas": {
+              "level": 5,
+              "events": 5,
+              "diff": 4,
+              "spectrum": 4,
+              "trend": 4
+            }
+          },
+          "n_jobs_effective": 1,
+          "fallback_reason": "FFT rounding bound is not certified; complete blocked exact scan",
+          "search_seconds": 0.001385109997499967,
+          "elapsed_seconds": 0.001385371000651503,
+          "prune_fraction": 0.0,
+          "covered_candidates": 22
+        }
+      },
+      "total_benchmark_seconds": 0.08307610200063209,
+      "rss_after_bytes": 123285504,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "adversarial/dtw/ties/n64/t128",
+      "configuration": {
+        "id": "adversarial/dtw/ties/n64/t128",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "ties",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123301888,
+      "preparation": {
+        "data_generation_seconds": 0.00025068799732252955,
+        "index_build_seconds": 0.00015015600001788698,
+        "validation_reference_seconds": 0.0009775959988473915
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": true,
+        "recall_at_k": 1.0,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "returned_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "first_call_seconds": 0.0011382680022506975,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0008249150014307816,
+        0.000684242997522233,
+        0.0006357099991873838,
+        0.0006990850015426986,
+        0.0005738660001952667
+      ],
+      "timing": {
+        "p50_seconds": 0.000684242997522233,
+        "p95_seconds": 0.0007997490014531649,
+        "p99_seconds": 0.0008198818014352583,
+        "minimum_seconds": 0.0005738660001952667,
+        "work_units_per_second": 93534.02260856963,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stats": {
+          "total_candidates": 64,
+          "candidates": 64,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 64,
+          "cutoff_abandoned": 0,
+          "cells_visited": 1048576,
+          "prepare_seconds": 4.096100019523874e-05,
+          "bound_seconds": 6.9400011852849275e-06,
+          "exact_seconds": 0.0004187519989500288,
+          "candidate_seconds": 0.0,
+          "backend": "native",
+          "target": "dtw",
+          "mode": "certified",
+          "bounds_policy": "auto",
+          "coverage_complete": true,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "n_jobs_effective": 1,
+          "max_pair_work_estimate": 16384,
+          "evaluation_policy": "cached_native_scan",
+          "cutoff_backend": "native",
+          "fallback_reason": "auto: short/narrow DP is cheaper than Python bound overhead on measured CPU workloads",
+          "search_seconds": 0.0005633799992210697,
+          "elapsed_seconds": 0.0005635400011669844,
+          "prune_fraction": 0.0,
+          "covered_candidates": 64
+        }
+      },
+      "total_benchmark_seconds": 0.006903127999976277,
+      "rss_after_bytes": 123301888,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "adversarial/dtw/near_duplicates/n64/t128",
+      "configuration": {
+        "id": "adversarial/dtw/near_duplicates/n64/t128",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "near_duplicates",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123314176,
+      "preparation": {
+        "data_generation_seconds": 0.0003648210004030261,
+        "index_build_seconds": 0.00016241499906755053,
+        "validation_reference_seconds": 0.0008982459985418245
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": true,
+        "recall_at_k": 1.0,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          0,
+          57,
+          7,
+          9,
+          27,
+          8,
+          38,
+          40,
+          62,
+          46
+        ],
+        "returned_ids": [
+          0,
+          57,
+          7,
+          9,
+          27,
+          8,
+          38,
+          40,
+          62,
+          46
+        ]
+      },
+      "first_call_seconds": 0.0011221029999433085,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0007537969977420289,
+        0.0008492109991493635,
+        0.0006020189975970425,
+        0.0005491489973792341,
+        0.0006831110003986396
+      ],
+      "timing": {
+        "p50_seconds": 0.0006831110003986396,
+        "p95_seconds": 0.0008301281988678965,
+        "p99_seconds": 0.0008453944390930701,
+        "minimum_seconds": 0.0005491489973792341,
+        "work_units_per_second": 93689.0197385957,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          0,
+          57,
+          7,
+          9,
+          27,
+          8,
+          38,
+          40,
+          62,
+          46
+        ],
+        "values": [
+          0.0,
+          8.800510561596036e-07,
+          8.925974663929873e-07,
+          8.9505565592301e-07,
+          9.174117591896429e-07,
+          9.185718131892264e-07,
+          9.188811703077075e-07,
+          9.232869742056881e-07,
+          9.269892917476946e-07,
+          9.324957772085499e-07
+        ],
+        "stats": {
+          "total_candidates": 64,
+          "candidates": 64,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 64,
+          "cutoff_abandoned": 0,
+          "cells_visited": 1048576,
+          "prepare_seconds": 2.9164002626203e-05,
+          "bound_seconds": 6.399000994861126e-06,
+          "exact_seconds": 0.0005394540021370631,
+          "candidate_seconds": 0.0,
+          "backend": "native",
+          "target": "dtw",
+          "mode": "certified",
+          "bounds_policy": "auto",
+          "coverage_complete": true,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "n_jobs_effective": 1,
+          "max_pair_work_estimate": 16384,
+          "evaluation_policy": "cached_native_scan",
+          "cutoff_backend": "native",
+          "fallback_reason": "auto: short/narrow DP is cheaper than Python bound overhead on measured CPU workloads",
+          "search_seconds": 0.0006694500007142778,
+          "elapsed_seconds": 0.0006696510026813485,
+          "prune_fraction": 0.0,
+          "covered_candidates": 64
+        }
+      },
+      "total_benchmark_seconds": 0.006837778997578425,
+      "rss_after_bytes": 123314176,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "adversarial/dtw/similar_bank/n64/t128",
+      "configuration": {
+        "id": "adversarial/dtw/similar_bank/n64/t128",
+        "group": "adversarial",
+        "api": "search",
+        "n_series": 64,
+        "n_points": 128,
+        "channels": 1,
+        "metric": "dtw",
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": "certified",
+        "candidates": null,
+        "scenario": "similar_bank",
+        "dataset": null,
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123330560,
+      "preparation": {
+        "data_generation_seconds": 0.00034258699815836735,
+        "index_build_seconds": 0.00021693700182368048,
+        "validation_reference_seconds": 0.000945736999710789
+      },
+      "quality": {
+        "reference": "one_vs_many + (isnan, value, row_id) ordering",
+        "exact_values": true,
+        "exact_ids": true,
+        "recall_at_k": 1.0,
+        "k": 10,
+        "candidate_recall_at_k": null,
+        "reference_ids": [
+          0,
+          28,
+          15,
+          4,
+          19,
+          25,
+          46,
+          63,
+          11,
+          12
+        ],
+        "returned_ids": [
+          0,
+          28,
+          15,
+          4,
+          19,
+          25,
+          46,
+          63,
+          11,
+          12
+        ]
+      },
+      "first_call_seconds": 0.0011509670002851635,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.0005883269986952655,
+        0.0005567099979089107,
+        0.0005717230014852248,
+        0.0010588979966996703,
+        0.0007797369980835356
+      ],
+      "timing": {
+        "p50_seconds": 0.0005883269986952655,
+        "p95_seconds": 0.0010030657969764434,
+        "p99_seconds": 0.001047731556755025,
+        "minimum_seconds": 0.0005567099979089107,
+        "work_units_per_second": 108783.0409651996,
+        "work_units": "database_candidate_series"
+      },
+      "result": {
+        "ids": [
+          0,
+          28,
+          15,
+          4,
+          19,
+          25,
+          46,
+          63,
+          11,
+          12
+        ],
+        "values": [
+          0.0,
+          0.8808797401012325,
+          0.8848669637558668,
+          0.9168367742375217,
+          0.9184769964778845,
+          0.9223406931922056,
+          0.9336464289564659,
+          0.9427379327079843,
+          0.9430999863957447,
+          0.948518068172792
+        ],
+        "stats": {
+          "total_candidates": 64,
+          "candidates": 64,
+          "bounds_evaluated": 0,
+          "endpoint_bounds": 0,
+          "envelope_bounds": 0,
+          "component_bounds": 0,
+          "pruned": 0,
+          "exact_evaluations": 64,
+          "cutoff_abandoned": 0,
+          "cells_visited": 1048576,
+          "prepare_seconds": 8.416800119448453e-05,
+          "bound_seconds": 8.401999366469681e-06,
+          "exact_seconds": 0.0005622379976557568,
+          "candidate_seconds": 0.0,
+          "backend": "native",
+          "target": "dtw",
+          "mode": "certified",
+          "bounds_policy": "auto",
+          "coverage_complete": true,
+          "audit_queries": 0,
+          "n_jobs_requested": 1,
+          "reference": "one_vs_many",
+          "score_error": "none: exact selected-backend reranking",
+          "n_jobs_effective": 1,
+          "max_pair_work_estimate": 16384,
+          "evaluation_policy": "cached_native_scan",
+          "cutoff_backend": "native",
+          "fallback_reason": "auto: short/narrow DP is cheaper than Python bound overhead on measured CPU workloads",
+          "search_seconds": 0.0007637330018042121,
+          "elapsed_seconds": 0.000764003001677338,
+          "prune_fraction": 0.0,
+          "covered_candidates": 64
+        }
+      },
+      "total_benchmark_seconds": 0.007152975002099993,
+      "rss_after_bytes": 123330560,
+      "process_peak_rss_bytes": 124821504
+    },
+    {
+      "id": "real/real_python_javascript_pageviews_2024",
+      "configuration": {
+        "id": "real/real_python_javascript_pageviews_2024",
+        "group": "real",
+        "api": "real",
+        "n_series": 1,
+        "n_points": 24,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": "real_python_javascript_pageviews_2024.csv",
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123342848,
+      "preparation": {
+        "data_generation_seconds": 0.00028206600109115243,
+        "data_loading_seconds": 0.0009616159986762796,
+        "dataset_sha256": "bc3ba72378352ace22fbd635215f6fda0b32e3f6de9397c1283240e24dfdfc93",
+        "selected_columns": [
+          "python_views",
+          "javascript_views"
+        ],
+        "dataset_rows": 366
+      },
+      "first_call_seconds": 0.010510330997931305,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.009672297001088737,
+        0.008245573000749573,
+        0.008409780999500072,
+        0.009135835996858077,
+        0.011476559997390723
+      ],
+      "timing": {
+        "p50_seconds": 0.009135835996858077,
+        "p95_seconds": 0.011115707398130325,
+        "p99_seconds": 0.011404389477538643,
+        "minimum_seconds": 0.008245573000749573,
+        "work_units_per_second": 109.45905775277839,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "e7ba9f3f128f310b8b604eca51d1eeaeaa8b00e0a6b2264993093cf053752001",
+        "similarity_score": 0.7374549193208952
+      },
+      "total_benchmark_seconds": 0.06882926700200187,
+      "rss_after_bytes": 123359232,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.00825508499838179,
+        "p50_speedup": 0.9035938255919669
+      }
+    },
+    {
+      "id": "real/real_btc_oil_vix_2024",
+      "configuration": {
+        "id": "real/real_btc_oil_vix_2024",
+        "group": "real",
+        "api": "real",
+        "n_series": 1,
+        "n_points": 24,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": "real_btc_oil_vix_2024.csv",
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123420672,
+      "preparation": {
+        "data_generation_seconds": 0.00028696400113403797,
+        "data_loading_seconds": 0.0005356379988370463,
+        "dataset_sha256": "d603bee710a7f6669b9ac47f73a80336c4e9820263948beddff12386bde55ac1",
+        "selected_columns": [
+          "btc_usd",
+          "brent_usd"
+        ],
+        "dataset_rows": 254
+      },
+      "first_call_seconds": 0.010421983999549411,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.008319183998537483,
+        0.008666058001836063,
+        0.009647109000070486,
+        0.008925640002416912,
+        0.009235637000529096
+      ],
+      "timing": {
+        "p50_seconds": 0.008925640002416912,
+        "p95_seconds": 0.009564814600162208,
+        "p99_seconds": 0.00963065012008883,
+        "minimum_seconds": 0.008319183998537483,
+        "work_units_per_second": 112.03678388655793,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "92e3755a0fa5ef05398d83120ca71c1953f466a8248990036b00041eeefa6042",
+        "similarity_score": 0.11635759799458052
+      },
+      "total_benchmark_seconds": 0.06454387999838218,
+      "rss_after_bytes": 123420672,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.00896784100041259,
+        "p50_speedup": 1.004728064092239
+      }
+    },
+    {
+      "id": "real/real_heatwave_city_temps_2024",
+      "configuration": {
+        "id": "real/real_heatwave_city_temps_2024",
+        "group": "real",
+        "api": "real",
+        "n_series": 1,
+        "n_points": 24,
+        "channels": 1,
+        "metric": null,
+        "window": null,
+        "step": null,
+        "n_resample": null,
+        "mode": null,
+        "candidates": null,
+        "scenario": "random_walk",
+        "dataset": "real_heatwave_city_temps_2024.csv",
+        "k": 10
+      },
+      "status": "ok",
+      "rss_before_bytes": 123445248,
+      "preparation": {
+        "data_generation_seconds": 0.00012309600060689263,
+        "data_loading_seconds": 0.00012751199756166898,
+        "dataset_sha256": "dc046c798459b6a7f10339687e232f5190311f7134724aab4eaa97844452e53a",
+        "selected_columns": [
+          "phoenix_temp_max",
+          "las_vegas_temp_max"
+        ],
+        "dataset_rows": 62
+      },
+      "first_call_seconds": 0.008280365997052286,
+      "warmup_calls": 1,
+      "warm_samples_seconds": [
+        0.007912761000625324,
+        0.006962557999941055,
+        0.010588909997750307,
+        0.008701933002157602,
+        0.011555608998605749
+      ],
+      "timing": {
+        "p50_seconds": 0.008701933002157602,
+        "p95_seconds": 0.01136226919843466,
+        "p99_seconds": 0.01151694103857153,
+        "minimum_seconds": 0.006962557999941055,
+        "work_units_per_second": 114.91699599986059,
+        "work_units": "api_calls"
+      },
+      "result": {
+        "type": "dict",
+        "sha256": "2b8c9f579d6955bcf911956ab102f39f67cb1297aed7d23947941b1621b2b19a",
+        "similarity_score": 0.48127723581985515
+      },
+      "total_benchmark_seconds": 0.06737019999854965,
+      "rss_after_bytes": 123445248,
+      "process_peak_rss_bytes": 124821504,
+      "baseline_comparison": {
+        "compatible": true,
+        "baseline_p50_seconds": 0.0062511010000889655,
+        "p50_speedup": 0.7183577486219481
+      }
+    }
+  ],
+  "baseline": {
+    "source_commit": "08f7df742b364175105e957d39f9f81fe6211bb3",
+    "created_utc": "2026-11-04T17:47:11.635512+00:00",
+    "note": "Speedups require matched settings; CPU model/load, compiler and thermal state still need human review."
+  },
+  "summary": {
+    "ok": 45,
+    "unavailable": 0,
+    "error": 0
+  }
+}

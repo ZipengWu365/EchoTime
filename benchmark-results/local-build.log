@@ -1,0 +1,17 @@
+* Getting build dependencies for sdist...
+running egg_info
+creating src/echotime.egg-info
+writing src/echotime.egg-info/PKG-INFO
+writing dependency_links to src/echotime.egg-info/dependency_links.txt
+writing entry points to src/echotime.egg-info/entry_points.txt
+writing requirements to src/echotime.egg-info/requires.txt
+writing top-level names to src/echotime.egg-info/top_level.txt
+writing manifest file 'src/echotime.egg-info/SOURCES.txt'
+reading manifest file 'src/echotime.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no files found matching '*.hpp' under directory 'native'
+adding license file 'LICENSE'
+writing manifest file 'src/echotime.egg-info/SOURCES.txt'
+* Building sdist...
+running sdist
+running egg_info

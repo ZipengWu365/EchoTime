@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "package": "/workspace/scratch/875f2180653d/echotime-wheel-check/lib/python3.12/site-packages/echotime/__init__.py",
+  "version": "0.18.0.dev0",
+  "backend": {
+    "native_available": true,
+    "native_import_error": null,
+    "native_abi_version": 1,
+    "cutoff_abi_version": 1,
+    "cutoff_available": true,
+    "requested": "auto",
+    "effective": "native",
+    "default_threads": 2,
+    "env": {
+      "ECHOTIME_BACKEND": null,
+      "ECHOTIME_NUM_THREADS": "2"
+    }
+  },
+  "exact_metrics": [
+    "acf",
+    "dtw",
+    "edr",
+    "erp",
+    "independent_max_ncc",
+    "independent_sbd",
+    "lcss",
+    "lcss_similarity",
+    "linear_trend_model",
+    "max_ncc",
+    "ordinal_js",
+    "periodogram",
+    "sbd",
+    "trend",
+    "twed"
+  ],
+  "approximate_strategies": [
+    "multiview",
+    "pyramid",
+    "binary",
+    "faiss",
+    "faiss_hnsw"
+  ],
+  "prepared_score_matches_report": true,
+  "persistence": "passed",
+  "animation_count": 137,
+  "site_bundle_pages": 469
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "purpose": "hardware readiness, not EchoTime GPU acceleration",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "python": "3.12.14",
+  "nvidia_smi": {
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: 'nvidia-smi'"
+  },
+  "size": 1024,
+  "repeats": 7,
+  "status": "unavailable",
+  "reason": "PyTorch is not installed; no GPU computation was performed"
+}

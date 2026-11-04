@@ -35,6 +35,41 @@ jobs:
       - name: Run complete test suite
         run: python -m pytest -q
 
+  acceleration-search:
+    runs-on: ubuntu-latest
+    env:
+      ECHOTIME_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install native extension and optional CPU search
+        run: python -m pip install -e '.[dev,search]'
+      - name: Require the new native cutoff ABI
+        run: |
+          python - <<'PY'
+          from echotime import similarity_backend_info
+          from echotime._native import ext
+          print(similarity_backend_info())
+          assert ext() is not None
+          assert ext().CUTOFF_ABI_VERSION == 1
+          PY
+      - name: Check strict golden and optional candidate engines
+        run: python -m pytest -q tests/test_acceleration_golden.py tests/test_cutoff.py tests/test_search_candidates.py tests/test_search_approximate.py tests/test_search.py
+      - name: Run public retrieval example
+        run: python examples/search_index.py
+      - name: Record smoke timings without an uncalibrated speed gate
+        run: python benchmarks/run_suite.py --profile smoke --n-jobs 2 --repeats 2 --out benchmark-results/ci-smoke.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acceleration-smoke
+          path: benchmark-results/ci-smoke.*
+
   package-and-docs:
     runs-on: ubuntu-latest
     steps:
@@ -81,3 +116,9 @@ jobs:
           assert pages["assets/similarity-lab/mechanism-comparison.gif"].startswith(b"GIF89a")
           print("Wheel imports, reading pages, animation assets and shared-input lab verified")
           PY
+      - name: Verify acceleration APIs from the installed wheel
+        env:
+          ECHOTIME_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '2'
+        run: /tmp/echotime-wheel-test/bin/python tools/verify_acceleration_install.py --expect-installed --expect-backend native --out benchmark-results/ci-wheel-verification.json
